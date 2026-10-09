@@ -1,0 +1,6 @@
+{
+  "name": "Macee | External Workforce Solutions",
+  "description": "Macee provides external workforce hiring solutions, recruitment, contract administration, compliance, secondment, and IND visa sponsorship across the Netherlands.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

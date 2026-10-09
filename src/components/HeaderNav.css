@@ -1,0 +1,71 @@
+:root {
+  --header-nav_link_background-color: transparent;
+  --header-nav_link_color: #1D454C;
+  --content-color: #000000;
+  --navigation_font-family: inherit;
+  --theme_nav_font-family: inherit;
+  --header-nav_link_font-size: 15px;
+  --content_font-size: 15px;
+  --header-nav_link_font-weight: 500;
+  --header-nav_link_text-transform: none;
+}
+
+/* Nav button styling */
+nav button,
+.nav-button,
+.header-nav button,
+.header-nav-btn {
+  align-items: center;
+  background-color: var(--header-nav_link_background-color, transparent);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  color: var(--header-nav_link_color, var(--content-color, #000));
+  display: inline-flex;
+  font-family: var(--navigation_font-family, var(--theme_nav_font-family));
+  font-size: var(--header-nav_link_font-size, var(--content_font-size, 1.8rem) .2rem);
+  font-weight: 600;
+  padding: 10px;
+  position: relative;
+  text-transform: var(--header-nav_link_text-transform, none);
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s;
+  cursor: pointer;
+  line-height: 1.2;
+  outline: none;
+}
+
+nav button:focus-visible,
+.nav-button:focus-visible {
+  outline: 2px solid #1D454C;
+  outline-offset: 2px;
+}
+
+nav button:hover,
+.nav-button:hover,
+.header-nav button:hover,
+.header-nav-btn:hover {
+  color: var(--header-nav_link_hover_color, #6B0D43);
+}
+
+/* Dropdown menu items inside navigation */
+nav .absolute button,
+nav [role="menu"] button,
+.dropdown-item-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  border: none;
+  background-color: transparent;
+}
+
+nav .absolute button:hover,
+.dropdown-item-btn:hover {
+  background-color: #F8FAFB;
+  color: #1D454C;
+}
