@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bell, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { ContactFormSection } from '../components/ContactFormSection';
 import { BRANCHES_LIST } from '../data/maceeContent';
 
 interface JobalertPageProps {
@@ -268,6 +269,9 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
           </div>
         </div>
       </section>
+
+      {/* Contact Form Section */}
+      <ContactFormSection title="Get in contact with us" />
     </div>
   );
 };

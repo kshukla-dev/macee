@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, CheckCircle2, Clock } from 'lucide-react';
+import React from 'react';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { ContactCard } from '../components/ContactCard';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
 }
 
 export const ContactPage: React.FC<ContactPageProps> = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    remark: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 600);
-  };
 
   return (
     <div className="page_contact">
@@ -101,111 +84,15 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               </div>
             </div>
 
-            {/* Right: Contact Form */}
+            {/* Right: Contact Form using reusable ContactCard */}
             <div className="lg:col-span-7">
-              <div className="card-pink p-8 sm:p-12 shadow-md">
-                <h3 className="text-2xl font-bold font-heading text-gray-900 mb-6">
-                  Send Us a Message
-                </h3>
-
-                {submitted ? (
-                  <div className="text-center py-10 space-y-4 bg-white rounded-2xl p-8">
-                    <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto" />
-                    <h4 className="text-2xl font-bold font-heading text-gray-900">
-                      Message Sent Successfully!
-                    </h4>
-                    <p className="text-sm text-gray-600 max-w-md mx-auto">
-                      Thank you for contacting Macee. We will review your question and respond to <span className="font-bold">{formData.email}</span> within 1 business day.
-                    </p>
-                    <button
-                      onClick={() => {
-                        setSubmitted(false);
-                        setFormData({ firstName: '', lastName: '', phone: '', email: '', remark: '' });
-                      }}
-                      className="is-btn text-sm mt-4"
-                    >
-                      Send Another Message
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1">
-                          First name *
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.firstName}
-                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#e8382e]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1">
-                          Last name
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.lastName}
-                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#e8382e]"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1">
-                          Phone
-                        </label>
-                        <input
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#e8382e]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1">
-                          E-mail *
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#e8382e]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1">
-                        Your question *
-                      </label>
-                      <textarea
-                        rows={5}
-                        required
-                        value={formData.remark}
-                        onChange={(e) => setFormData({ ...formData, remark: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#e8382e]"
-                      />
-                    </div>
-
-                    <div className="pt-2">
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="is-btn text-base px-8 py-3.5 w-full sm:w-auto"
-                      >
-                        {loading ? 'Sending...' : 'Send'}
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
+              <ContactCard
+                variant="simple"
+                showContactInfo={false}
+                title="Send Us a Message"
+                badge=""
+                subtitle="Do you have inquiries about our contracting services, talent placement, payroll solutions, or visa sponsorships? Send our Arnhem team a message."
+              />
             </div>
           </div>
         </div>

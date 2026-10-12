@@ -12,6 +12,7 @@ import { DownloadableResources } from './components/DownloadableResources';
 import { WhyWorkforceSolutions } from './components/WhyWorkforceSolutions';
 import { CurrentJobListings } from './components/CurrentJobListings';
 import { HRRiskBanner } from './components/HRRiskBanner';
+import { ContactFormSection } from './components/ContactFormSection';
 import { Footer } from './components/Footer';
 
 import { ConsultationModal } from './components/ConsultationModal';
@@ -307,6 +308,11 @@ export default function App() {
             <HRRiskBanner
               onBeginSurvey={() => setIsRiskSurveyOpen(true)}
             />
+
+            {/* 9. Get In Contact With Us Section */}
+            <div id="contact">
+              <ContactFormSection title="Get in contact with us" />
+            </div>
           </>
         )}
       </main>

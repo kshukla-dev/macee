@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Briefcase, Clock, ArrowRight, CheckCircle2, X } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
+import { ContactFormSection } from '../components/ContactFormSection';
 import { MACEE_PROJECTS, BRANCHES_LIST, JobAssignment } from '../data/maceeContent';
 
 interface AssignmentsPageProps {
@@ -351,6 +352,9 @@ export const AssignmentsPage: React.FC<AssignmentsPageProps> = ({ onNavigate, in
         onNavigate={onNavigate}
         bgImage="/media/cache/hero/uploads/Hightech Industry 2.jpg"
       />
+
+      {/* Contact Form Section */}
+      <ContactFormSection title="Get in contact with us" />
     </div>
   );
 };

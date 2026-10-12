@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle, ArrowLeft } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
+import { ContactFormSection } from '../components/ContactFormSection';
 import { MACEE_FAQS, FaqItem } from '../data/maceeContent';
 
 interface FaqPageProps {
@@ -174,6 +175,9 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
         onNavigate={onNavigate}
         bgImage="/media/cache/hero/uploads/Hightech Industry 2.jpg"
       />
+
+      {/* Contact Form Section */}
+      <ContactFormSection title="Get in contact with us" />
     </div>
   );
 };
