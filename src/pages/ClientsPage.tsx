@@ -1,6 +1,7 @@
 import React from 'react';
+import { Users, FileCheck, ShieldAlert, Award, Globe2, Briefcase, CheckCircle2, ChevronRight } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
-import { ShieldCheck, Award, CheckCircle2, Quote } from 'lucide-react';
+import './ClientsPage.css';
 
 interface ClientsPageProps {
   onNavigate: (page: string) => void;
@@ -8,54 +9,54 @@ interface ClientsPageProps {
 
 export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
   return (
-    <div className="page_clients">
-      {/* Header Banner */}
-      <section className="bg-[#2a0209] text-white py-16 sm:py-20 text-center relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-4 relative z-10">
-          <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-white tracking-tight">
-            What can we do for your organisation ?
-          </h1>
-          <p className="mt-3 text-base sm:text-lg text-[#f8dada] font-heading font-medium">
-            Staffing Partner &amp; External Hiring Desk Extension
-          </p>
-        </div>
-      </section>
+    <div className="clients-page">
+      {/* 1. Header / Intro Hero Section */}
+      <section className="clients-hero-section">
+        <div className="clients-container">
+          <div className="clients-hero-grid">
+            {/* Left: Heading & Intro Text */}
+            <div className="clients-hero-content">
+              <div className="clients-pill-badge">
+                <span className="clients-pill-dot" />
+                Solutions for Organisations
+              </div>
 
-      {/* Intro Overview with Image */}
-      <section className="py-16 sm:py-24 bg-white border-b border-gray-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#e8382e]">
-                FOR CLIENTS
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold font-heading text-gray-900 leading-tight">
-                Your Flexible Staffing Partner
-              </h2>
-              <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                We are a staffing partner specialising in flexible workforce solutions, but what we offer goes far beyond recruitment alone. MACEE is the seamless extension of your External Hiring Desk, serving as the secure link between your organisation and external talent — ensuring efficiency, full compliance, and complete peace of mind. Always tailored. Always aligned with your needs. What can we support you with?
+              <h1 className="clients-hero-title">
+                What can we do for your organisation ?
+              </h1>
+
+              <p className="clients-hero-text">
+                We are a staffing partner specializing in relative workforce solutions. But what we do goes far beyond recruitment alone. MACEE is the seamless extension of your talent sourcing team, serving as the secure link between your organization and external talent — maximizing efficiency, risk compliancy, and complete peace of mind. Always tailored. Always aligned with your mission. What can we support you with?
               </p>
-              <div className="pt-2">
+
+              <div className="clients-hero-actions">
                 <button
                   onClick={() => {
                     const el = document.getElementById('contact-form-clients');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="is-btn"
+                  className="clients-btn-primary"
                 >
-                  Contact Our Team
+                  <span>Get in touch with us</span>
+                  <ChevronRight size={16} />
                 </button>
+
+                <div className="clients-trust-badge">
+                  <CheckCircle2 size={16} className="clients-trust-icon" />
+                  <span>NEN 4400-1 Certified &amp; IND Sponsor</span>
+                </div>
               </div>
             </div>
 
-            <div className="lg:col-span-6 flex justify-center">
-              <div className="relative max-w-md w-full">
+            {/* Right: Desk Image with screens and keyboard */}
+            <div className="clients-hero-media">
+              <div className="clients-hero-image-wrapper">
                 <img
-                  src="/uploads/Software-Development-3.jpg"
-                  alt="Macee Clients Solutions"
-                  className="hard-shadow w-full h-auto object-cover max-h-[440px]"
+                  src="/uploads/people-working-dsk.jpg"
+                  alt="Macee developer working at desk with multiple screens"
+                  className="clients-hero-image"
                   onError={(e) => {
-                    e.currentTarget.src = 'https://www.macee.com/uploads/Software-Development-3.jpg';
+                    e.currentTarget.src = 'https://www.macee.com/uploads/people-working-dsk.jpg';
                   }}
                 />
               </div>
@@ -64,203 +65,258 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-16 sm:py-24 bg-[#F8FAFB] border-b border-gray-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-heading text-gray-900">
-              Services
-            </h2>
-            <p className="text-base text-gray-600 mt-2">
-              Comprehensive end-to-end management for contractors, freelancers, and permanent placements.
+      {/* 2. Services Section */}
+      <section className="clients-section">
+        <div className="clients-container">
+          <div className="clients-section-header">
+            <h2 className="clients-section-heading">Services</h2>
+            <p className="clients-section-desc">
+              End-to-end recruitment, contracting, and compliance management tailored to your specific workforce challenges.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card-pink p-8 shadow-sm flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold font-heading text-gray-900 mb-3">
-                  Recruitment
-                </h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  When looking for specific expertise temporary (or permanent) we will always analyse exactly what you are looking for regarding expertise, culture aspects and soft skills. We are independent so we will only look for candidates with proven track record and expertise. We are not limited in our search within our local Dutch network, but we also have access to a broad international network.
-                </p>
+          <div className="clients-services-grid">
+            {/* Service 1: Recruitment */}
+            <div className="clients-service-card">
+              <div className="clients-service-icon-box">
+                <Users size={24} />
               </div>
-            </div>
-
-            <div className="card-pink p-8 shadow-sm flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold font-heading text-gray-900 mb-3">
-                  Contract administration
-                </h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  When the right candidate is selected after the interview, we will take care of the candidate onboarding and manage all compliance procedures relating to local labour, immigration and fiscal legislation, whether it relates to a Contractor, Freelancer (ZZP) or an Expat (HSM).
-                </p>
-              </div>
-            </div>
-
-            <div className="card-pink p-8 shadow-sm flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold font-heading text-gray-900 mb-3">
-                  Tailor-Made Solutions
-                </h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  From secondment to payroll services, from project support to legal employment services (EOR), MACEE will provide the best ‘tailor-made’ solution for the needs of your organisation. Please do not hesitate to contact us and together we can discuss and agree on the most suitable solution for your company.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Certifications Section */}
-      <section className="py-16 sm:py-20 bg-white border-b border-gray-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-heading text-gray-900">
-              Certifications
-            </h2>
-            <p className="text-base text-gray-600 mt-2">
-              Audited, compliant, and accredited across Dutch and international hiring standards.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="p-8 rounded-2xl bg-[#F8FAFB] border border-gray-200 text-center flex flex-col items-center justify-center">
-              <img
-                src="/uploads/NEN-4400-1.png"
-                alt="NEN-4400-1 Certification"
-                className="h-24 w-auto object-contain mb-4"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://www.macee.com/uploads/NEN-4400-1.png';
-                }}
-              />
-              <h3 className="text-lg font-bold font-heading text-gray-900">NEN-4400-1</h3>
-              <p className="text-xs text-gray-600 mt-1">
-                Labor market standards compliance guaranteeing zero liability risks.
+              <h3 className="clients-service-title">Recruitment</h3>
+              <p className="clients-service-desc">
+                When looking for specific expertise temporary (or permanent) we will always analyse exactly what you are looking for regarding expertise, culture aspects and soft skills. We are independent so we will only look for candidates with proven track record and expertise. We are not limited in our search within our local Dutch network, but we also have access to a broad international network.
               </p>
             </div>
 
-            <div className="p-8 rounded-2xl bg-[#F8FAFB] border border-gray-200 text-center flex flex-col items-center justify-center">
-              <img
-                src="/uploads/Accredited work placement company (2).png"
-                alt="Accredited work placement company"
-                className="h-24 w-auto object-contain mb-4"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png';
-                }}
-              />
-              <h3 className="text-lg font-bold font-heading text-gray-900">Accredited Work Placement</h3>
-              <p className="text-xs text-gray-600 mt-1">
-                Official recognized training & employment partner in the Netherlands.
+            {/* Service 2: Contract Administration */}
+            <div className="clients-service-card">
+              <div className="clients-service-icon-box">
+                <FileCheck size={24} />
+              </div>
+              <h3 className="clients-service-title">Contract administration</h3>
+              <p className="clients-service-desc">
+                When the right candidate is selected after the interview we will take care of the candidate onboarding and manage all compliance procedures relating to local labour, immigration and fiscal legislation, whether it relates to a Contractor, Freelancer (ZZP), or an Expat (HSM). From secondment to payroll services, from project support to legal employment services (EOR), MACEE will provide the best tailor-made solution for the needs of your organisation. Please do not hesitate to contact us and together we can discuss and agree on the most suitable solution for your company.
+              </p>
+            </div>
+
+            {/* Service 3: Compliancy & Support */}
+            <div className="clients-service-card">
+              <div className="clients-service-icon-box">
+                <ShieldAlert size={24} />
+              </div>
+              <h3 className="clients-service-title">Compliancy &amp; Support</h3>
+              <p className="clients-service-desc">
+                MACEE strives for clear, transparent and compliant agreements. This is made possible by our in-depth knowledge of local legislation and regulations (WAADI, DBA law, WTT/A1, WIK/AOF) and we ensure all relevant labour, immigration and fiscal laws are observed and continuous to monitor when it comes to the compliancy/hiring of Contractors, Freelancers (ZZP) and Expats (HSM). And if necessary, we can act as your transaction in the event of disputes or problems, taking the burden of extra legal resources off your shoulders. MACEE is your partner for all your HR processes. Innovative and refreshing, we always find a solution that works best for your organisation.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Industries & Expertise */}
-      <section className="py-16 sm:py-24 bg-[#F8FAFB] border-b border-gray-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Industries */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold font-heading text-gray-900">
-                Industries
-              </h2>
-              <p className="text-base text-gray-700 leading-relaxed">
-                We serve clients in various industries, such as Telecoms, FMCG, Oil and Gas, Consultancy, Healthcare, Pharma, Energy/Utilities and many more. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies.
-              </p>
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                {[
-                  'IT & Software',
-                  'Telecoms',
-                  'Banking & Fintech',
-                  'High Tech Hotspots',
-                  'Public Sector & Government',
-                  'Oil & Gas / Energy',
-                  'FMCG & Logistics',
-                  'Healthcare & Pharma'
-                ].map((ind, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-800">
-                    <CheckCircle2 className="w-4 h-4 text-[#e8382e] shrink-0" />
-                    <span>{ind}</span>
+      {/* 3. Certifications Section */}
+      <section className="clients-section-alt">
+        <div className="clients-container">
+          <div className="clients-section-header">
+            <h2 className="clients-section-heading">Certifications</h2>
+            <p className="clients-section-desc">
+              Audited, transparent, and officially certified across Dutch labour market quality and immigration standards.
+            </p>
+          </div>
+
+          <div className="clients-cert-list">
+            {/* Cert 1: SNA NEN 4400-1 */}
+            <div className="clients-cert-card">
+              <div className="clients-cert-grid">
+                <div className="clients-cert-content">
+                  <div className="clients-cert-tag">
+                    <Award size={16} />
+                    <span>SNA Labour Standard</span>
                   </div>
-                ))}
+                  <h3 className="clients-cert-title">
+                    MACEE is registered with the SNA (Stichting Normering Arbeid)
+                  </h3>
+                  <p className="clients-cert-text">
+                    The SNA is the quality mark for flexible labour and all companies in the Netherlands that have developed a fact, the need for hiring of external labour and clients commissioned work. MACEE is listed the NEN 4400-1 certification confirming our commitment to quality and compliancy.
+                  </p>
+                </div>
+                <div className="clients-cert-media">
+                  <div className="clients-cert-logo-box">
+                    <img
+                      src="/uploads/NEN-4400-1.png"
+                      alt="NEN 4400-1 Certified Logo"
+                      className="clients-cert-logo"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://www.macee.com/uploads/NEN-4400-1.png';
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Expertise */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold font-heading text-gray-900">
-                Expertise
-              </h2>
-              <p className="text-sm font-bold text-[#e8382e]">
-                Proven track record in technical skills &amp; experience
-              </p>
-              <div className="space-y-3 text-xs sm:text-sm text-gray-700 bg-white p-6 rounded-2xl border border-gray-200">
-                <p>
-                  <strong className="text-gray-900">Software Development:</strong> .NET, C / C++ / C#, JAVA, Python etc.
+            {/* Cert 2: IND Recognised Sponsor */}
+            <div className="clients-cert-card">
+              <div className="clients-cert-content">
+                <div className="clients-cert-tag accent">
+                  <Globe2 size={16} />
+                  <span>Dutch Immigration Service (IND)</span>
+                </div>
+                <h3 className="clients-cert-title">
+                  IND Recognised Sponsor (Erkend referent)
+                </h3>
+                <p className="clients-cert-text">
+                  Due to the scarcity of specialised skills in the Netherlands, it is not always possible to find the talent you need in the Dutch or even EU. Did you know: MACEE is a Recognised Sponsor with the Dutch Immigration Service IND, which allows us to hire non-EU specialist candidates under the fast-track Highly Skilled Migrant Visa and Residence Permit scheme. This allows MACEE to leverage its extensive international network when searching for the right talent.
                 </p>
-                <p>
-                  <strong className="text-gray-900">BI &amp; Data:</strong> Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc.
-                </p>
-                <p>
-                  <strong className="text-gray-900">Project Management:</strong> PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc.
-                </p>
-                <p>
-                  <strong className="text-gray-900">Cloud:</strong> AWS, Azure, Kubernetes etc.
-                </p>
-                <p>
-                  <strong className="text-gray-900">Security:</strong> CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Network, Infrastructure
-                </p>
-                <p>
-                  <strong className="text-gray-900">Finance Risk Management:</strong> Regulatory reporting, AML, FEC, KYC, Modelling, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc.
-                </p>
+              </div>
+            </div>
+
+            {/* Cert 3: Recognised training company */}
+            <div className="clients-cert-card">
+              <div className="clients-cert-grid">
+                <div className="clients-cert-content">
+                  <div className="clients-cert-tag">
+                    <Briefcase size={16} />
+                    <span>SBB Vocational Education</span>
+                  </div>
+                  <h3 className="clients-cert-title">
+                    Recognised training company
+                  </h3>
+                  <p className="clients-cert-text">
+                    MACEE is a recognised training company, we contribute to future generations of enthusiastic employees in the workforce. As an organisation that has been officially approved by the Cooperative Organisation for Vocational Education, Training and the Labour Market (SBB) we provide practical training to vocational students. We offer a safe learning environment with qualified coaches to execute tasks and learn that is relevant to the training programme.
+                  </p>
+                </div>
+                <div className="clients-cert-media">
+                  <div className="clients-cert-logo-box">
+                    <img
+                      src="/uploads/Accredited work placement company (2).png"
+                      alt="We Train Professionals - Accredited work placement company"
+                      className="clients-cert-logo"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png';
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 sm:py-20 bg-white border-b border-gray-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl font-bold font-heading text-gray-900">
-              Client Testimonials
-            </h2>
-          </div>
+      {/* 4. Industries Section */}
+      <section className="clients-section">
+        <div className="clients-container">
+          <div className="clients-industries-panel">
+            <h2 className="clients-section-heading">Industries</h2>
+            <div className="clients-subheading">Experience and proven track record</div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="card-pink p-8 relative flex flex-col justify-between">
-              <Quote className="w-8 h-8 text-[#e8382e] mb-4 opacity-50" />
-              <p className="text-base font-heading italic text-gray-800">
-                " Testimonial "
+            <div className="clients-industries-body">
+              <p>
+                Our clients range from start-ups to global multinational corporates and multinationals who demand seamless mobility of diverse nationalities and are open to attracting finest talent from all over the world.
               </p>
-              <div className="mt-6 pt-4 border-t border-[#f8dada]">
-                <p className="text-sm font-bold text-gray-900">Jane Doe</p>
-                <p className="text-xs text-gray-600">Customer Support, Getnoticed</p>
-              </div>
+              <p>
+                MACEE works with clients in various industries, such as Telecoms, FMCG, Oil and Gas, Consultancy, Healthcare, Pharma, Energy/Utilities and many more. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies.
+              </p>
             </div>
 
-            <div className="card-pink p-8 relative flex flex-col justify-between">
-              <Quote className="w-8 h-8 text-[#e8382e] mb-4 opacity-50" />
-              <p className="text-base font-heading italic text-gray-800">
-                " Testimonial 2 "
-              </p>
-              <div className="mt-6 pt-4 border-t border-[#f8dada]">
-                <p className="text-sm font-bold text-gray-900">Dick Noorlander</p>
-                <p className="text-xs text-gray-600">Getnoticed</p>
-              </div>
+            {/* Industry quick tags */}
+            <div className="clients-tags-container">
+              {[
+                'Telecoms',
+                'FMCG',
+                'Oil & Gas',
+                'Consultancy',
+                'Healthcare & Pharma',
+                'Energy & Utilities',
+                'Banking & Fintech',
+                'Investment & Asset Management',
+                'Pension Funds',
+                'Payment Platforms'
+              ].map((ind, i) => (
+                <span key={i} className="clients-industry-tag">
+                  <span className="clients-tag-dot" />
+                  {ind}
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <div id="contact-form-clients">
-        <ContactFormSection title="Neem contact met ons op" />
+      {/* 5. Expertise Section */}
+      <section className="clients-section-alt">
+        <div className="clients-container">
+          <div className="clients-section-header clients-expertise-intro">
+            <h2 className="clients-section-heading">Expertise</h2>
+            <div className="clients-subheading">
+              Proven track record in technical skills &amp; experience
+            </div>
+            <p>
+              We can supply a wide range of people, but our network is mainly focused on senior level professionals. These include professionals in positions such as: Business/Information Analyst, Data Engineer, (Cyber) Security Consultant, Testers, Software Developers, Reporting/Finance Specialists and technical/cultural PMO and Project Managers.
+            </p>
+            <p className="clients-expertise-prompt">
+              Below our skills &amp; experience where we have a proven track record in;
+            </p>
+          </div>
+
+          <div className="clients-expertise-grid">
+            {/* Software Development */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">Software Development</span>
+              <p className="clients-tech-text">
+                .NET, C / C++ / C#, JAVA, Python etc.
+              </p>
+            </div>
+
+            {/* BI & Data */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">BI &amp; Data</span>
+              <p className="clients-tech-text">
+                Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc.
+              </p>
+            </div>
+
+            {/* Project Management */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">Project Management</span>
+              <p className="clients-tech-text">
+                PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc.
+              </p>
+            </div>
+
+            {/* Cloud */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">Cloud</span>
+              <p className="clients-tech-text">
+                AWS, Azure, Kubernetes etc.
+              </p>
+            </div>
+
+            {/* Security */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">Security</span>
+              <p className="clients-tech-text">
+                CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Network, Information/Finance
+              </p>
+            </div>
+
+            {/* Finance Risk Management */}
+            <div className="clients-expertise-item">
+              <span className="clients-domain-badge">Finance Risk Management</span>
+              <p className="clients-tech-text">
+                Regulatory reporting, AML, FEC, KYC, Modelling, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Contact Form Section matching image */}
+      <div id="contact-form-clients" className="clients-contact-wrapper">
+        <ContactFormSection
+          title="Neem contact met ons op"
+          badge="Reach Out To Macee"
+          subtitle="Do you have questions about flexible staffing, contract administration, or compliance? Contact our team in Arnhem."
+        />
       </div>
     </div>
   );

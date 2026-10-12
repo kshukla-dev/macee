@@ -22,6 +22,7 @@ import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { JobApplicationModal } from './components/JobApplicationModal';
 import { FaqModal } from './components/FaqModal';
 import { AboutPage } from './pages/AboutPage';
+import { ClientsPage } from './pages/ClientsPage';
 
 import { SERVICES_DATA, RESOURCES_DATA, JOBS_DATA } from './data/content';
 import { ResourceItem, ServiceItem, JobListing } from './types';
@@ -29,7 +30,7 @@ import { ResourceItem, ServiceItem, JobListing } from './types';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'about'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'clients'>('home');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -47,6 +48,8 @@ export default function App() {
       const hash = window.location.hash.toLowerCase();
       if (path === '/about' || path === '/about-us' || hash === '#about' || hash === '#about-us') {
         setCurrentPage('about');
+      } else if (path === '/clients' || path === '/clients-page' || hash === '#clients' || hash === '#clients-page') {
+        setCurrentPage('clients');
       } else {
         setCurrentPage('home');
       }
@@ -65,6 +68,10 @@ export default function App() {
     if (page === 'about' || page === 'about-us') {
       setCurrentPage('about');
       window.history.pushState(null, '', '/about');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'clients') {
+      setCurrentPage('clients');
+      window.history.pushState(null, '', '/clients');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');
@@ -272,6 +279,8 @@ export default function App() {
       <main className="flex-1">
         {currentPage === 'about' ? (
           <AboutPage onNavigate={handleNavigatePage} />
+        ) : currentPage === 'clients' ? (
+          <ClientsPage onNavigate={handleNavigatePage} />
         ) : (
           <>
             {/* 3. Hero Section: "External Workforce Solutions" */}

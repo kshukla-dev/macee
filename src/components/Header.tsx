@@ -149,8 +149,16 @@ export const Header: React.FC<HeaderProps> = ({
             onMouseLeave={() => setActiveDropdown(null)}
           >
             <button
-              onClick={() => onNavigateSection('what-we-do')}
-              className="nav-button hover:text-[#1D454C] rounded-md group"
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('clients');
+                } else {
+                  onNavigateSection('what-we-do');
+                }
+              }}
+              className={`nav-button rounded-md group ${
+                currentPage === 'clients' ? 'text-[#6B0D43] font-bold' : 'hover:text-[#1D454C]'
+              }`}
             >
               <span>Clients</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1D454C] transition-transform duration-200" />
@@ -158,6 +166,19 @@ export const Header: React.FC<HeaderProps> = ({
 
             {activeDropdown === 'clients' && (
               <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
+                <button
+                  onClick={() => {
+                    if (onNavigatePage) {
+                      onNavigatePage('clients');
+                    } else {
+                      onNavigateSection('what-we-do');
+                    }
+                    setActiveDropdown(null);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-[#1D454C] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
+                >
+                  Clients Overview
+                </button>
                 <button
                   onClick={() => {
                     onSelectService('recruitment-staffing');

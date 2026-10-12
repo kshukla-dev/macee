@@ -124,6 +124,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           </button>
           {expandedSection === 'clients' && (
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
+              <button onClick={() => handlePage('clients')} className="w-full text-left py-1 font-bold text-[#1D454C]">Clients Overview</button>
               <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#1D454C]">Recruitment & Staffing</button>
               <button onClick={() => handleService('contract-administration')} className="w-full text-left py-1 hover:text-[#1D454C]">Contract Administration</button>
               <button onClick={() => handleService('compliancy-support')} className="w-full text-left py-1 hover:text-[#1D454C]">Compliancy & Support</button>
