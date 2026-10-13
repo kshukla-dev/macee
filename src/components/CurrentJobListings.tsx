@@ -30,13 +30,13 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
           {/* Left Column: Heading, intro, and jobs list */}
           <div className="lg:col-span-7 space-y-6 text-left jobs-content">
             <div>
-              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#6B0D43] mb-2">
+              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
                 Vacancies & Assignments
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#1D454C] tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
                 Current Projects & Assignments
               </h2>
-              <h3 className="text-lg sm:text-xl font-semibold text-[#1D454C] mt-2 font-display">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#111827] mt-2 font-display">
                 Take the next step in your professional career
               </h3>
             </div>
@@ -53,7 +53,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                   onClick={() => setSelectedDept(dept)}
                   className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
                     selectedDept === dept
-                      ? 'bg-[#1D454C] text-white shadow-xs'
+                      ? 'bg-[#111827] text-white shadow-xs'
                       : 'bg-[#F8FAFB] text-[#54595F] hover:bg-gray-100'
                   }`}
                 >
@@ -68,32 +68,32 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                 <div
                   key={job.id}
                   onClick={() => onSelectJob(job)}
-                  className="p-4 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#1D454C]/30 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                  className="p-4 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#111827]/30 hover:shadow-md transition-all duration-200 cursor-pointer group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <h4 className="text-base font-bold font-display text-[#1D454C] group-hover:text-[#6B0D43] transition-colors">
+                      <h4 className="text-base font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors">
                         {job.title}
                       </h4>
                       <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#54595F]">
                         <span className="flex items-center gap-1">
-                          <Briefcase className="w-3.5 h-3.5 text-[#1D454C]" />
+                          <Briefcase className="w-3.5 h-3.5 text-[#111827]" />
                           {job.department}
                         </span>
                         <span>·</span>
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-[#1D454C]" />
+                          <MapPin className="w-3.5 h-3.5 text-[#111827]" />
                           {job.location}
                         </span>
                         <span>·</span>
                         <span className="flex items-center gap-1 font-mono">
-                          <Clock className="w-3.5 h-3.5 text-[#1D454C]" />
+                          <Clock className="w-3.5 h-3.5 text-[#111827]" />
                           {job.type}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center text-xs font-semibold text-[#6B0D43] group-hover:text-[#1D454C] shrink-0">
+                    <div className="flex items-center text-xs font-semibold text-[#E30613] group-hover:text-[#111827] shrink-0">
                       <span>View & Apply</span>
                       <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
                     </div>
@@ -106,7 +106,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             <div className="pt-2">
               <button
                 onClick={onExploreAllJobs}
-                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-[5px] bg-[#6B0D43] hover:bg-[#1D454C] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>Create a Jobalert</span>
                 <ArrowRight className="w-4 h-4" />
@@ -126,8 +126,8 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
               <div className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-gray-100">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#1D454C]">
-                  <CheckCircle className="w-4 h-4 text-[#1D454C]" />
+                <div className="flex items-center gap-2 text-xs font-bold text-[#111827]">
+                  <CheckCircle className="w-4 h-4 text-[#111827]" />
                   <span>Can't find the project you are looking for?</span>
                 </div>
                 <p className="text-xs text-[#54595F] mt-1">

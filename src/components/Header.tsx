@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center gap-3 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D454C] rounded cursor-pointer"
+          className="flex items-center gap-3 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613] rounded cursor-pointer"
         >
           <img
             src="/images/macee-logo.png"
@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
               const parent = target.parentElement;
               if (parent && !parent.querySelector('.fallback-brand')) {
                 const span = document.createElement('span');
-                span.className = 'fallback-brand font-display font-bold text-2xl text-[#1D454C] tracking-tight';
+                span.className = 'fallback-brand font-display font-bold text-2xl text-[#E30613] tracking-tight';
                 span.innerText = 'MACEE';
                 parent.appendChild(span);
               }
@@ -90,11 +90,11 @@ export const Header: React.FC<HeaderProps> = ({
                 }
               }}
               className={`nav-button rounded-md group ${
-                currentPage === 'about' ? 'text-[#6B0D43] font-bold' : 'hover:text-[#1D454C]'
+                currentPage === 'about' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
               }`}
             >
               <span>About Us</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1D454C] transition-transform duration-200" />
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
             </button>
 
             {activeDropdown === 'about' && (
@@ -108,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   About Us Overview
                 </button>
@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   What We Do & How We Work
                 </button>
@@ -134,7 +134,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Team MACEE
                 </button>
@@ -157,11 +157,11 @@ export const Header: React.FC<HeaderProps> = ({
                 }
               }}
               className={`nav-button rounded-md group ${
-                currentPage === 'clients' ? 'text-[#6B0D43] font-bold' : 'hover:text-[#1D454C]'
+                currentPage === 'clients' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
               }`}
             >
               <span>Clients</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1D454C] transition-transform duration-200" />
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
             </button>
 
             {activeDropdown === 'clients' && (
@@ -175,7 +175,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#1D454C] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
+                  className="w-full text-left px-4 py-2 text-sm text-[#E30613] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
                 >
                   Clients Overview
                 </button>
@@ -184,7 +184,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('recruitment-staffing');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Recruitment & Staffing
                 </button>
@@ -193,7 +193,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('contract-administration');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Contract Administration
                 </button>
@@ -202,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('compliancy-support');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Compliancy & Support
                 </button>
@@ -211,7 +211,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('it-outsourcing');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Outsourcing & Project Services
                 </button>
@@ -220,7 +220,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('resources');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer border-t border-gray-100"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer border-t border-gray-100"
                 >
                   SNA / NEN 4400-1 Certifications
                 </button>
@@ -236,10 +236,10 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <button
               onClick={() => onNavigateSection('what-we-do')}
-              className="nav-button hover:text-[#1D454C] rounded-md group"
+              className="nav-button hover:text-[#E30613] rounded-md group"
             >
               <span>Professionals</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1D454C] transition-transform duration-200" />
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
             </button>
 
             {activeDropdown === 'professionals' && (
@@ -249,7 +249,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('contracting-secondment');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Contracting & Secondment
                 </button>
@@ -258,7 +258,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('freelance-zzp');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Freelance / ZZP
                 </button>
@@ -267,7 +267,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('hsm-expats');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   HSM / Expats / Visa Sponsorship
                 </button>
@@ -276,7 +276,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectService('recruitment-staffing');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Permanent Positions
                 </button>
@@ -292,10 +292,10 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <button
               onClick={() => onNavigateSection('why-wfs')}
-              className="nav-button hover:text-[#1D454C] rounded-md group"
+              className="nav-button hover:text-[#E30613] rounded-md group"
             >
               <span>Industries</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1D454C] transition-transform duration-200" />
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
             </button>
 
             {activeDropdown === 'industries' && (
@@ -305,7 +305,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('why-wfs');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   ICT & Software Development
                 </button>
@@ -314,7 +314,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('why-wfs');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Banking / Fintech / Finance
                 </button>
@@ -323,7 +323,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('why-wfs');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   High Tech Industry (Brainport)
                 </button>
@@ -332,7 +332,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('why-wfs');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Government & Public Sector
                 </button>
@@ -341,7 +341,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onNavigateSection('why-wfs');
                     setActiveDropdown(null);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#1D454C] font-medium transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
                 >
                   Telecom & Energy / Oil & Gas
                 </button>
@@ -352,7 +352,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Projects / Assignments */}
           <button
             onClick={() => onNavigateSection('jobs')}
-            className="nav-button hover:text-[#1D454C] rounded-md"
+            className="nav-button hover:text-[#E30613] rounded-md"
           >
             Projects
           </button>
@@ -360,7 +360,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Resources & FAQ */}
           <button
             onClick={() => onNavigateSection('resources')}
-            className="nav-button hover:text-[#1D454C] rounded-md"
+            className="nav-button hover:text-[#E30613] rounded-md"
           >
             FAQ & Guides
           </button>
@@ -372,7 +372,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenConsultation}
-            className="hidden sm:inline-flex items-center gap-2 bg-[#6B0D43] hover:bg-[#1D454C] text-white px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>Get in Touch</span>
             <ArrowUpRight className="w-4 h-4" />
@@ -382,7 +382,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onToggleMobileMenu}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden p-2 rounded-md text-[#1D454C] hover:bg-gray-100 transition-colors cursor-pointer"
+            className="lg:hidden p-2 rounded-md text-[#E30613] hover:bg-gray-100 transition-colors cursor-pointer"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />

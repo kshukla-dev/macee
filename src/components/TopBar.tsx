@@ -3,7 +3,7 @@ import { Phone } from 'lucide-react';
 
 export const TopBar: React.FC = () => {
   return (
-    <div className="bg-[#1D454C] text-white py-2 px-4 sm:px-6 lg:px-8 border-b border-[#255760] transition-colors">
+    <div className="bg-[#111827] text-white py-2 px-4 sm:px-6 lg:px-8 border-b border-gray-800 transition-colors">
       <div className="max-w-[1220px] mx-auto flex items-center justify-between text-xs sm:text-sm font-medium">
         <div className="flex items-center gap-2">
           <Phone className="w-3.5 h-3.5 text-white/80" />

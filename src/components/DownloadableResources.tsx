@@ -18,10 +18,10 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
       <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 resources-heading">
-          <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#6B0D43] mb-2">
+          <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
             Free Guides & Certifications
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#1D454C] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
             Downloadable Resources
           </h2>
           <p className="mt-3 text-base sm:text-lg text-[#54595F]">
@@ -44,7 +44,7 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   loading="lazy"
                 />
-                <div className="absolute top-3 left-3 bg-[#1D454C]/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md tracking-wide backdrop-blur-xs">
+                <div className="absolute top-3 left-3 bg-[#111827]/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md tracking-wide backdrop-blur-xs">
                   {item.type}
                 </div>
               </div>
@@ -52,7 +52,7 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
               {/* Card Content */}
               <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#1D454C] group-hover:text-[#6B0D43] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug line-clamp-2">
                     {item.title}
                   </h3>
                   <p className="mt-3 text-sm text-[#54595F] leading-relaxed line-clamp-3">
@@ -67,7 +67,7 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
 
                   <button
                     onClick={() => onSelectResource(item)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[5px] bg-[#6B0D43] hover:bg-[#1D454C] text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-2xs hover:shadow"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-2xs hover:shadow"
                   >
                     <span>Learn more</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -84,7 +84,7 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
             Looking for customized secondment solutions or compliance advice?{' '}
             <button
               onClick={() => onSelectResource(RESOURCES_DATA[0])}
-              className="text-[#6B0D43] hover:text-[#1D454C] font-semibold underline underline-offset-4 cursor-pointer inline-flex items-center gap-1"
+              className="text-[#E30613] hover:text-[#111827] font-semibold underline underline-offset-4 cursor-pointer inline-flex items-center gap-1"
             >
               <span>Explore all client guides</span>
               <BookOpen className="w-3.5 h-3.5" />

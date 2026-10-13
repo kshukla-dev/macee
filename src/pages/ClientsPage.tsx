@@ -78,9 +78,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
           <div className="clients-services-grid">
             {/* Service 1: Recruitment */}
             <div className="clients-service-card">
-              <div className="clients-service-icon-box">
-                <Users size={24} />
-              </div>
+
               <h3 className="clients-service-title">Recruitment</h3>
               <p className="clients-service-desc">
                 When looking for specific expertise temporary (or permanent) we will always analyse exactly what you are looking for regarding expertise, culture aspects and soft skills. We are independent so we will only look for candidates with proven track record and expertise. We are not limited in our search within our local Dutch network, but we also have access to a broad international network.
@@ -89,9 +87,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
 
             {/* Service 2: Contract Administration */}
             <div className="clients-service-card">
-              <div className="clients-service-icon-box">
-                <FileCheck size={24} />
-              </div>
+
               <h3 className="clients-service-title">Contract administration</h3>
               <p className="clients-service-desc">
                 When the right candidate is selected after the interview we will take care of the candidate onboarding and manage all compliance procedures relating to local labour, immigration and fiscal legislation, whether it relates to a Contractor, Freelancer (ZZP), or an Expat (HSM). From secondment to payroll services, from project support to legal employment services (EOR), MACEE will provide the best tailor-made solution for the needs of your organisation. Please do not hesitate to contact us and together we can discuss and agree on the most suitable solution for your company.
@@ -100,9 +96,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
 
             {/* Service 3: Compliancy & Support */}
             <div className="clients-service-card">
-              <div className="clients-service-icon-box">
-                <ShieldAlert size={24} />
-              </div>
+
               <h3 className="clients-service-title">Compliancy &amp; Support</h3>
               <p className="clients-service-desc">
                 MACEE strives for clear, transparent and compliant agreements. This is made possible by our in-depth knowledge of local legislation and regulations (WAADI, DBA law, WTT/A1, WIK/AOF) and we ensure all relevant labour, immigration and fiscal laws are observed and continuous to monitor when it comes to the compliancy/hiring of Contractors, Freelancers (ZZP) and Expats (HSM). And if necessary, we can act as your transaction in the event of disputes or problems, taking the burden of extra legal resources off your shoulders. MACEE is your partner for all your HR processes. Innovative and refreshing, we always find a solution that works best for your organisation.

@@ -3,27 +3,30 @@
 @import "./components/HeaderNav.css";
 
 :root {
-  --base-color: #e8382e;
-  --primary-color: #e8382e;
+  --base-color: #E30613;
+  --primary-color: #E30613;
+  --accent-blue: #8E96CB;
+  --accent-blue-dark: #36427D;
+  --accent-black: #111827;
   --heading_font-family: "Space Grotesk", sans-serif;
   --content_font-family: "Arial", sans-serif;
   --h1_hero_font-weight: 800;
   --h2_hero_font-weight: 700;
   --button_border-radius: 10px;
   --card_border-radius: 20px;
-  --card_background: #efc9cb;
-  --footer_background: #2a0209;
+  --card_background: #F0F3FA;
+  --footer_background: #111827;
   --footer_color: #fff;
   --footer_content_color: #fff;
   --footer_link_color: #fff;
-  --footer_link_hover_color: #f8dada;
-  --footer_h2_color: #ff0000;
+  --footer_link_hover_color: #8E96CB;
+  --footer_h2_color: #E30613;
 }
 
 body {
-  border-top: 3px solid #ff0000;
+  border-top: 3px solid #E30613;
   font-family: "Arial", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #000;
+  color: #111827;
   background-color: #fff;
   margin: 0;
   padding: 0;
@@ -40,13 +43,13 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 img.hard-shadow {
   border-radius: 20px;
-  box-shadow: 40px 40px 0 0 #f8dada;
+  box-shadow: 40px 40px 0 0 rgba(142, 150, 203, 0.25);
   display: inline-block;
 }
 
 @media (max-width: 768px) {
   img.hard-shadow {
-    box-shadow: 20px 20px 0 0 #f8dada;
+    box-shadow: 20px 20px 0 0 rgba(142, 150, 203, 0.25);
   }
 }
 
@@ -55,12 +58,12 @@ img.hard-shadow {
 }
 
 .card-pink {
-  background-color: #efc9cb;
+  background-color: #F0F3FA;
   border-radius: 20px;
 }
 
 .is-btn {
-  background-color: #e8382e;
+  background-color: #E30613;
   color: #fff;
   border-radius: 10px;
   padding: 12px 24px;
@@ -76,12 +79,12 @@ img.hard-shadow {
 }
 
 .is-btn:hover {
-  background-color: #c9241b;
+  background-color: #111827;
   color: #fff;
 }
 
 .is-btn-secondary {
-  background-color: #3e1b87;
+  background-color: #8E96CB;
   color: #fff;
   border-radius: 10px;
   padding: 12px 24px;
@@ -97,13 +100,13 @@ img.hard-shadow {
 }
 
 .is-btn-secondary:hover {
-  background-color: #2b1160;
+  background-color: #6D78AF;
   color: #fff;
 }
 
 .is-btn-white {
   background-color: #ffffff;
-  color: #e8382e;
+  color: #E30613;
   border-radius: 10px;
   padding: 12px 24px;
   font-family: "Space Grotesk", sans-serif;
@@ -117,8 +120,8 @@ img.hard-shadow {
 }
 
 .is-btn-white:hover {
-  background-color: #f8dada;
-  color: #c9241b;
+  background-color: #F0F3FA;
+  color: #BE040F;
 }
 
 .header-nav > ul > li > a {
@@ -127,7 +130,7 @@ img.hard-shadow {
 }
 
 footer {
-  background-color: #2a0209;
+  background-color: #111827;
   color: #fff;
   padding: 60px 0 30px;
 }
@@ -139,11 +142,11 @@ footer a {
 }
 
 footer a:hover {
-  color: #f8dada;
+  color: #8E96CB;
 }
 
 footer h2 {
-  color: #ff0000;
+  color: #E30613;
   font-family: "Space Grotesk", sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
@@ -152,4 +155,32 @@ footer h2 {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Modal and dialog mouse scroll optimizations */
+.modal-scrollable,
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-scrollable::-webkit-scrollbar,
+[data-lenis-prevent]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollable::-webkit-scrollbar-track,
+[data-lenis-prevent]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-scrollable::-webkit-scrollbar-thumb,
+[data-lenis-prevent]::-webkit-scrollbar-thumb {
+  background: rgba(142, 150, 203, 0.4);
+  border-radius: 9999px;
+}
+
+.modal-scrollable::-webkit-scrollbar-thumb:hover,
+[data-lenis-prevent]::-webkit-scrollbar-thumb:hover {
+  background: #E30613;
 }

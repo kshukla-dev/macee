@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronDown, HelpCircle, ArrowRight, Bell } from 'lucide-react';
 import { FAQ_DATA } from '../data/content';
 
@@ -16,6 +16,16 @@ export const FaqModal: React.FC<FaqModalProps> = ({
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [expandedId, setExpandedId] = useState<string | null>(FAQ_DATA[0].id);
 
+  // Close on Escape key press
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const categories = ['All', 'What does MACEE do', 'Services and Contract options', 'Specialties and positions'];
@@ -25,46 +35,52 @@ export const FaqModal: React.FC<FaqModalProps> = ({
     : FAQ_DATA.filter(f => f.category === activeCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs">
-      <div 
-        className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden my-8 animate-fadeIn"
+    <div 
+      data-lenis-prevent
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
+      onClick={onClose}
+      onWheel={(e) => e.stopPropagation()}
+    >
+      <div
+        data-lenis-prevent
+        className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[88vh] my-auto animate-fadeIn"
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="bg-[#1D454C] text-white p-6 sm:p-8 relative">
+        {/* Header - Fixed at top */}
+        <div className="bg-[#111827] text-white p-5 sm:p-7 shrink-0 relative pr-14">
           <button
             onClick={onClose}
             aria-label="Close FAQ"
-            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2 mb-1.5">
-            <HelpCircle className="w-4 h-4 text-[#E5B5D0]" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#E5B5D0]">
+            <HelpCircle className="w-4 h-4 text-[#E30613]" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#E30613]">
               Macee Knowledge Base
             </span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-bold font-display text-white">
+          <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
             Frequently Asked Questions
           </h3>
-          <p className="text-sm text-white/80 mt-1">
+          <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
             Everything you need to know about external workforce hiring, contracting options, and visa sponsorship.
           </p>
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 mt-5">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-4">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
-                  activeCategory === cat
-                    ? 'bg-white text-[#1D454C]'
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer ${activeCategory === cat
+                    ? 'bg-white text-[#111827] shadow-xs'
                     : 'bg-white/10 text-white/80 hover:bg-white/20'
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -72,8 +88,12 @@ export const FaqModal: React.FC<FaqModalProps> = ({
           </div>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="p-6 sm:p-8 space-y-3 max-h-[60vh] overflow-y-auto">
+        {/* FAQ Accordion List - Scrollable Body */}
+        <div 
+          data-lenis-prevent 
+          className="p-4 sm:p-6 md:p-8 space-y-3 overflow-y-auto flex-1 overscroll-contain modal-scrollable"
+          onWheel={(e) => e.stopPropagation()}
+        >
           {filteredFaqs.map((faq) => {
             const isExpanded = expandedId === faq.id;
             return (
@@ -84,20 +104,19 @@ export const FaqModal: React.FC<FaqModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setExpandedId(isExpanded ? null : faq.id)}
-                  className="w-full text-left p-4 sm:p-5 bg-[#F8FAFB] hover:bg-gray-50 flex items-center justify-between gap-4 cursor-pointer"
+                  className="w-full text-left p-3.5 sm:p-5 bg-[#F8FAFB] hover:bg-gray-50 flex items-center justify-between gap-3 sm:gap-4 cursor-pointer"
                 >
-                  <span className="text-sm sm:text-base font-bold text-[#1D454C] leading-snug">
+                  <span className="text-xs sm:text-sm md:text-base font-bold text-[#111827] leading-snug">
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
-                      isExpanded ? 'rotate-180 text-[#6B0D43]' : ''
-                    }`}
+                    className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                      }`}
                   />
                 </button>
 
                 {isExpanded && (
-                  <div className="p-4 sm:p-5 bg-white border-t border-gray-100 text-xs sm:text-sm text-[#54595F] leading-relaxed">
+                  <div className="p-3.5 sm:p-5 bg-white border-t border-gray-100 text-xs sm:text-sm text-[#54595F] leading-relaxed">
                     <p>{faq.answer}</p>
                   </div>
                 )}
@@ -106,13 +125,13 @@ export const FaqModal: React.FC<FaqModalProps> = ({
           })}
 
           {/* Job Alert & Open Application Callout */}
-          <div className="p-5 mt-6 rounded-xl bg-gradient-to-r from-[#1D454C]/10 to-[#6B0D43]/10 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[#1D454C] text-white flex items-center justify-center shrink-0">
-                <Bell className="w-5 h-5" />
+          <div className="p-4 sm:p-5 mt-4 sm:mt-6 rounded-xl bg-gradient-to-r from-[#111827]/10 to-[#E30613]/10 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="w-10 h-10 rounded-lg bg-[#111827] text-white flex items-center justify-center shrink-0">
+                <Bell className="w-5 h-5 text-[#E30613]" />
               </div>
               <div>
-                <h5 className="text-sm font-bold text-[#1D454C]">
+                <h5 className="text-xs sm:text-sm font-bold text-[#111827]">
                   Can’t find the project you are looking for?
                 </h5>
                 <p className="text-xs text-[#54595F]">
@@ -126,7 +145,7 @@ export const FaqModal: React.FC<FaqModalProps> = ({
                 onClose();
                 onOpenConsultation();
               }}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-[5px] bg-[#6B0D43] hover:bg-[#1D454C] text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer shrink-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shrink-0 active:scale-[0.99]"
             >
               <span>Create Jobalert</span>
               <ArrowRight className="w-3.5 h-3.5" />

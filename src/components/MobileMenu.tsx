@@ -46,7 +46,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-between bg-white overflow-y-auto">
+    <div 
+      data-lenis-prevent
+      className="fixed inset-0 z-50 lg:hidden flex flex-col justify-between bg-white overflow-y-auto"
+      onWheel={(e) => e.stopPropagation()}
+    >
       {/* Top Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-100">
         <a 
@@ -65,7 +69,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         </a>
         <button
           onClick={onClose}
-          className="p-2 text-gray-700 hover:text-[#1D454C] rounded-md text-sm font-semibold cursor-pointer"
+          className="p-2 text-gray-700 hover:text-[#E30613] rounded-md text-sm font-semibold cursor-pointer"
         >
           Close ✕
         </button>
@@ -82,7 +86,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             <span>About Us</span>
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'about' ? 'rotate-180 text-[#1D454C]' : ''
+              className={`w-4 h-4 transition-transform ${expandedSection === 'about' ? 'rotate-180 text-[#E30613]' : ''
                 }`}
             />
           </button>
@@ -90,19 +94,19 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
               <button
                 onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#1D454C] cursor-pointer"
+                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
               >
                 About Us Overview
               </button>
               <button
                 onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#1D454C] cursor-pointer"
+                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
               >
                 What We Do & How We Work
               </button>
               <button
                 onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#1D454C] cursor-pointer"
+                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
               >
                 Team MACEE
               </button>
@@ -118,18 +122,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             <span>Clients</span>
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'clients' ? 'rotate-180 text-[#1D454C]' : ''
+              className={`w-4 h-4 transition-transform ${expandedSection === 'clients' ? 'rotate-180 text-[#E30613]' : ''
                 }`}
             />
           </button>
           {expandedSection === 'clients' && (
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button onClick={() => handlePage('clients')} className="w-full text-left py-1 font-bold text-[#1D454C]">Clients Overview</button>
-              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#1D454C]">Recruitment & Staffing</button>
-              <button onClick={() => handleService('contract-administration')} className="w-full text-left py-1 hover:text-[#1D454C]">Contract Administration</button>
-              <button onClick={() => handleService('compliancy-support')} className="w-full text-left py-1 hover:text-[#1D454C]">Compliancy & Support</button>
-              <button onClick={() => handleService('it-outsourcing')} className="w-full text-left py-1 hover:text-[#1D454C]">Outsourcing & Project Services</button>
-              <button onClick={() => handleNav('resources')} className="w-full text-left py-1 hover:text-[#1D454C]">Certifications (SNA NEN 4400-1)</button>
+              <button onClick={() => handlePage('clients')} className="w-full text-left py-1 font-bold text-[#E30613]">Clients Overview</button>
+              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#E30613]">Recruitment & Staffing</button>
+              <button onClick={() => handleService('contract-administration')} className="w-full text-left py-1 hover:text-[#E30613]">Contract Administration</button>
+              <button onClick={() => handleService('compliancy-support')} className="w-full text-left py-1 hover:text-[#E30613]">Compliancy & Support</button>
+              <button onClick={() => handleService('it-outsourcing')} className="w-full text-left py-1 hover:text-[#E30613]">Outsourcing & Project Services</button>
+              <button onClick={() => handleNav('resources')} className="w-full text-left py-1 hover:text-[#E30613]">Certifications (SNA NEN 4400-1)</button>
             </div>
           )}
         </div>
@@ -142,16 +146,16 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             <span>Professionals</span>
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'professionals' ? 'rotate-180 text-[#1D454C]' : ''
+              className={`w-4 h-4 transition-transform ${expandedSection === 'professionals' ? 'rotate-180 text-[#E30613]' : ''
                 }`}
             />
           </button>
           {expandedSection === 'professionals' && (
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button onClick={() => handleService('contracting-secondment')} className="w-full text-left py-1 hover:text-[#1D454C]">Contracting & Secondment</button>
-              <button onClick={() => handleService('freelance-zzp')} className="w-full text-left py-1 hover:text-[#1D454C]">Freelance / ZZP</button>
-              <button onClick={() => handleService('hsm-expats')} className="w-full text-left py-1 hover:text-[#1D454C]">HSM / Expats / Visa Sponsorship</button>
-              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#1D454C]">Permanent Positions</button>
+              <button onClick={() => handleService('contracting-secondment')} className="w-full text-left py-1 hover:text-[#E30613]">Contracting & Secondment</button>
+              <button onClick={() => handleService('freelance-zzp')} className="w-full text-left py-1 hover:text-[#E30613]">Freelance / ZZP</button>
+              <button onClick={() => handleService('hsm-expats')} className="w-full text-left py-1 hover:text-[#E30613]">HSM / Expats / Visa Sponsorship</button>
+              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#E30613]">Permanent Positions</button>
             </div>
           )}
         </div>
@@ -164,17 +168,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             <span>Industries</span>
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'industries' ? 'rotate-180 text-[#1D454C]' : ''
+              className={`w-4 h-4 transition-transform ${expandedSection === 'industries' ? 'rotate-180 text-[#E30613]' : ''
                 }`}
             />
           </button>
           {expandedSection === 'industries' && (
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#1D454C]">ICT & Software Development</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#1D454C]">Banking / Fintech / Finance</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#1D454C]">High Tech (Brainport)</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#1D454C]">Government & Public Sector</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#1D454C]">Telecom & Energy / Oil & Gas</button>
+              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">ICT & Software Development</button>
+              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Banking / Fintech / Finance</button>
+              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">High Tech (Brainport)</button>
+              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Government & Public Sector</button>
+              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Telecom & Energy / Oil & Gas</button>
             </div>
           )}
         </div>
@@ -214,7 +218,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       <div className="p-6 border-t border-gray-100 bg-[#F8FAFB] space-y-3">
         <a
           href="tel:+310267440024"
-          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#1D454C] text-white font-medium text-sm hover:bg-[#153439] transition-colors"
+          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-medium text-sm hover:bg-[#153439] transition-colors"
         >
           <Phone className="w-4 h-4" />
           <span>Call: +31 (0)26 744 0024</span>
@@ -225,7 +229,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             onClose();
             onOpenConsultation();
           }}
-          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#6B0D43] text-white font-semibold text-sm hover:bg-[#540833] transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-semibold text-sm hover:bg-[#540833] transition-colors shadow-sm"
         >
           <span>Get in Touch with Macee</span>
           <ArrowUpRight className="w-4 h-4" />

@@ -19,34 +19,34 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="bg-[#12282C] text-white border-t border-gray-800">
+    <footer className="bg-[#111827] text-white border-t border-gray-800">
       {/* Main Footer Container */}
       <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Column 1: Brand & Office Location (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-5">
-            <div className="bg-white/95 p-3 rounded-lg inline-block">
+            <div className="inline-block">
               <img
-                src="/images/macee-logo.png"
+                src="/images/macee-logo-white.png"
                 alt="Macee BV - External Workforce Solutions"
-                className="h-9 w-auto object-contain"
+                className="h-14 sm:h-16 w-auto object-contain drop-shadow-sm"
               />
             </div>
 
             <div className="space-y-2 text-sm text-gray-300">
               <p className="font-semibold text-white text-base">Macee BV</p>
               <div className="flex items-start gap-2.5 pt-1">
-                <MapPin className="w-4 h-4 text-[#E5B5D0] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#E30613] shrink-0 mt-0.5" />
                 <span>Nieuwe Stationsstraat 10, 6811 KS Arnhem, The Netherlands</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#E5B5D0] shrink-0" />
+                <Phone className="w-4 h-4 text-[#E30613] shrink-0" />
                 <a href="tel:+310267440024" className="hover:text-white transition-colors">
                   +31 (0)26 744 0024
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#E5B5D0] shrink-0" />
+                <Mail className="w-4 h-4 text-[#E30613] shrink-0" />
                 <a href="mailto:info@macee.com" className="hover:text-white transition-colors">
                   info@macee.com
                 </a>
@@ -70,7 +70,7 @@ export const Footer: React.FC<FooterProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#6B0D43] transition-colors flex items-center justify-center text-white"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({
               <a
                 href="mailto:info@macee.com"
                 aria-label="Email Macee"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#6B0D43] transition-colors flex items-center justify-center text-white text-xs font-mono font-bold"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white text-xs font-mono font-bold"
               >
                 @
               </a>
@@ -92,16 +92,16 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2 text-sm text-gray-300">
 
               <li>
-                <button 
-                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')} 
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
                   About Us
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')} 
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
                   How We Work
@@ -125,8 +125,8 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Clients & Services</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <button 
-                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')} 
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left font-semibold text-white/90"
                 >
                   Clients Overview

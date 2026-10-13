@@ -41,6 +41,28 @@ export default function App() {
 
   const lenisRef = useRef<Lenis | null>(null);
 
+  const isAnyModalOrMenuOpen =
+    isConsultationOpen ||
+    isRiskSurveyOpen ||
+    isFaqOpen ||
+    Boolean(selectedResource) ||
+    Boolean(selectedService) ||
+    Boolean(selectedJob) ||
+    isMobileMenuOpen;
+
+  useEffect(() => {
+    if (isAnyModalOrMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      lenisRef.current?.stop();
+    } else {
+      document.body.style.overflow = '';
+      lenisRef.current?.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isAnyModalOrMenuOpen]);
+
   // Synchronize route with browser URL / history
   useEffect(() => {
     const handleLocation = () => {
@@ -87,6 +109,14 @@ export default function App() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
+      prevent: (node) => {
+        return (
+          node instanceof HTMLElement &&
+          (node.hasAttribute('data-lenis-prevent') ||
+            Boolean(node.closest?.('[data-lenis-prevent]')) ||
+            Boolean(node.closest?.('.modal-scrollable')))
+        );
+      },
     });
     lenisRef.current = lenis;
 
@@ -249,7 +279,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#333333] font-body selection:bg-[#1D454C] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#333333] font-body selection:bg-[#E30613] selection:text-white">
       {/* 1. Top Bar: Phone & Socials */}
       <TopBar />
 
