@@ -133,6 +133,14 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left font-semibold text-white/90"
+                >
+                  For Professionals
+                </button>
+              </li>
+              <li>
                 <button onClick={() => onSelectService('recruitment-staffing')} className="hover:text-white transition-colors cursor-pointer text-left">
                   Recruitment & Staffing
                 </button>

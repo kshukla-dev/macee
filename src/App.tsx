@@ -23,6 +23,7 @@ import { JobApplicationModal } from './components/JobApplicationModal';
 import { FaqModal } from './components/FaqModal';
 import { AboutPage } from './pages/AboutPage';
 import { ClientsPage } from './pages/ClientsPage';
+import { ProfessionalsPage } from './pages/ProfessionalsPage';
 
 import { SERVICES_DATA, RESOURCES_DATA, JOBS_DATA } from './data/content';
 import { ResourceItem, ServiceItem, JobListing } from './types';
@@ -30,7 +31,7 @@ import { ResourceItem, ServiceItem, JobListing } from './types';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'clients'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'clients' | 'professionals'>('home');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -72,6 +73,8 @@ export default function App() {
         setCurrentPage('about');
       } else if (path === '/clients' || path === '/clients-page' || hash === '#clients' || hash === '#clients-page') {
         setCurrentPage('clients');
+      } else if (path === '/professionals' || path === '/professionals-page' || hash === '#professionals' || hash === '#professionals-page') {
+        setCurrentPage('professionals');
       } else {
         setCurrentPage('home');
       }
@@ -91,9 +94,13 @@ export default function App() {
       setCurrentPage('about');
       window.history.pushState(null, '', '/about');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'clients') {
+    } else if (page === 'clients' || page === 'clients-page') {
       setCurrentPage('clients');
       window.history.pushState(null, '', '/clients');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'professionals' || page === 'professionals-page') {
+      setCurrentPage('professionals');
+      window.history.pushState(null, '', '/professionals');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');
@@ -311,6 +318,8 @@ export default function App() {
           <AboutPage onNavigate={handleNavigatePage} />
         ) : currentPage === 'clients' ? (
           <ClientsPage onNavigate={handleNavigatePage} />
+        ) : currentPage === 'professionals' ? (
+          <ProfessionalsPage onNavigate={handleNavigatePage} />
         ) : (
           <>
             {/* 3. Hero Section: "External Workforce Solutions" */}

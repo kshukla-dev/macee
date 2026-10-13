@@ -152,6 +152,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           </button>
           {expandedSection === 'professionals' && (
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
+              <button
+                onClick={() => {
+                  onNavigatePage('professionals');
+                  onClose();
+                }}
+                className="w-full text-left py-1 text-[#E30613] font-bold"
+              >
+                Overview (For Professionals)
+              </button>
               <button onClick={() => handleService('contracting-secondment')} className="w-full text-left py-1 hover:text-[#E30613]">Contracting & Secondment</button>
               <button onClick={() => handleService('freelance-zzp')} className="w-full text-left py-1 hover:text-[#E30613]">Freelance / ZZP</button>
               <button onClick={() => handleService('hsm-expats')} className="w-full text-left py-1 hover:text-[#E30613]">HSM / Expats / Visa Sponsorship</button>

@@ -235,8 +235,11 @@ export const Header: React.FC<HeaderProps> = ({
             onMouseLeave={() => setActiveDropdown(null)}
           >
             <button
-              onClick={() => onNavigateSection('what-we-do')}
-              className="nav-button hover:text-[#E30613] rounded-md group"
+              onClick={() => {
+                onNavigatePage('professionals');
+                setActiveDropdown(null);
+              }}
+              className={`nav-button hover:text-[#E30613] rounded-md group ${currentPage === 'professionals' ? 'text-[#E30613] font-bold' : ''}`}
             >
               <span>Professionals</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
@@ -244,6 +247,15 @@ export const Header: React.FC<HeaderProps> = ({
 
             {activeDropdown === 'professionals' && (
               <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
+                <button
+                  onClick={() => {
+                    onNavigatePage('professionals');
+                    setActiveDropdown(null);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-[#E30613] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
+                >
+                  Overview (For Professionals)
+                </button>
                 <button
                   onClick={() => {
                     onSelectService('contracting-secondment');
