@@ -236,7 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <button
               onClick={() => {
-                onNavigatePage('professionals');
+                onNavigatePage?.('professionals');
                 setActiveDropdown(null);
               }}
               className={`nav-button hover:text-[#E30613] rounded-md group ${currentPage === 'professionals' ? 'text-[#E30613] font-bold' : ''}`}
@@ -249,7 +249,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
                 <button
                   onClick={() => {
-                    onNavigatePage('professionals');
+                    onNavigatePage?.('professionals');
                     setActiveDropdown(null);
                   }}
                   className="w-full text-left px-4 py-2 text-sm text-[#E30613] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
@@ -361,23 +361,53 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Projects / Assignments */}
+          {/* Projects */}
           <button
-            onClick={() => onNavigateSection('jobs')}
-            className="nav-button hover:text-[#E30613] rounded-md"
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('projects');
+              } else {
+                onNavigateSection('jobs');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${
+              currentPage === 'projects' ? 'text-[#E30613] font-bold' : ''
+            }`}
           >
             Projects
           </button>
 
-          {/* Resources & FAQ */}
+          {/* FAQ & Guides */}
           <button
-            onClick={() => onNavigateSection('resources')}
-            className="nav-button hover:text-[#E30613] rounded-md"
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('faq');
+              } else {
+                onNavigateSection('resources');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${
+              currentPage === 'faq' ? 'text-[#E30613] font-bold' : ''
+            }`}
           >
-            FAQ & Guides
+            FAQ &amp; Guides
           </button>
 
-
+          {/* Contact */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('contact');
+              } else {
+                onNavigateSection('contact');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${
+              currentPage === 'contact' ? 'text-[#E30613] font-bold' : ''
+            }`}
+          >
+            Contact
+          </button>
         </nav>
 
         {/* Action Button & Mobile Toggle */}

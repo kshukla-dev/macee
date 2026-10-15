@@ -154,7 +154,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
               <button
                 onClick={() => {
-                  onNavigatePage('professionals');
+                  onNavigatePage?.('professionals');
                   onClose();
                 }}
                 className="w-full text-left py-1 text-[#E30613] font-bold"
@@ -194,31 +194,28 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 
         <div>
           <button
-            onClick={() => handleNav('jobs')}
+            onClick={() => handlePage('projects')}
             className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            Projects / Assignments
+            Projects &amp; Vacancies
           </button>
         </div>
 
         <div>
           <button
-            onClick={() => handleNav('resources')}
+            onClick={() => handlePage('faq')}
             className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            FAQ & Certifications
+            FAQ &amp; Guides
           </button>
         </div>
 
         <div>
           <button
-            onClick={() => {
-              onClose();
-              onOpenConsultation();
-            }}
+            onClick={() => handlePage('contact')}
             className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            Contact
+            Contact Us
           </button>
         </div>
       </div>

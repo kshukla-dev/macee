@@ -24,14 +24,19 @@ import { FaqModal } from './components/FaqModal';
 import { AboutPage } from './pages/AboutPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { ProfessionalsPage } from './pages/ProfessionalsPage';
+import { ProjectsPage } from './pages/ProjectsPage';
+import { FaqPage } from './pages/FaqPage';
+import { ContactPage } from './pages/ContactPage';
 
 import { SERVICES_DATA, RESOURCES_DATA, JOBS_DATA } from './data/content';
 import { ResourceItem, ServiceItem, JobListing } from './types';
 
+export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'faq' | 'contact';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'clients' | 'professionals'>('home');
+  const [currentPage, setCurrentPage] = useState<PageRoute>('home');
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -75,6 +80,12 @@ export default function App() {
         setCurrentPage('clients');
       } else if (path === '/professionals' || path === '/professionals-page' || hash === '#professionals' || hash === '#professionals-page') {
         setCurrentPage('professionals');
+      } else if (path === '/projects' || path === '/assignments' || path === '/vacancies' || hash === '#projects' || hash === '#assignments') {
+        setCurrentPage('projects');
+      } else if (path === '/faq' || path === '/faqs' || path === '/faq-guides' || path === '/guides' || hash === '#faq' || hash === '#guides') {
+        setCurrentPage('faq');
+      } else if (path === '/contact' || path === '/contact-us' || hash === '#contact' || hash === '#contact-us') {
+        setCurrentPage('contact');
       } else {
         setCurrentPage('home');
       }
@@ -101,6 +112,18 @@ export default function App() {
     } else if (page === 'professionals' || page === 'professionals-page') {
       setCurrentPage('professionals');
       window.history.pushState(null, '', '/professionals');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'projects' || page === 'assignments' || page === 'vacancies') {
+      setCurrentPage('projects');
+      window.history.pushState(null, '', '/projects');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'faq' || page === 'faqs' || page === 'faq-guides' || page === 'guides') {
+      setCurrentPage('faq');
+      window.history.pushState(null, '', '/faq');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'contact' || page === 'contact-us') {
+      setCurrentPage('contact');
+      window.history.pushState(null, '', '/contact');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');
@@ -240,23 +263,27 @@ export default function App() {
       handleNavigatePage('about');
       return;
     }
+    if (sectionId === 'jobs' || sectionId === 'projects' || sectionId === 'assignments') {
+      handleNavigatePage('projects');
+      return;
+    }
+    if (sectionId === 'resources' || sectionId === 'faq' || sectionId === 'guides') {
+      handleNavigatePage('faq');
+      return;
+    }
+    if (sectionId === 'contact' || sectionId === 'contact-us') {
+      handleNavigatePage('contact');
+      return;
+    }
     if (currentPage !== 'home') {
       setCurrentPage('home');
       window.history.pushState(null, '', '/');
       setTimeout(() => {
-        if (sectionId === 'faq') {
-          setIsFaqOpen(true);
-          return;
-        }
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
-      return;
-    }
-    if (sectionId === 'faq') {
-      setIsFaqOpen(true);
       return;
     }
     const element = document.getElementById(sectionId);
@@ -320,6 +347,12 @@ export default function App() {
           <ClientsPage onNavigate={handleNavigatePage} />
         ) : currentPage === 'professionals' ? (
           <ProfessionalsPage onNavigate={handleNavigatePage} />
+        ) : currentPage === 'projects' ? (
+          <ProjectsPage onNavigate={handleNavigatePage} />
+        ) : currentPage === 'faq' ? (
+          <FaqPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
+        ) : currentPage === 'contact' ? (
+          <ContactPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
         ) : (
           <>
             {/* 3. Hero Section: "External Workforce Solutions" */}

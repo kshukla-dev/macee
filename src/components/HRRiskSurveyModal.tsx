@@ -58,10 +58,10 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
   // Calculate compliance risk score
   const totalWeight = answers.reduce((acc, optIdx, qIdx) => {
     if (optIdx === -1) return acc;
-    return acc + RISK_SURVEY_QUESTIONS[qIdx].options[optIdx].riskWeight;
+    return acc + RISK_SURVEY_QUESTIONS[qIdx].options[optIdx].riskScore;
   }, 0);
 
-  const maxPossibleWeight = RISK_SURVEY_QUESTIONS.length * 3;
+  const maxPossibleWeight = RISK_SURVEY_QUESTIONS.length * 25;
   const rawRiskPercentage = Math.round((totalWeight / maxPossibleWeight) * 100);
   const normalizedRiskPercentage = Math.min(100, Math.max(12, rawRiskPercentage));
 
