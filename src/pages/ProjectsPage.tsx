@@ -1,28 +1,55 @@
-import React, { useState, useMemo } from 'react';
-import { 
-  Search, 
-  MapPin, 
-  Briefcase, 
-  Clock, 
-  ArrowRight, 
-  CheckCircle2, 
-  X, 
-  SlidersHorizontal, 
-  Tag, 
-  Calendar, 
-  Building2, 
-  ShieldCheck, 
-  Sparkles, 
-  Send, 
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import {
+  Search,
+  MapPin,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  X,
+  SlidersHorizontal,
+  Building2,
+  ShieldCheck,
+  Sparkles,
+  Send,
   Upload,
   Globe2,
-  Euro
+  Euro,
+  RefreshCw,
+  Key,
+  AlertCircle,
+  Loader2,
+  FileText,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
+import {
+  getAllJobs,
+  fetchVacancies,
+  getJobDetails,
+  uploadCvFile,
+  submitVacancyApplication,
+  mapOtysVacancyToProject,
+  buildVacanciesUrl,
+  sanitizeHtml,
+  API_ENDPOINTS
+} from '../lib/api';
+import {
+  isOtysConfigured,
+  getOtysConfig,
+  saveOtysCredentials,
+  requestNewToken,
+  clearTokenCache
+} from '../lib/auth';
 
 export interface ProjectAssignmentItem {
   id: string;
+  referenceId?: string;
+  slug?: string;
   title: string;
   category: string;
   branche: string;
@@ -32,178 +59,16 @@ export interface ProjectAssignmentItem {
   rate: string;
   experience: string;
   description: string;
+  shortDescriptionHtml?: string;
+  jobDescriptionHtml?: string;
+  requirementsHtml?: string;
   requirements: string[];
   skills: string[];
   postedDate: string;
   isFeatured?: boolean;
 }
 
-export const ALL_PROJECTS: ProjectAssignmentItem[] = [
-  {
-    id: 'macee-p1',
-    title: 'Senior Full Stack .NET Developer',
-    category: 'ICT & Cloud',
-    branche: 'Banking and insurance',
-    location: 'Arnhem / Hybrid',
-    contractType: 'Contracting',
-    hours: '36-40 hours',
-    rate: '€85 - €105 / hour',
-    experience: '5+ Years',
-    description: 'We are seeking an experienced Senior Full Stack .NET Developer to design resilient cloud microservices on Microsoft Azure. You will work in a high-compliance fintech environment alongside solution architects, product owners, and security officers.',
-    requirements: [
-      '.NET 8 / C#, ASP.NET Core Web API',
-      'Angular or React frontend architecture',
-      'Azure Cloud native services (AKS, Service Bus, CosmosDB)',
-      'CI/CD pipeline automation & clean code principles'
-    ],
-    skills: ['.NET 8', 'C#', 'Azure AKS', 'React', 'Microservices'],
-    postedDate: 'Active Assignment',
-    isFeatured: true
-  },
-  {
-    id: 'macee-p2',
-    title: 'Lead Data Engineer (Spark / Kafka)',
-    category: 'Data & Analytics',
-    branche: 'Public sector',
-    location: 'Den Haag / Hybrid',
-    contractType: 'Freelance / ZZP',
-    hours: '32-40 hours',
-    rate: '€95 - €115 / hour',
-    experience: '6+ Years',
-    description: 'For a major Dutch public sector organization in The Hague, we are looking for a Lead Data Engineer to design high-throughput streaming pipelines, modernise data lakehouse architectures, and enforce stringent data privacy governance.',
-    requirements: [
-      'Apache Spark, PySpark, and Kafka streaming pipelines',
-      'Databricks or Snowflake ecosystem experience',
-      'Knowledge of Dutch public sector compliance & security',
-      'Fluency in English; Dutch proficiency is a strong advantage'
-    ],
-    skills: ['Spark', 'Kafka', 'Databricks', 'Python', 'Data Lakehouse'],
-    postedDate: 'Active Assignment',
-    isFeatured: true
-  },
-  {
-    id: 'macee-p3',
-    title: 'Cyber Security & IAM Specialist',
-    category: 'Cybersecurity',
-    branche: 'High Tech Industry',
-    location: 'Eindhoven / Hybrid',
-    contractType: 'Contracting',
-    hours: '40 hours',
-    rate: 'Competitive Day Rate',
-    experience: '5+ Years',
-    description: 'Join an international high-tech manufacturing leader in the Brainport Eindhoven region. You will lead Identity & Access Management (IAM), privileged access governance (CyberArk), and zero-trust perimeter implementations.',
-    requirements: [
-      'CISSP, CISM, or comparable security certifications',
-      'Hands-on expertise with CyberArk, SailPoint, or Microsoft Entra ID',
-      'Third-party security assessments & risk mitigation',
-      'Excellent stakeholder communication in English'
-    ],
-    skills: ['CyberArk', 'IAM', 'Zero Trust', 'CISM', 'SailPoint'],
-    postedDate: 'Recently posted',
-    isFeatured: true
-  },
-  {
-    id: 'macee-p4',
-    title: 'Regulatory Reporting Specialist (Corep / Finrep)',
-    category: 'Finance & Risk',
-    branche: 'Banking and insurance',
-    location: 'Amsterdam / Hybrid',
-    contractType: 'Permanent / Contract to perm',
-    hours: '36 hours',
-    rate: 'Market conform + benefits',
-    experience: '4+ Years',
-    description: 'Support a prominent financial institution in Amsterdam with mandatory DNB/EBA regulatory returns, Finrep/Corep data mapping, and credit risk modelling reconciliation under Basel IV guidelines.',
-    requirements: [
-      'Proven track record with DNB / EBA regulatory frameworks',
-      'Strong knowledge of Basel III/IV guidelines',
-      'Data analysis skills in SQL / Python',
-      'Master’s degree in Economics, Finance, or Quantitative field'
-    ],
-    skills: ['Finrep', 'Corep', 'DNB Reporting', 'Basel IV', 'SQL'],
-    postedDate: 'Recently posted'
-  },
-  {
-    id: 'macee-p5',
-    title: 'Senior Java / Cloud Microservices Specialist',
-    category: 'ICT & Cloud',
-    branche: 'High Tech Industry',
-    location: 'Eindhoven / Hybrid',
-    contractType: 'HSM Visa Sponsorship Available',
-    hours: '40 hours',
-    rate: 'Market conform + 30% Tax Ruling',
-    experience: '7+ Years',
-    description: 'Develop mission-critical precision control systems and distributed backend microservices in the world-renowned Brainport Eindhoven corridor. Macee is an official IND Recognised Sponsor managing fast-track HSM visas and 30% ruling filings.',
-    requirements: [
-      'Mastery of modern Java (17/21), Spring Boot, and reactive programming',
-      'Experience in high-throughput, low-latency, and distributed systems architecture',
-      'Eligible for fast-track Dutch Highly Skilled Migrant (HSM) visa processing sponsored by MACEE',
-      'Relocation guidance, BSN registration, and 30% tax benefit support provided'
-    ],
-    skills: ['Java 21', 'Spring Boot', 'Kafka', 'Docker', 'HSM Visa'],
-    postedDate: 'Active Assignment',
-    isFeatured: true
-  },
-  {
-    id: 'macee-p6',
-    title: 'Lead Data Engineer & BI Specialist',
-    category: 'Data & Analytics',
-    branche: 'Banking and insurance',
-    location: 'Amsterdam / Hybrid',
-    contractType: 'Freelance / ZZP',
-    hours: '36-40 hours',
-    rate: '€90 - €110 / hour',
-    experience: '6+ Years',
-    description: 'Build automated high-throughput data pipelines, ETL workflows, and regulatory BI dashboards for a leading Dutch financial institution. Clear ZZP contracts under Dutch Wet DBA guidelines.',
-    requirements: [
-      'Proven track record with Apache Spark, Kafka, Python, and SQL data warehousing',
-      'Hands-on expertise in PowerBI, MSBI, and cloud data platforms (Azure Synapse / Snowflake)',
-      'Experience in financial risk modelling, regulatory reporting, or KYC analytics',
-      'Registered as an independent professional (ZZP) with the Dutch KvK'
-    ],
-    skills: ['PowerBI', 'Azure Synapse', 'Python', 'ETL', 'ZZP'],
-    postedDate: 'Recently posted'
-  },
-  {
-    id: 'macee-p7',
-    title: 'Cloud Infrastructure & DevOps Engineer',
-    category: 'Cloud & DevOps',
-    branche: 'Energy Transition & Telecom',
-    location: 'Utrecht / Hybrid',
-    contractType: 'Contracting',
-    hours: '36-40 hours',
-    rate: 'Competitive Hourly Rate',
-    experience: '4+ Years',
-    description: 'Design and automate scalable infrastructure on Microsoft Azure and AWS for smart grid monitoring. You will build resilient CI/CD pipelines, Terraform modules, and maintain Kubernetes clusters.',
-    requirements: [
-      'Strong expertise in Terraform, Ansible, and GitOps workflows',
-      'Production experience with Kubernetes (AKS/EKS) and Docker',
-      'Monitoring and observability with Prometheus, Grafana, and Datadog',
-      'Focus on security, zero-trust infrastructure, and automation'
-    ],
-    skills: ['Terraform', 'Kubernetes', 'AWS', 'Azure', 'GitOps'],
-    postedDate: 'Recently posted'
-  },
-  {
-    id: 'macee-p8',
-    title: 'Technical Project & Delivery Manager',
-    category: 'Project Management',
-    branche: 'Banking and insurance',
-    location: 'Rotterdam / Hybrid',
-    contractType: 'Freelance / ZZP',
-    hours: '36-40 hours',
-    rate: '€95 - €110 / hour',
-    experience: '7+ Years',
-    description: 'Lead multi-disciplinary software squads executing enterprise core banking modernisation and customer onboarding portals. You will balance scope, delivery milestones, and executive stakeholder alignment.',
-    requirements: [
-      'Extensive track record delivering complex IT initiatives in financial services',
-      'Certification in Agile/Scrum (PSM/CSM, SAFe) or Prince2/PMP',
-      'Skilled in cross-functional coordination, risk mitigation, and budget tracking',
-      'Strong bilingual communication in English and Dutch'
-    ],
-    skills: ['Agile / SAFe', 'Project Delivery', 'Fintech', 'Jira', 'Stakeholder Mgt'],
-    postedDate: 'Active Assignment'
-  }
-];
+export const ALL_PROJECTS: ProjectAssignmentItem[] = [];
 
 interface ProjectsPageProps {
   onNavigate: (page: string) => void;
@@ -215,34 +80,99 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
   const [selectedLocation, setSelectedLocation] = useState('All');
   const [selectedBranche, setSelectedBranche] = useState('All');
   const [selectedContract, setSelectedContract] = useState('All');
+
+  // API & Vacancies state
+  const [projectsList, setProjectsList] = useState<ProjectAssignmentItem[]>(ALL_PROJECTS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLiveConnected, setIsLiveConnected] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  // Modal & Application Form state
   const [activeProject, setActiveProject] = useState<ProjectAssignmentItem | null>(null);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [applySubmitted, setApplySubmitted] = useState(false);
   const [applicantName, setApplicantName] = useState('');
   const [applicantEmail, setApplicantEmail] = useState('');
   const [applicantPhone, setApplicantPhone] = useState('');
   const [applicantRate, setApplicantRate] = useState('');
   const [applicantNote, setApplicantNote] = useState('');
-  const [cvFileName, setCvFileName] = useState('');
+  const [applicantFile, setApplicantFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
-  // Dropdown options
-  const locations = ['All', 'Arnhem', 'Amsterdam', 'Den Haag', 'Eindhoven', 'Utrecht', 'Rotterdam'];
-  const branches = [
-    'All',
-    'Banking and insurance',
-    'Public sector',
-    'High Tech Industry',
-    'Energy Transition & Telecom'
-  ];
-  const contractTypes = [
-    'All',
-    'Contracting',
-    'Freelance / ZZP',
-    'Permanent / Contract to perm',
-    'HSM Visa Sponsorship Available'
-  ];
+  // Settings / API Key modal state
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+  const [inputApiKey, setInputApiKey] = useState('');
+  const [inputWebsiteId, setInputWebsiteId] = useState('2');
+  const [testStatus, setTestStatus] = useState<{ loading: boolean; success?: boolean; msg?: string }>({ loading: false });
+
+  // Load vacancies from OTYS API or fallback to curated list
+  const loadVacancies = useCallback(async () => {
+    setIsLoading(true);
+    setApiError(null);
+    try {
+      if (isOtysConfigured()) {
+        const jobs = await getAllJobs({
+          keywords: keyword.trim() || undefined,
+          itemsPerPage: 50
+        });
+
+
+        if (Array.isArray(jobs) && jobs.length > 0) {
+          setProjectsList(jobs);
+          setIsLiveConnected(true);
+          return;
+        } else {
+          console.log('ℹ️ [ProjectsPage] OTYS returned 0 vacancies, using curated Macee assignments.');
+        }
+      } else {
+        console.log('⚠️ [ProjectsPage] OTYS API Key not detected in .env or local settings. Add OTYS_API_KEY in .env or via OTYS settings button.');
+      }
+      setProjectsList(ALL_PROJECTS);
+      setIsLiveConnected(false);
+    } catch (err: any) {
+      console.error('❌ [ProjectsPage] Error loading OTYS vacancies:', err);
+      setApiError(err.message || 'Unable to fetch from OTYS API');
+      setProjectsList(ALL_PROJECTS);
+      setIsLiveConnected(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [keyword]);
+
+  useEffect(() => {
+    loadVacancies();
+  }, [loadVacancies]);
+
+  // Dynamic filter options based on available projects
+  const locations = useMemo(() => {
+    const locSet = new Set<string>(['All']);
+    projectsList.forEach((p) => {
+      const city = p.location.split('/')[0].trim();
+      if (city) locSet.add(city);
+    });
+    return Array.from(locSet);
+  }, [projectsList]);
+
+  const branches = useMemo(() => {
+    const brSet = new Set<string>(['All']);
+    projectsList.forEach((p) => {
+      if (p.branche) brSet.add(p.branche);
+    });
+    return Array.from(brSet);
+  }, [projectsList]);
+
+  const contractTypes = useMemo(() => {
+    const ctSet = new Set<string>(['All']);
+    projectsList.forEach((p) => {
+      if (p.contractType) ctSet.add(p.contractType);
+    });
+    return Array.from(ctSet);
+  }, [projectsList]);
 
   const filteredProjects = useMemo(() => {
-    return ALL_PROJECTS.filter((proj) => {
+    return projectsList.filter((proj) => {
       const q = keyword.trim().toLowerCase();
       const matchesKeyword =
         !q ||
@@ -266,16 +196,92 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
       return matchesKeyword && matchesLocation && matchesBranche && matchesContract;
     });
+  }, [projectsList, keyword, selectedLocation, selectedBranche, selectedContract]);
+
+  // 6 items per page pagination
+  const ITEMS_PER_PAGE = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset to first page whenever search keyword or filters change
+  useEffect(() => {
+    setCurrentPage(1);
   }, [keyword, selectedLocation, selectedBranche, selectedContract]);
 
-  const handleOpenModal = (proj: ProjectAssignmentItem) => {
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / ITEMS_PER_PAGE));
+
+  const paginatedProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProjects.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredProjects, currentPage]);
+
+  const handleOpenModal = async (proj: ProjectAssignmentItem) => {
+    // 1. Immediately open modal with existing summary card data
     setActiveProject(proj);
     setApplySubmitted(false);
+    setSubmitMessage('');
+    setApplicantFile(null);
+    setIsDescriptionExpanded(false);
+
+    // 2. Fetch full details from OTYS: GET /vacancies/{id}?includeUnpublishedTextfields=true
+    if (isOtysConfigured()) {
+      setIsLoadingDetails(true);
+      try {
+        const cleanId = proj.id.replace(/^otys-/, '');
+        console.log(`🔍 [ProjectsPage] Fetching complete vacancy details for ID: ${cleanId}...`);
+        const fullDetails = await getJobDetails(cleanId);
+        if (fullDetails) {
+          console.log('✅ [ProjectsPage] Live vacancy details loaded from API:', fullDetails);
+          setActiveProject(fullDetails);
+        }
+      } catch (err: any) {
+        console.warn('Notice: Could not load extra details from API, using cached card info:', err.message);
+      } finally {
+        setIsLoadingDetails(false);
+      }
+    }
   };
 
-  const handleApplySubmit = (e: React.FormEvent) => {
+  const handleApplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setApplySubmitted(true);
+    if (!activeProject) return;
+
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      let fileId: string | undefined;
+
+      // 1. Upload CV file to OTYS if file selected and OTYS configured
+      if (applicantFile && isOtysConfigured()) {
+        try {
+          fileId = await uploadCvFile(applicantFile);
+        } catch (uploadErr: any) {
+          console.warn('CV file upload notice:', uploadErr.message);
+        }
+      }
+
+      // 2. Submit application into OTYS recruitment system
+      if (isOtysConfigured()) {
+        const cleanVacancyId = activeProject.id.replace('otys-', '').replace('macee-', '');
+        const res = await submitVacancyApplication(cleanVacancyId, {
+          name: applicantName,
+          email: applicantEmail,
+          phone: applicantPhone,
+          rate: applicantRate,
+          note: applicantNote,
+          fileId,
+        });
+        setSubmitMessage(res.message);
+      } else {
+        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your profile for ${activeProject.title} has been logged with Macee's recruitment desk in Arnhem.`);
+      }
+
+      setApplySubmitted(true);
+    } catch (err: any) {
+      alert(`Submission notice: ${err.message || 'Please check your inputs and try again.'}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleResetFilters = () => {
@@ -283,6 +289,35 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     setSelectedLocation('All');
     setSelectedBranche('All');
     setSelectedContract('All');
+    setCurrentPage(1);
+  };
+
+  // Test and save OTYS API Key from UI
+  const handleSaveAndTestKey = async () => {
+    if (!inputApiKey.trim()) return;
+    setTestStatus({ loading: true });
+    try {
+      saveOtysCredentials(inputApiKey.trim(), inputWebsiteId.trim());
+      clearTokenCache();
+      const token = await requestNewToken();
+      if (token) {
+        setTestStatus({
+          loading: false,
+          success: true,
+          msg: 'Connection verified! Valid OTYS token acquired.'
+        });
+        setTimeout(() => {
+          setIsConfigModalOpen(false);
+          loadVacancies();
+        }, 1200);
+      }
+    } catch (err: any) {
+      setTestStatus({
+        loading: false,
+        success: false,
+        msg: `Connection test failed: ${err.message}`
+      });
+    }
   };
 
   const hasActiveFilters =
@@ -290,6 +325,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     selectedLocation !== 'All' ||
     selectedBranche !== 'All' ||
     selectedContract !== 'All';
+
+  const otysConfig = getOtysConfig();
 
   return (
     <div className="page_projects min-h-screen bg-[#F8FAFB]">
@@ -299,7 +336,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         style={{ backgroundImage: `url("/uploads/PM-2.jpg")` }}
       >
         <div className="absolute inset-0 bg-[#2a0209]/80 backdrop-blur-[2px]" />
-        
+
         {/* Glow ambient shapes */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#E30613]/20 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-black/40 blur-3xl pointer-events-none" />
@@ -318,8 +355,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             Discover top-tier contract, interim, secondment, and permanent IT and Finance assignments across the Netherlands.
           </p>
 
-          {/* Micro trust indicators */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-white/90">
+          {/* Micro trust indicators & Live API status */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/90">
             <span className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
               SNA NEN 4400-1 Certified
@@ -332,6 +369,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               <ShieldCheck className="w-4 h-4 text-[#E30613]" />
               100% Wet DBA / WAADI Compliant
             </span>
+
+
           </div>
         </div>
       </section>
@@ -339,17 +378,29 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
       {/* 2. Main Filter Bar & Listings */}
       <section className="py-12 sm:py-16">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Filter Container */}
           <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 mb-10">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
               <div className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wider">
                 <SlidersHorizontal className="w-4 h-4 text-[#E30613]" />
                 <span>Search &amp; Filter Assignments</span>
               </div>
-              <span className="text-xs text-gray-500 font-mono">
-                {filteredProjects.length} of {ALL_PROJECTS.length} roles shown
-              </span>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={loadVacancies}
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors cursor-pointer"
+                  title="Reload vacancies from OTYS Recruitment API"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 text-[#E30613] ${isLoading ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
+                </button>
+                <span className="text-xs text-gray-500 font-mono">
+                  {filteredProjects.length} of {projectsList.length} roles shown
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -440,15 +491,49 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             )}
           </div>
 
+          {/* API Notification Bar if error or notice */}
+          {apiError && !isLiveConnected && (
+            <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-800">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>
+                  Showing verified assignments catalog. To sync live from your OTYS database, ensure your <strong>OTYS_API_KEY</strong> is set in <code>.env</code>.
+                </span>
+              </div>
+              <button
+                onClick={() => setIsConfigModalOpen(true)}
+                className="font-bold underline text-amber-900 hover:text-black cursor-pointer shrink-0 ml-3"
+              >
+                Configure Key
+              </button>
+            </div>
+          )}
+
           {/* 3. Project Cards Grid */}
           <div className="space-y-6">
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-2" id="opportunities-heading">
               <h2 className="text-2xl font-bold font-display text-gray-900">
                 Current Opportunities ({filteredProjects.length})
               </h2>
+              {totalPages > 1 && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
+                  Page {currentPage} of {totalPages}
+                </span>
+              )}
             </div>
 
-            {filteredProjects.length === 0 ? (
+            {isLoading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 animate-pulse space-y-4">
+                    <div className="h-5 bg-gray-200 rounded w-1/4" />
+                    <div className="h-7 bg-gray-200 rounded w-1/2" />
+                    <div className="h-4 bg-gray-100 rounded w-3/4" />
+                    <div className="h-10 bg-gray-100 rounded w-full" />
+                  </div>
+                ))}
+              </div>
+            ) : filteredProjects.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 p-8 shadow-xs">
                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <h3 className="text-xl font-bold font-display text-gray-900 mb-2">
@@ -465,7 +550,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 </button>
               </div>
             ) : (
-              filteredProjects.map((proj) => (
+              paginatedProjects.map((proj) => (
                 <div
                   key={proj.id}
                   className="group bg-white rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md border border-gray-200 hover:border-[#E30613]/50 transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
@@ -473,6 +558,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   {/* Left: Role Details */}
                   <div className="space-y-3.5 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
+
                       <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#f8dada] text-[#E30613]">
                         {proj.branche}
                       </span>
@@ -539,11 +625,77 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       onClick={() => handleOpenModal(proj)}
                       className="inline-flex items-center justify-center px-4 py-2.5 rounded-[5px] border border-gray-200 hover:border-gray-300 bg-white text-gray-700 text-xs font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
                     >
-                      Project Details
+                      Assignment Details
                     </button>
                   </div>
                 </div>
               ))
+            )}
+
+            {/* Pagination Controls */}
+            {filteredProjects.length > ITEMS_PER_PAGE && (
+              <div className="pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-xs sm:text-sm text-gray-600 font-medium">
+                  Showing <span className="font-bold text-gray-900">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * ITEMS_PER_PAGE, filteredProjects.length)}</span> of <span className="font-bold text-gray-900">{filteredProjects.length}</span> opportunities
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {/* Previous Button */}
+                  <button
+                    onClick={() => {
+                      if (currentPage > 1) {
+                        setCurrentPage((p) => p - 1);
+                        document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    disabled={currentPage === 1}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === 1
+                      ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                      : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
+                      }`}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Previous</span>
+                  </button>
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        onClick={() => {
+                          setCurrentPage(pageNum);
+                          document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }}
+                        className={`w-9 h-9 rounded-lg text-xs font-bold transition-all cursor-pointer ${currentPage === pageNum
+                          ? 'bg-[#E30613] text-white shadow-xs'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
+                          }`}
+                      >
+                        {pageNum}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={() => {
+                      if (currentPage < totalPages) {
+                        setCurrentPage((p) => p + 1);
+                        document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    disabled={currentPage === totalPages}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === totalPages
+                      ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                      : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
+                      }`}
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -560,44 +712,50 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[88vh] my-auto animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="bg-[#111827] text-white p-6 sm:p-7 shrink-0 relative pr-14">
+            {/* Header */}
+            <div className="px-6 py-5 border-b border-gray-100 flex items-start justify-between bg-[#F8FAFB]">
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-1.5">
+
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#f8dada] text-[#E30613]">
+                    {activeProject.branche}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700">
+                    {activeProject.contractType}
+                  </span>
+                  {isLoadingDetails && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                      <Loader2 className="w-3 h-3 animate-spin text-blue-600" />
+                      Loading full details...
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold font-display text-gray-900">
+                  {activeProject.title}
+                </h3>
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-600">
+                  <span className="flex items-center gap-1 font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-[#E30613]" />
+                    {activeProject.location}
+                  </span>
+                  <span>·</span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Clock className="w-3.5 h-3.5 text-[#E30613]" />
+                    {activeProject.hours}
+                  </span>
+                  <span>·</span>
+                  <span className="flex items-center gap-1 font-bold text-gray-900">
+                    <Euro className="w-3.5 h-3.5 text-[#E30613]" />
+                    {activeProject.rate}
+                  </span>
+                </div>
+              </div>
               <button
                 onClick={() => setActiveProject(null)}
-                aria-label="Close project modal"
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:bg-gray-100 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-4"
               >
                 <X className="w-5 h-5" />
               </button>
-
-              <div className="flex items-center gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E30613] text-white">
-                  {activeProject.contractType}
-                </span>
-                <span className="text-xs text-gray-300 font-mono">
-                  {activeProject.branche}
-                </span>
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl font-bold font-display text-white">
-                {activeProject.title}
-              </h3>
-
-              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-300 mt-3">
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#E30613]" />
-                  {activeProject.location}
-                </span>
-                <span>·</span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-[#E30613]" />
-                  {activeProject.hours}
-                </span>
-                <span>·</span>
-                <span className="font-semibold text-white">
-                  {activeProject.rate}
-                </span>
-              </div>
             </div>
 
             {/* Modal Content - Scrollable */}
@@ -611,44 +769,160 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                     Application Received!
                   </h4>
                   <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong>{applicantName || 'Applicant'}</strong>. Your application for{' '}
-                    <strong>{activeProject.title}</strong> has been logged with Macee’s recruitment team in Arnhem. We will review your profile and reach out within 24 business hours.
+                    {submitMessage || `Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been logged with Macee’s recruitment desk in Arnhem.`}
                   </p>
                   <button
                     onClick={() => {
                       setActiveProject(null);
                       setApplySubmitted(false);
+                      setApplicantFile(null);
                     }}
                     className="mt-4 px-8 py-3 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
                   >
                     Done
                   </button>
                 </div>
-              ) : (
-                <>
-                  {/* Overview */}
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-gray-900 mb-2">
-                      Assignment Overview
-                    </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {activeProject.description}
-                    </p>
+              ) : isLoadingDetails ? (
+                /* Skeleton Loader while details API loads */
+                <div className="space-y-6 animate-pulse">
+                  {/* Overview Skeleton */}
+                  <div className="space-y-3">
+                    <div className="h-4 bg-gray-200 rounded w-44" />
+                    <div className="h-3.5 bg-gray-100 rounded w-full" />
+                    <div className="h-3.5 bg-gray-100 rounded w-11/12" />
+                    <div className="h-3.5 bg-gray-100 rounded w-4/5" />
+                    <div className="h-3.5 bg-gray-100 rounded w-9/12" />
                   </div>
 
-                  {/* Requirements */}
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-gray-900 mb-2">
-                      Key Qualifications &amp; Skills
+                  {/* Qualifications Skeleton */}
+                  <div className="space-y-3 pt-3">
+                    <div className="h-4 bg-gray-200 rounded w-48" />
+                    <div className="space-y-2.5">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-4 h-4 rounded-full bg-gray-200 shrink-0" />
+                        <div className="h-3.5 bg-gray-100 rounded w-10/12" />
+                      </div>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-4 h-4 rounded-full bg-gray-200 shrink-0" />
+                        <div className="h-3.5 bg-gray-100 rounded w-9/12" />
+                      </div>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-4 h-4 rounded-full bg-gray-200 shrink-0" />
+                        <div className="h-3.5 bg-gray-100 rounded w-11/12" />
+                      </div>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-4 h-4 rounded-full bg-gray-200 shrink-0" />
+                        <div className="h-3.5 bg-gray-100 rounded w-8/12" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Compliance Box Skeleton */}
+                  <div className="h-20 bg-gray-50 border border-gray-100 rounded-xl" />
+
+                  {/* Form Skeleton */}
+                  <div className="pt-4 border-t border-gray-100 space-y-4">
+                    <div className="h-4 bg-gray-200 rounded w-40" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="h-10 bg-gray-100 rounded" />
+                      <div className="h-10 bg-gray-100 rounded" />
+                    </div>
+                    <div className="h-10 bg-gray-100 rounded" />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* 1. Assignment Parameters (Start, End, Extension, Hours) */}
+                  {activeProject.shortDescriptionHtml ? (
+                    <div
+                      className="text-sm text-gray-800 leading-relaxed font-sans space-y-1 [&_p]:mb-0 [&_br]:block"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtml(activeProject.shortDescriptionHtml),
+                      }}
+                    />
+                  ) : null}
+
+                  {/* 2. Job Description with Show More / Show Less */}
+                  <div className="pt-2">
+                    <h4 className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-3">
+                      Job description
                     </h4>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      {activeProject.requirements.map((req, rIdx) => (
-                        <li key={rIdx} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-[#E30613] shrink-0 mt-0.5" />
-                          <span>{req}</span>
-                        </li>
-                      ))}
-                    </ul>
+
+                    <div className="relative">
+                      {activeProject.jobDescriptionHtml ? (
+                        <div
+                          className={`text-sm text-gray-700 leading-relaxed transition-all duration-300
+                            [&_p]:mb-4 [&_p]:text-sm [&_p]:leading-relaxed
+                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-3.5 [&_ul]:space-y-2.5 [&_ul]:text-sm
+                            [&_li]:text-gray-700 [&_li]:leading-relaxed
+                            [&_strong]:font-semibold [&_strong]:text-gray-900
+                            ${!isDescriptionExpanded ? 'line-clamp-6 max-h-56 overflow-hidden' : ''}
+                          `}
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHtml(activeProject.jobDescriptionHtml),
+                          }}
+                        />
+                      ) : (
+                        <p
+                          className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${!isDescriptionExpanded && activeProject.description.length > 250
+                            ? 'line-clamp-4 max-h-28 overflow-hidden'
+                            : ''
+                            }`}
+                        >
+                          {activeProject.description}
+                        </p>
+                      )}
+
+                      {/* Gradient fade overlay when collapsed */}
+                      {!isDescriptionExpanded && (
+                        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+                      )}
+                    </div>
+
+                    {/* Show More / Show Less Toggle Button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                      className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-[#E30613] hover:text-[#111827] transition-colors cursor-pointer py-1"
+                    >
+                      <span>{isDescriptionExpanded ? 'Show Less' : 'Show More...'}</span>
+                      {isDescriptionExpanded ? (
+                        <ChevronUp className="w-3.5 h-3.5" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* 3. Requirements & Qualifications */}
+                  <div className="pt-2">
+                    <h4 className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-2">
+                      Requirements
+                    </h4>
+
+                    {activeProject.requirementsHtml ? (
+                      <div
+                        className="text-sm text-gray-700 leading-relaxed
+                          [&_p]:mb-3 [&_p]:text-sm [&_p]:font-normal [&_p]:text-gray-900
+                          [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ul]:space-y-2.5 [&_ul]:text-sm
+                          [&_li]:text-gray-700 [&_li]:leading-relaxed
+                          [&_strong]:font-semibold [&_strong]:text-gray-900"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHtml(activeProject.requirementsHtml),
+                        }}
+                      />
+                    ) : (
+                      <div>
+                        <p className="text-sm font-normal text-gray-900 mb-2">Required Skills &amp; Experience</p>
+                        <ul className="list-disc pl-5 space-y-2.5 text-sm text-gray-700">
+                          {activeProject.requirements.map((req, rIdx) => (
+                            <li key={rIdx} className="leading-relaxed">
+                              {req}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   {/* Compliance Guarantee */}
@@ -726,29 +1000,35 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         </div>
                       </div>
 
-                      {/* File upload simulated */}
+                      {/* File upload to OTYS */}
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">
                           Resume / CV (PDF or Word)
                         </label>
-                        <div className="relative border border-dashed border-gray-300 rounded-lg p-3 text-center hover:border-[#E30613] transition-colors bg-gray-50/50">
+                        <div className="relative border border-dashed border-gray-300 rounded-lg p-3.5 text-center hover:border-[#E30613] transition-colors bg-gray-50/50">
                           <input
                             type="file"
                             accept=".pdf,.doc,.docx"
                             onChange={(e) => {
                               if (e.target.files && e.target.files[0]) {
-                                setCvFileName(e.target.files[0].name);
+                                setApplicantFile(e.target.files[0]);
                               }
                             }}
                             className="absolute inset-0 opacity-0 cursor-pointer"
                           />
                           <div className="flex items-center justify-center gap-2 text-xs text-gray-600">
-                            <Upload className="w-4 h-4 text-[#E30613]" />
+                            {applicantFile ? (
+                              <FileText className="w-4 h-4 text-emerald-600" />
+                            ) : (
+                              <Upload className="w-4 h-4 text-[#E30613]" />
+                            )}
                             <span>
-                              {cvFileName ? (
-                                <strong className="text-gray-900">{cvFileName}</strong>
+                              {applicantFile ? (
+                                <span className="font-semibold text-gray-900">
+                                  {applicantFile.name} ({(applicantFile.size / 1024).toFixed(0)} KB)
+                                </span>
                               ) : (
-                                'Click or drag your CV here (optional)'
+                                'Click or drag your CV here (.pdf, .doc, .docx)'
                               )}
                             </span>
                           </div>
@@ -770,9 +1050,17 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
                       <button
                         type="submit"
-                        className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer"
+                        disabled={isSubmitting}
+                        className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
                       >
-                        Submit Application to Macee Arnhem Desk
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Submitting Application to OTYS...</span>
+                          </>
+                        ) : (
+                          <span>Submit Application to Macee Arnhem Desk</span>
+                        )}
                       </button>
                     </form>
                   </div>
@@ -783,13 +1071,136 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         </div>
       )}
 
-      {/* 5. Job Alert Banner */}
+      {/* 5. OTYS API Key & Configuration Modal */}
+      {isConfigModalOpen && (
+        <div
+          data-lenis-prevent
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+          onClick={() => setIsConfigModalOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden p-6 sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg bg-red-50 text-[#E30613] flex items-center justify-center">
+                  <Key className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold font-display text-gray-900">
+                    OTYS API Configuration
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Manage recruitment connection &amp; environment keys
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsConfigModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="py-5 space-y-4">
+              <div className="p-3.5 rounded-xl bg-[#F8FAFB] border border-gray-200 text-xs text-gray-600 leading-relaxed">
+                <strong className="text-gray-900 block font-semibold mb-1">
+                  Environment File Setup (.env)
+                </strong>
+                A <code>.env</code> file is created in your project root. You can set <code>OTYS_API_KEY</code> and <code>OTYS_WEBSITE_ID</code> there, or paste your key below to connect immediately without server restarts.
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  OTYS API Key
+                </label>
+                <input
+                  type="password"
+                  placeholder="Paste your OTYS Web API Key"
+                  value={inputApiKey}
+                  onChange={(e) => setInputApiKey(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Website ID
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="2"
+                    value={inputWebsiteId}
+                    onChange={(e) => setInputWebsiteId(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Base URL
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    value={otysConfig.baseUrl}
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 text-xs"
+                  />
+                </div>
+              </div>
+
+              {testStatus.msg && (
+                <div
+                  className={`p-3 rounded-lg text-xs flex items-center gap-2 ${testStatus.success
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                    }`}
+                >
+                  {testStatus.success ? (
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                  )}
+                  <span>{testStatus.msg}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setIsConfigModalOpen(false)}
+                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-900 cursor-pointer"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSaveAndTestKey}
+                disabled={testStatus.loading || !inputApiKey.trim()}
+                className="px-5 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+              >
+                {testStatus.loading ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Verifying...</span>
+                  </>
+                ) : (
+                  <span>Verify &amp; Connect API</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. Job Alert Banner */}
       <JobalertBanner
         onNavigate={onNavigate}
         bgImage="/uploads/Hightech-Industry-3.jpg"
       />
 
-      {/* 6. Contact Form Section */}
+      {/* 7. Contact Form Section */}
       <ContactFormSection title="Have questions about our open projects?" />
     </div>
   );

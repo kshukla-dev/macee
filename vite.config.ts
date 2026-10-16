@@ -17,6 +17,15 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      proxy: {
+        '/api/otys': {
+          target: process.env.OTYS_API_BASE_URL || 'https://webapi.otys.app/api',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (p: string) => p.replace(/^\/api\/otys/, ''),
+        },
+      },
     },
+    envPrefix: ['VITE_', 'OTYS_', 'AUTH_'],
   };
 });
