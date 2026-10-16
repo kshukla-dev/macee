@@ -101,11 +101,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  // Settings / API Key modal state
-  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
-  const [inputApiKey, setInputApiKey] = useState('');
-  const [inputWebsiteId, setInputWebsiteId] = useState('2');
-  const [testStatus, setTestStatus] = useState<{ loading: boolean; success?: boolean; msg?: string }>({ loading: false });
+
 
   // Load vacancies from OTYS API or fallback to curated list
   const loadVacancies = useCallback(async () => {
@@ -292,41 +288,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     setCurrentPage(1);
   };
 
-  // Test and save OTYS API Key from UI
-  const handleSaveAndTestKey = async () => {
-    if (!inputApiKey.trim()) return;
-    setTestStatus({ loading: true });
-    try {
-      saveOtysCredentials(inputApiKey.trim(), inputWebsiteId.trim());
-      clearTokenCache();
-      const token = await requestNewToken();
-      if (token) {
-        setTestStatus({
-          loading: false,
-          success: true,
-          msg: 'Connection verified! Valid OTYS token acquired.'
-        });
-        setTimeout(() => {
-          setIsConfigModalOpen(false);
-          loadVacancies();
-        }, 1200);
-      }
-    } catch (err: any) {
-      setTestStatus({
-        loading: false,
-        success: false,
-        msg: `Connection test failed: ${err.message}`
-      });
-    }
-  };
-
   const hasActiveFilters =
     Boolean(keyword) ||
     selectedLocation !== 'All' ||
     selectedBranche !== 'All' ||
     selectedContract !== 'All';
-
-  const otysConfig = getOtysConfig();
 
   return (
     <div className="page_projects min-h-screen bg-[#F8FAFB]">
@@ -491,23 +457,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             )}
           </div>
 
-          {/* API Notification Bar if error or notice */}
-          {apiError && !isLiveConnected && (
-            <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-800">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>
-                  Showing verified assignments catalog. To sync live from your OTYS database, ensure your <strong>OTYS_API_KEY</strong> is set in <code>.env</code>.
-                </span>
-              </div>
-              <button
-                onClick={() => setIsConfigModalOpen(true)}
-                className="font-bold underline text-amber-900 hover:text-black cursor-pointer shrink-0 ml-3"
-              >
-                Configure Key
-              </button>
-            </div>
-          )}
+
 
           {/* 3. Project Cards Grid */}
           <div className="space-y-6">
@@ -1071,128 +1021,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         </div>
       )}
 
-      {/* 5. OTYS API Key & Configuration Modal */}
-      {isConfigModalOpen && (
-        <div
-          data-lenis-prevent
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
-          onClick={() => setIsConfigModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden p-6 sm:p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-lg bg-red-50 text-[#E30613] flex items-center justify-center">
-                  <Key className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold font-display text-gray-900">
-                    OTYS API Configuration
-                  </h3>
-                  <p className="text-xs text-gray-500">
-                    Manage recruitment connection &amp; environment keys
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsConfigModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
 
-            <div className="py-5 space-y-4">
-              <div className="p-3.5 rounded-xl bg-[#F8FAFB] border border-gray-200 text-xs text-gray-600 leading-relaxed">
-                <strong className="text-gray-900 block font-semibold mb-1">
-                  Environment File Setup (.env)
-                </strong>
-                A <code>.env</code> file is created in your project root. You can set <code>OTYS_API_KEY</code> and <code>OTYS_WEBSITE_ID</code> there, or paste your key below to connect immediately without server restarts.
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  OTYS API Key
-                </label>
-                <input
-                  type="password"
-                  placeholder="Paste your OTYS Web API Key"
-                  value={inputApiKey}
-                  onChange={(e) => setInputApiKey(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Website ID
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="2"
-                    value={inputWebsiteId}
-                    onChange={(e) => setInputWebsiteId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Base URL
-                  </label>
-                  <input
-                    type="text"
-                    disabled
-                    value={otysConfig.baseUrl}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 text-xs"
-                  />
-                </div>
-              </div>
-
-              {testStatus.msg && (
-                <div
-                  className={`p-3 rounded-lg text-xs flex items-center gap-2 ${testStatus.success
-                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                    : 'bg-red-50 text-red-800 border border-red-200'
-                    }`}
-                >
-                  {testStatus.success ? (
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : (
-                    <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
-                  )}
-                  <span>{testStatus.msg}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
-              <button
-                onClick={() => setIsConfigModalOpen(false)}
-                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-900 cursor-pointer"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleSaveAndTestKey}
-                disabled={testStatus.loading || !inputApiKey.trim()}
-                className="px-5 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
-              >
-                {testStatus.loading ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>Verifying...</span>
-                  </>
-                ) : (
-                  <span>Verify &amp; Connect API</span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 6. Job Alert Banner */}
       <JobalertBanner

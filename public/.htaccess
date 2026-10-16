@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Proxy /api/otys requests to OTYS Web API if mod_proxy is active
+  <IfModule mod_proxy.c>
+    SSLProxyEngine On
+    RewriteRule ^api/otys/(.*)$ https://webapi.otys.app/api/$1 [P,L]
+  </IfModule>
+
+  # SPA Routing: Fallback all requests to index.html
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

@@ -711,16 +711,11 @@ export async function getAllJobs(filterParams?: VacancyFilterParams): Promise<Pr
   const endpoint = buildVacanciesUrl(filterParams);
 
   try {
-    console.log(`🌐 [OTYS API] Calling GET ${endpoint}...`);
     const rawData = await apiRequest<any>(endpoint, { method: 'GET' });
-    console.log('✅ [OTYS API] Raw Vacancies Data Received:', rawData);
-
     const jobs = mapOtysCollectionToProjects(rawData);
-    console.log(`📋 [OTYS API] Successfully extracted and mapped ${jobs.length} jobs:`, jobs);
-
     return jobs.length > 0 ? jobs : ALL_PROJECTS;
   } catch (error) {
-    console.error('❌ [OTYS API] Failed to fetch all jobs, using fallback data:', error);
+    console.error('Failed to fetch vacancies, using fallback data:', error);
     return ALL_PROJECTS;
   }
 }
@@ -730,8 +725,6 @@ export async function getAllJobs(filterParams?: VacancyFilterParams): Promise<Pr
  */
 export async function fetchVacancies(params: VacancyFilterParams = {}): Promise<any[]> {
   const endpoint = buildVacanciesUrl(params);
-  console.log(`🌐 [OTYS API] Calling GET ${endpoint}...`);
-
   const response = await authenticatedFetch(endpoint);
   if (!response.ok) {
     const errText = await response.text().catch(() => '');
@@ -750,8 +743,6 @@ export async function fetchVacancies(params: VacancyFilterParams = {}): Promise<
 export async function fetchVacancyDetails(id: string | number): Promise<any> {
   const cleanId = String(id).replace(/^otys-/, '');
   const endpoint = API_ENDPOINTS.vacancies.details(cleanId);
-  console.log(`🔍 [OTYS API] Calling GET ${endpoint}...`);
-
   const response = await authenticatedFetch(endpoint);
   if (!response.ok) {
     const errText = await response.text().catch(() => '');
@@ -768,11 +759,7 @@ export async function fetchVacancyDetails(id: string | number): Promise<any> {
 export async function getJobDetails(id: string | number): Promise<ProjectAssignmentItem> {
   const cleanId = String(id).replace(/^otys-/, '');
   const endpoint = API_ENDPOINTS.vacancies.details(cleanId);
-  console.log(`🔍 [OTYS API] Fetching full assignment details: GET ${endpoint}...`);
-
   const rawData = await apiRequest<any>(endpoint, { method: 'GET' });
-  console.log('📄 [OTYS API] Raw Vacancy Details Received:', rawData);
-
   return mapOtysVacancyToProject(rawData);
 }
 

@@ -1,0 +1,5 @@
+# Netlify, Cloudflare Pages & Render Proxy Rules
+/api/otys/*  https://webapi.otys.app/api/:splat  200!
+
+# SPA Fallback for Client-Side Routing
+/*  /index.html  200

@@ -54,9 +54,9 @@ export function getOtysConfig(): OtysConfig {
     procEnv.OTYS_API_KEY ||
     DEFAULT_KEY;
 
-  // Use Vite proxy in localhost development to bypass browser CORS
+  // Always use the /api/otys proxy in browser environments (both local Vite dev and Vercel production)
+  // to prevent browser CORS errors since webapi.otys.app does not allow third-party client origins.
   const isBrowser = typeof window !== 'undefined';
-  const isLocalDev = isBrowser && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
   let baseUrl =
     localBaseUrl ||
@@ -65,7 +65,7 @@ export function getOtysConfig(): OtysConfig {
     procEnv.OTYS_API_BASE_URL ||
     'https://webapi.otys.app/api';
 
-  if (isLocalDev && (!localBaseUrl || localBaseUrl.includes('webapi.otys.app'))) {
+  if (isBrowser && (!localBaseUrl || localBaseUrl.includes('webapi.otys.app') || baseUrl.includes('webapi.otys.app'))) {
     baseUrl = '/api/otys';
   }
 
@@ -91,6 +91,36 @@ export function isOtysConfigured(): boolean {
   return Boolean(apiKey && apiKey.length > 5 && apiKey !== 'your_otys_api_key_here');
 }
 
+const TOKEN_STORAGE_KEY = '__macee_auth_session__';
+
+function getStoredToken(): TokenData | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.accessToken === 'string' && typeof parsed.expiresAt === 'number') {
+      return parsed;
+    }
+  } catch {
+    // Ignore JSON parse errors
+  }
+  return null;
+}
+
+function setStoredToken(tokenData: TokenData | null): void {
+  if (typeof window === 'undefined') return;
+  try {
+    if (tokenData) {
+      localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(tokenData));
+    } else {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+    }
+  } catch {
+    // Ignore storage quota errors
+  }
+}
+
 /**
  * Allows dynamic configuration of credentials directly from settings modal.
  */
@@ -107,6 +137,7 @@ export function saveOtysCredentials(apiKey: string, websiteId?: string, baseUrl?
  */
 export function clearTokenCache(): void {
   cachedToken = null;
+  setStoredToken(null);
   inFlightAuth = null;
   consecutiveFailures = 0;
   circuitBreakerTripUntil = 0;
@@ -136,7 +167,6 @@ export async function requestNewToken(): Promise<string> {
   const authUrl = baseUrl.endsWith('/') ? `${baseUrl}auth` : `${baseUrl}/auth`;
 
   try {
-    console.log(`🔑 [OTYS Auth] Requesting access token from: ${authUrl}...`);
     const res = await fetch(authUrl, {
       method: 'POST',
       headers: {
@@ -157,17 +187,15 @@ export async function requestNewToken(): Promise<string> {
     }
 
     const data = await res.json();
-    // OTYS Web API returns { access_token: "...", token_type: "Bearer", expires_in: 50400 }
     const token = data.access_token || data.accessToken || data.token;
 
     if (!token) {
-      throw new Error(`OTYS Auth response did not contain an access_token. Received: ${Object.keys(data).join(', ')}`);
+      throw new Error('OTYS Auth response did not contain an access_token.');
     }
 
+    // Default to ~12 hours validity if not provided by backend
     const expiresInSeconds = Number(data.expires_in) || Number(data.expiresIn) || 12 * 3600;
     const expiresInMs = expiresInSeconds * 1000;
-
-    console.log(`✅ [OTYS Auth] Bearer token acquired! (Expires in ~${Math.round(expiresInSeconds / 3600)}h)`);
 
     cachedToken = {
       accessToken: token,
@@ -175,12 +203,15 @@ export async function requestNewToken(): Promise<string> {
       expiresAt: Date.now() + expiresInMs,
     };
 
+    // Persist in localStorage so it is not requested again across page reloads/tabs for 12 hours
+    setStoredToken(cachedToken);
+
     consecutiveFailures = 0;
     circuitBreakerTripUntil = 0;
     return token;
   } catch (err: unknown) {
     consecutiveFailures++;
-    console.error('❌ [OTYS Auth] Token request error:', err);
+    console.error('OTYS Auth request error:', err);
     if (consecutiveFailures >= MAX_FAILURES) {
       circuitBreakerTripUntil = Date.now() + CIRCUIT_COOLDOWN_MS;
     }
@@ -190,16 +221,27 @@ export async function requestNewToken(): Promise<string> {
 
 /**
  * Returns a valid cached Bearer token, or requests a fresh one if expired.
- * (Refreshes proactively 5 minutes before expiration).
+ * Checks memory and localStorage first before making any network request.
+ * (Refreshes proactively 5 minutes before the 12-hour expiration).
  */
 export async function getValidToken(forceRefresh = false): Promise<string> {
   const REFRESH_BUFFER = 5 * 60 * 1000; // 5 minutes before expiry
 
+  // 1. Check in-memory token
   if (!forceRefresh && cachedToken && Date.now() < cachedToken.expiresAt - REFRESH_BUFFER) {
     return cachedToken.accessToken;
   }
 
-  // Deduplicate concurrent token requests: reuse pending promise
+  // 2. Check persistent localStorage token (persists across refreshes for 12 hours)
+  if (!forceRefresh) {
+    const stored = getStoredToken();
+    if (stored && Date.now() < stored.expiresAt - REFRESH_BUFFER) {
+      cachedToken = stored;
+      return stored.accessToken;
+    }
+  }
+
+  // 3. Deduplicate concurrent token requests: reuse pending promise
   if (inFlightAuth && !forceRefresh) {
     return inFlightAuth;
   }
