@@ -198,16 +198,24 @@ export function resolveUrl(endpoint: string): string {
 
 /**
  * Low-level authenticated fetch wrapper:
- * 1. Directly uses secure server-side proxy for /api/otys endpoints (no client-side auth tokens or keys exposed)
- * 2. Only attaches client-side token if directly calling external URL
+ * 1. Automatically injects Bearer token
+ * 2. Injects required Website-ID header
+ * 3. On 401 Unauthorized, automatically refreshes token and retries once
  */
 export async function authenticatedFetch(
   endpoint: string,
   options: ApiRequestOptions = {}
 ): Promise<Response> {
-  const { headers, ...restOptions } = options;
+  const { _hasRetried = false, headers, ...restOptions } = options;
 
+  // 1. Get valid access token
+  const token = await getValidToken();
+
+  // 2. Setup request headers
   const reqHeaders = new Headers(headers);
+  if (!reqHeaders.has('Authorization')) {
+    reqHeaders.set('Authorization', `Bearer ${token}`);
+  }
   if (!reqHeaders.has('Content-Type') && !(restOptions.body instanceof FormData)) {
     reqHeaders.set('Content-Type', 'application/json');
   }
@@ -215,25 +223,16 @@ export async function authenticatedFetch(
     reqHeaders.set('Accept', 'application/ld+json, application/json');
   }
 
-  const fullUrl = resolveUrl(endpoint);
-
-  // If calling an absolute external URL directly (fallback), inject client token
-  if (fullUrl.startsWith('http://') || fullUrl.startsWith('https://')) {
-    try {
-      const token = await getValidToken();
-      if (token && !reqHeaders.has('Authorization')) {
-        reqHeaders.set('Authorization', `Bearer ${token}`);
-      }
-      const { websiteId } = getAuthConfig();
-      if (websiteId && !reqHeaders.has('Website-ID')) {
-        reqHeaders.set('Website-ID', websiteId);
-      }
-    } catch {
-      // In proxy mode, server handles token injection
-    }
+  // 3. Attach Website-ID header
+  const { websiteId } = getAuthConfig();
+  if (!reqHeaders.has('Website-ID') && websiteId) {
+    reqHeaders.set('Website-ID', websiteId);
   }
 
-  // Send request directly to secure proxy
+  // 4. Resolve absolute URL
+  const fullUrl = resolveUrl(endpoint);
+
+  // 5. Send HTTP request
   let response: Response;
   try {
     response = await fetch(fullUrl, {
@@ -252,6 +251,22 @@ export async function authenticatedFetch(
       const msg = networkError instanceof Error ? networkError.message : String(networkError);
       console.error(`[API Network Error] ${fullUrl}:`, msg);
       throw networkError;
+    }
+  }
+
+  // 6. Handle 401 Unauthorized (Token expired): Refresh token and retry once
+  if (response.status === 401 && !_hasRetried) {
+    console.warn('[API Auth] 401 received. Refreshing token and retrying...');
+    try {
+      clearToken();
+      await getValidToken(true);
+      return await authenticatedFetch(endpoint, {
+        ...options,
+        _hasRetried: true,
+      });
+    } catch (refreshErr) {
+      console.error('[API Auth] Token refresh retry failed:', refreshErr);
+      return response;
     }
   }
 

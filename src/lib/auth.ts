@@ -44,15 +44,18 @@ export function getOtysConfig(): OtysConfig {
   const localKey = typeof window !== 'undefined' ? localStorage.getItem('OTYS_API_KEY') || '' : '';
   const localBaseUrl = typeof window !== 'undefined' ? localStorage.getItem('OTYS_API_BASE_URL') || '' : '';
 
+  // Default API Key
+  const DEFAULT_KEY = 'gv0MSr8EV3HovrVzLWcCQ0SkkA8PiortyNWZ2/zrih9IfsTZQ8y33Q==';
+
   const apiKey =
     localKey ||
     env.VITE_OTYS_API_KEY ||
     env.OTYS_API_KEY ||
     procEnv.OTYS_API_KEY ||
-    '';
+    DEFAULT_KEY;
 
   // Always use the /api/otys proxy in browser environments (both local Vite dev and Vercel production)
-  // to prevent browser CORS errors and keep auth credentials confidential on the server.
+  // to prevent browser CORS errors since webapi.otys.app does not allow third-party client origins.
   const isBrowser = typeof window !== 'undefined';
 
   let baseUrl =
@@ -60,9 +63,9 @@ export function getOtysConfig(): OtysConfig {
     env.VITE_OTYS_API_BASE_URL ||
     env.OTYS_API_BASE_URL ||
     procEnv.OTYS_API_BASE_URL ||
-    '/api/otys';
+    'https://webapi.otys.app/api';
 
-  if (isBrowser) {
+  if (isBrowser && (!localBaseUrl || localBaseUrl.includes('webapi.otys.app') || baseUrl.includes('webapi.otys.app'))) {
     baseUrl = '/api/otys';
   }
 
@@ -81,10 +84,11 @@ export function getOtysConfig(): OtysConfig {
 }
 
 /**
- * Checks if OTYS recruitment connectivity is enabled.
+ * Checks if a valid OTYS API key is present.
  */
 export function isOtysConfigured(): boolean {
-  return true; // Managed securely by server proxy
+  const { apiKey } = getOtysConfig();
+  return Boolean(apiKey && apiKey.length > 5 && apiKey !== 'your_otys_api_key_here');
 }
 
 const TOKEN_STORAGE_KEY = '__macee_auth_session__';
