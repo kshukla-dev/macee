@@ -38,13 +38,7 @@ import {
   sanitizeHtml,
   API_ENDPOINTS
 } from '../lib/api';
-import {
-  isOtysConfigured,
-  getOtysConfig,
-  saveOtysCredentials,
-  requestNewToken,
-  clearTokenCache
-} from '../lib/auth';
+import { isOtysConfigured } from '../lib/auth';
 
 export interface ProjectAssignmentItem {
   id: string;

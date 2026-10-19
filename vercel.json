@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/otys/:path*",
-      "destination": "https://webapi.otys.app/api/:path*"
+      "destination": "/api/otys"
     },
     {
       "source": "/(.*)",

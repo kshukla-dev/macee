@@ -84,10 +84,11 @@ export function getOtysConfig(): OtysConfig {
 }
 
 /**
- * Checks if a valid OTYS API key is present.
+ * Checks if OTYS integration is configured.
  */
 export function isOtysConfigured(): boolean {
-  const { apiKey } = getOtysConfig();
+  const { baseUrl, apiKey } = getOtysConfig();
+  if (baseUrl === '/api/otys') return true;
   return Boolean(apiKey && apiKey.length > 5 && apiKey !== 'your_otys_api_key_here');
 }
 

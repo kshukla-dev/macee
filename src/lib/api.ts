@@ -208,14 +208,12 @@ export async function authenticatedFetch(
 ): Promise<Response> {
   const { _hasRetried = false, headers, ...restOptions } = options;
 
-  // 1. Get valid access token
-  const token = await getValidToken();
+  // 1. Resolve absolute URL
+  const fullUrl = resolveUrl(endpoint);
+  const isProxy = fullUrl.startsWith('/api/otys') || fullUrl.includes('/api/otys');
 
   // 2. Setup request headers
   const reqHeaders = new Headers(headers);
-  if (!reqHeaders.has('Authorization')) {
-    reqHeaders.set('Authorization', `Bearer ${token}`);
-  }
   if (!reqHeaders.has('Content-Type') && !(restOptions.body instanceof FormData)) {
     reqHeaders.set('Content-Type', 'application/json');
   }
@@ -223,16 +221,25 @@ export async function authenticatedFetch(
     reqHeaders.set('Accept', 'application/ld+json, application/json');
   }
 
-  // 3. Attach Website-ID header
-  const { websiteId } = getAuthConfig();
-  if (!reqHeaders.has('Website-ID') && websiteId) {
-    reqHeaders.set('Website-ID', websiteId);
+  // 3. Attach Bearer token & Website-ID:
+  // When using server proxy (/api/otys), authentication is handled securely on the server side
+  // so the auth payload & token remain 100% private and never appear in browser DevTools.
+  if (!isProxy) {
+    try {
+      const token = await getValidToken();
+      if (!reqHeaders.has('Authorization')) {
+        reqHeaders.set('Authorization', `Bearer ${token}`);
+      }
+      const { websiteId } = getAuthConfig();
+      if (!reqHeaders.has('Website-ID') && websiteId) {
+        reqHeaders.set('Website-ID', websiteId);
+      }
+    } catch (authErr) {
+      console.warn('[API Auth] Client token resolution skipped:', authErr);
+    }
   }
 
-  // 4. Resolve absolute URL
-  const fullUrl = resolveUrl(endpoint);
-
-  // 5. Send HTTP request
+  // 4. Send HTTP request
   let response: Response;
   try {
     response = await fetch(fullUrl, {
@@ -254,20 +261,21 @@ export async function authenticatedFetch(
     }
   }
 
-  // 6. Handle 401 Unauthorized (Token expired): Refresh token and retry once
+  // 5. Handle 401 Unauthorized (Token expired): Retry once
   if (response.status === 401 && !_hasRetried) {
-    console.warn('[API Auth] 401 received. Refreshing token and retrying...');
-    try {
+    console.warn('[API Auth] 401 received. Retrying request...');
+    if (!isProxy) {
       clearToken();
-      await getValidToken(true);
-      return await authenticatedFetch(endpoint, {
-        ...options,
-        _hasRetried: true,
-      });
-    } catch (refreshErr) {
-      console.error('[API Auth] Token refresh retry failed:', refreshErr);
-      return response;
+      try {
+        await getValidToken(true);
+      } catch (refreshErr) {
+        console.error('[API Auth] Token refresh retry failed:', refreshErr);
+      }
     }
+    return await authenticatedFetch(endpoint, {
+      ...options,
+      _hasRetried: true,
+    });
   }
 
   return response;
