@@ -240,17 +240,20 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
     try {
       let fileId: string | undefined;
+      let owsFileUid: string | undefined;
 
       // 1. Upload CV file to OTYS if file selected and OTYS configured
       if (applicantFile && isOtysConfigured()) {
         try {
-          fileId = await uploadCvFile(applicantFile);
+          const uploadRes = await uploadCvFile(applicantFile);
+          fileId = typeof uploadRes === 'object' ? uploadRes.fileId : String(uploadRes);
+          owsFileUid = typeof uploadRes === 'object' && uploadRes.owsFileUid ? uploadRes.owsFileUid : undefined;
         } catch (uploadErr: any) {
           console.warn('CV file upload notice:', uploadErr.message);
         }
       }
 
-      // 2. Submit application into OTYS recruitment system
+      // 2. Submit application into OTYS recruitment system & bind CV to Dossier in OTYS Go!
       if (isOtysConfigured()) {
         const cleanVacancyId = activeProject.id.replace('otys-', '').replace('macee-', '');
         const res = await submitVacancyApplication(cleanVacancyId, {
@@ -260,6 +263,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
           rate: applicantRate,
           note: applicantNote,
           fileId,
+          owsFileUid,
         });
         setSubmitMessage(res.message);
       } else {

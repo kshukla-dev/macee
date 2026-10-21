@@ -1,4 +1,19 @@
 import 'dotenv/config';
+import dns from 'node:dns';
+import {
+  loginOws,
+  logoutOws,
+  uploadFileToOws,
+  getOrCreateCandidateOuid,
+  attachDocumentToCandidateDossier,
+} from './otysOws.js';
+
+// Ensure IPv4 first to avoid IPv6 connect timeouts on ows.otys.nl
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) {
+  // Ignore in environments where this isn't supported
+}
 
 let cachedToken = null;
 let tokenExpiresAt = 0;
@@ -67,6 +82,10 @@ export function clearServerTokenCache() {
  * Universal server proxy handler for OTYS API requests.
  * Automatically injects Bearer token & Website-ID headers on the server side,
  * keeping the secret API key and authentication payload completely private from browser DevTools.
+ *
+ * Special Handlers:
+ * 1. POST /files: Uploads to OTYS REST /files and OWS fileService.php, returning both id & owsFileUid.
+ * 2. POST /vacancy_application/:id: Submits application to OTYS and binds the CV directly to candidate dossier in OTYS Go!
  */
 export async function handleOtysProxy(req, res, subPath = '') {
   try {
@@ -112,6 +131,41 @@ export async function handleOtysProxy(req, res, subPath = '') {
       fetchOptions.body = bodyBuffer;
     }
 
+    // ========================================================================
+    // SPECIAL HANDLER 1: POST /files (Dual Upload to REST + OWS fileService)
+    // ========================================================================
+    const isFileUpload = req.method === 'POST' && cleanSubPath.replace(/\?.*$/, '') === '/files';
+    let owsFileUid = null;
+    let uploadedFileName = 'resume.pdf';
+
+    if (isFileUpload && bodyBuffer && req.headers['content-type']) {
+      try {
+        const dummyReq = new Request('http://localhost', {
+          method: 'POST',
+          headers: { 'content-type': req.headers['content-type'] },
+          body: bodyBuffer,
+        });
+        const formData = await dummyReq.formData();
+        const file = formData.get('file') || formData.get('cv');
+        if (file && typeof file === 'object') {
+          uploadedFileName = file.name || 'resume.pdf';
+          const sessionToken = await loginOws();
+          try {
+            console.log(`[Proxy] Uploading '${uploadedFileName}' to OWS fileService.php...`);
+            owsFileUid = await uploadFileToOws(sessionToken, file, uploadedFileName);
+            console.log(`[Proxy] OWS file uploaded successfully, OUID: ${owsFileUid}`);
+          } finally {
+            await logoutOws(sessionToken);
+          }
+        }
+      } catch (owsErr) {
+        console.warn('[Proxy OWS File Upload Warning (non-fatal)]:', owsErr.message);
+      }
+    }
+
+    // ========================================================================
+    // SEND UPSTREAM REQUEST TO OTYS REST API
+    // ========================================================================
     let upstreamRes = await fetch(targetUrl, fetchOptions);
 
     // If 401 Unauthorized received, refresh token on server and retry once
@@ -121,6 +175,117 @@ export async function handleOtysProxy(req, res, subPath = '') {
       upstreamRes = await fetch(targetUrl, fetchOptions);
     }
 
+    // If file upload, merge REST ID and OWS OUID into response
+    if (isFileUpload) {
+      let restData = {};
+      try {
+        restData = await upstreamRes.json();
+      } catch {
+        restData = {};
+      }
+
+      let restId = '';
+      if (Array.isArray(restData) && restData[0]?.id) {
+        restId = String(restData[0].id);
+      } else if (restData && typeof restData === 'object' && restData.id) {
+        restId = String(restData.id);
+      }
+
+      const mergedResponse = {
+        ...(typeof restData === 'object' && restData !== null ? restData : {}),
+        id: restId || owsFileUid || '',
+        fileId: restId || owsFileUid || '',
+        owsFileUid: owsFileUid || null,
+        name: uploadedFileName,
+      };
+
+      res.writeHead(upstreamRes.status >= 200 && upstreamRes.status < 300 ? upstreamRes.status : 201, {
+        'Content-Type': 'application/json',
+      });
+      res.end(Buffer.from(JSON.stringify(mergedResponse)));
+      return;
+    }
+
+    // ========================================================================
+    // SPECIAL HANDLER 2: POST /vacancy_application/:id (Bind CV to Candidate Dossier)
+    // ========================================================================
+    const isVacancyApplication =
+      req.method === 'POST' && cleanSubPath.startsWith('/vacancy_application');
+
+    if (isVacancyApplication) {
+      let restAppResponse = {};
+      const responseArrayBuffer = await upstreamRes.arrayBuffer();
+      try {
+        restAppResponse = JSON.parse(Buffer.from(responseArrayBuffer).toString('utf-8'));
+      } catch {
+        // Not JSON
+      }
+
+      // Check if application was accepted (200, 201, or 409 duplicate)
+      let dossierId = null;
+      if (upstreamRes.status >= 200 && upstreamRes.status < 300 && bodyBuffer) {
+        try {
+          const appPayload = JSON.parse(bodyBuffer.toString('utf-8'));
+          const candidateOwsFileUid =
+            appPayload.owsFileUid ||
+            appPayload.fileUid ||
+            appPayload.answers?.q1356391 ||
+            null;
+
+          let firstName = appPayload.firstName || appPayload.answers?.q1356387 || '';
+          let lastName = appPayload.lastName || appPayload.answers?.q1356388 || '';
+          const email = appPayload.email || appPayload.answers?.q1356389 || '';
+          const phone = appPayload.phone || appPayload.answers?.q1356390 || '';
+
+          if (!firstName && appPayload.name) {
+            const parts = String(appPayload.name).trim().split(' ');
+            firstName = parts[0] || 'Applicant';
+            lastName = parts.slice(1).join(' ') || '.';
+          }
+
+          if (candidateOwsFileUid && (firstName || email)) {
+            console.log(`[Proxy] Attaching CV '${candidateOwsFileUid}' to candidate '${firstName} ${lastName}' Dossier via OWS...`);
+            const sessionToken = await loginOws();
+            try {
+              const candidateUid = await getOrCreateCandidateOuid(
+                sessionToken,
+                firstName,
+                lastName,
+                email,
+                phone
+              );
+              if (candidateUid) {
+                dossierId = await attachDocumentToCandidateDossier(
+                  sessionToken,
+                  candidateUid,
+                  candidateOwsFileUid,
+                  `${firstName} ${lastName}`.trim()
+                );
+                console.log(`[Proxy Success] CV attached to Candidate Dossier! Dossier ID: ${dossierId}`);
+              }
+            } finally {
+              await logoutOws(sessionToken);
+            }
+          }
+        } catch (dossierErr) {
+          console.error('[Proxy Dossier Attachment Error (non-fatal)]:', dossierErr.message);
+        }
+      }
+
+      const finalResponse = {
+        ...(typeof restAppResponse === 'object' && restAppResponse !== null ? restAppResponse : {}),
+        success: upstreamRes.ok,
+        dossierId,
+      };
+
+      res.writeHead(upstreamRes.status, {
+        'Content-Type': 'application/json',
+      });
+      res.end(Buffer.from(JSON.stringify(finalResponse)));
+      return;
+    }
+
+    // Standard Pass-Through for all other endpoints
     res.writeHead(upstreamRes.status, {
       'Content-Type': upstreamRes.headers.get('content-type') || 'application/json',
     });

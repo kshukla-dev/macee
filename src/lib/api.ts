@@ -771,11 +771,18 @@ export async function getJobDetails(id: string | number): Promise<ProjectAssignm
   return mapOtysVacancyToProject(rawData);
 }
 
+export interface UploadCvResult {
+  fileId: string;
+  id: string;
+  owsFileUid?: string | null;
+  name?: string;
+}
+
 /**
  * Uploads a CV or resume file to OTYS: POST /files
- * Returns the generated OTYS file ID.
+ * Returns the generated OTYS file ID and OWS file UID.
  */
-export async function uploadCvFile(file: File): Promise<string> {
+export async function uploadCvFile(file: File): Promise<UploadCvResult> {
   const formData = new FormData();
   formData.append('file', file, file.name);
 
@@ -791,12 +798,22 @@ export async function uploadCvFile(file: File): Promise<string> {
 
   const result = await response.json();
   const fileId = Array.isArray(result) ? result[0]?.id : (result?.id || result?.fileId);
+  const owsFileUid = result?.owsFileUid || null;
 
-  if (!fileId) {
+  if (!fileId && !owsFileUid) {
     throw new Error('OTYS did not return a valid file ID for the uploaded CV.');
   }
 
-  return String(fileId);
+  const validId = String(fileId || owsFileUid);
+  return {
+    fileId: validId,
+    id: validId,
+    owsFileUid,
+    name: file.name,
+    toString() {
+      return validId;
+    },
+  } as UploadCvResult;
 }
 
 export const uploadOtysFile = uploadCvFile;
@@ -811,19 +828,21 @@ export interface ApplicationSubmissionData {
   rate?: string;
   note?: string;
   fileId?: string;
+  owsFileUid?: string;
 }
 
 /**
  * Submits a candidate job application to OTYS: POST /vacancy_application/{vacancyId}
+ * Also binds the uploaded CV directly to the candidate's dossier in OTYS Go!
  */
 export async function submitVacancyApplication(
   vacancyId: string | number,
-  data: ApplicationSubmissionData | { answers: Record<string, string | string[]>; metaData?: Record<string, unknown> }
-): Promise<{ success: boolean; message: string }> {
-  let payload: { answers: Record<string, any>; metaData?: Record<string, unknown> };
+  data: ApplicationSubmissionData | { answers: Record<string, string | string[]>; metaData?: Record<string, unknown>; owsFileUid?: string }
+): Promise<{ success: boolean; message: string; dossierId?: string | null }> {
+  let payload: Record<string, any>;
 
   if ('answers' in data) {
-    payload = data as any;
+    payload = { ...data };
   } else {
     const nameParts = data.name.trim().split(' ');
     const firstName = nameParts[0] || 'Applicant';
@@ -841,6 +860,13 @@ export async function submitVacancyApplication(
     if (data.fileId) answers.q1356391 = data.fileId;
 
     payload = {
+      firstName,
+      lastName,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      fileId: data.fileId,
+      owsFileUid: data.owsFileUid,
       answers,
       metaData: {
         utmTags: {
@@ -879,8 +905,11 @@ export async function submitVacancyApplication(
     throw new Error(`Application failed (Status ${response.status}): ${errorText || response.statusText}`);
   }
 
+  const resJson = await response.json().catch(() => ({}));
+
   return {
     success: true,
-    message: 'Your application has been successfully submitted directly into OTYS Recruitment System!',
+    message: 'Your application and CV have been successfully submitted into OTYS Recruitment System!',
+    dossierId: resJson?.dossierId || null,
   };
 }
