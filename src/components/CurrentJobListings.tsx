@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { ArrowRight, MapPin, Briefcase, Clock, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { ArrowRight, MapPin, Briefcase, Clock, CheckCircle, Loader2, Sparkles } from 'lucide-react';
 import { JOBS_DATA } from '../data/content';
 import { JobListing } from '../types';
+import { getAllJobs } from '../lib/api';
+import { ProjectAssignmentItem } from '../pages/ProjectsPage';
+import { isOtysConfigured } from '../lib/auth';
 
 interface CurrentJobListingsProps {
   onSelectJob: (job: JobListing) => void;
@@ -13,15 +16,82 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
   onExploreAllJobs
 }) => {
   const [selectedDept, setSelectedDept] = useState<string>('All');
+  const [jobs, setJobs] = useState<JobListing[]>(JOBS_DATA);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLiveConnected, setIsLiveConnected] = useState<boolean>(false);
 
-  const departments = ['All', 'ICT / Software Development', 'Banking & Fintech', 'Government & Public Sector', 'High Tech Industry'];
+  // Load real vacancies from OTYS API
+  useEffect(() => {
+    let isMounted = true;
 
-  const filteredJobs = selectedDept === 'All' 
-    ? JOBS_DATA 
-    : JOBS_DATA.filter(j => j.department === selectedDept);
+    async function loadApiJobs() {
+      if (!isOtysConfigured()) return;
+      setIsLoading(true);
+
+      try {
+        const apiProjects: ProjectAssignmentItem[] = await getAllJobs({ itemsPerPage: 10 });
+
+        if (isMounted && Array.isArray(apiProjects) && apiProjects.length > 0) {
+          const mappedListings: JobListing[] = apiProjects.map((proj) => {
+            const cleanDesc =
+              proj.description ||
+              (proj.shortDescriptionHtml ? proj.shortDescriptionHtml.replace(/<[^>]+>/g, '').trim() : '') ||
+              'Explore this exciting vacancy at Macee and enterprise clients.';
+
+            return {
+              id: proj.id,
+              title: proj.title,
+              department: proj.branche || proj.category || 'Consulting & Engineering',
+              location: proj.location || 'Netherlands',
+              type: proj.contractType || proj.hours || 'Permanent / Fulltime',
+              experience: proj.experience || 'Professional',
+              description: cleanDesc,
+              requirements:
+                proj.requirements && proj.requirements.length > 0
+                  ? proj.requirements
+                  : [
+                    'Relevant professional experience',
+                    'Strong communication & collaboration skills',
+                    'High dedication to quality and enterprise standards',
+                  ],
+            };
+          });
+
+          setJobs(mappedListings);
+          setIsLiveConnected(true);
+        }
+      } catch (err) {
+        console.warn('[CurrentJobListings] Could not load live OTYS vacancies, using fallback:', err);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    }
+
+    loadApiJobs();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Compute dynamic departments from available jobs
+  const departments = useMemo(() => {
+    const set = new Set<string>(['All']);
+    jobs.forEach((j) => {
+      if (j.department && j.department.trim()) {
+        set.add(j.department.trim());
+      }
+    });
+    return Array.from(set);
+  }, [jobs]);
+
+  const filteredJobs = useMemo(() => {
+    if (selectedDept === 'All') return jobs;
+    return jobs.filter((j) => j.department?.toLowerCase() === selectedDept.toLowerCase());
+  }, [jobs, selectedDept]);
 
   return (
-    <section 
+    <section
       id="jobs"
       className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100"
     >
@@ -30,8 +100,11 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
           {/* Left Column: Heading, intro, and jobs list */}
           <div className="lg:col-span-7 space-y-6 text-left jobs-content">
             <div>
-              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-                Vacancies & Assignments
+              <div className="flex items-center gap-2 mb-2">
+                <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613]">
+                  Vacancies & Assignments
+                </span>
+
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
                 Current Projects & Assignments
@@ -46,21 +119,30 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             </p>
 
             {/* Department filter tabs */}
-            <div className="flex flex-wrap gap-2 pt-2">
-              {departments.map((dept) => (
-                <button
-                  key={dept}
-                  onClick={() => setSelectedDept(dept)}
-                  className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
-                    selectedDept === dept
-                      ? 'bg-[#111827] text-white shadow-xs'
-                      : 'bg-[#F8FAFB] text-[#54595F] hover:bg-gray-100'
-                  }`}
-                >
-                  {dept}
-                </button>
-              ))}
-            </div>
+            {departments.length > 1 && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {departments.map((dept) => (
+                  <button
+                    key={dept}
+                    onClick={() => setSelectedDept(dept)}
+                    className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${selectedDept === dept
+                        ? 'bg-[#111827] text-white shadow-xs'
+                        : 'bg-[#F8FAFB] text-[#54595F] hover:bg-gray-100'
+                      }`}
+                  >
+                    {dept}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Loading Indicator */}
+            {isLoading && (
+              <div className="flex items-center gap-2 py-4 text-xs text-gray-500">
+                <Loader2 className="w-4 h-4 animate-spin text-[#E30613]" />
+                <span>Syncing live vacancies from OTYS recruitment system...</span>
+              </div>
+            )}
 
             {/* Jobs List */}
             <div className="space-y-3 pt-2">
@@ -103,12 +185,12 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             </div>
 
             {/* CTA Button */}
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={onExploreAllJobs}
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
               >
-                <span>Create a Jobalert</span>
+                <span>Browse All Projects</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -131,7 +213,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                   <span>Can't find the project you are looking for?</span>
                 </div>
                 <p className="text-xs text-[#54595F] mt-1">
-                  Create a Jobalert to receive automated email notifications when suitable projects open!
+                  Create a Jobalert or browse all open vacancies to receive automated notifications when suitable projects open!
                 </p>
               </div>
             </div>

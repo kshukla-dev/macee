@@ -380,9 +380,7 @@ export default function App() {
             {/* 7. Current Projects & Assignments */}
             <CurrentJobListings
               onSelectJob={(job) => setSelectedJob(job)}
-              onExploreAllJobs={() => {
-                if (JOBS_DATA.length > 0) setSelectedJob(JOBS_DATA[0]);
-              }}
+              onExploreAllJobs={() => setCurrentPage('projects')}
             />
 
             {/* 8. Compliance Risk Assessment Banner */}

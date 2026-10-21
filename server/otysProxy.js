@@ -1,12 +1,5 @@
 import 'dotenv/config';
 import dns from 'node:dns';
-import {
-  loginOws,
-  logoutOws,
-  uploadFileToOws,
-  getOrCreateCandidateOuid,
-  attachDocumentToCandidateDossier,
-} from './otysOws.js';
 
 // Ensure IPv4 first to avoid IPv6 connect timeouts on ows.otys.nl
 try {
