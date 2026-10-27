@@ -75,71 +75,20 @@ export const Header: React.FC<HeaderProps> = ({
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
 
 
-          {/* About Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setActiveDropdown('about')}
-            onMouseLeave={() => setActiveDropdown(null)}
+          {/* About */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('about');
+              } else {
+                onNavigateSection('why-wfs');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'about' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
-            <button
-              onClick={() => {
-                if (onNavigatePage) {
-                  onNavigatePage('about');
-                } else {
-                  onNavigateSection('why-wfs');
-                }
-              }}
-              className={`nav-button rounded-md group ${currentPage === 'about' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
-                }`}
-            >
-              <span>About Us</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
-            </button>
-
-            {activeDropdown === 'about' && (
-              <div className="absolute top-full left-0 w-52 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
-                <button
-                  onClick={() => {
-                    if (onNavigatePage) {
-                      onNavigatePage('about');
-                    } else {
-                      onNavigateSection('why-wfs');
-                    }
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  About Us Overview
-                </button>
-                <button
-                  onClick={() => {
-                    if (onNavigatePage) {
-                      onNavigatePage('about');
-                    } else {
-                      onNavigateSection('why-wfs');
-                    }
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  What We Do & How We Work
-                </button>
-                <button
-                  onClick={() => {
-                    if (onNavigatePage) {
-                      onNavigatePage('about');
-                    } else {
-                      onNavigateSection('why-wfs');
-                    }
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Team MACEE
-                </button>
-              </div>
-            )}
-          </div>
+            About Us
+          </button>
 
           {/* Clients Dropdown */}
           <div

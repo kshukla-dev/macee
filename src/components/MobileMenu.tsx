@@ -46,18 +46,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   };
 
   return (
-    <div 
+    <div
       data-lenis-prevent
       className="fixed inset-0 z-50 lg:hidden flex flex-col justify-between bg-white overflow-y-auto"
       onWheel={(e) => e.stopPropagation()}
     >
       {/* Top Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-100">
-        <a 
-          href="/" 
-          onClick={(e) => { 
-            e.preventDefault(); 
-            handlePage('home'); 
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            handlePage('home');
           }}
           className="cursor-pointer"
         >
@@ -78,40 +78,14 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       {/* Nav List */}
       <div className="p-6 space-y-4 flex-1">
 
-        {/* About Accordion */}
-        <div className="border-b border-gray-100 pb-2">
+        {/* About */}
+        <div>
           <button
             onClick={() => handlePage('about')}
-            className="w-full flex items-center justify-between py-2 text-base font-medium text-gray-800 cursor-pointer"
+            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            <span>About Us</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'about' ? 'rotate-180 text-[#E30613]' : ''
-                }`}
-            />
+            About Us
           </button>
-          {expandedSection === 'about' && (
-            <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button
-                onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
-              >
-                About Us Overview
-              </button>
-              <button
-                onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
-              >
-                What We Do & How We Work
-              </button>
-              <button
-                onClick={() => handlePage('about')}
-                className="w-full text-left py-1 hover:text-[#E30613] cursor-pointer"
-              >
-                Team MACEE
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Clients Accordion */}
