@@ -1,14 +1,14 @@
 import React from 'react';
 import { ContactFormSection } from '../components/ContactFormSection';
-import { 
-  CheckCircle2, 
-  Mail, 
-  Phone, 
-  Sparkles, 
-  ShieldCheck, 
-  Users, 
-  Briefcase, 
-  ArrowUpRight, 
+import {
+  CheckCircle2,
+  Mail,
+  Phone,
+  Sparkles,
+  ShieldCheck,
+  Users,
+  Briefcase,
+  ArrowUpRight,
   ArrowRight,
   Award,
   Globe2,
@@ -75,7 +75,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
   return (
     <div className="page_about">
       {/* 1. Hero Section - Matching Home Page 2-Column Split Hero */}
-      <section 
+      <section
         id="about-hero"
         className="relative overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFB] to-[#FFFFFF] py-12 sm:py-16 lg:py-20 border-b border-gray-100"
       >
@@ -139,7 +139,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
             <div className="lg:col-span-5 relative flex justify-center">
               <div className="relative w-full max-w-md lg:max-w-none">
                 <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
-                
+
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
                   <img
                     src="/images/team-room.jpg"
@@ -222,7 +222,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                  
+
                   <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
                     <p className="text-sm font-semibold text-[#111827]">The Protective Link for External Talent</p>
                     <p className="text-xs text-[#54595F] mt-0.5">SNA NEN 4400-1 certified · Official IND Recognised Sponsor</p>
@@ -252,7 +252,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                  
+
                   <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
                     <p className="text-sm font-semibold text-[#111827]">Your External Hiring Desk</p>
                     <p className="text-xs text-[#54595F] mt-0.5">Compliant, convenient, peace of mind</p>
@@ -421,8 +421,8 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
           {/* Symmetrical Grid for the 6 Team Members */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mb-16 pt-8">
             {TEAM_MEMBERS.map((member) => (
-              <div 
-                key={member.name} 
+              <div
+                key={member.name}
                 className="relative bg-white rounded-[26px] px-6 pb-6 pt-16 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 text-center flex flex-col justify-between group"
               >
                 {/* Floating Circular Avatar overlapping top border */}
@@ -450,17 +450,17 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
                 {/* Divider Line & Contact Buttons */}
                 <div className="mt-8">
                   <div className="w-full border-t border-gray-100 mb-5" />
-                  
+
                   <div className="space-y-2.5">
-                    <a 
-                      href={`mailto:${member.email}`} 
+                    <a
+                      href={`mailto:${member.email}`}
                       className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn"
                     >
                       <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
                       <span className="truncate">{member.email}</span>
                     </a>
-                    <a 
-                      href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`} 
+                    <a
+                      href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
                       className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
                     >
                       <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
@@ -472,36 +472,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
             ))}
           </div>
 
-          {/* Announcement Card with Home Page Aesthetics */}
-          <div className="max-w-xl mx-auto">
-            <div className="p-8 sm:p-10 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center relative overflow-hidden group hover:shadow-2xl transition-all duration-300">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] via-[#E30613] to-[#111827]" />
-              
-              <div className="w-16 h-16 rounded-2xl bg-[#111827]/5 border border-gray-100 flex items-center justify-center mb-4 p-2 shadow-2xs">
-                <img
-                  src="/images/macee-logo.png"
-                  alt="Macee"
-                  className="w-full h-auto object-contain"
-                  onError={(e) => {
-                    e.currentTarget.src = '/uploads/Macee-landscape-tricolore.png';
-                  }}
-                />
-              </div>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#111827]/10 text-[#111827] mb-3 font-mono">
-                <Calendar className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>13-02-2024</span>
-              </div>
-
-              <h3 className="text-xl font-bold font-display text-[#111827]">
-                Announcement
-              </h3>
-              
-              <p className="text-sm text-[#54595F] mt-2 leading-relaxed">
-                Macee continues expanding its international contractor and tech recruitment networks across Arnhem, Amsterdam, and European innovation hubs.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
