@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "badge": "Direct Access to Macee Arnhem Headquarters",
+    "titlePrefix": "Contact",
+    "titleHighlight": "Macee BV",
+    "description": "Get in touch with our specialist teams in Arnhem for external workforce solutions, contracting, visa sponsorship, or compliance support.",
+    "highlights": [
+      "Rapid Response (Within 24 Hours)",
+      "Arnhem Central Station Corridor",
+      "SNA NEN 4400-1 Audited"
+    ]
+  },
+  "office": {
+    "tag": "Reach Out Today",
+    "title": "How can we support you?",
+    "description": "Whether you are an enterprise organization needing compliant contractors or an international professional planning to relocate, our team provides personal, dedicated service.",
+    "name": "Macee BV Headquarters",
+    "city": "Arnhem, The Netherlands",
+    "badge": "Central Office",
+    "address": {
+      "line1": "Nieuwe Stationsstraat 10",
+      "line2": "6811 KS Arnhem, The Netherlands"
+    },
+    "phone": "+31 (0)26 744 0024",
+    "phoneTel": "+310267440024",
+    "email": "info@macee.com",
+    "hours": "Monday – Friday: 08:30 – 17:30 CET",
+    "mapQuery": "https://maps.google.com/maps?q=Nieuwe%20Stationsstraat%2010,%206811%20KS%20Arnhem,%20Netherlands&t=&z=15&ie=UTF8&iwloc=&output=embed"
+  },
+  "desks": [
+    {
+      "badge": "Clients & Hirers",
+      "title": "Workforce Solutions Desk",
+      "description": "Contracting, secondment, payroll, and compliancy audits."
+    },
+    {
+      "badge": "Professionals & Expats",
+      "title": "Talent & Visa Desk",
+      "description": "Assignments, ZZP mediation, IND visas & 30% tax benefit."
+    }
+  ],
+  "certifications": [
+    "SNA NEN 4400-1 Registered",
+    "IND Erkend Referent"
+  ],
+  "form": {
+    "title": "Send a Direct Inquiry",
+    "subtitle": "Fill out the form below and the appropriate desk manager will respond immediately.",
+    "topics": [
+      {
+        "value": "Hiring External Specialists",
+        "label": "Hiring External Specialists (Secondment / Contracting)"
+      },
+      {
+        "value": "Finding an Assignment / Job",
+        "label": "Finding an Assignment / Job Search"
+      },
+      {
+        "value": "HSM Visa & Expat Sponsorship",
+        "label": "HSM Visa Sponsorship & Expat Relocation"
+      },
+      {
+        "value": "SNA NEN 4400-1 Compliance",
+        "label": "SNA NEN 4400-1 Compliance / Wet DBA"
+      },
+      {
+        "value": "General Question",
+        "label": "General Question"
+      }
+    ],
+    "privacy": "By submitting this message, you agree that Macee BV may process your contact details in accordance with our GDPR privacy policy. We will never share your details with third parties.",
+    "buttonText": "Send Message to Macee"
+  },
+  "consultationBanner": {
+    "badge": "1-on-1 Consultation",
+    "title": "Need a detailed workforce compliance review?",
+    "description": "Schedule a confidential, complimentary 20-minute video session with our Senior Account Managers and Compliance Officers.",
+    "buttonText": "Book Consultation"
+  }
+}

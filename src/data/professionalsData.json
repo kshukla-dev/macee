@@ -1,0 +1,198 @@
+{
+  "hero": {
+    "badge": "Opportunities in the Netherlands",
+    "title": "FOR PROFESSIONALS",
+    "subtitle": "Freelance, Contracting, and Relocation Opportunities with leading Dutch and international organisations."
+  },
+  "whatWeDo": {
+    "eyebrow": "OUR EXPERTISE",
+    "titlePrefix": "What",
+    "titleHighlight": "We Do",
+    "description": "Connecting senior professionals to premier organisations across sectors in the Netherlands.",
+    "items": [
+      {
+        "num": "01",
+        "icon": "Laptop",
+        "title": "ICT",
+        "image": "/uploads/Software-Development-2.jpg",
+        "fallback": "https://www.macee.com/uploads/Software-Development-2.jpg",
+        "alt": "ICT Software Development",
+        "text": "ICT is our bread and butter. With years of experience in the placement of temporary ICT professionals, we have an in-depth understanding of this industry. We understand the dynamics of the market, know what matters to clients, and speak the language of professionals.",
+        "tags": [
+          "IT Specialists",
+          "Digital Transformation",
+          "Cloud"
+        ]
+      },
+      {
+        "num": "02",
+        "icon": "Landmark",
+        "title": "Public Sector",
+        "image": "/uploads/Dutch-government-3.jpg",
+        "fallback": "https://www.macee.com/uploads/Dutch-government-3.jpg",
+        "alt": "Public Sector",
+        "text": "The public sector is undergoing rapid change. Digital transformation, process optimisation and secure IT solutions require strong IT and business professionals. We support public sector organisations with specialists who effectively combine technology and policy.",
+        "tags": [
+          "Public Sector",
+          "Policy & Strategy",
+          "Infrastructure"
+        ]
+      },
+      {
+        "num": "03",
+        "icon": "Database",
+        "title": "Bank- en verzekeringswezen",
+        "image": "/uploads/Finance-reporting.jpg",
+        "fallback": "https://www.macee.com/uploads/Finance-reporting.jpg",
+        "alt": "Bank- en verzekeringswezen",
+        "text": "MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies. Delivering expertise in risk, compliance, cloud architecture, and fintech innovation.",
+        "tags": [
+          "Banking",
+          "Investment Management",
+          "Fintech"
+        ]
+      }
+    ]
+  },
+  "whatCanWeDo": {
+    "title": "What can we do for you",
+    "description": "MACEE fills vacancies on behalf of our clients in all areas. Either temporary positions on a project basis, interim roles or internal permanent positions. Here is a brief overview of the contract forms we support:",
+    "services": [
+      {
+        "id": "freelance-zzp",
+        "title": "Freelance / ZZP",
+        "description": "Temporary projects suitable for self-employed Freelancers (ZZP), working with different clients and without any form of employment with their customer. As a Freelancer (ZZP) you determine your own rate, working hours and working method. These are often specific project positions that require your unique expertise and for which you are paid per hour or per (half) day."
+      },
+      {
+        "id": "contracting-secondment",
+        "title": "Contracting / Secondment",
+        "description": "Working on a temporary position, project or interim role whereby you will be employed on the payroll of MACEE. Due to the increasing legal restrictions in hiring external talent, the interim roles considered suitable for a Freelancer (ZZP) are restricted. Leading to an increased need for the ‘Payroll Solution’ that MACEE offers."
+      },
+      {
+        "id": "outsourcing",
+        "title": "Outsourcing",
+        "description": "Outsourcing work to an external party on a temporary contract basis, whereby the external party performs the work with its own staff and under its own management and is responsible for the result, instead of taking on a permanent employee. It is used for temporary projects, specialist knowledge or to respond flexibly to needs, without the obligations of permanent employment."
+      },
+      {
+        "id": "permanent",
+        "title": "Permanent",
+        "description": "Additionally MACEE also actively assists clients with the ‘Search and Selection’ of candidates for their internal permanent positions."
+      },
+      {
+        "id": "hsm-expats",
+        "highlight": true,
+        "tag": "IND Recognised Sponsor",
+        "title": "HSM / Expats / Visa Sponsorship",
+        "description": "Having found your new temporary contract or project, MACEE will arrange your VISA / Work permit application as we are an official IND (Immigration Service) Recognised Sponsor. Holding this IND registration enables MACEE to relocate highly skilled migrants (HSM Expats) to the Netherlands via a fast and streamlined procedure, making life easier for you."
+      }
+    ]
+  },
+  "industries": {
+    "title": "Industries",
+    "description": "Experience and proven track record in multiple industries",
+    "items": [
+      {
+        "id": "ict",
+        "name": "ICT",
+        "image": "/uploads/Software-Development-2.jpg",
+        "imgTitle": "ICT & Software Development",
+        "imgDesc": "From software engineers to cloud architects, cybersecurity specialists, and DevOps.",
+        "text": "Is our bread and butter. With years of experience in the placement of temporary ICT professionals, we have an in-depth understanding of this industry. We understand the dynamics of the market, know what matters to clients, and speak the language of professionals. Our network, both on the professional side as well as on the client side, has been carefully built over the years. This enables us to quickly create the right match and support organisations with experienced specialists."
+      },
+      {
+        "id": "telecom",
+        "name": "Telecom",
+        "image": "/uploads/Telecom (1).jpg",
+        "imgTitle": "Telecoms & Connectivity",
+        "imgDesc": "High-speed networks, 5G rollouts, infrastructure, and next-gen telecom engineering.",
+        "text": "The telecoms industry is constantly changing – and that's what makes it so interesting. From high-speed internet to smart networks and innovative solutions, our telecoms clients are at the heart of this dynamic environment. We support them with professionals who are not only technically skilled, but also flexible enough to adapt to change. Together, we contribute to reliable connections and the technology of tomorrow."
+      },
+      {
+        "id": "finance",
+        "name": "Banking / Fintech / Finance",
+        "image": "/uploads/Finance-reporting.jpg",
+        "imgTitle": "Banking & Financial Technology",
+        "imgDesc": "Shaping the future of money, regulatory compliance, risk modeling, and fintech rails.",
+        "text": "The Fintech industry is where technology and finance converge to shape the future of money. From smart payment solutions to innovative platforms, our Fintech clients move quickly, think ahead and dare to innovate. MACEE supports them with professionals who are just as agile and innovative as the industry itself. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies."
+      },
+      {
+        "id": "hightech",
+        "name": "High Tech Industry",
+        "image": "/uploads/Hightech-Industry-3.jpg",
+        "imgTitle": "High-Tech & Precision Engineering",
+        "imgDesc": "Eindhoven Brainport & Delft hubs for robotics, semiconductor, and embedded systems.",
+        "text": "The Netherlands is a global player in the high-tech industry. Regions such as Eindhoven and Delft are hubs for innovation, precision and technology. As a secondment agency, we work closely with progressive organisations in these high-tech hotspots. Every day, our professionals contribute to groundbreaking solutions with a global impact. This puts us at the heart of the Dutch high-tech engine — where the future is being built."
+      },
+      {
+        "id": "government",
+        "name": "Government",
+        "image": "/uploads/Dutch-government-3.jpg",
+        "imgTitle": "Public Sector & Ministries",
+        "imgDesc": "Digital transformation, citizen platforms, and secure IT governance.",
+        "text": "The public sector is undergoing rapid change. Digital transformation, process optimisation and secure IT solutions require strong IT and business professionals. We support public sector organisations with specialists who effectively combine technology and policy."
+      },
+      {
+        "id": "oil-gas",
+        "name": "Oil & Gas",
+        "image": "/uploads/Oil--Gas-3.jpg",
+        "imgTitle": "Energy & Infrastructure Hub",
+        "imgDesc": "Real-time telemetry, IoT, cloud analytics, and energy transition monitoring.",
+        "text": "The Dutch oil and gas industry, led by key players such as Nederlandse Aardolie Maatschappij and Shell and supported by strategic infrastructure like the Port of Rotterdam, remains a vital energy hub while undergoing rapid digital transformation. Advanced ICT solutions—ranging from real-time data analytics and cloud computing to cybersecurity and sustainability monitoring—are essential to ensure safe, efficient, and future-proof operations in an evolving energy landscape."
+      }
+    ]
+  },
+  "expertises": {
+    "title": "EXPERTISES",
+    "subtitle": "Rollen",
+    "description": "Software development, Cloud, Data, Cyber Security, Testing, Reporting and PMO / Project Management.",
+    "pills": [
+      "Software Development (.NET, C#, Java, Python)",
+      "BI & Data (Spark, PowerBI, AI/ML, Kafka)",
+      "Project Management (PMO, Change Manager)",
+      "Cloud (AWS, Azure, Kubernetes)",
+      "Security (CISM, CISSP, IAM, CyberArk)",
+      "(Fin) Risk Management (AML, KYC, EMIR, Basel)"
+    ],
+    "roles": [
+      {
+        "title": "Software Development",
+        "tech": ".NET, C / C++ / C#, JAVA, Python etc."
+      },
+      {
+        "title": "BI & Data",
+        "tech": "Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc."
+      },
+      {
+        "title": "Project Management",
+        "tech": "PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc."
+      },
+      {
+        "title": "Cloud",
+        "tech": "AWS, Azure, Kubernetes etc."
+      },
+      {
+        "title": "Security",
+        "tech": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Network, Infrastructure"
+      },
+      {
+        "title": "(Fin) Risk Management",
+        "tech": "Regulatory reporting, AML, FEC, KYC, Modelling, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "/uploads/Software-Development-2.jpg",
+        "fallback": "https://www.macee.com/uploads/Software-Development-2.jpg",
+        "alt": "Development and coding"
+      },
+      {
+        "src": "/uploads/people-working-dsk.jpg",
+        "fallback": "https://www.macee.com/uploads/people-working-dsk.jpg",
+        "alt": "Team working around desk"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get in contact with us"
+  }
+}

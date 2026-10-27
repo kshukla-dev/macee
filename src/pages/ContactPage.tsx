@@ -14,6 +14,7 @@ import {
   Sparkles,
   UserCheck
 } from 'lucide-react';
+import contactData from '../data/contactData.json';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
@@ -66,30 +67,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>Direct Access to Macee Arnhem Headquarters</span>
+            <span>{contactData.hero.badge}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            Contact <span className="text-[#E30613]">Macee BV</span>
+            {contactData.hero.titlePrefix} <span className="text-[#E30613]">{contactData.hero.titleHighlight}</span>
           </h1>
 
           <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
-            Get in touch with our specialist teams in Arnhem for external workforce solutions, contracting, visa sponsorship, or compliance support.
+            {contactData.hero.description}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-white/90">
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
-              Rapid Response (Within 24 Hours)
-            </span>
-            <span className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#E30613]" />
-              Arnhem Central Station Corridor
-            </span>
-            <span className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#E30613]" />
-              SNA NEN 4400-1 Audited
-            </span>
+            {contactData.hero.highlights.map((item, idx) => (
+              <span key={idx} className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -104,13 +99,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
               
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                  Reach Out Today
+                  {contactData.office.tag}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-bold font-display text-gray-900 mt-1">
-                  How can we support you?
+                  {contactData.office.title}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600 mt-2 leading-relaxed">
-                  Whether you are an enterprise organization needing compliant contractors or an international professional planning to relocate, our team provides personal, dedicated service.
+                  {contactData.office.description}
                 </p>
               </div>
 
@@ -119,14 +114,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                 <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                   <div>
                     <h3 className="text-xl font-bold font-display text-gray-900">
-                      Macee BV Headquarters
+                      {contactData.office.name}
                     </h3>
                     <p className="text-xs text-gray-500 font-mono">
-                      Arnhem, The Netherlands
+                      {contactData.office.city}
                     </p>
                   </div>
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#f8dada] text-[#E30613]">
-                    Central Office
+                    {contactData.office.badge}
                   </span>
                 </div>
 
@@ -135,8 +130,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                     <MapPin className="w-5 h-5 text-[#E30613] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-gray-900">Physical Address</p>
-                      <p className="text-gray-600">Nieuwe Stationsstraat 10</p>
-                      <p className="text-gray-600">6811 KS Arnhem, The Netherlands</p>
+                      <p className="text-gray-600">{contactData.office.address.line1}</p>
+                      <p className="text-gray-600">{contactData.office.address.line2}</p>
                     </div>
                   </div>
 
@@ -145,10 +140,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                     <div>
                       <p className="text-xs text-gray-500 font-medium">Direct Telephone</p>
                       <a
-                        href="tel:+310267440024"
+                        href={`tel:${contactData.office.phoneTel}`}
                         className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
                       >
-                        +31 (0)26 744 0024
+                        {contactData.office.phone}
                       </a>
                     </div>
                   </div>
@@ -158,46 +153,36 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                     <div>
                       <p className="text-xs text-gray-500 font-medium">Official Email</p>
                       <a
-                        href="mailto:info@macee.com"
+                        href={`mailto:${contactData.office.email}`}
                         className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
                       >
-                        info@macee.com
+                        {contactData.office.email}
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 pt-2 border-t border-gray-100 text-xs text-gray-500">
                     <Clock className="w-5 h-5 text-gray-400 shrink-0" />
-                    <span>Monday – Friday: 08:30 – 17:30 CET</span>
+                    <span>{contactData.office.hours}</span>
                   </div>
                 </div>
               </div>
 
               {/* Department Desks */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-xs space-y-1.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] block">
-                    Clients &amp; Hirers
-                  </span>
-                  <h4 className="text-sm font-bold text-gray-900">
-                    Workforce Solutions Desk
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Contracting, secondment, payroll, and compliancy audits.
-                  </p>
-                </div>
-
-                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-xs space-y-1.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] block">
-                    Professionals &amp; Expats
-                  </span>
-                  <h4 className="text-sm font-bold text-gray-900">
-                    Talent &amp; Visa Desk
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Assignments, ZZP mediation, IND visas &amp; 30% tax benefit.
-                  </p>
-                </div>
+                {contactData.desks.map((desk, idx) => (
+                  <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-xs space-y-1.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] block">
+                      {desk.badge}
+                    </span>
+                    <h4 className="text-sm font-bold text-gray-900">
+                      {desk.title}
+                    </h4>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      {desk.description}
+                    </p>
+                  </div>
+                ))}
               </div>
 
               {/* Map Embed Frame */}
@@ -205,7 +190,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                 <iframe
                   title="Macee Arnhem Office Location"
                   className="w-full h-full border-0"
-                  src="https://maps.google.com/maps?q=Nieuwe%20Stationsstraat%2010,%206811%20KS%20Arnhem,%20Netherlands&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src={contactData.office.mapQuery}
                   loading="lazy"
                 />
               </div>
@@ -214,12 +199,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
               <div className="p-4 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs text-gray-600">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-[#E30613]" />
-                  <span>SNA NEN 4400-1 Registered</span>
+                  <span>{contactData.certifications[0]}</span>
                 </div>
                 <span className="text-gray-300">·</span>
                 <div className="flex items-center gap-2">
                   <Globe2 className="w-5 h-5 text-[#E30613]" />
-                  <span>IND Erkend Referent</span>
+                  <span>{contactData.certifications[1]}</span>
                 </div>
               </div>
             </div>
@@ -266,10 +251,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         Online Contact Form
                       </span>
                       <h3 className="text-2xl font-bold font-display text-gray-900 mt-1">
-                        Send Us a Direct Message
+                        {contactData.form.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                        Fill out the details below and our team in Arnhem will get back to you promptly.
+                        {contactData.form.subtitle}
                       </p>
                     </div>
 
@@ -356,11 +341,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                             onChange={(e) => setInquiryType(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-[#E30613]"
                           >
-                            <option value="Hiring External Specialists">Hiring External Specialists (Secondment / Contracting)</option>
-                            <option value="Finding an Assignment / Job">Finding an Assignment / Job Search</option>
-                            <option value="HSM Visa & Expat Sponsorship">HSM Visa Sponsorship &amp; Expat Relocation</option>
-                            <option value="SNA NEN 4400-1 Compliance">SNA NEN 4400-1 Compliance / Wet DBA</option>
-                            <option value="General Question">General Question</option>
+                            {contactData.form.topics.map((item, idx) => (
+                              <option key={idx} value={item.value}>
+                                {item.label}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </div>
@@ -382,7 +367,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
                       {/* Privacy Notice */}
                       <p className="text-[11px] text-gray-500 leading-normal">
-                        By submitting this message, you agree that Macee BV may process your contact details in accordance with our GDPR privacy policy. We will never share your details with third parties.
+                        {contactData.form.privacy}
                       </p>
 
                       {/* Submit Button */}
@@ -396,7 +381,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         ) : (
                           <>
                             <Send className="w-4 h-4" />
-                            <span>Send Message to Macee</span>
+                            <span>{contactData.form.buttonText}</span>
                           </>
                         )}
                       </button>
@@ -415,13 +400,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
           <div className="bg-[#111827] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
             <div className="space-y-2 text-center md:text-left">
               <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                1-on-1 Consultation
+                {contactData.consultationBanner.badge}
               </span>
               <h3 className="text-2xl sm:text-3xl font-bold font-display">
-                Need a detailed workforce compliance review?
+                {contactData.consultationBanner.title}
               </h3>
               <p className="text-sm text-gray-300 max-w-xl">
-                Schedule a confidential, complimentary 20-minute video session with our Senior Account Managers and Compliance Officers.
+                {contactData.consultationBanner.description}
               </p>
             </div>
 
@@ -436,7 +421,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-semibold text-sm transition-all duration-200 shrink-0 cursor-pointer shadow-md"
             >
               <Calendar className="w-4 h-4" />
-              <span>Book Consultation</span>
+              <span>{contactData.consultationBanner.buttonText}</span>
             </button>
           </div>
         </div>

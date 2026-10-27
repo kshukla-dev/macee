@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "title": "Search your project!",
+    "keywordPlaceholder": "Search by keyword...",
+    "zipcodePlaceholder": "Zipcode",
+    "searchButtonText": "Search",
+    "viewVacanciesText": "View all our vacancies"
+  },
+  "intro": {
+    "title": "Think Better. Recruit Smarter.",
+    "paragraphs": [
+      "Hiring external and temporary staff shouldn’t slow you down. Yet managing contracts, planning, and administration can quickly become time-consuming and distracting, pulling your focus away from what truly matters: growing your business!",
+      "We understand. That’s why we provide a streamlined, transparent, and efficient process that takes the complexity off your hands. From sourcing to onboarding, everything is handled with clarity and care.",
+      "The result? Zero hassle for you and the right talent exactly where you need it. Ready to get started?"
+    ],
+    "trustpilot": {
+      "title": "Our reviews on Trustpilot",
+      "subtitle": "We get an excellent score from our customers"
+    }
+  },
+  "cards": [
+    {
+      "badge": "ICT",
+      "title": "ICT",
+      "description": "Specialised permanent and contract placement for IT professionals across Dutch enterprises.",
+      "image": "/media/cache/square_crop_center/rc/jBAhQMMW/uploads/Software-Development-2.jpg",
+      "fallbackImage": "/uploads/Software-Development-2.jpg",
+      "linkText": "Bekijk vacatures"
+    },
+    {
+      "badge": "Contracting",
+      "title": "Contracting",
+      "description": "Flexible secondment and payroll arrangements with 100% legal and fiscal compliancy.",
+      "image": "/media/cache/square_crop_center/rc/2xxXgal1/uploads/people-working-dsk.jpg",
+      "fallbackImage": "/uploads/people-working-dsk.jpg",
+      "linkText": "Bekijk vacatures"
+    },
+    {
+      "badge": "Freelance / ZZP",
+      "title": "Freelance / ZZP",
+      "description": "Independent consulting assignments with direct contracting, swift payment, and no hassle.",
+      "image": "/media/cache/square_crop_center/rc/0XPyQZa4/uploads/Finance-reporting.jpg",
+      "fallbackImage": "/uploads/Finance-reporting.jpg",
+      "linkText": "Bekijk vacatures"
+    }
+  ]
+}

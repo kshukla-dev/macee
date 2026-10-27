@@ -18,9 +18,8 @@ import {
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
-import { MACEE_FAQS, FaqItem as MaceeFaqItem } from '../data/maceeContent';
-import { RESOURCES_DATA } from '../data/content';
 import { ResourceItem } from '../types';
+import faqData from '../data/faqData.json';
 
 interface FaqPageProps {
   onNavigate: (page: string) => void;
@@ -36,68 +35,9 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState('');
 
-  // 4 categories including Compliance & Visas
-  const categories = [
-    {
-      id: 1,
-      title: 'What does MACEE do',
-      image: '/uploads/Dutch-government-3.jpg',
-      count: 3,
-      desc: 'Sectors, expertise, and why organisations partner with MACEE'
-    },
-    {
-      id: 2,
-      title: 'Services and Contract options',
-      image: '/uploads/Software-Development-2.jpg',
-      count: 3,
-      desc: 'Secondment, ZZP, IND visa sponsorships, and 30% tax benefit'
-    },
-    {
-      id: 3,
-      title: 'Specialties and positions',
-      image: '/uploads/Finance-reporting.jpg',
-      count: 2,
-      desc: 'Senior developer, data engineer, cybersecurity, and financial risk roles'
-    },
-    {
-      id: 4,
-      title: 'Compliancy, Taxes & Visas',
-      image: '/images/resource-gavel.jpg',
-      count: 3,
-      desc: 'SNA NEN 4400-1, Wet DBA protection, and IND fast-track sponsorship'
-    }
-  ];
-
-  // Extended FAQ items
-  const ALL_FAQS: MaceeFaqItem[] = useMemo(() => {
-    return [
-      ...MACEE_FAQS,
-      {
-        id: 'faq-4-1',
-        categoryId: 4,
-        categoryName: 'Compliancy, Taxes & Visas',
-        question: 'What is SNA / NEN 4400-1 certification and why does it protect hirers?',
-        answer: 'MACEE is certified under NEN 4400-1 by the Stichting Normering Arbeid (SNA). This certification verifies that our payroll administration, payroll tax payments, and VAT remittances comply fully with Dutch legislation. Commissioning clients who hire through an SNA-certified partner are strictly shielded from chain liability (inlenersaansprakelijkheid).',
-        date: 'February 6, 2026'
-      },
-      {
-        id: 'faq-4-2',
-        categoryId: 4,
-        categoryName: 'Compliancy, Taxes & Visas',
-        question: 'How does MACEE help international specialists with the 30% tax facility?',
-        answer: 'The Dutch 30% facility enables qualifying incoming international specialists recruited from abroad to receive 30% of their gross salary tax-free. As an IND Recognised Sponsor, MACEE prepares and submits the complete fiscal application to the Dutch Tax Office (Belastingdienst) and structures compliant payroll.',
-        date: 'February 6, 2026'
-      },
-      {
-        id: 'faq-4-3',
-        categoryId: 4,
-        categoryName: 'Compliancy, Taxes & Visas',
-        question: 'How do you prevent false self-employment (schijnzelfstandigheid) under the Wet DBA?',
-        answer: 'We rigorously audit all ZZP assignments using standardized model agreements and role assessments. Where an assignment involves authoritative direction or integration into organizational hierarchy, we transition the professional to our compliant Secondment or Payroll model to prevent retroactive tax penalties.',
-        date: 'February 6, 2026'
-      }
-    ];
-  }, []);
+  const categories = faqData.categories;
+  const ALL_FAQS = faqData.faqs;
+  const resourcesList = faqData.resources as ResourceItem[];
 
   // Filter FAQs
   const filteredFaqs = useMemo(() => {
@@ -138,15 +78,15 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>Knowledge Base &amp; Regulatory Blueprints</span>
+            <span>{faqData.hero.badge}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            FAQ &amp; <span className="text-[#E30613]">Guides</span>
+            {faqData.hero.titlePrefix} <span className="text-[#E30613]">{faqData.hero.titleHighlight}</span>
           </h1>
 
           <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
-            Frequently asked questions about MACEE services, contracting, and IND visa sponsorships — alongside official downloadable compliance guides.
+            {faqData.hero.description}
           </p>
 
           {/* Quick Jump Tabs */}
@@ -159,7 +99,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                   : 'text-gray-300 hover:text-white'
               }`}
             >
-              All Resources
+              {faqData.hero.tabs.all}
             </button>
             <button
               onClick={() => {
@@ -173,7 +113,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                   : 'text-gray-300 hover:text-white'
               }`}
             >
-              FAQ ({ALL_FAQS.length})
+              {faqData.hero.tabs.faqs} ({ALL_FAQS.length})
             </button>
             <button
               onClick={() => {
@@ -187,7 +127,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                   : 'text-gray-300 hover:text-white'
               }`}
             >
-              Guides &amp; Whitepapers ({RESOURCES_DATA.length})
+              {faqData.hero.tabs.guides} ({resourcesList.length})
             </button>
           </div>
         </div>
@@ -200,24 +140,24 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                  Official Whitepapers
+                  {faqData.guidesSection.tag}
                 </span>
                 <h2 className="text-2xl sm:text-4xl font-bold font-display text-gray-900 mt-1">
-                  Compliance &amp; Hiring Guides
+                  {faqData.guidesSection.title}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600 mt-2 max-w-xl">
-                  Download authoritative guides developed by Macee’s legal, compliance, and international talent teams.
+                  {faqData.guidesSection.description}
                 </p>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
                 <BookOpen className="w-4 h-4 text-[#E30613]" />
-                <span>3 Free PDF Downloads Available</span>
+                <span>{faqData.guidesSection.badge}</span>
               </div>
             </div>
 
             {/* Guides Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {RESOURCES_DATA.map((res) => (
+              {resourcesList.map((res) => (
                 <div
                   key={res.id}
                   className="group bg-[#F8FAFB] rounded-2xl border border-gray-200 overflow-hidden hover:border-[#E30613]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
@@ -279,7 +219,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                       className="w-full py-3 px-4 rounded-[5px] bg-white border border-gray-200 group-hover:bg-[#E30613] group-hover:border-[#E30613] group-hover:text-white text-gray-800 text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                     >
                       <Download className="w-4 h-4" />
-                      <span>Read &amp; Download Guide</span>
+                      <span>{faqData.guidesSection.buttonText}</span>
                     </button>
                   </div>
                 </div>
@@ -310,7 +250,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                 <div className="w-full sm:w-72 relative">
                   <input
                     type="text"
-                    placeholder="Search all questions..."
+                    placeholder={faqData.searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
@@ -395,10 +335,10 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                 <div className="text-center py-12 bg-white rounded-2xl border border-gray-200 p-8 shadow-xs">
                   <HelpCircle className="w-10 h-10 text-gray-300 mx-auto mb-2" />
                   <h4 className="text-lg font-bold font-display text-gray-900 mb-1">
-                    No questions matched your search
+                    {faqData.noResults.title}
                   </h4>
                   <p className="text-xs sm:text-sm text-gray-500 max-w-sm mx-auto">
-                    Try searching with another keyword or browse all categories.
+                    {faqData.noResults.description}
                   </p>
                   <button
                     onClick={() => {

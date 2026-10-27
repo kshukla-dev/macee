@@ -1,0 +1,130 @@
+{
+  "hero": {
+    "pill": "Solutions for Organisations",
+    "title": "What can we do for your organisation ?",
+    "text": "We are a staffing partner specializing in relative workforce solutions. But what we do goes far beyond recruitment alone. MACEE is the seamless extension of your talent sourcing team, serving as the secure link between your organization and external talent — maximizing efficiency, risk compliancy, and complete peace of mind. Always tailored. Always aligned with your mission. What can we support you with?",
+    "primaryCta": {
+      "text": "Get in touch with us",
+      "target": "contact-form-clients"
+    },
+    "trustBadge": "NEN 4400-1 Certified & IND Sponsor",
+    "image": {
+      "src": "/uploads/people-working-dsk.jpg",
+      "fallback": "https://www.macee.com/uploads/people-working-dsk.jpg",
+      "alt": "Macee developer working at desk with multiple screens"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "description": "End-to-end recruitment, contracting, and compliance management tailored to your specific workforce challenges.",
+    "items": [
+      {
+        "id": "recruitment",
+        "title": "Recruitment",
+        "description": "When looking for specific expertise temporary (or permanent) we will always analyse exactly what you are looking for regarding expertise, culture aspects and soft skills. We are independent so we will only look for candidates with proven track record and expertise. We are not limited in our search within our local Dutch network, but we also have access to a broad international network."
+      },
+      {
+        "id": "contract-administration",
+        "title": "Contract administration",
+        "description": "When the right candidate is selected after the interview we will take care of the candidate onboarding and manage all compliance procedures relating to local labour, immigration and fiscal legislation, whether it relates to a Contractor, Freelancer (ZZP), or an Expat (HSM). From secondment to payroll services, from project support to legal employment services (EOR), MACEE will provide the best tailor-made solution for the needs of your organisation. Please do not hesitate to contact us and together we can discuss and agree on the most suitable solution for your company."
+      },
+      {
+        "id": "compliancy-support",
+        "title": "Compliancy & Support",
+        "description": "MACEE strives for clear, transparent and compliant agreements. This is made possible by our in-depth knowledge of local legislation and regulations (WAADI, DBA law, WTT/A1, WIK/AOF) and we ensure all relevant labour, immigration and fiscal laws are observed and continuous to monitor when it comes to the compliancy/hiring of Contractors, Freelancers (ZZP) and Expats (HSM). And if necessary, we can act as your transaction in the event of disputes or problems, taking the burden of extra legal resources off your shoulders. MACEE is your partner for all your HR processes. Innovative and refreshing, we always find a solution that works best for your organisation."
+      }
+    ]
+  },
+  "certifications": {
+    "title": "Certifications",
+    "description": "Audited, transparent, and officially certified across Dutch labour market quality and immigration standards.",
+    "items": [
+      {
+        "id": "sna",
+        "tag": "SNA Labour Standard",
+        "title": "MACEE is registered with the SNA (Stichting Normering Arbeid)",
+        "text": "The SNA is the quality mark for flexible labour and all companies in the Netherlands that have developed a fact, the need for hiring of external labour and clients commissioned work. MACEE is listed the NEN 4400-1 certification confirming our commitment to quality and compliancy.",
+        "image": {
+          "src": "/uploads/NEN-4400-1.png",
+          "fallback": "https://www.macee.com/uploads/NEN-4400-1.png",
+          "alt": "NEN 4400-1 Certified Logo"
+        }
+      },
+      {
+        "id": "ind",
+        "tag": "Dutch Immigration Service (IND)",
+        "accent": true,
+        "title": "IND Recognised Sponsor (Erkend referent)",
+        "text": "Due to the scarcity of specialised skills in the Netherlands, it is not always possible to find the talent you need in the Dutch or even EU. Did you know: MACEE is a Recognised Sponsor with the Dutch Immigration Service IND, which allows us to hire non-EU specialist candidates under the fast-track Highly Skilled Migrant Visa and Residence Permit scheme. This allows MACEE to leverage its extensive international network when searching for the right talent."
+      },
+      {
+        "id": "sbb",
+        "tag": "SBB Vocational Education",
+        "title": "Recognised training company",
+        "text": "MACEE is a recognised training company, we contribute to future generations of enthusiastic employees in the workforce. As an organisation that has been officially approved by the Cooperative Organisation for Vocational Education, Training and the Labour Market (SBB) we provide practical training to vocational students. We offer a safe learning environment with qualified coaches to execute tasks and learn that is relevant to the training programme.",
+        "image": {
+          "src": "/uploads/Accredited work placement company (2).png",
+          "fallback": "https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png",
+          "alt": "We Train Professionals - Accredited work placement company"
+        }
+      }
+    ]
+  },
+  "industries": {
+    "title": "Industries",
+    "subheading": "Experience and proven track record",
+    "paragraphs": [
+      "Our clients range from start-ups to global multinational corporates and multinationals who demand seamless mobility of diverse nationalities and are open to attracting finest talent from all over the world.",
+      "MACEE works with clients in various industries, such as Telecoms, FMCG, Oil and Gas, Consultancy, Healthcare, Pharma, Energy/Utilities and many more. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies."
+    ],
+    "tags": [
+      "Telecoms",
+      "FMCG",
+      "Oil & Gas",
+      "Consultancy",
+      "Healthcare & Pharma",
+      "Energy & Utilities",
+      "Banking & Fintech",
+      "Investment & Asset Management",
+      "Pension Funds",
+      "Payment Platforms"
+    ]
+  },
+  "expertise": {
+    "title": "Expertise",
+    "subheading": "Proven track record in technical skills & experience",
+    "intro": "We can supply a wide range of people, but our network is mainly focused on senior level professionals. These include professionals in positions such as: Business/Information Analyst, Data Engineer, (Cyber) Security Consultant, Testers, Software Developers, Reporting/Finance Specialists and technical/cultural PMO and Project Managers.",
+    "prompt": "Below our skills & experience where we have a proven track record in;",
+    "items": [
+      {
+        "domain": "Software Development",
+        "technologies": ".NET, C / C++ / C#, JAVA, Python etc."
+      },
+      {
+        "domain": "BI & Data",
+        "technologies": "Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc."
+      },
+      {
+        "domain": "Project Management",
+        "technologies": "PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc."
+      },
+      {
+        "domain": "Cloud",
+        "technologies": "AWS, Azure, Kubernetes etc."
+      },
+      {
+        "domain": "Security",
+        "technologies": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Network, Information/Finance"
+      },
+      {
+        "domain": "Finance Risk Management",
+        "technologies": "Regulatory reporting, AML, FEC, KYC, Modelling, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Neem contact met ons op",
+    "badge": "Reach Out To Macee",
+    "subtitle": "Do you have questions about flexible staffing, contract administration, or compliance? Contact our team in Arnhem."
+  }
+}

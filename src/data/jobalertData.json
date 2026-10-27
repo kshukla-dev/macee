@@ -1,0 +1,37 @@
+{
+  "hero": {
+    "title": "Create Jobalert",
+    "subtitle": "Receive automated notifications when matching assignments are published"
+  },
+  "success": {
+    "title": "Jobalert Activated!",
+    "buttonText": "Create another Jobalert"
+  },
+  "contractOptions": [
+    "Contracting",
+    "Permanent / Contract to perm",
+    "Freelance / SE"
+  ],
+  "languageOptions": [
+    "Dutch",
+    "English"
+  ],
+  "frequencyOptions": [
+    "Daily",
+    "Weekly",
+    "Monthly"
+  ],
+  "form": {
+    "brancheLegend": "Branche",
+    "contractLegend": "Type of contract",
+    "languageLegend": "Language",
+    "keywordLabel": "Keyword (optional)",
+    "keywordPlaceholder": "e.g. .NET, Azure, Java, Data Engineer",
+    "frequencyLegend": "How often do you wish to receive vacancies?",
+    "emailLabel": "What is your email address? *",
+    "emailPlaceholder": "name@company.com",
+    "submitButton": "Create Jobalert",
+    "showMore": "Show more options",
+    "showLess": "Show less"
+  }
+}

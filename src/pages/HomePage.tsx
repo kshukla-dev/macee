@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Star, ArrowRight } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
+import homeData from '../data/homeData.json';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -28,7 +29,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
 
         <div className="max-w-[1050px] mx-auto px-4 sm:px-6 relative z-10 text-center">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight mb-8">
-            Search your project!
+            {homeData.hero.title}
           </h1>
 
           {/* Search Box */}
@@ -37,7 +38,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
               <div className="flex-1">
                 <input
                   type="text"
-                  placeholder="Search by keyword..."
+                  placeholder={homeData.hero.keywordPlaceholder}
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-[#e8382e]"
@@ -46,7 +47,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
               <div className="sm:w-44">
                 <input
                   type="text"
-                  placeholder="Zipcode"
+                  placeholder={homeData.hero.zipcodePlaceholder}
                   value={zipcode}
                   onChange={(e) => setZipcode(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-[#e8382e]"
@@ -56,7 +57,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
                 type="submit"
                 className="is-btn text-base px-8 py-3 shrink-0"
               >
-                <span>Search</span>
+                <span>{homeData.hero.searchButtonText}</span>
                 <Search className="w-4 h-4 ml-1.5" />
               </button>
             </form>
@@ -66,7 +67,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
                 onClick={() => onNavigate('assignments')}
                 className="text-xs sm:text-sm font-bold text-[#e8382e] hover:underline cursor-pointer"
               >
-                View all our vacancies
+                {homeData.hero.viewVacanciesText}
               </button>
             </div>
           </div>
@@ -78,19 +79,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-gray-900 leading-tight">
-              Think Better. Recruit Smarter.&nbsp;
+              {homeData.intro.title}&nbsp;
             </h2>
 
             <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed text-left sm:text-center">
-              <p>
-                Hiring external and temporary staff shouldn’t slow you down. Yet managing contracts, planning, and administration can quickly become time-consuming and distracting, pulling your focus away from what truly matters: growing your business!
-              </p>
-              <p>
-                We understand. That’s why we provide a streamlined, transparent, and efficient process that takes the complexity off your hands. From sourcing to onboarding, everything is handled with clarity and care.
-              </p>
-              <p className="font-semibold text-gray-900">
-                The result? Zero hassle for you and the right talent exactly where you need it. Ready to get started?
-              </p>
+              {homeData.intro.paragraphs.map((para, idx) => (
+                <p key={idx} className={idx === homeData.intro.paragraphs.length - 1 ? 'font-semibold text-gray-900' : ''}>
+                  {para}
+                </p>
+              ))}
             </div>
 
             {/* Trustpilot Banner */}
@@ -102,115 +99,49 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
                   ))}
                 </div>
                 <div className="text-xs sm:text-sm text-gray-800">
-                  <span className="font-bold">Our reviews on Trustpilot</span> — We get an excellent score from our customers
+                  <span className="font-bold">{homeData.intro.trustpilot.title}</span> — {homeData.intro.trustpilot.subtitle}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Category Cards (ICT, Contracting, Freelance/ZZP) */}
+          {/* Category Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            {/* Card 1: ICT */}
-            <div
-              onClick={() => onNavigate('assignments')}
-              className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src="/media/cache/square_crop_center/rc/jBAhQMMW/uploads/Software-Development-2.jpg"
-                  alt="ICT"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.currentTarget.src = '/uploads/Software-Development-2.jpg';
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
-                  ICT
+            {homeData.cards.map((card, idx) => (
+              <div
+                key={idx}
+                onClick={() => onNavigate('assignments')}
+                className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src = card.fallbackImage;
+                    }}
+                  />
+                  <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
+                    {card.badge}
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-2">
+                      {card.description}
+                    </p>
+                  </div>
+                  <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
+                    <span>{card.linkText}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </div>
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
-                    ICT
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Specialised permanent and contract placement for IT professionals across Dutch enterprises.
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
-                  <span>Bekijk vacatures</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: Contracting */}
-            <div
-              onClick={() => onNavigate('assignments')}
-              className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src="/media/cache/square_crop_center/rc/2xxXgal1/uploads/people-working-dsk.jpg"
-                  alt="Contracting"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.currentTarget.src = '/uploads/people-working-dsk.jpg';
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Contracting
-                </div>
-              </div>
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
-                    Contracting
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Flexible secondment and payroll arrangements with 100% legal and fiscal compliancy.
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
-                  <span>Bekijk vacatures</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: Freelance / ZZP */}
-            <div
-              onClick={() => onNavigate('assignments')}
-              className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src="/media/cache/square_crop_center/rc/0XPyQZa4/uploads/Finance-reporting.jpg"
-                  alt="Freelance / ZZP"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.currentTarget.src = '/uploads/Finance-reporting.jpg';
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Freelance / ZZP
-                </div>
-              </div>
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
-                    Freelance / ZZP
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Independent consulting assignments with direct contracting, swift payment, and no hassle.
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
-                  <span>Bekijk vacatures</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

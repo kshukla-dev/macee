@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Bell, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { BRANCHES_LIST } from '../data/maceeContent';
+import jobalertData from '../data/jobalertData.json';
 
 interface JobalertPageProps {
   onNavigate: (page: string) => void;
@@ -17,14 +18,9 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
   const [showAllBranches, setShowAllBranches] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const contractOptions = [
-    'Contracting',
-    'Permanent / Contract to perm',
-    'Freelance / SE'
-  ];
-
-  const languageOptions = ['Dutch', 'English'];
-  const frequencyOptions = ['Daily', 'Weekly', 'Monthly'];
+  const contractOptions = jobalertData.contractOptions;
+  const languageOptions = jobalertData.languageOptions;
+  const frequencyOptions = jobalertData.frequencyOptions;
 
   const toggleBranch = (b: string) => {
     if (selectedBranches.includes(b)) {
@@ -63,10 +59,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
       <section className="bg-[#2a0209] text-white py-16 sm:py-20 text-center relative overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 relative z-10">
           <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-white tracking-tight">
-            Create Jobalert
+            {jobalertData.hero.title}
           </h1>
           <p className="mt-3 text-base sm:text-lg text-[#f8dada] font-heading font-medium">
-            Receive automated notifications when matching assignments are published
+            {jobalertData.hero.subtitle}
           </p>
         </div>
       </section>
@@ -79,7 +75,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
               <div className="text-center py-12 space-y-4">
                 <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto" />
                 <h2 className="text-2xl sm:text-3xl font-bold font-heading text-gray-900">
-                  Jobalert Activated!
+                  {jobalertData.success.title}
                 </h2>
                 <p className="text-base text-gray-700 max-w-md mx-auto leading-relaxed">
                   We have set up your jobalert for <span className="font-bold text-gray-900">{email}</span>. You will receive notifications ({frequency.toLowerCase()}) whenever new projects in your chosen criteria become available.
@@ -92,7 +88,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                     }}
                     className="is-btn text-sm"
                   >
-                    Create another Jobalert
+                    {jobalertData.success.buttonText}
                   </button>
                 </div>
               </div>
@@ -101,7 +97,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 1. Branche */}
                 <fieldset className="space-y-3">
                   <legend className="text-base font-bold font-heading text-gray-900 mb-2">
-                    Branche
+                    {jobalertData.form.brancheLegend}
                   </legend>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
                     {visibleBranches.map((br) => {
@@ -132,7 +128,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                     onClick={() => setShowAllBranches(!showAllBranches)}
                     className="flex items-center gap-1 text-xs font-bold text-[#e8382e] hover:underline pt-2 cursor-pointer"
                   >
-                    <span>{showAllBranches ? 'Show less' : 'Show more options'}</span>
+                    <span>{showAllBranches ? jobalertData.form.showLess : jobalertData.form.showMore}</span>
                     {showAllBranches ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                   </button>
                 </fieldset>
@@ -140,7 +136,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 2. Type of contract */}
                 <fieldset className="space-y-3 pt-4 border-t border-gray-100">
                   <legend className="text-base font-bold font-heading text-gray-900 mb-2">
-                    Type of contract
+                    {jobalertData.form.contractLegend}
                   </legend>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {contractOptions.map((ct) => {
@@ -170,7 +166,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 3. Language */}
                 <fieldset className="space-y-3 pt-4 border-t border-gray-100">
                   <legend className="text-base font-bold font-heading text-gray-900 mb-2">
-                    Language
+                    {jobalertData.form.languageLegend}
                   </legend>
                   <div className="flex gap-4">
                     {languageOptions.map((lang) => {
@@ -200,11 +196,11 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 4. Keyword */}
                 <div className="pt-4 border-t border-gray-100">
                   <label className="block text-base font-bold font-heading text-gray-900 mb-2">
-                    Keyword (optional)
+                    {jobalertData.form.keywordLabel}
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. .NET, Azure, Java, Data Engineer"
+                    placeholder={jobalertData.form.keywordPlaceholder}
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#e8382e]"
@@ -214,7 +210,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 5. Frequency */}
                 <fieldset className="space-y-3 pt-4 border-t border-gray-100">
                   <legend className="text-base font-bold font-heading text-gray-900 mb-2">
-                    How often do you wish to receive vacancies?
+                    {jobalertData.form.frequencyLegend}
                   </legend>
                   <div className="flex flex-wrap gap-3">
                     {frequencyOptions.map((freq) => (
@@ -243,12 +239,12 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                 {/* 6. Email */}
                 <div className="pt-4 border-t border-gray-100">
                   <label className="block text-base font-bold font-heading text-gray-900 mb-2">
-                    What is your email address? *
+                    {jobalertData.form.emailLabel}
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="name@company.com"
+                    placeholder={jobalertData.form.emailPlaceholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#e8382e]"
@@ -261,7 +257,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                     className="is-btn text-base px-10 py-4 w-full sm:w-auto flex items-center justify-center gap-2 shadow-md"
                   >
                     <Bell className="w-5 h-5" />
-                    <span>Create Jobalert</span>
+                    <span>{jobalertData.form.submitButton}</span>
                   </button>
                 </div>
               </form>
