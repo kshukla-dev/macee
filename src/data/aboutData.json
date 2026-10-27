@@ -1,0 +1,166 @@
+{
+  "hero": {
+    "badge": "Think Better. Recruit Smarter.",
+    "titlePrefix": "About",
+    "titleHighlight": "Macee",
+    "description": "Your trusted partner for flexible staffing, contract administration, compliance, and international recruitment across the Netherlands and Europe.",
+    "primaryCta": {
+      "text": "Get in Contact",
+      "target": "about-contact"
+    },
+    "secondaryCta": {
+      "text": "Our Services",
+      "target": "about-services"
+    },
+    "trustPoints": [
+      {
+        "id": "nen",
+        "text": "SNA NEN 4400-1 Certified"
+      },
+      {
+        "id": "ind",
+        "text": "IND Recognised Sponsor"
+      },
+      {
+        "id": "experience",
+        "text": "30+ Years Experience"
+      }
+    ],
+    "image": {
+      "src": "/images/team-room.jpg",
+      "alt": "Macee Workforce Solutions Specialists",
+      "badgeTitle": "External Workforce Specialists",
+      "badgeSubtitle": "Arnhem · Amsterdam · Global Talent"
+    }
+  },
+  "whatWeDo": {
+    "badge": "ABOUT US",
+    "title": "WHAT WE DO",
+    "description": "Our company is a leading provider of external workforce hiring solutions, with a strong focus on the IT sector and extensive business experience. We specialise in sourcing and managing international contractors, Freelancers, and Expats, ensuring seamless integration into your organisation regardless of location. Our dedicated team leverages a global network to connect you with highly skilled professionals, helping your business remain agile and competitive in a rapidly evolving digital landscape. With our expertise in compliance, onboarding, and cross-border workforce management (contractors), we offer tailored services that meet your unique project requirements and support your business growth.",
+    "paragraphs": [
+      "Our company is a leading provider of external workforce hiring solutions, with a strong focus on the IT sector and extensive business experience. We specialise in sourcing and managing international contractors, Freelancers, and Expats, ensuring seamless integration into your organisation regardless of location. Our dedicated team leverages a global network to connect you with highly skilled professionals, helping your business remain agile and competitive in a rapidly evolving digital landscape. With our expertise in compliance, onboarding, and cross-border workforce management (contractors), we offer tailored services that meet your unique project requirements and support your business growth."
+    ],
+    "highlights": [
+      "IT Sector Specialisation",
+      "Global Talent Network",
+      "End-to-End Compliance"
+    ],
+    "image": {
+      "src": "/uploads/macee1.png",
+      "fallback": "/images/team-room.jpg",
+      "alt": "What We Do - Macee Workplace",
+      "badgeTitle": "The Protective Link for External Talent",
+      "badgeSubtitle": "SNA NEN 4400-1 certified · Official IND Recognised Sponsor"
+    }
+  },
+  "howWeWork": {
+    "badge": "OUR APPROACH",
+    "title": "HOW WE WORK",
+    "description": "We are the broker for your flexible staffing, but we do more than just mediate. Think of us as an extension of your External Hiring Desk; the protective link between your organisation and external talent, providing compliancy, convenience and peace of mind. A service always fully tailored to your needs.",
+    "paragraphs": [
+      "We are the broker for your flexible staffing, but we do more than just mediate. Think of us as an extension of your External Hiring Desk; the protective link between your organisation and external talent, providing compliancy, convenience and peace of mind. A service always fully tailored to your needs."
+    ],
+    "features": [
+      "Full NEN-4400-1 labour & fiscal compliance",
+      "Official IND Recognised Sponsor for fast work visa relocation",
+      "Over 30 years of combined contracting and IT recruitment experience"
+    ],
+    "image": {
+      "src": "/uploads/people-working-dsk.jpg",
+      "fallback": "/images/careers-handshake.jpg",
+      "alt": "How We Work - Macee Team Collaboration",
+      "badgeTitle": "Your External Hiring Desk",
+      "badgeSubtitle": "Compliant, convenient, peace of mind"
+    }
+  },
+  "services": {
+    "badge": "TAILORED SOLUTIONS",
+    "title": "SERVICES",
+    "subtitle": "What can we do for you?",
+    "items": [
+      {
+        "id": "recruitment-staffing",
+        "icon": "Users",
+        "title": "Recruitment & Staffing",
+        "paragraphs": [
+          "When looking for specific expertise, temporary or permanent, we carefully analyse what you are looking for. We combine relevant expertise, culture fit, and soft skills to identify the right professionals for your organisation.",
+          "We are independent and focused on finding candidates with the right track record and expertise. Our approach allows us to search widely and connect you with the most suitable talent for your needs."
+        ],
+        "tag": "Contracting & Permanent"
+      },
+      {
+        "id": "contract-administration",
+        "icon": "Briefcase",
+        "title": "Contract Administration",
+        "paragraphs": [
+          "Once the right candidate is selected for an interview, we take care of the candidate onboarding process and manage all relevant compliance procedures.",
+          "This includes matters relating to local labour and immigration legislation, payroll, and other applicable requirements. We make sure the complete process is handled efficiently and professionally, allowing you to focus on your core business."
+        ],
+        "tag": "Payroll & EOR"
+      },
+      {
+        "id": "compliance-support",
+        "icon": "ShieldCheck",
+        "title": "Compliance & Support",
+        "paragraphs": [
+          "Macee stands for direct, transparent, and compliant cooperation. Our team has extensive knowledge of local legislation and regulations.",
+          "We provide support with compliance, labour and immigration requirements, payroll-related matters, and other processes related to external workforce management.",
+          "Whether you need help with onboarding, compliance, or workforce administration, we work alongside your organisation to provide practical and reliable support."
+        ],
+        "tag": "Legal & Risk Defense"
+      }
+    ]
+  },
+  "team": {
+    "badge": "OUR PEOPLE",
+    "title": "TEAM MACEE",
+    "description": "Meet our team of experienced recruiters, contract managers, and workforce specialists.",
+    "members": [
+      {
+        "name": "Dick Noorlander",
+        "role": "Resourcing Manager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/sMzvFzco/uploads/Bredere%20foto.png",
+        "email": "dick.noorlander@macee.com",
+        "phone": "+31 (0)6 28 35 77 04"
+      },
+      {
+        "name": "Maartje Koekebakker",
+        "role": "Founder / Owner",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/IAJ6bXf8/uploads/maarten-koekebakker.jpeg%20%281%29.jpg",
+        "email": "maartje.koekebakker@macee.com",
+        "phone": "+31 (0)6 82 85 97 10"
+      },
+      {
+        "name": "Adam Nichols",
+        "role": "Recruiter",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/k8LJpK7C/uploads/adam-nichols.jpeg.jpg",
+        "email": "adam.nichols@macee.com",
+        "phone": "+31 (0)6 82 85 97 29"
+      },
+      {
+        "name": "Michael Stip",
+        "role": "Financieel Manager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/WALuDQhd/uploads/michael-siep.png",
+        "email": "michael.stip@macee.com",
+        "phone": "+31 (0)6 82 85 97 06"
+      },
+      {
+        "name": "Amir Davis",
+        "role": "Relatiemanager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/2JLI5vyn/uploads/amin-david.jpeg.jpg",
+        "email": "amir.davis@macee.com",
+        "phone": "+31 (0)6 28 35 77 05"
+      },
+      {
+        "name": "Victor Weijdeman",
+        "role": "Relatiemanager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/sjXS1wcB/uploads/Nicky%20.jpg",
+        "email": "victor.weijdeman@macee.com",
+        "phone": "+31 (0)6 28 35 77 06"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get in contact with us"
+  }
+}
