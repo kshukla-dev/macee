@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Lock } from 'lucide-react';
+import { OpenApplicationModal } from './OpenApplicationModal';
+import { CreateJobalertModal } from './CreateJobalertModal';
 
 export interface JobalertBannerProps {
   /** Navigation callback */
   onNavigate?: (page: string) => void;
   /** Consultation modal callback */
   onOpenConsultation?: () => void;
+  /** Open Application modal callback */
+  onOpenOpenApplication?: () => void;
+  /** Create Jobalert modal callback */
+  onOpenJobalert?: () => void;
   /** Top eyebrow badge */
   badge?: string;
   /** Primary heading */
@@ -39,6 +45,8 @@ export interface JobalertBannerProps {
 export const JobalertBanner: React.FC<JobalertBannerProps> = ({
   onNavigate,
   onOpenConsultation,
+  onOpenOpenApplication,
+  onOpenJobalert,
   badge,
   title,
   description,
@@ -54,6 +62,10 @@ export const JobalertBanner: React.FC<JobalertBannerProps> = ({
   lang = 'EN',
   className = ''
 }) => {
+  // Modal state for direct interactive opening
+  const [isOpenAppModalOpen, setIsOpenAppModalOpen] = useState(false);
+  const [isJobalertModalOpen, setIsJobalertModalOpen] = useState(false);
+
   // Brand authentic copy with Dutch/English localization
   const effectiveBadge =
     badge ||
@@ -88,102 +100,117 @@ export const JobalertBanner: React.FC<JobalertBannerProps> = ({
   const handlePrimary = () => {
     if (onPrimaryClick) {
       onPrimaryClick();
-    } else if (onOpenConsultation && primaryBtnPage === 'consultation') {
-      onOpenConsultation();
-    } else if (onNavigate) {
-      onNavigate(primaryBtnPage);
+    } else if (onOpenJobalert) {
+      onOpenJobalert();
+    } else {
+      setIsJobalertModalOpen(true);
     }
   };
 
   const handleSecondary = () => {
     if (onSecondaryClick) {
       onSecondaryClick();
-    } else if (onNavigate) {
-      onNavigate(secondaryBtnPage);
+    } else if (onOpenOpenApplication) {
+      onOpenOpenApplication();
+    } else {
+      setIsOpenAppModalOpen(true);
     }
   };
 
   const chosenImg = imageSrc || bgImage || '/images/global-team-collaboration.jpg';
 
   return (
-    <section
-      className={`relative w-full bg-[#111827] text-white overflow-hidden py-12 sm:py-16 lg:py-20 border-y border-gray-800 ${className}`}
-    >
-      {/* Macee Brand Ambient Glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E30613]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-80 h-80 bg-black/50 rounded-full blur-2xl pointer-events-none" />
+    <>
+      <section
+        className={`relative w-full bg-[#111827] text-white overflow-hidden py-12 sm:py-16 lg:py-20 border-y border-gray-800 ${className}`}
+      >
+        {/* Macee Brand Ambient Glows */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E30613]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-80 h-80 bg-black/50 rounded-full blur-2xl pointer-events-none" />
 
-      {/* Left Visual: global-team-collaboration.jpg with seamless gradient blend into #111827 */}
-      <div className="absolute inset-y-0 left-0 w-full lg:w-[48%] xl:w-[45%] overflow-hidden pointer-events-none">
-        <img
-          src={chosenImg}
-          alt="Macee Global Workforce Collaboration"
-          className="w-full h-full object-cover object-center lg:object-left scale-105 transition-transform duration-700"
-          loading="lazy"
-        />
-        {/* Seamless right-side fade to Macee dark background #111827 on desktop */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#111827]/40 to-[#111827] hidden lg:block pointer-events-none" />
-        {/* Seamless bottom fade on mobile/tablet */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/80 to-transparent lg:hidden pointer-events-none" />
-      </div>
+        {/* Left Visual: global-team-collaboration.jpg with seamless gradient blend into #111827 */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-[48%] xl:w-[45%] overflow-hidden pointer-events-none">
+          <img
+            src={chosenImg}
+            alt="Macee Global Workforce Collaboration"
+            className="w-full h-full object-cover object-center lg:object-left scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          {/* Seamless right-side fade to Macee dark background #111827 on desktop */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#111827]/40 to-[#111827] hidden lg:block pointer-events-none" />
+          {/* Seamless bottom fade on mobile/tablet */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/80 to-transparent lg:hidden pointer-events-none" />
+        </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center">
-          
-          {/* Spacer to naturally reserve space for the left team visual on desktop */}
-          <div className="hidden lg:block lg:w-[44%] xl:w-[42%] shrink-0 pointer-events-none h-1" />
-
-          {/* Right Column: Hero copy and action buttons in Macee Brand styling */}
-          <div className="w-full lg:w-[56%] xl:w-[58%] lg:pl-6 flex flex-col justify-center">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center">
             
-            {/* 1. Eyebrow Badge in Macee Red */}
-            <div className="mb-2.5">
-              <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#E30613]">
-                {effectiveBadge}
-              </span>
+            {/* Spacer to naturally reserve space for the left team visual on desktop */}
+            <div className="hidden lg:block lg:w-[44%] xl:w-[42%] shrink-0 pointer-events-none h-1" />
+
+            {/* Right Column: Hero copy and action buttons in Macee Brand styling */}
+            <div className="w-full lg:w-[56%] xl:w-[58%] lg:pl-6 flex flex-col justify-center">
+              
+              {/* 1. Eyebrow Badge in Macee Red */}
+              <div className="mb-2.5">
+                <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#E30613]">
+                  {effectiveBadge}
+                </span>
+              </div>
+
+              {/* 2. Headline: Can't find the project you are looking for? */}
+              <h2 className="text-2xl sm:text-4xl lg:text-[42px] font-bold font-display text-white tracking-tight leading-[1.15]">
+                {effectiveTitle}
+              </h2>
+
+              {/* 3. Description */}
+              <p className="mt-3.5 text-sm sm:text-base text-gray-300 leading-relaxed max-w-xl font-normal">
+                {effectiveDescription}
+              </p>
+
+              {/* 4. Action Buttons (Macee Red Primary + Sleek Glass Outline Secondary) */}
+              <div className="mt-8 flex flex-wrap items-center gap-3.5">
+                <button
+                  type="button"
+                  onClick={handlePrimary}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-bold text-sm shadow-lg shadow-[#E30613]/25 hover:shadow-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:-translate-y-0.5 group"
+                >
+                  <span>{effectivePrimaryText}</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSecondary}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm backdrop-blur-xs transition-all duration-200 cursor-pointer active:scale-95 hover:border-white/40"
+                >
+                  <span>{effectiveSecondaryText}</span>
+                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                </button>
+              </div>
+
+              {/* 5. Security Assurance Note */}
+              <div className="mt-5 flex items-center gap-2 text-xs text-gray-400">
+                <Lock className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
+                <span>{effectiveSecurityNote}</span>
+              </div>
+
             </div>
-
-            {/* 2. Headline: Can't find the project you are looking for? */}
-            <h2 className="text-2xl sm:text-4xl lg:text-[42px] font-bold font-display text-white tracking-tight leading-[1.15]">
-              {effectiveTitle}
-            </h2>
-
-            {/* 3. Description */}
-            <p className="mt-3.5 text-sm sm:text-base text-gray-300 leading-relaxed max-w-xl font-normal">
-              {effectiveDescription}
-            </p>
-
-            {/* 4. Action Buttons (Macee Red Primary + Sleek Glass Outline Secondary) */}
-            <div className="mt-8 flex flex-wrap items-center gap-3.5">
-              <button
-                type="button"
-                onClick={handlePrimary}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-bold text-sm shadow-lg shadow-[#E30613]/25 hover:shadow-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:-translate-y-0.5 group"
-              >
-                <span>{effectivePrimaryText}</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </button>
-
-              <button
-                type="button"
-                onClick={handleSecondary}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm backdrop-blur-xs transition-all duration-200 cursor-pointer active:scale-95 hover:border-white/40"
-              >
-                <span>{effectiveSecondaryText}</span>
-                <ArrowRight className="w-4 h-4 text-gray-400" />
-              </button>
-            </div>
-
-            {/* 5. Security Assurance Note */}
-            <div className="mt-5 flex items-center gap-2 text-xs text-gray-400">
-              <Lock className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
-              <span>{effectiveSecurityNote}</span>
-            </div>
-
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Interactive Modals */}
+      <OpenApplicationModal
+        isOpen={isOpenAppModalOpen}
+        onClose={() => setIsOpenAppModalOpen(false)}
+      />
+
+      <CreateJobalertModal
+        isOpen={isJobalertModalOpen}
+        onClose={() => setIsJobalertModalOpen(false)}
+      />
+    </>
   );
 };
 

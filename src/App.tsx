@@ -20,6 +20,8 @@ import { HRRiskSurveyModal } from './components/HRRiskSurveyModal';
 import { ResourceModal } from './components/ResourceModal';
 import { JobApplicationModal } from './components/JobApplicationModal';
 import { FaqModal } from './components/FaqModal';
+import { OpenApplicationModal } from './components/OpenApplicationModal';
+import { CreateJobalertModal } from './components/CreateJobalertModal';
 import { AboutPage } from './pages/AboutPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { ProfessionalsPage } from './pages/ProfessionalsPage';
@@ -39,6 +41,8 @@ export default function App() {
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isOpenApplicationOpen, setIsOpenApplicationOpen] = useState(false);
+  const [isJobalertModalOpen, setIsJobalertModalOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState<ResourceItem | null>(null);
   const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -49,6 +53,8 @@ export default function App() {
     isConsultationOpen ||
     isRiskSurveyOpen ||
     isFaqOpen ||
+    isOpenApplicationOpen ||
+    isJobalertModalOpen ||
     Boolean(selectedResource) ||
     Boolean(selectedJob) ||
     isMobileMenuOpen;
@@ -98,6 +104,14 @@ export default function App() {
 
   const handleNavigatePage = (page: string) => {
     setIsMobileMenuOpen(false);
+    if (page === 'open-application' || page === 'open_application') {
+      setIsOpenApplicationOpen(true);
+      return;
+    }
+    if (page === 'jobalert' || page === 'job-alert' || page === 'create-jobalert') {
+      setIsJobalertModalOpen(true);
+      return;
+    }
     if (page === 'about' || page === 'about-us') {
       setCurrentPage('about');
       window.history.pushState(null, '', '/about');
@@ -420,6 +434,16 @@ export default function App() {
           setIsFaqOpen(false);
           setIsConsultationOpen(true);
         }}
+      />
+
+      <OpenApplicationModal
+        isOpen={isOpenApplicationOpen}
+        onClose={() => setIsOpenApplicationOpen(false)}
+      />
+
+      <CreateJobalertModal
+        isOpen={isJobalertModalOpen}
+        onClose={() => setIsJobalertModalOpen(false)}
       />
     </div>
   );

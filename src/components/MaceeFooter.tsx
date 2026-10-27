@@ -133,7 +133,7 @@ export const MaceeFooter: React.FC<MaceeFooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('contact')}
+                  onClick={() => onNavigate('open-application')}
                   className="text-white hover:text-[#f8dada] transition-colors cursor-pointer"
                 >
                   Open application

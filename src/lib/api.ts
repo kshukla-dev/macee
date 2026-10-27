@@ -38,6 +38,9 @@ export const API_ENDPOINTS = {
   },
   forms: {
     jobAlert: '/jobalert-form',
+    openApplication: '/open_application',
+    openApplicationById: (id: string | number) =>
+      `/open_application/${encodeURIComponent(String(id))}`,
     vacancyApplication: (vacancyId: string | number) =>
       `/vacancy_application/${encodeURIComponent(String(vacancyId))}`,
   },
@@ -923,5 +926,192 @@ export async function submitVacancyApplication(
     success: true,
     message: 'Your application and CV have been successfully submitted into OTYS Recruitment System!',
     dossierId: resJson?.dossierId || null,
+  };
+}
+
+/**
+ * ============================================================================
+ * 6. OPEN APPLICATION FORM (OTYS WEB API)
+ * GET /api/open_application | POST /api/open_application/{id}
+ * ============================================================================
+ */
+
+export interface OpenApplicationSubmissionData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  privacyAgreed: boolean;
+  fileId?: string;
+  owsFileUid?: string;
+  answers?: Record<string, any>;
+}
+
+/**
+ * Retrieves the open application form structure from OTYS: GET /open_application
+ */
+export async function fetchOpenApplicationForm(): Promise<any> {
+  const response = await authenticatedFetch(API_ENDPOINTS.forms.openApplication, {
+    method: 'GET',
+  });
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Failed to fetch open application form (Status ${response.status}): ${errorText}`);
+  }
+  return await response.json();
+}
+
+/**
+ * Submits an open application form to OTYS: POST /open_application or POST /open_application/{id}
+ */
+export async function submitOpenApplication(
+  data: OpenApplicationSubmissionData,
+  formId?: string | number
+): Promise<{ success: boolean; message: string; dossierId?: string | null }> {
+  const endpoint = formId
+    ? API_ENDPOINTS.forms.openApplicationById(formId)
+    : API_ENDPOINTS.forms.openApplication;
+
+  const answers: Record<string, any> = data.answers || {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    phone: data.phone,
+    privacyAgreed: data.privacyAgreed,
+  };
+  if (data.fileId) answers.fileId = data.fileId;
+
+  const payload = {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    name: `${data.firstName} ${data.lastName}`.trim(),
+    email: data.email,
+    phone: data.phone,
+    fileId: data.fileId,
+    owsFileUid: data.owsFileUid,
+    answers,
+    metaData: {
+      utmTags: {
+        source: 'macee-portal',
+        medium: 'website_open_application',
+      },
+      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl',
+    },
+  };
+
+  const response = await authenticatedFetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      Accept: 'application/ld+json, application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    if (errorText.toLowerCase().includes('already') || errorText.toLowerCase().includes('duplicate')) {
+      return {
+        success: true,
+        message: 'Your open application is already logged with our recruitment desk.',
+      };
+    }
+    throw new Error(`Open application submission failed (Status ${response.status}): ${errorText || response.statusText}`);
+  }
+
+  const resJson = await response.json().catch(() => ({}));
+  return {
+    success: true,
+    message: 'Your open application has been successfully submitted to Macee!',
+    dossierId: resJson?.dossierId || null,
+  };
+}
+
+/**
+ * ============================================================================
+ * 7. JOB ALERT FORM (OTYS WEB API)
+ * GET /api/jobalert-form | POST /api/jobalert-form
+ * ============================================================================
+ */
+
+export interface JobAlertSubmissionData {
+  email: string;
+  frequency: string;
+  keywords?: string;
+  branches?: string[];
+  contracts?: string[];
+  languages?: string[];
+  answers?: Record<string, any>;
+}
+
+/**
+ * Retrieves the jobalert form structure from OTYS: GET /jobalert-form
+ */
+export async function fetchJobAlertForm(): Promise<any> {
+  const response = await authenticatedFetch(API_ENDPOINTS.forms.jobAlert, {
+    method: 'GET',
+  });
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Failed to fetch job alert form (Status ${response.status}): ${errorText}`);
+  }
+  return await response.json();
+}
+
+/**
+ * Submits the job alert registration to OTYS: POST /jobalert-form
+ */
+export async function submitJobAlertForm(
+  data: JobAlertSubmissionData
+): Promise<{ success: boolean; message: string; id?: string | null }> {
+  const payload = {
+    email: data.email,
+    frequency: data.frequency,
+    keywords: data.keywords || '',
+    branches: data.branches || [],
+    contracts: data.contracts || [],
+    languages: data.languages || [],
+    answers: data.answers || {
+      email: data.email,
+      frequency: data.frequency,
+      keywords: data.keywords,
+      branches: data.branches,
+      contracts: data.contracts,
+      languages: data.languages,
+    },
+    metaData: {
+      utmTags: {
+        source: 'macee-portal',
+        medium: 'website_jobalert_modal',
+      },
+      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl',
+    },
+  };
+
+  const response = await authenticatedFetch(API_ENDPOINTS.forms.jobAlert, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      Accept: 'application/ld+json, application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    if (errorText.toLowerCase().includes('already') || errorText.toLowerCase().includes('duplicate')) {
+      return {
+        success: true,
+        message: 'You have already registered a Jobalert with this email address.',
+      };
+    }
+    throw new Error(`Jobalert submission failed (Status ${response.status}): ${errorText || response.statusText}`);
+  }
+
+  const resJson = await response.json().catch(() => ({}));
+  return {
+    success: true,
+    message: 'Your Jobalert has been successfully configured!',
+    id: resJson?.id || null,
   };
 }
