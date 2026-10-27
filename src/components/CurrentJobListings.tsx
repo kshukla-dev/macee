@@ -29,10 +29,22 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
       setIsLoading(true);
 
       try {
-        const apiProjects: ProjectAssignmentItem[] = await getAllJobs({ itemsPerPage: 10 });
+        const apiProjects: ProjectAssignmentItem[] = await getAllJobs({ itemsPerPage: 20 });
 
         if (isMounted && Array.isArray(apiProjects) && apiProjects.length > 0) {
-          const mappedListings: JobListing[] = apiProjects.map((proj) => {
+          // Sort to ensure the latest vacancies are prioritized at the top
+          const sortedProjects = [...apiProjects].sort((a, b) => {
+            const timeA = a.postedDate ? new Date(a.postedDate).getTime() : 0;
+            const timeB = b.postedDate ? new Date(b.postedDate).getTime() : 0;
+            if (!isNaN(timeA) && !isNaN(timeB) && timeA !== timeB) {
+              return timeB - timeA;
+            }
+            const numA = parseInt(a.id.replace(/\D/g, ''), 10) || 0;
+            const numB = parseInt(b.id.replace(/\D/g, ''), 10) || 0;
+            return numB - numA;
+          });
+
+          const mappedListings: JobListing[] = sortedProjects.map((proj) => {
             const cleanDesc =
               proj.description ||
               (proj.shortDescriptionHtml ? proj.shortDescriptionHtml.replace(/<[^>]+>/g, '').trim() : '') ||
@@ -46,6 +58,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
               type: proj.contractType || proj.hours || 'Permanent / Fulltime',
               experience: proj.experience || 'Professional',
               description: cleanDesc,
+              postedDate: proj.postedDate,
               requirements:
                 proj.requirements && proj.requirements.length > 0
                   ? proj.requirements
@@ -85,9 +98,13 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
     return Array.from(set);
   }, [jobs]);
 
+  // Filter jobs by department and display strictly the 4 latest vacancies
   const filteredJobs = useMemo(() => {
-    if (selectedDept === 'All') return jobs;
-    return jobs.filter((j) => j.department?.toLowerCase() === selectedDept.toLowerCase());
+    const list =
+      selectedDept === 'All'
+        ? jobs
+        : jobs.filter((j) => j.department?.toLowerCase() === selectedDept.toLowerCase());
+    return list.slice(0, 4);
   }, [jobs, selectedDept]);
 
   return (
@@ -172,6 +189,14 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                           <Clock className="w-3.5 h-3.5 text-[#111827]" />
                           {job.type}
                         </span>
+                        {job.postedDate && (
+                          <>
+                            <span>·</span>
+                            <span className="text-[11px] font-mono text-gray-400">
+                              {job.postedDate}
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
 

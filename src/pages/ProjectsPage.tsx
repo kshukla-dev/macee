@@ -59,6 +59,7 @@ export interface ProjectAssignmentItem {
   requirements: string[];
   skills: string[];
   postedDate: string;
+  rawDate?: string;
   isFeatured?: boolean;
 }
 
@@ -162,7 +163,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
   }, [projectsList]);
 
   const filteredProjects = useMemo(() => {
-    return projectsList.filter((proj) => {
+    const list = projectsList.filter((proj) => {
       const q = keyword.trim().toLowerCase();
       const matchesKeyword =
         !q ||
@@ -185,6 +186,18 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         proj.contractType.toLowerCase().includes(selectedContract.toLowerCase());
 
       return matchesKeyword && matchesLocation && matchesBranche && matchesContract;
+    });
+
+    // Ensure latest vacancies appear first (newest to oldest)
+    return [...list].sort((a, b) => {
+      const timeA = a.rawDate ? new Date(a.rawDate).getTime() : a.postedDate ? new Date(a.postedDate).getTime() : 0;
+      const timeB = b.rawDate ? new Date(b.rawDate).getTime() : b.postedDate ? new Date(b.postedDate).getTime() : 0;
+      if (!isNaN(timeA) && !isNaN(timeB) && timeA !== timeB) {
+        return timeB - timeA;
+      }
+      const numA = parseInt(a.id.replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt(b.id.replace(/\D/g, ''), 10) || 0;
+      return numB - numA;
     });
   }, [projectsList, keyword, selectedLocation, selectedBranche, selectedContract]);
 

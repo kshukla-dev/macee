@@ -652,8 +652,9 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
     else skills.push('Agile / Scrum', 'Enterprise IT', 'Consulting');
   }
 
-  const postedDate = otys.datePublished || otys.dateCreated || otys.publishedDate
-    ? new Date(otys.datePublished || otys.dateCreated || otys.publishedDate).toLocaleDateString()
+  const rawDateStr = otys.datePublished || otys.dateCreated || otys.publishedDate || otys.entryDate || otys.dateLastModified || '';
+  const postedDate = rawDateStr
+    ? new Date(rawDateStr).toLocaleDateString()
     : 'Active OTYS Assignment';
 
   return {
@@ -675,6 +676,7 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
     requirements,
     skills: skills.slice(0, 5),
     postedDate,
+    rawDate: typeof rawDateStr === 'string' ? rawDateStr : '',
     isFeatured: Boolean(otys.featured || otys.isFeatured || otys.highlighted),
   };
 }
@@ -721,7 +723,17 @@ export async function getAllJobs(filterParams?: VacancyFilterParams): Promise<Pr
   try {
     const rawData = await apiRequest<any>(endpoint, { method: 'GET' });
     const jobs = mapOtysCollectionToProjects(rawData);
-    return jobs.length > 0 ? jobs : ALL_PROJECTS;
+    const sorted = [...jobs].sort((a, b) => {
+      const timeA = a.rawDate ? new Date(a.rawDate).getTime() : a.postedDate ? new Date(a.postedDate).getTime() : 0;
+      const timeB = b.rawDate ? new Date(b.rawDate).getTime() : b.postedDate ? new Date(b.postedDate).getTime() : 0;
+      if (!isNaN(timeA) && !isNaN(timeB) && timeA !== timeB) {
+        return timeB - timeA;
+      }
+      const numA = parseInt(a.id.replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt(b.id.replace(/\D/g, ''), 10) || 0;
+      return numB - numA;
+    });
+    return sorted.length > 0 ? sorted : ALL_PROJECTS;
   } catch (error) {
     console.error('Failed to fetch vacancies, using fallback data:', error);
     return ALL_PROJECTS;

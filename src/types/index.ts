@@ -36,6 +36,7 @@ export interface JobListing {
   experience: string;
   description: string;
   requirements: string[];
+  postedDate?: string;
 }
 
 export interface RiskQuestion {
