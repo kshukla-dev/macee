@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
@@ -12,6 +12,16 @@ export const Footer: React.FC<FooterProps> = ({
   onNavigateSection,
   onNavigatePage,
 }) => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -59,28 +69,6 @@ export const Footer: React.FC<FooterProps> = ({
               <span className="text-[11px] font-mono bg-white/10 text-white/90 px-2.5 py-1 rounded">
                 IND Recognised Sponsor
               </span>
-            </div>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://www.linkedin.com/company/macee"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                </svg>
-              </a>
-              <a
-                href="mailto:info@macee.com"
-                aria-label="Email Macee"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white text-xs font-mono font-bold"
-              >
-                @
-              </a>
             </div>
           </div>
 
@@ -226,31 +214,66 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Bottom Copyright Area */}
-        <div className="mt-14 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-          <p>
+        {/* Bottom Area: Copyright, SNA NEN Certification Logo & Socials */}
+        <div className="mt-14 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-xs text-gray-400">
             Copyright © 2026 Macee BV | External Workforce Solutions
           </p>
 
           <div className="flex items-center gap-6">
-            <span className="hover:text-white transition-colors cursor-pointer" onClick={onOpenConsultation}>
-              Privacy Statement
-            </span>
-            <span>·</span>
-            <span className="hover:text-white transition-colors cursor-pointer" onClick={onOpenConsultation}>
-              Terms & Conditions
-            </span>
-            <span>·</span>
-            <button
-              onClick={scrollToTop}
-              className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"
+            {/* Official SNA NEN 4400-1 & ISO 9001 Certification Logo */}
+            <a
+              href="https://www.normeringarbeid.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Stichting Normering Arbeid - SNA NEN 4400-1 & ISO 9001 Certified"
+              className="flex items-center hover:opacity-100 opacity-90 transition-opacity"
             >
-              <span>Back to Top</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
+              <img
+                src="/images/sna-nen-logo.png"
+                alt="SNA NEN 4400-1 & ISO 9001 Certified"
+                className="h-8 sm:h-9 w-auto object-contain brightness-125 contrast-125"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://www.macee.com/build/images/sna-nen-logo.png';
+                }}
+              />
+            </a>
+
+            {/* Social Icons (LinkedIn & Email) */}
+            <div className="flex items-center gap-2.5">
+              <a
+                href="https://www.linkedin.com/company/macee"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+              <a
+                href="mailto:info@macee.com"
+                aria-label="Email Macee"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E30613] transition-colors flex items-center justify-center text-white text-xs font-mono font-bold"
+              >
+                @
+              </a>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Floating Back to Top Button (Sticky bottom-right when scrolled down) */}
+      <button
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        title="Back to top"
+        className={`fixed bottom-6 right-6 z-50 p-3.5 rounded-full bg-[#E30613] hover:bg-[#111827] text-white shadow-2xl shadow-black/50 border border-white/20 transition-all duration-300 flex items-center justify-center cursor-pointer group hover:scale-110 active:scale-95 ${showScrollTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'
+          }`}
+      >
+        <ArrowUp className="w-5 h-5 transition-transform duration-200 group-hover:-translate-y-0.5" />
+      </button>
     </footer>
   );
 };
