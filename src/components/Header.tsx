@@ -70,20 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-          {/* Home */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('home');
-              } else {
-                onNavigateSection('hero');
-              }
-            }}
-            className={`nav-button rounded-md ${currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
-          >
-            Home
-          </button>
+
 
           {/* About */}
           <button

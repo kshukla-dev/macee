@@ -72,29 +72,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 
       {/* Nav List */}
       <div className="p-6 space-y-2 flex-1">
-        {/* Home */}
-        <div>
-          <button
-            onClick={() => handlePage('home')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'home'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
-          >
-            Home
-          </button>
-        </div>
 
         {/* About */}
         <div>
           <button
             onClick={() => handlePage('about')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'about'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'about'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             About Us
           </button>
@@ -104,11 +90,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('clients')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'clients'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'clients'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             Clients
           </button>
@@ -118,11 +103,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('professionals')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'professionals'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'professionals'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             Professionals
           </button>
@@ -132,11 +116,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('projects')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'projects'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'projects'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             Projects
           </button>
@@ -146,11 +129,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('faq')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'faq'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'faq'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             FAQ
           </button>
@@ -160,11 +142,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('contact')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
-              currentPage === 'contact'
-                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-                : 'font-medium text-gray-800 hover:text-[#E30613]'
-            }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'contact'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
           >
             Contact
           </button>
