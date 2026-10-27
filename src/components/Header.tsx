@@ -89,9 +89,8 @@ export const Header: React.FC<HeaderProps> = ({
                   onNavigateSection('why-wfs');
                 }
               }}
-              className={`nav-button rounded-md group ${
-                currentPage === 'about' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
-              }`}
+              className={`nav-button rounded-md group ${currentPage === 'about' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
+                }`}
             >
               <span>About Us</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
@@ -156,9 +155,8 @@ export const Header: React.FC<HeaderProps> = ({
                   onNavigateSection('what-we-do');
                 }
               }}
-              className={`nav-button rounded-md group ${
-                currentPage === 'clients' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
-              }`}
+              className={`nav-button rounded-md group ${currentPage === 'clients' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
+                }`}
             >
               <span>Clients</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
@@ -296,70 +294,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Industries Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setActiveDropdown('industries')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button
-              onClick={() => onNavigateSection('why-wfs')}
-              className="nav-button hover:text-[#E30613] rounded-md group"
-            >
-              <span>Industries</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
-            </button>
 
-            {activeDropdown === 'industries' && (
-              <div className="absolute top-full left-0 w-60 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
-                <button
-                  onClick={() => {
-                    onNavigateSection('why-wfs');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  ICT & Software Development
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateSection('why-wfs');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Banking / Fintech / Finance
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateSection('why-wfs');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  High Tech Industry (Brainport)
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateSection('why-wfs');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Government & Public Sector
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateSection('why-wfs');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Telecom & Energy / Oil & Gas
-                </button>
-              </div>
-            )}
-          </div>
 
           {/* Projects */}
           <button
@@ -370,9 +305,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('jobs');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${
-              currentPage === 'projects' ? 'text-[#E30613] font-bold' : ''
-            }`}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'projects' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
             Projects
           </button>
@@ -386,9 +320,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('resources');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${
-              currentPage === 'faq' ? 'text-[#E30613] font-bold' : ''
-            }`}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'faq' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
             FAQ &amp; Guides
           </button>
@@ -402,9 +335,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('contact');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${
-              currentPage === 'contact' ? 'text-[#E30613] font-bold' : ''
-            }`}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'contact' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
             Contact
           </button>
