@@ -3,22 +3,15 @@ import {
   ChevronDown, 
   HelpCircle, 
   ArrowLeft, 
+  ArrowRight,
   Search, 
-  FileText, 
-  Download, 
   CheckCircle2, 
   Sparkles, 
-  BookOpen, 
-  ShieldCheck, 
-  ArrowRight, 
-  X, 
-  Send,
   Phone,
   Mail
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
-import { ResourceItem } from '../types';
 import faqData from '../data/faqData.json';
 
 interface FaqPageProps {
@@ -27,17 +20,12 @@ interface FaqPageProps {
 }
 
 export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation }) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'faqs' | 'guides'>('all');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedResource, setSelectedResource] = useState<ResourceItem | null>(null);
-  const [downloadSuccess, setDownloadSuccess] = useState(false);
-  const [downloadEmail, setDownloadEmail] = useState('');
 
   const categories = faqData.categories;
   const ALL_FAQS = faqData.faqs;
-  const resourcesList = faqData.resources as ResourceItem[];
 
   // Filter FAQs
   const filteredFaqs = useMemo(() => {
@@ -55,11 +43,6 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
 
   const toggleFaq = (id: string) => {
     setOpenFaqId(openFaqId === id ? null : id);
-  };
-
-  const handleDownloadSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setDownloadSuccess(true);
   };
 
   return (
@@ -88,151 +71,12 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
           <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
             {faqData.hero.description}
           </p>
-
-          {/* Quick Jump Tabs */}
-          <div className="mt-8 inline-flex items-center p-1.5 bg-black/40 backdrop-blur-md rounded-xl border border-white/10">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                activeTab === 'all'
-                  ? 'bg-[#E30613] text-white shadow-sm'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              {faqData.hero.tabs.all}
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('faqs');
-                const el = document.getElementById('faq-section');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className={`px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                activeTab === 'faqs'
-                  ? 'bg-[#E30613] text-white shadow-sm'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              {faqData.hero.tabs.faqs} ({ALL_FAQS.length})
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('guides');
-                const el = document.getElementById('guides-section');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className={`px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                activeTab === 'guides'
-                  ? 'bg-[#E30613] text-white shadow-sm'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              {faqData.hero.tabs.guides} ({resourcesList.length})
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* 2. Downloadable Guides Section */}
-      {(activeTab === 'all' || activeTab === 'guides') && (
-        <section id="guides-section" className="py-16 sm:py-20 bg-white border-b border-gray-100">
-          <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                  {faqData.guidesSection.tag}
-                </span>
-                <h2 className="text-2xl sm:text-4xl font-bold font-display text-gray-900 mt-1">
-                  {faqData.guidesSection.title}
-                </h2>
-                <p className="text-sm sm:text-base text-gray-600 mt-2 max-w-xl">
-                  {faqData.guidesSection.description}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
-                <BookOpen className="w-4 h-4 text-[#E30613]" />
-                <span>{faqData.guidesSection.badge}</span>
-              </div>
-            </div>
-
-            {/* Guides Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {resourcesList.map((res) => (
-                <div
-                  key={res.id}
-                  className="group bg-[#F8FAFB] rounded-2xl border border-gray-200 overflow-hidden hover:border-[#E30613]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Media Thumbnail */}
-                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                      <img
-                        src={res.image}
-                        alt={res.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.currentTarget.src = '/uploads/Software-Development-2.jpg';
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      
-                      <span className="absolute top-3 left-3 text-[11px] font-bold text-white bg-[#E30613] px-2.5 py-1 rounded">
-                        {res.type}
-                      </span>
-
-                      <span className="absolute bottom-3 right-3 text-xs font-mono font-bold text-white bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs">
-                        {res.pages}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold font-display text-gray-900 group-hover:text-[#E30613] transition-colors leading-snug mb-3">
-                        {res.title}
-                      </h3>
-
-                      <p className="text-xs sm:text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
-                        {res.description}
-                      </p>
-
-                      {/* Topics pills */}
-                      <div className="space-y-1.5 pt-3 border-t border-gray-200/60">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block mb-1">
-                          Key Topics:
-                        </span>
-                        {res.topics.slice(0, 3).map((t, idx) => (
-                          <div key={idx} className="flex items-start gap-1.5 text-xs text-gray-700">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#E30613] shrink-0 mt-0.5" />
-                            <span className="line-clamp-1">{t}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Action */}
-                  <div className="p-6 pt-0">
-                    <button
-                      onClick={() => {
-                        setSelectedResource(res);
-                        setDownloadSuccess(false);
-                      }}
-                      className="w-full py-3 px-4 rounded-[5px] bg-white border border-gray-200 group-hover:bg-[#E30613] group-hover:border-[#E30613] group-hover:text-white text-gray-800 text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>{faqData.guidesSection.buttonText}</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 3. FAQ Section */}
-      {(activeTab === 'all' || activeTab === 'faqs') && (
-        <section id="faq-section" className="py-16 sm:py-24">
-          <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. FAQ Section */}
+      <section id="faq-section" className="py-16 sm:py-24">
+        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Category Cards */}
             <div className="mb-12">
@@ -259,7 +103,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {categories.map((cat) => {
                   const isSelected = selectedCategory === cat.id;
                   return (
@@ -428,119 +272,6 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
             </div>
           </div>
         </section>
-      )}
-
-      {/* 4. Modal for Guide Details & Download */}
-      {selectedResource && (
-        <div
-          data-lenis-prevent
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
-          onClick={() => setSelectedResource(null)}
-        >
-          <div
-            className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[88vh] my-auto animate-fadeIn"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="bg-[#111827] text-white p-6 sm:p-7 shrink-0 relative pr-14">
-              <button
-                onClick={() => setSelectedResource(null)}
-                aria-label="Close guide modal"
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-1">
-                {selectedResource.type}
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold font-display text-white leading-snug">
-                {selectedResource.title}
-              </h3>
-              <p className="text-xs text-gray-300 font-mono mt-1">
-                {selectedResource.pages} · Macee BV Compliance Publications
-              </p>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
-              {downloadSuccess ? (
-                <div className="text-center py-8 space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600">
-                    <CheckCircle2 className="w-9 h-9" />
-                  </div>
-                  <h4 className="text-2xl font-bold font-display text-gray-900">
-                    Your Guide is on its Way!
-                  </h4>
-                  <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                    We’ve prepared <strong>{selectedResource.downloadName}</strong>. A copy has been dispatched to <strong>{downloadEmail || 'your email'}</strong>.
-                  </p>
-                  <div className="pt-2">
-                    <button
-                      onClick={() => {
-                        setSelectedResource(null);
-                        setDownloadSuccess(false);
-                      }}
-                      className="px-8 py-3 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
-                    >
-                      Close Window
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
-                      Publication Summary
-                    </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {selectedResource.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-3">
-                      Topics Included in this Whitepaper
-                    </h4>
-                    <div className="space-y-2 bg-[#F8FAFB] p-4 rounded-xl border border-gray-200">
-                      {selectedResource.topics.map((top, idx) => (
-                        <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
-                          <CheckCircle2 className="w-4 h-4 text-[#E30613] shrink-0 mt-0.5" />
-                          <span>{top}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Form */}
-                  <form onSubmit={handleDownloadSubmit} className="pt-4 border-t border-gray-100 space-y-3">
-                    <label className="block text-xs font-semibold text-gray-700">
-                      Enter your work email for instant access:
-                    </label>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <input
-                        type="email"
-                        required
-                        placeholder="e.g. name@company.nl"
-                        value={downloadEmail}
-                        onChange={(e) => setDownloadEmail(e.target.value)}
-                        className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
-                      />
-                      <button
-                        type="submit"
-                        className="px-6 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shrink-0"
-                      >
-                        <Download className="w-4 h-4" />
-                        <span>Download PDF</span>
-                      </button>
-                    </div>
-                  </form>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 5. Bottom Jobalert Banner */}
       <JobalertBanner
