@@ -70,7 +70,20 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-
+          {/* Home */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('home');
+              } else {
+                onNavigateSection('hero');
+              }
+            }}
+            className={`nav-button rounded-md ${currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+              }`}
+          >
+            Home
+          </button>
 
           {/* About */}
           <button
@@ -81,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('why-wfs');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'about' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             About Us
@@ -96,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('what-we-do');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'clients' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             Clients
@@ -111,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('what-we-do');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'professionals' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'professionals' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             Professionals
@@ -126,13 +139,13 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('jobs');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'projects' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'projects' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             Projects
           </button>
 
-          {/* FAQ & Guides */}
+          {/* FAQ */}
           <button
             onClick={() => {
               if (onNavigatePage) {
@@ -141,7 +154,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('resources');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'faq' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             FAQ
@@ -156,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('contact');
               }
             }}
-            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'contact' ? 'text-[#E30613] font-bold' : ''
+            className={`nav-button rounded-md ${currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
             Contact

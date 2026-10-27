@@ -7,6 +7,7 @@ interface MobileMenuProps {
   onOpenConsultation: () => void;
   onNavigateSection: (sectionId: string) => void;
   onNavigatePage?: (page: string) => void;
+  currentPage?: string;
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -15,6 +16,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   onOpenConsultation,
   onNavigateSection,
   onNavigatePage,
+  currentPage = 'home',
 }) => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
@@ -69,13 +71,30 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       </div>
 
       {/* Nav List */}
-      <div className="p-6 space-y-4 flex-1">
+      <div className="p-6 space-y-2 flex-1">
+        {/* Home */}
+        <div>
+          <button
+            onClick={() => handlePage('home')}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'home'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
+          >
+            Home
+          </button>
+        </div>
 
         {/* About */}
         <div>
           <button
             onClick={() => handlePage('about')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'about'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             About Us
           </button>
@@ -85,7 +104,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('clients')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'clients'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             Clients
           </button>
@@ -95,59 +118,55 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('professionals')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'professionals'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             Professionals
           </button>
         </div>
 
-        {/* Industries Accordion */}
-        <div className="border-b border-gray-100 pb-2">
-          <button
-            onClick={() => toggleSection('industries')}
-            className="w-full flex items-center justify-between py-2 text-base font-medium text-gray-800"
-          >
-            <span>Industries</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'industries' ? 'rotate-180 text-[#E30613]' : ''
-                }`}
-            />
-          </button>
-          {expandedSection === 'industries' && (
-            <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">ICT & Software Development</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Banking / Fintech / Finance</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">High Tech (Brainport)</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Government & Public Sector</button>
-              <button onClick={() => handleNav('why-wfs')} className="w-full text-left py-1 hover:text-[#E30613]">Telecom & Energy / Oil & Gas</button>
-            </div>
-          )}
-        </div>
-
+        {/* Projects */}
         <div>
           <button
             onClick={() => handlePage('projects')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'projects'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
-            Projects &amp; Vacancies
+            Projects
           </button>
         </div>
 
+        {/* FAQ */}
         <div>
           <button
             onClick={() => handlePage('faq')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'faq'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             FAQ
           </button>
         </div>
 
+        {/* Contact */}
         <div>
           <button
             onClick={() => handlePage('contact')}
-            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'contact'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
-            Contact Us
+            Contact
           </button>
         </div>
       </div>

@@ -338,6 +338,7 @@ export default function App() {
         onOpenConsultation={() => setIsConsultationOpen(true)}
         onNavigateSection={handleNavigateSection}
         onNavigatePage={handleNavigatePage}
+        currentPage={currentPage}
       />
 
       {/* Main Content Area */}

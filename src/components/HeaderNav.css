@@ -50,6 +50,15 @@ nav button:hover,
   color: var(--header-nav_link_hover_color, #E30613);
 }
 
+/* Active Nav Button Styling */
+nav button.active,
+.nav-button.active,
+.header-nav button.active,
+.header-nav-btn.active {
+  color: #E30613 !important;
+  font-weight: 700 !important;
+}
+
 /* Dropdown menu items inside navigation */
 nav .absolute button,
 nav [role="menu"] button,
