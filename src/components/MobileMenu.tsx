@@ -138,7 +138,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             onClick={() => handlePage('faq')}
             className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            FAQ &amp; Guides
+            FAQ
           </button>
         </div>
 

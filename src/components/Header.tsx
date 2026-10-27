@@ -144,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'faq' ? 'text-[#E30613] font-bold' : ''
               }`}
           >
-            FAQ &amp; Guides
+            FAQ
           </button>
 
           {/* Contact */}

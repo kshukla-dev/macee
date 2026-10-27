@@ -84,72 +84,16 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
           </div>
 
-          {/* Column 2: Quick Links (lg:col-span-2) */}
-          <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Company</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
-
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  About Us
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  How We Work
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('projects') : onNavigateSection('jobs')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Projects &amp; Vacancies
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('faq') : onNavigateSection('resources')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  FAQ &amp; Guides
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('contact') : onOpenConsultation()}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Contact Us
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Clients & Services (lg:col-span-3) */}
+          {/* Column 2: Information (lg:col-span-3) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Clients & Services</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Information</h4>
+            <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <button
-                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
-                  className="hover:text-white transition-colors cursor-pointer text-left font-semibold text-white/90"
+                  onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Clients Overview
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
-                  className="hover:text-white transition-colors cursor-pointer text-left font-semibold text-white/90"
-                >
-                  For Professionals
+                  About us
                 </button>
               </li>
               <li>
@@ -157,7 +101,101 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Recruitment & Staffing
+                  Clients &amp; Certifications
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Professionals
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('projects') : onNavigateSection('jobs')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Projects &amp; Vacancies
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('faq') : onNavigateSection('resources')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  FAQ
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('contact') : onOpenConsultation()}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Contact
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: For Candidates (lg:col-span-3) */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">For Candidates</h4>
+            <ul className="space-y-2.5 text-sm text-gray-300">
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('projects') : onNavigateSection('jobs')}
+                  className="hover:text-white transition-colors cursor-pointer text-left font-medium text-white/90"
+                >
+                  Search vacancies
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('jobalert') : null}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Create a Job alert
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('open-application') : null}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Open application
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Contracting &amp; Freelance (ZZP)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Expats &amp; Visa Sponsorship (HSM)
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Services & Solutions (lg:col-span-2) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Services</h4>
+            <ul className="space-y-2.5 text-sm text-gray-300">
+              <li>
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Clients Overview
                 </button>
               </li>
               <li>
@@ -170,71 +208,18 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
+                  onClick={() => onNavigateSection('risk-survey')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Compliancy & Support
+                  Compliance Risk Survey
                 </button>
               </li>
-              <li>
+              <li className="pt-2">
                 <button
-                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  onClick={onOpenConsultation}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide bg-[#E30613] hover:bg-white hover:text-[#111827] text-white px-3 py-1.5 rounded transition-colors cursor-pointer"
                 >
-                  Contracting & Secondment
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
-                >
-                  Freelance / ZZP
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
-                >
-                  HSM / Expats / Visa Sponsorship
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Industries & Certifications (lg:col-span-3) */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Industries & Certifications</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li>
-                <button onClick={() => onNavigateSection('why-wfs')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  ICT & Software Development
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateSection('why-wfs')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  Banking, Fintech & Finance
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateSection('why-wfs')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  High Tech (Brainport Region)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateSection('why-wfs')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  Government & Public Sector
-                </button>
-              </li>
-              <li className="pt-2 border-t border-gray-800">
-                <button onClick={() => onNavigateSection('resources')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  SNA / NEN 4400-1 Details
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateSection('risk-survey')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  Contractor Compliance Survey
+                  Get in touch
                 </button>
               </li>
             </ul>
