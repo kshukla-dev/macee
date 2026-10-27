@@ -1035,10 +1035,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
 
       {/* 6. Job Alert Banner */}
-      <JobalertBanner
-        onNavigate={onNavigate}
-        bgImage="/uploads/Hightech-Industry-3.jpg"
-      />
+      <JobalertBanner onNavigate={onNavigate} />
 
       {/* 7. Contact Form Section */}
       <ContactFormSection title="Have questions about our open projects?" />
