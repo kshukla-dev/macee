@@ -11,6 +11,7 @@ import { WhatWeDo } from './components/WhatWeDo';
 import { DownloadableResources } from './components/DownloadableResources';
 import { WhyWorkforceSolutions } from './components/WhyWorkforceSolutions';
 import { CurrentJobListings } from './components/CurrentJobListings';
+import { JobalertBanner } from './components/JobalertBanner';
 import { HRRiskBanner } from './components/HRRiskBanner';
 import { ContactFormSection } from './components/ContactFormSection';
 import { Footer } from './components/Footer';
@@ -386,6 +387,9 @@ export default function App() {
             <HRRiskBanner
               onBeginSurvey={() => setIsRiskSurveyOpen(true)}
             />
+
+            {/* Can't find the project you are looking for? / Job Alert & Open Application */}
+            <JobalertBanner onNavigate={handleNavigatePage} />
 
             {/* 9. Get In Contact With Us Section */}
             <div id="contact">
