@@ -18,7 +18,6 @@ import { Footer } from './components/Footer';
 import { ConsultationModal } from './components/ConsultationModal';
 import { HRRiskSurveyModal } from './components/HRRiskSurveyModal';
 import { ResourceModal } from './components/ResourceModal';
-import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { JobApplicationModal } from './components/JobApplicationModal';
 import { FaqModal } from './components/FaqModal';
 import { AboutPage } from './pages/AboutPage';
@@ -28,8 +27,8 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
 
-import { SERVICES_DATA, RESOURCES_DATA, JOBS_DATA } from './data/content';
-import { ResourceItem, ServiceItem, JobListing } from './types';
+import { RESOURCES_DATA, JOBS_DATA } from './data/content';
+import { ResourceItem, JobListing } from './types';
 
 export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'faq' | 'contact';
 
@@ -41,7 +40,6 @@ export default function App() {
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState<ResourceItem | null>(null);
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -52,7 +50,6 @@ export default function App() {
     isRiskSurveyOpen ||
     isFaqOpen ||
     Boolean(selectedResource) ||
-    Boolean(selectedService) ||
     Boolean(selectedJob) ||
     isMobileMenuOpen;
 
@@ -294,15 +291,6 @@ export default function App() {
     }
   };
 
-  const handleSelectServiceById = (serviceId: string) => {
-    const service = SERVICES_DATA.find((s) => s.id === serviceId);
-    if (service) {
-      setSelectedService(service);
-    } else {
-      handleNavigateSection('what-we-do');
-    }
-  };
-
   const handleSelectResourceById = (resourceId: string) => {
     const resource = RESOURCES_DATA.find((r) => r.id === resourceId);
     if (resource) {
@@ -320,7 +308,6 @@ export default function App() {
       {/* 2. Main Sticky Navigation */}
       <Header
         onOpenConsultation={() => setIsConsultationOpen(true)}
-        onSelectService={handleSelectServiceById}
         onSelectResource={handleSelectResourceById}
         onNavigateSection={handleNavigateSection}
         onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -334,7 +321,6 @@ export default function App() {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         onOpenConsultation={() => setIsConsultationOpen(true)}
-        onSelectService={handleSelectServiceById}
         onNavigateSection={handleNavigateSection}
         onNavigatePage={handleNavigatePage}
       />
@@ -363,7 +349,6 @@ export default function App() {
 
             {/* 4. What We Do: 7 Core Macee Offerings */}
             <WhatWeDo
-              onSelectService={handleSelectServiceById}
               onExploreAllServices={() => handleNavigateSection('why-wfs')}
             />
 
@@ -399,7 +384,6 @@ export default function App() {
       {/* 9. Comprehensive Footer */}
       <Footer
         onOpenConsultation={() => setIsConsultationOpen(true)}
-        onSelectService={handleSelectServiceById}
         onNavigateSection={handleNavigateSection}
         onNavigatePage={handleNavigatePage}
       />
@@ -422,15 +406,6 @@ export default function App() {
       <ResourceModal
         resource={selectedResource}
         onClose={() => setSelectedResource(null)}
-      />
-
-      <ServiceDetailModal
-        service={selectedService}
-        onClose={() => setSelectedService(null)}
-        onStartConsultation={() => {
-          setSelectedService(null);
-          setIsConsultationOpen(true);
-        }}
       />
 
       <JobApplicationModal

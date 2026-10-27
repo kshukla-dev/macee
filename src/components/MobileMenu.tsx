@@ -5,7 +5,6 @@ interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenConsultation: () => void;
-  onSelectService: (serviceId: string) => void;
   onNavigateSection: (sectionId: string) => void;
   onNavigatePage?: (page: string) => void;
 }
@@ -14,7 +13,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
   onClose,
   onOpenConsultation,
-  onSelectService,
   onNavigateSection,
   onNavigatePage,
 }) => {
@@ -37,11 +35,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
     } else {
       onNavigateSection('why-wfs');
     }
-    onClose();
-  };
-
-  const handleService = (serviceId: string) => {
-    onSelectService(serviceId);
     onClose();
   };
 
@@ -88,59 +81,24 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           </button>
         </div>
 
-        {/* Clients Accordion */}
-        <div className="border-b border-gray-100 pb-2">
+        {/* Clients */}
+        <div>
           <button
-            onClick={() => toggleSection('clients')}
-            className="w-full flex items-center justify-between py-2 text-base font-medium text-gray-800"
+            onClick={() => handlePage('clients')}
+            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            <span>Clients</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'clients' ? 'rotate-180 text-[#E30613]' : ''
-                }`}
-            />
+            Clients
           </button>
-          {expandedSection === 'clients' && (
-            <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button onClick={() => handlePage('clients')} className="w-full text-left py-1 font-bold text-[#E30613]">Clients Overview</button>
-              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#E30613]">Recruitment & Staffing</button>
-              <button onClick={() => handleService('contract-administration')} className="w-full text-left py-1 hover:text-[#E30613]">Contract Administration</button>
-              <button onClick={() => handleService('compliancy-support')} className="w-full text-left py-1 hover:text-[#E30613]">Compliancy & Support</button>
-              <button onClick={() => handleService('it-outsourcing')} className="w-full text-left py-1 hover:text-[#E30613]">Outsourcing & Project Services</button>
-              <button onClick={() => handleNav('resources')} className="w-full text-left py-1 hover:text-[#E30613]">Certifications (SNA NEN 4400-1)</button>
-            </div>
-          )}
         </div>
 
-        {/* Professionals Accordion */}
-        <div className="border-b border-gray-100 pb-2">
+        {/* Professionals */}
+        <div>
           <button
-            onClick={() => toggleSection('professionals')}
-            className="w-full flex items-center justify-between py-2 text-base font-medium text-gray-800"
+            onClick={() => handlePage('professionals')}
+            className="w-full text-left py-2.5 text-base font-medium text-gray-800 border-b border-gray-100"
           >
-            <span>Professionals</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform ${expandedSection === 'professionals' ? 'rotate-180 text-[#E30613]' : ''
-                }`}
-            />
+            Professionals
           </button>
-          {expandedSection === 'professionals' && (
-            <div className="pl-4 space-y-2 py-2 text-sm text-gray-600 bg-[#F8FAFB] rounded-lg">
-              <button
-                onClick={() => {
-                  onNavigatePage?.('professionals');
-                  onClose();
-                }}
-                className="w-full text-left py-1 text-[#E30613] font-bold"
-              >
-                Overview (For Professionals)
-              </button>
-              <button onClick={() => handleService('contracting-secondment')} className="w-full text-left py-1 hover:text-[#E30613]">Contracting & Secondment</button>
-              <button onClick={() => handleService('freelance-zzp')} className="w-full text-left py-1 hover:text-[#E30613]">Freelance / ZZP</button>
-              <button onClick={() => handleService('hsm-expats')} className="w-full text-left py-1 hover:text-[#E30613]">HSM / Expats / Visa Sponsorship</button>
-              <button onClick={() => handleService('recruitment-staffing')} className="w-full text-left py-1 hover:text-[#E30613]">Permanent Positions</button>
-            </div>
-          )}
         </div>
 
         {/* Industries Accordion */}

@@ -3,12 +3,10 @@ import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, Fi
 import { SERVICES_DATA } from '../data/content';
 
 interface WhatWeDoProps {
-  onSelectService: (serviceId: string) => void;
   onExploreAllServices: () => void;
 }
 
 export const WhatWeDo: React.FC<WhatWeDoProps> = ({
-  onSelectService,
   onExploreAllServices
 }) => {
   const getIcon = (id: string) => {
@@ -69,7 +67,7 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
               {SERVICES_DATA.map((service) => (
                 <div
                   key={service.id}
-                  onClick={() => onSelectService(service.id)}
+                  onClick={onExploreAllServices}
                   className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#111827]/30 hover:shadow-md transition-all duration-200 cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">

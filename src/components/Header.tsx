@@ -4,7 +4,6 @@ import './HeaderNav.css';
 
 interface HeaderProps {
   onOpenConsultation: () => void;
-  onSelectService: (serviceId: string) => void;
   onSelectResource: (resourceId: string) => void;
   onNavigateSection: (sectionId: string) => void;
   onToggleMobileMenu: () => void;
@@ -15,7 +14,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   onOpenConsultation,
-  onSelectService,
   onNavigateSection,
   onToggleMobileMenu,
   isMobileMenuOpen,
@@ -23,7 +21,6 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigatePage,
 }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,160 +87,35 @@ export const Header: React.FC<HeaderProps> = ({
             About Us
           </button>
 
-          {/* Clients Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setActiveDropdown('clients')}
-            onMouseLeave={() => setActiveDropdown(null)}
+          {/* Clients */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('clients');
+              } else {
+                onNavigateSection('what-we-do');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'clients' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
-            <button
-              onClick={() => {
-                if (onNavigatePage) {
-                  onNavigatePage('clients');
-                } else {
-                  onNavigateSection('what-we-do');
-                }
-              }}
-              className={`nav-button rounded-md group ${currentPage === 'clients' ? 'text-[#E30613] font-bold' : 'hover:text-[#E30613]'
-                }`}
-            >
-              <span>Clients</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
-            </button>
+            Clients
+          </button>
 
-            {activeDropdown === 'clients' && (
-              <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
-                <button
-                  onClick={() => {
-                    if (onNavigatePage) {
-                      onNavigatePage('clients');
-                    } else {
-                      onNavigateSection('what-we-do');
-                    }
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#E30613] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
-                >
-                  Clients Overview
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('recruitment-staffing');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Recruitment & Staffing
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('contract-administration');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Contract Administration
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('compliancy-support');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Compliancy & Support
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('it-outsourcing');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Outsourcing & Project Services
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateSection('resources');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer border-t border-gray-100"
-                >
-                  SNA / NEN 4400-1 Certifications
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Professionals Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setActiveDropdown('professionals')}
-            onMouseLeave={() => setActiveDropdown(null)}
+          {/* Professionals */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('professionals');
+              } else {
+                onNavigateSection('what-we-do');
+              }
+            }}
+            className={`nav-button hover:text-[#E30613] rounded-md ${currentPage === 'professionals' ? 'text-[#E30613] font-bold' : ''
+              }`}
           >
-            <button
-              onClick={() => {
-                onNavigatePage?.('professionals');
-                setActiveDropdown(null);
-              }}
-              className={`nav-button hover:text-[#E30613] rounded-md group ${currentPage === 'professionals' ? 'text-[#E30613] font-bold' : ''}`}
-            >
-              <span>Professionals</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] transition-transform duration-200" />
-            </button>
-
-            {activeDropdown === 'professionals' && (
-              <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-md py-2 animate-fadeIn z-50">
-                <button
-                  onClick={() => {
-                    onNavigatePage?.('professionals');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#E30613] hover:bg-[#F8FAFB] font-bold transition-colors cursor-pointer border-b border-gray-100"
-                >
-                  Overview (For Professionals)
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('contracting-secondment');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Contracting & Secondment
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('freelance-zzp');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Freelance / ZZP
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('hsm-expats');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  HSM / Expats / Visa Sponsorship
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectService('recruitment-staffing');
-                    setActiveDropdown(null);
-                  }}
-                  className="w-full text-left px-4 py-2 text-sm text-[#333333] hover:bg-[#F8FAFB] hover:text-[#E30613] font-medium transition-colors cursor-pointer"
-                >
-                  Permanent Positions
-                </button>
-              </div>
-            )}
-          </div>
-
-
+            Professionals
+          </button>
 
           {/* Projects */}
           <button

@@ -3,14 +3,12 @@ import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
   onOpenConsultation: () => void;
-  onSelectService: (serviceId: string) => void;
   onNavigateSection: (sectionId: string) => void;
   onNavigatePage?: (page: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenConsultation,
-  onSelectService,
   onNavigateSection,
   onNavigatePage,
 }) => {
@@ -155,32 +153,50 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('recruitment-staffing')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Recruitment & Staffing
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('contract-administration')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Contract Administration
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('compliancy-support')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Compliancy & Support
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('contracting-secondment')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Contracting & Secondment
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('freelance-zzp')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   Freelance / ZZP
                 </button>
               </li>
               <li>
-                <button onClick={() => onSelectService('hsm-expats')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <button
+                  onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
                   HSM / Expats / Visa Sponsorship
                 </button>
               </li>
