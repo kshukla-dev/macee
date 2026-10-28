@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { X, Download, CheckCircle2, FileText, ArrowRight, BookOpen } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { X, CheckCircle2, ArrowUpRight, Sparkles } from 'lucide-react';
 import { ResourceItem } from '../types';
 
 interface ResourceModalProps {
   resource: ResourceItem | null;
   onClose: () => void;
+  onOpenConsultation: () => void;
 }
 
-export const ResourceModal: React.FC<ResourceModalProps> = ({ resource, onClose }) => {
-  const [email, setEmail] = useState('');
-  const [downloaded, setDownloaded] = useState(false);
-
+export const ResourceModal: React.FC<ResourceModalProps> = ({
+  resource,
+  onClose,
+  onOpenConsultation,
+}) => {
   // Close on Escape key press
   useEffect(() => {
     if (!resource) return;
@@ -23,13 +25,8 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({ resource, onClose 
 
   if (!resource) return null;
 
-  const handleDownload = (e: React.FormEvent) => {
-    e.preventDefault();
-    setDownloaded(true);
-  };
-
   return (
-    <div 
+    <div
       data-lenis-prevent
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
       onClick={onClose}
@@ -57,17 +54,18 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({ resource, onClose 
           <h3 className="text-xl sm:text-2xl font-bold font-display text-white leading-snug">
             {resource.title}
           </h3>
-          <p className="text-xs sm:text-sm text-white/80 mt-1 sm:mt-2 font-mono">
-            {resource.pages} · Free Digital Download
+          <p className="text-xs sm:text-sm text-white/80 mt-1 sm:mt-2">
+            Macee Workforce Insights & Strategic Advisory
           </p>
         </div>
 
         {/* Scrollable Content Body */}
-        <div 
-          data-lenis-prevent 
-          className="p-4 sm:p-6 md:p-8 space-y-5 overflow-y-auto flex-1 overscroll-contain modal-scrollable"
+        <div
+          data-lenis-prevent
+          className="p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto flex-1 overscroll-contain modal-scrollable"
           onWheel={(e) => e.stopPropagation()}
         >
+          {/* Overview Section */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start">
             <div className="w-full sm:w-44 h-36 sm:h-auto aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
               <img
@@ -89,7 +87,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({ resource, onClose 
           {/* Topics & Key Takeaways */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2.5">
-              Included In This Download:
+              Key Topics Covered:
             </h4>
             <div className="space-y-2">
               {resource.topics.map((topic, i) => (
@@ -101,62 +99,32 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({ resource, onClose 
             </div>
           </div>
 
-          {/* Download Form / Success */}
-          <div className="p-4 sm:p-5 bg-[#F8FAFB] rounded-xl border border-gray-200/80">
-            {downloaded ? (
-              <div className="text-center py-4 space-y-2">
-                <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <h5 className="text-base font-bold text-[#111827]">
-                  Your Download Has Started!
-                </h5>
-                <p className="text-xs text-[#54595F]">
-                  A copy has also been dispatched to <span className="font-semibold text-gray-800">{email || 'your email'}</span>.
-                </p>
-                <div className="pt-2">
-                  <a
-                    href={`/images/${resource.downloadName.replace('.pdf', '')}`}
-                    download={resource.downloadName}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const blob = new Blob([`${resource.title}\n\nMacee External Workforce Solutions Guide\nVisit: https://www.macee.com/\nPhone: +31 (0)26 744 0024`], { type: 'text/plain' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = `${resource.downloadName.replace('.pdf', '')}.txt`;
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] bg-[#111827] text-white text-xs font-semibold hover:bg-black transition-colors cursor-pointer"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Save {resource.downloadName}</span>
-                  </a>
-                </div>
+          {/* Action Card: Inquire & Connect for Full Details */}
+          <div className="p-5 sm:p-6 bg-gradient-to-br from-[#F8FAFB] to-[#F1F4F9] rounded-2xl border border-gray-200/90 flex flex-col sm:flex-row items-center justify-between gap-5">
+            <div className="space-y-1 text-center sm:text-left">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E30613] uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Want More Information?</span>
               </div>
-            ) : (
-              <form onSubmit={handleDownload} className="space-y-3">
-                <div className="flex flex-col sm:flex-row items-center gap-2">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your business email for instant access"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-xs sm:text-sm bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto shrink-0 px-6 py-2.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99]"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>Download Free</span>
-                  </button>
-                </div>
-                <p className="text-[11px] text-gray-500 text-center sm:text-left">
-                  Instant PDF access. We respect your privacy.
-                </p>
-              </form>
-            )}
+              <h5 className="text-base sm:text-lg font-bold font-display text-[#111827]">
+                Connect with our specialists for detailed guidance
+              </h5>
+              <p className="text-xs sm:text-sm text-[#54595F] max-w-md leading-relaxed">
+                Have specific questions about this topic, compliance, or contract setup? Get in touch with our team directly.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onOpenConsultation();
+              }}
+              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-sm font-semibold transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg active:scale-[0.99]"
+            >
+              <span>Get in Touch with Macee</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>

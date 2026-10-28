@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Menu, X, ArrowUpRight } from 'lucide-react';
+import { AutoLanguageSelector } from './AutoLanguageSelector';
 import './HeaderNav.css';
 
 interface HeaderProps {
@@ -164,10 +165,12 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <AutoLanguageSelector />
+
           <button
             onClick={onOpenConsultation}
-            className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-4 sm:px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>Get in Touch</span>
             <ArrowUpRight className="w-4 h-4" />

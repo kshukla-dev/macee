@@ -425,6 +425,10 @@ export default function App() {
       <ResourceModal
         resource={selectedResource}
         onClose={() => setSelectedResource(null)}
+        onOpenConsultation={() => {
+          setSelectedResource(null);
+          setIsConsultationOpen(true);
+        }}
       />
 
       <JobApplicationModal

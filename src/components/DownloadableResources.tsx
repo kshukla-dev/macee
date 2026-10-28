@@ -19,10 +19,10 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 resources-heading">
           <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-            Free Guides & Certifications
+            Knowledge & Guidance
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-            Downloadable Resources
+            Workforce Insights & Guides
           </h2>
           <p className="mt-3 text-base sm:text-lg text-[#54595F]">
             Essential compliance frameworks, contractor hiring guides, and expat relocation blueprints curated by Macee specialists.
@@ -61,15 +61,15 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
                 </div>
 
                 <div className="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
-                  <span className="text-xs font-mono text-[#667085]">
-                    {item.pages}
+                  <span className="text-xs font-semibold text-[#667085]">
+                    Macee Advisory
                   </span>
 
                   <button
                     onClick={() => onSelectResource(item)}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-2xs hover:shadow"
                   >
-                    <span>Learn more</span>
+                    <span>View Guide</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

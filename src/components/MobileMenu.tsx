@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Phone, ArrowUpRight } from 'lucide-react';
+import { AutoLanguageSelector } from './AutoLanguageSelector';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -62,12 +63,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             className="h-8 w-auto"
           />
         </a>
-        <button
-          onClick={onClose}
-          className="p-2 text-gray-700 hover:text-[#E30613] rounded-md text-sm font-semibold cursor-pointer"
-        >
-          Close ✕
-        </button>
+        <div className="flex items-center gap-2">
+          <AutoLanguageSelector />
+          <button
+            onClick={onClose}
+            className="p-2 text-gray-700 hover:text-[#E30613] rounded-md text-sm font-semibold cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       {/* Nav List */}
