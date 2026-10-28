@@ -31,7 +31,7 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
   return (
     <section
       id="why-wfs"
-      className="py-16 sm:py-20 lg:py-24 bg-[#111827] text-white relative overflow-hidden"
+      className="py-16 sm:py-20 lg:py-24 bg-[#111827] text-white relative overflow-x-clip"
     >
       {/* Decorative ambient gradients */}
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />

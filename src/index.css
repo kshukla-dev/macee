@@ -159,9 +159,7 @@ footer h2 {
   margin-bottom: 1.25rem;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+
 
 /* Modal and dialog mouse scroll optimizations */
 .modal-scrollable,

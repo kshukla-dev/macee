@@ -27,7 +27,9 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
             <UserCheck className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
             <span>{professionalsData.hero.badge}</span>
           </div>
-          <h1 className="prof-hero-title">{professionalsData.hero.title}</h1>
+          <h1 className="prof-hero-title">
+            For <span className="text-[#E30613]">Professionals</span>
+          </h1>
           <p className="prof-hero-subtitle">{professionalsData.hero.subtitle}</p>
         </div>
       </section>

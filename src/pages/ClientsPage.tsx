@@ -25,7 +25,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
               </div>
 
               <h1 className="clients-hero-title">
-                {clientsData.hero.title}
+                What can <span className="text-[#E30613]">Macee</span> do for your organisation?
               </h1>
 
               <p className="clients-hero-text">
