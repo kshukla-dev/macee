@@ -67,15 +67,6 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
             </div>
 
-            {/* Certifications micro badges */}
-            <div className="pt-2 flex items-center gap-2">
-              <span className="text-[11px] font-mono bg-white/10 text-white/90 px-2.5 py-1 rounded">
-                {lang === 'NL' ? 'SNA NEN 4400-1 Gecertificeerd' : 'SNA NEN 4400-1 Certified'}
-              </span>
-              <span className="text-[11px] font-mono bg-white/10 text-white/90 px-2.5 py-1 rounded">
-                {lang === 'NL' ? 'IND Erkend Referent' : 'IND Recognised Sponsor'}
-              </span>
-            </div>
           </div>
 
           {/* Column 2: Information (lg:col-span-3) */}
