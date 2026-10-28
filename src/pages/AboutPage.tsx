@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import aboutData from '../data/aboutData.json';
 import { ContactFormSection } from '../components/ContactFormSection';
 import {
@@ -11,7 +11,6 @@ import {
   ArrowUpRight,
   ArrowRight,
   Award,
-  Globe2,
   Calendar
 } from 'lucide-react';
 
@@ -21,7 +20,43 @@ interface AboutPageProps {
 
 const TEAM_MEMBERS = aboutData.team.members;
 
+const ABOUT_HERO_IMAGES = [
+  {
+    src: '/images/hero-woman.jpg',
+    alt: 'Macee Workforce Solutions Professional',
+    title: 'Your External Hiring Desk',
+    subtitle: 'Sourcing International Talent & Expats',
+  },
+  {
+    src: '/images/global-team-collaboration.jpg',
+    alt: 'International Sourcing & Talent Management',
+    title: 'Cross-Border Talent Network',
+    subtitle: 'High-Caliber Interim & Expat Specialists',
+  },
+  {
+    src: '/uploads/people-working-dsk.jpg',
+    alt: 'Dedicated External Talent Teams',
+    title: 'End-to-End Workforce Solutions',
+    subtitle: 'Compliance, Payroll & Rapid Deployment',
+  },
+  {
+    src: '/images/careers-handshake.jpg',
+    alt: 'Reliable Certified Partnerships',
+    title: 'Certified & Compliant Staffing',
+    subtitle: 'SNA NEN 4400-1 & IND Recognised Sponsor',
+  },
+];
+
 export const AboutPage: React.FC<AboutPageProps> = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % ABOUT_HERO_IMAGES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -91,30 +126,60 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
               </div>
             </div>
 
-            {/* Right Column: Framed Image with Badge */}
+            {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
             <div className="lg:col-span-5 relative flex justify-center">
               <div className="relative w-full max-w-md lg:max-w-none">
                 <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
 
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
-                  <img
-                    src={aboutData.hero.image.src}
-                    alt={aboutData.hero.image.alt}
-                    className="w-full h-auto object-cover max-h-[500px] aspect-[4/4.2] object-center hover:scale-[1.02] transition-transform duration-700 ease-out"
-                  />
+                {/* Crossfade Image Carousel Container */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.2] max-h-[500px]">
+                  {ABOUT_HERO_IMAGES.map((img, idx) => (
+                    <div
+                      key={img.src}
+                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                        }`}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out ${idx === currentSlide ? 'scale-105' : 'scale-100'
+                          }`}
+                      />
+                      {/* Subtle bottom shadow vignette */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                  ))}
+
+                  {/* Sleek Carousel Indicators */}
+                  <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                    {ABOUT_HERO_IMAGES.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setCurrentSlide(idx)}
+                        aria-label={`Slide ${idx + 1}`}
+                        className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
+                          }`}
+                      />
+                    ))}
+                  </div>
                 </div>
 
-                {/* Floating strategic badge */}
-                <div className="absolute -bottom-5 -left-4 sm:left-4 bg-white/95 backdrop-blur-md border border-gray-200/80 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#111827] text-white flex items-center justify-center font-bold text-base shadow-xs">
-                    M
+                {/* Floating strategic badge (Replacing plain "M" box with high-end live desk emblem) */}
+                <div className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl">
+                  <div className="shrink-0 flex items-center justify-center">
+                    <img
+                      src="/uploads/favicon-96x96.png"
+                      alt="Macee"
+                      className="w-10 h-10 object-contain"
+                    />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-[#111827] uppercase tracking-wide">
-                      {aboutData.hero.image.badgeTitle}
+                    <p className="text-xs sm:text-sm font-bold text-[#111827] tracking-tight">
+                      {ABOUT_HERO_IMAGES[currentSlide].title}
                     </p>
-                    <p className="text-[11px] text-[#54595F]">
-                      {aboutData.hero.image.badgeSubtitle}
+                    <p className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
+                      {ABOUT_HERO_IMAGES[currentSlide].subtitle}
                     </p>
                   </div>
                 </div>

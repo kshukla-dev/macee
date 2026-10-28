@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, ShieldCheck, Users, Sparkles } from 'lucide-react';
 
 interface HeroProps {
@@ -6,7 +6,43 @@ interface HeroProps {
   onExploreServices: () => void;
 }
 
+const HERO_CAROUSEL_IMAGES = [
+  {
+    src: '/images/hero-woman.jpg',
+    alt: 'Macee Strategic Talent Partner',
+    title: 'Your External Hiring Desk',
+    subtitle: 'Sourcing International Talent & Expats',
+  },
+  {
+    src: '/images/global-team-collaboration.jpg',
+    alt: 'Global Talent & International Team Collaboration',
+    title: 'Cross-Border Talent Network',
+    subtitle: 'High-Caliber Interim & Expat Specialists',
+  },
+  {
+    src: '/uploads/people-working-dsk.jpg',
+    alt: 'Specialized Interim Professionals in Action',
+    title: 'End-to-End Workforce Solutions',
+    subtitle: 'Compliance, Payroll & Rapid Deployment',
+  },
+  {
+    src: '/images/careers-handshake.jpg',
+    alt: 'Trusted Placement & Partnership',
+    title: 'Certified & Compliant Staffing',
+    subtitle: 'SNA NEN 4400-1 & IND Recognised Sponsor',
+  },
+];
+
 export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_CAROUSEL_IMAGES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -68,28 +104,62 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
             </div>
           </div>
 
-          {/* Right Column: Hero Image with refined border & badge */}
+          {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
           <div className="lg:col-span-5 relative hero-image-container flex justify-center">
             <div className="relative w-full max-w-md lg:max-w-none">
               {/* Backing decorative frame */}
               <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#8E96CB]/20 rounded-2xl transform rotate-1 scale-[0.99]" />
 
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
-                <img
-                  src="/images/hero-woman.jpg"
-                  alt="Macee Workforce Solutions Professional"
-                  className="w-full h-auto object-cover max-h-[520px] aspect-[4/4.3] object-top hover:scale-[1.02] transition-transform duration-700 ease-out"
-                />
+              {/* Crossfade Image Carousel Container */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.3] max-h-[520px]">
+                {HERO_CAROUSEL_IMAGES.map((img, idx) => (
+                  <div
+                    key={img.src}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                      }`}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out ${idx === currentSlide ? 'scale-105' : 'scale-100'
+                        }`}
+                    />
+                    {/* Subtle bottom shadow vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                ))}
+
+                {/* Sleek Carousel Indicators */}
+                <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                  {HERO_CAROUSEL_IMAGES.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setCurrentSlide(idx)}
+                      aria-label={`Slide ${idx + 1}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
+                        }`}
+                    />
+                  ))}
+                </div>
               </div>
 
-              {/* Floating strategic badge */}
-              <div className="absolute -bottom-5 -left-4 sm:left-4 bg-white/95 backdrop-blur-md border border-gray-200/80 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#111827] text-white flex items-center justify-center font-bold text-base">
-                  M
+              {/* Floating strategic badge (Replacing plain "M" box with high-end live desk emblem) */}
+              <div className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl">
+                <div className="shrink-0 flex items-center justify-center">
+                  <img
+                    src="/uploads/favicon-96x96.png"
+                    alt="Macee"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-[#111827]">Your External Hiring Desk</div>
-                  <div className="text-[11px] text-[#54595F]">Sourcing International Talent & Expats</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#111827] tracking-tight">
+                    {HERO_CAROUSEL_IMAGES[currentSlide].title}
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
+                    {HERO_CAROUSEL_IMAGES[currentSlide].subtitle}
+                  </div>
                 </div>
               </div>
             </div>
