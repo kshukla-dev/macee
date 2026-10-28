@@ -11,7 +11,8 @@ import {
   ArrowUpRight,
   ArrowRight,
   Award,
-  Calendar
+  Calendar,
+  Globe2
 } from 'lucide-react';
 
 interface AboutPageProps {

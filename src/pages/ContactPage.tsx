@@ -204,8 +204,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                     </h3>
 
                     <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
-                      Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry regarding{' '}
-                      <strong>{inquiryType}</strong>. A dedicated Macee specialist will review your details and contact you within 24 business hours.
+                      Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry. A dedicated Macee specialist will review your details and contact you within 24 business hours.
                     </p>
 
                     <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
