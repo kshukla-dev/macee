@@ -63,7 +63,7 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
               We are the seamless extension of your External Hiring Desk, serving as the secure link between your organisation and external talent — ensuring efficiency, full compliance, and complete peace of mind.
             </p>
 
-            {/* List of 7 Services with hover interaction */}
+            {/* List of 7 Services + 8th Slot Check Out Our Services CTA */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
               {SERVICES_DATA.map((service) => (
                 <div
@@ -79,16 +79,17 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
                   </span>
                 </div>
               ))}
-            </div>
 
-            {/* CTA Button */}
-            <div className="pt-4">
+              {/* 8th Slot: Check Out Our Services CTA Button */}
               <button
+                type="button"
                 onClick={onExploreAllServices}
-                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+                className="flex items-center justify-between gap-3 p-3 rounded-lg bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
               >
-                <span>Check Out Our Services</span>
-                <ArrowRight className="w-4 h-4" />
+                <span className="text-sm font-semibold leading-snug pl-1">
+                  Check Out Our Services
+                </span>
+                <ArrowRight className="w-4 h-4 text-white shrink-0 group-hover:translate-x-1 transition-transform mr-1" />
               </button>
             </div>
           </div>

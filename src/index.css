@@ -32,7 +32,13 @@ body {
   padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6, .font-heading {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
   font-family: "Space Grotesk", sans-serif;
   letter-spacing: -0.02em;
 }
@@ -124,7 +130,7 @@ img.hard-shadow {
   color: #BE040F;
 }
 
-.header-nav > ul > li > a {
+.header-nav>ul>li>a {
   border-radius: 8px;
   padding: 8px 14px;
 }
@@ -132,7 +138,7 @@ img.hard-shadow {
 footer {
   background-color: #111827;
   color: #fff;
-  padding: 60px 0 30px;
+  padding: 60px 0 00px;
 }
 
 footer a {
@@ -193,7 +199,7 @@ body {
   position: static !important;
 }
 
-body > .skiptranslate,
+body>.skiptranslate,
 .goog-te-banner-frame.skiptranslate,
 iframe.goog-te-banner-frame,
 .goog-te-gadget-simple,
@@ -216,4 +222,3 @@ iframe.goog-te-banner-frame,
 .goog-tooltip:hover {
   display: none !important;
 }
-
