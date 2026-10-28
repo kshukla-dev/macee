@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, CheckCircle2, ArrowUpRight, Sparkles } from 'lucide-react';
+import { X, CheckCircle2, ArrowUpRight, Lightbulb } from 'lucide-react';
 import { ResourceItem } from '../types';
 
 interface ResourceModalProps {
@@ -103,7 +103,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
           <div className="p-5 sm:p-6 bg-gradient-to-br from-[#F8FAFB] to-[#F1F4F9] rounded-2xl border border-gray-200/90 flex flex-col sm:flex-row items-center justify-between gap-5">
             <div className="space-y-1 text-center sm:text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E30613] uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
+                <Lightbulb className="w-3.5 h-3.5" />
                 <span>Want More Information?</span>
               </div>
               <h5 className="text-base sm:text-lg font-bold font-display text-[#111827]">

@@ -9,7 +9,6 @@ import {
   SlidersHorizontal,
   Building2,
   ShieldCheck,
-  Sparkles,
   Send,
   Upload,
   Globe2,

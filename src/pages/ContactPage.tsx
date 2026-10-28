@@ -11,7 +11,6 @@ import {
   Globe2, 
   Calendar, 
   ArrowRight,
-  Sparkles,
   UserCheck
 } from 'lucide-react';
 import contactData from '../data/contactData.json';

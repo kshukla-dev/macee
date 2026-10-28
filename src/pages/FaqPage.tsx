@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Search, 
   CheckCircle2, 
-  Sparkles, 
   Phone,
   Mail
 } from 'lucide-react';

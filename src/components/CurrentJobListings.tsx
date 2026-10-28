@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, MapPin, Briefcase, Clock, CheckCircle, Loader2, Sparkles } from 'lucide-react';
+import { ArrowRight, MapPin, Briefcase, Clock, CheckCircle, Loader2 } from 'lucide-react';
 import { JOBS_DATA } from '../data/content';
 import { JobListing } from '../types';
 import { getAllJobs } from '../lib/api';

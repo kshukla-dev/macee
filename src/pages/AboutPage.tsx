@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   Mail,
   Phone,
-  Sparkles,
   ShieldCheck,
   Users,
   Briefcase,
