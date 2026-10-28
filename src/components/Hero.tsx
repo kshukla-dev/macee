@@ -8,7 +8,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices }) => {
   return (
-    <section 
+    <section
       id="hero"
       className="relative overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFB] to-[#FFFFFF] py-12 sm:py-16 lg:py-20 border-b border-gray-100"
     >
@@ -26,7 +26,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
-              External Workforce <span className="text-[#E30613] underline decoration-[#E30613]/20 decoration-wavy">Solutions</span>
+              External Workforce <span className="text-[#E30613] decoration-[#E30613]/20">Solutions</span>
             </h1>
 
             <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
             <div className="relative w-full max-w-md lg:max-w-none">
               {/* Backing decorative frame */}
               <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#8E96CB]/20 rounded-2xl transform rotate-1 scale-[0.99]" />
-              
+
               <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
                 <img
                   src="/images/hero-woman.jpg"

@@ -52,7 +52,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
                 {aboutData.hero.titlePrefix}{' '}
-                <span className="text-[#E30613] underline decoration-[#E30613]/20 decoration-wavy">
+                <span className="text-[#E30613] decoration-[#E30613]/20">
                   {aboutData.hero.titleHighlight}
                 </span>
               </h1>
