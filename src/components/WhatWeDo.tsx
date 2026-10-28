@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, FileCheck, UserCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, FileCheck, UserCheck, Layers } from 'lucide-react';
 import { SERVICES_DATA } from '../data/content';
 
 interface WhatWeDoProps {
@@ -50,8 +50,9 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
           {/* Right Column: Heading, Subtitle & 7 Services */}
           <div className="lg:col-span-6 space-y-6 text-left what-we-do-content">
             <div>
-              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-                What Can We Support You With?
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
+                <Layers className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>What Can We Support You With?</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
                 What We Do

@@ -18,8 +18,9 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
       <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 resources-heading">
-          <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-            Knowledge & Guidance
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
+            <BookOpen className="w-3.5 h-3.5 text-[#E30613]" />
+            <span>Knowledge & Guidance</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
             Workforce Insights & Guides

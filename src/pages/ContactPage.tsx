@@ -66,7 +66,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
+            <Phone className="w-3.5 h-3.5 text-[#E30613]" />
             <span>{contactData.hero.badge}</span>
           </div>
 

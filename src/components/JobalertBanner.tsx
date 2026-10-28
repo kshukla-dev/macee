@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Lock } from 'lucide-react';
+import { ArrowRight, Lock, Bell } from 'lucide-react';
 import { OpenApplicationModal } from './OpenApplicationModal';
 import { CreateJobalertModal } from './CreateJobalertModal';
 
@@ -152,10 +152,11 @@ export const JobalertBanner: React.FC<JobalertBannerProps> = ({
             <div className="w-full lg:w-[56%] xl:w-[58%] lg:pl-6 flex flex-col justify-center">
               
               {/* 1. Eyebrow Badge in Macee Red */}
-              <div className="mb-2.5">
-                <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#E30613]">
-                  {effectiveBadge}
-                </span>
+              <div className="mb-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold tracking-wider uppercase backdrop-blur-xs">
+                  <Bell className="w-3.5 h-3.5 text-[#E30613]" />
+                  <span>{effectiveBadge}</span>
+                </div>
               </div>
 
               {/* 2. Headline: Can't find the project you are looking for? */}

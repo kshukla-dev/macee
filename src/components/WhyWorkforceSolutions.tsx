@@ -40,8 +40,9 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
       <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Title */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 why-wfs-header">
-          <div className="inline-block text-xs font-bold uppercase tracking-widest text-[#E30613] mb-3">
-            The Macee Advantage
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-3 backdrop-blur-xs">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#E30613]" />
+            <span>The Macee Advantage</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display tracking-tight text-white">
             Discover the Difference: Why Choose Macee

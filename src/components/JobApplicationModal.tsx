@@ -162,7 +162,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
                 <ul className="space-y-1.5 text-xs sm:text-sm text-gray-700">
                   {job.requirements.map((req, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className="text-[#E30613] font-bold">•</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#E30613] shrink-0 mt-0.5" />
                       <span>{req}</span>
                     </li>
                   ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import clientsData from '../data/clientsData.json';
 import './ClientsPage.css';
@@ -18,8 +18,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = () => {
             {/* Left: Heading & Intro Text */}
             <div className="clients-hero-content">
               <div className="clients-pill-badge">
-                <span className="clients-pill-dot" />
-                {clientsData.hero.pill}
+                <Building2 className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
+                <span>{clientsData.hero.pill}</span>
               </div>
 
               <h1 className="clients-hero-title">
@@ -162,8 +162,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = () => {
             <div className="clients-tags-container">
               {clientsData.industries.tags.map((ind, i) => (
                 <span key={i} className="clients-industry-tag">
-                  <span className="clients-tag-dot" />
-                  {ind}
+                  <Tag className="w-3 h-3 text-[#E30613] shrink-0" />
+                  <span>{ind}</span>
                 </span>
               ))}
             </div>

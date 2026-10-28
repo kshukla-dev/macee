@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export interface ContactFormData {
   firstName: string;
@@ -67,9 +67,9 @@ export const ContactCard: React.FC<ContactCardProps> = ({
       {/* Header Area */}
       <div className="relative text-center max-w-2xl mx-auto mb-8 sm:mb-10">
         {badge && (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E30613]" />
-            {badge}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
+            <MessageSquare className="w-3.5 h-3.5 text-[#E30613]" />
+            <span>{badge}</span>
           </div>
         )}
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-[#111827] tracking-tight">

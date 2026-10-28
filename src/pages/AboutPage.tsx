@@ -46,7 +46,7 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
             {/* Left Column: Heading, Subheading & CTAs */}
             <div className="lg:col-span-7 space-y-6 text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111827]/10 text-[#111827] text-xs sm:text-sm font-semibold tracking-wide">
-                <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
+                <Award className="w-3.5 h-3.5 text-[#E30613]" />
                 <span>{aboutData.hero.badge}</span>
               </div>
 

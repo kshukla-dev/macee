@@ -117,11 +117,9 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
           {/* Left Column: Heading, intro, and jobs list */}
           <div className="lg:col-span-7 space-y-6 text-left jobs-content">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                  Vacancies & Assignments
-                </span>
-
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
+                <Briefcase className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>Vacancies & Assignments</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
                 Current Projects & Assignments

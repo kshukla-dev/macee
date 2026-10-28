@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Laptop, Landmark, Database, ArrowRight } from 'lucide-react';
+import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import professionalsData from '../data/professionalsData.json';
 import './ProfessionalsPage.css';
@@ -21,8 +21,8 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
       {/* Top Banner / Hero */}
       <section className="prof-hero-banner">
         <div className="prof-container">
-          <div className="prof-hero-badge">
-            <span className="prof-hero-badge-dot" />
+          <div className="prof-hero-badge flex items-center gap-2">
+            <UserCheck className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
             <span>{professionalsData.hero.badge}</span>
           </div>
           <h1 className="prof-hero-title">{professionalsData.hero.title}</h1>
@@ -245,8 +245,10 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
           {/* 2 Images side by side with red dot badges matching the screenshot */}
           <div className="prof-roles-gallery">
             {professionalsData.expertises.gallery.map((img, gIdx) => (
-              <div key={gIdx} className="prof-gallery-item">
-                <span className="prof-gallery-dot" />
+              <div key={gIdx} className="prof-gallery-item relative">
+                <span className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/95 shadow-xs flex items-center justify-center text-[#E30613] z-10">
+                  <Award className="w-3.5 h-3.5" />
+                </span>
                 <img
                   src={img.src}
                   alt={img.alt}
