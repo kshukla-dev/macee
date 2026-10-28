@@ -465,9 +465,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* 6. Tailored About Macee FAQs */}
       <PageFaqSection
         id="about-faq"
-        badge="Frequently Asked Questions"
-        titlePrefix="Frequently Asked"
-        titleHighlight="Questions"
+        badge="About Macee Desk"
+        titlePrefix="Questions About"
+        titleHighlight="Macee & Our Team"
         description="Learn more about our 30+ year track record, SNA NEN 4400-1 compliance, and IND visa sponsor status."
         faqs={ABOUT_FAQS}
         onNavigate={onNavigate}

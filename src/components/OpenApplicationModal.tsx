@@ -135,7 +135,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
               <button
                 type="button"
                 onClick={handleClose}
-                className="mt-4 px-8 py-2.5 rounded-md bg-[#2D1B69] hover:bg-[#1E1148] text-white text-sm font-semibold transition-colors cursor-pointer"
+                className="mt-4 px-8 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer"
               >
                 Close
               </button>
@@ -161,7 +161,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                         placeholder="First name *"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                        className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       />
                     </div>
                     <div>
@@ -171,7 +171,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                         placeholder="Last name *"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                        className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       />
                     </div>
                   </div>
@@ -184,7 +184,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       placeholder="Phone *"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                     />
                   </div>
 
@@ -196,7 +196,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       placeholder="Email *"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                     />
                   </div>
 
@@ -207,7 +207,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                         type="checkbox"
                         checked={privacyAgreed}
                         onChange={(e) => setPrivacyAgreed(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-[#2D1B69] focus:ring-[#2D1B69] cursor-pointer"
+                        className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                       />
                       <span>I agree with the privacy conditions.</span>
                     </label>
@@ -218,7 +218,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-[#2D1B69] hover:bg-[#1E1148] text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
                     >
                       {isSubmitting ? (
                         <>

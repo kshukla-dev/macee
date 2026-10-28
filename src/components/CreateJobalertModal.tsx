@@ -157,7 +157,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
               <button
                 type="button"
                 onClick={handleClose}
-                className="mt-4 px-8 py-2.5 rounded-md bg-[#2D1B69] hover:bg-[#1E1148] text-white text-sm font-semibold transition-colors cursor-pointer"
+                className="mt-4 px-8 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer"
               >
                 Done
               </button>
@@ -189,7 +189,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                             type="checkbox"
                             checked={selectedBranches.includes(item)}
                             onChange={() => toggleSelection(item, selectedBranches, setSelectedBranches)}
-                            className="w-4 h-4 rounded border-gray-300 text-[#2D1B69] focus:ring-[#2D1B69] cursor-pointer"
+                            className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                           />
                           <span>{item}</span>
                         </label>
@@ -205,7 +205,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                               type="checkbox"
                               checked={selectedBranches.includes(item)}
                               onChange={() => toggleSelection(item, selectedBranches, setSelectedBranches)}
-                              className="w-4 h-4 rounded border-gray-300 text-[#2D1B69] focus:ring-[#2D1B69] cursor-pointer"
+                              className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                             />
                             <span>{item}</span>
                           </label>
@@ -246,7 +246,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                             type="checkbox"
                             checked={selectedLanguages.includes(item)}
                             onChange={() => toggleSelection(item, selectedLanguages, setSelectedLanguages)}
-                            className="w-4 h-4 rounded border-gray-300 text-[#2D1B69] focus:ring-[#2D1B69] cursor-pointer"
+                            className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                           />
                           <span>{item}</span>
                         </label>
@@ -270,7 +270,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                           type="checkbox"
                           checked={selectedContracts.includes(item)}
                           onChange={() => toggleSelection(item, selectedContracts, setSelectedContracts)}
-                          className="w-4 h-4 rounded border-gray-300 text-[#2D1B69] focus:ring-[#2D1B69] cursor-pointer"
+                          className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                         />
                         <span>{item}</span>
                       </label>
@@ -292,7 +292,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                         placeholder="Search jobs by keyword"
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
-                        className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                        className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       />
                     </div>
                   </div>
@@ -307,7 +307,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                       <select
                         value={frequency}
                         onChange={(e) => setFrequency(e.target.value)}
-                        className="w-full pl-9 pr-8 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                        className="w-full pl-9 pr-8 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       >
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
@@ -329,7 +329,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                         placeholder="E-mail address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#2D1B69] focus:ring-1 focus:ring-[#2D1B69]"
+                        className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       />
                     </div>
                   </div>
@@ -339,7 +339,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-[#2D1B69] hover:bg-[#1E1148] text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer disabled:opacity-60"
                     >
                       {isSubmitting ? (
                         <>
