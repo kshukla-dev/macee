@@ -8,7 +8,6 @@ import { Header } from './components/Header';
 import { MobileMenu } from './components/MobileMenu';
 import { Hero } from './components/Hero';
 import { WhatWeDo } from './components/WhatWeDo';
-import { DownloadableResources } from './components/DownloadableResources';
 import { WhyWorkforceSolutions } from './components/WhyWorkforceSolutions';
 import { CurrentJobListings } from './components/CurrentJobListings';
 import { JobalertBanner } from './components/JobalertBanner';
@@ -211,20 +210,6 @@ export default function App() {
         },
       });
 
-      // Resources reveal
-      ScrollTrigger.create({
-        trigger: '#resources',
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          gsap.from('.resources-heading', {
-            opacity: 0,
-            y: 20,
-            duration: 0.7,
-            ease: 'power2.out',
-          });
-        },
-      });
 
       // Why Macee reveal
       ScrollTrigger.create({
@@ -370,12 +355,7 @@ export default function App() {
               onExploreAllServices={() => handleNavigateSection('why-wfs')}
             />
 
-            {/* 5. Downloadable Resources: 3 Macee Guides & Certifications */}
-            <DownloadableResources
-              onSelectResource={(res) => setSelectedResource(res)}
-            />
-
-            {/* 6. Discover the Difference: Why Choose Macee (30+ Years) */}
+            {/* 5. Discover the Difference: Why Choose Macee (30+ Years) */}
             <WhyWorkforceSolutions
               onStartConsultation={() => setIsConsultationOpen(true)}
             />
