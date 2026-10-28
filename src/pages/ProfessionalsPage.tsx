@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
+import { PageFaqSection } from '../components/PageFaqSection';
+import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
 import professionalsData from '../data/professionalsData.json';
 import './ProfessionalsPage.css';
 
@@ -263,7 +265,19 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
         </div>
       </section>
 
-      {/* 5. Contact Section */}
+      {/* 5. Tailored Professionals FAQs */}
+      <PageFaqSection
+        id="professionals-faq"
+        badge="Frequently Asked Questions"
+        titlePrefix="Frequently Asked"
+        titleHighlight="Questions"
+        description="Key information on IND work visa sponsorship, 30% tax benefit, contracting options, and relocation support."
+        faqs={PROFESSIONALS_FAQS}
+        onNavigate={onNavigate}
+        background="white"
+      />
+
+      {/* 6. Contact Section */}
       <div className="prof-contact-wrapper">
         <div className="prof-container">
           <ContactFormSection

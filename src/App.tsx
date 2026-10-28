@@ -13,6 +13,8 @@ import { WhyWorkforceSolutions } from './components/WhyWorkforceSolutions';
 import { CurrentJobListings } from './components/CurrentJobListings';
 import { JobalertBanner } from './components/JobalertBanner';
 import { HRRiskBanner } from './components/HRRiskBanner';
+import { PageFaqSection } from './components/PageFaqSection';
+import { HOME_FAQS } from './data/pageFaqs';
 import { ContactFormSection } from './components/ContactFormSection';
 import { Footer } from './components/Footer';
 
@@ -392,7 +394,19 @@ export default function App() {
             {/* Can't find the project you are looking for? / Job Alert & Open Application */}
             <JobalertBanner onNavigate={handleNavigatePage} />
 
-            {/* 9. Get In Contact With Us Section */}
+            {/* 9. Tailored Home Page FAQs */}
+            <PageFaqSection
+              id="home-faq"
+              badge="Frequently Asked Questions"
+              titlePrefix="Frequently Asked"
+              titleHighlight="Questions"
+              description="Learn more about how Macee's external hiring desk operates, our Dutch compliance standards, and flexible staffing models."
+              faqs={HOME_FAQS}
+              onNavigate={handleNavigatePage}
+              background="white"
+            />
+
+            {/* 10. Get In Contact With Us Section */}
             <div id="contact">
               <ContactFormSection title="Get in contact with us" />
             </div>

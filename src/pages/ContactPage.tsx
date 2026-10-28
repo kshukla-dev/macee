@@ -14,6 +14,8 @@ import {
   UserCheck
 } from 'lucide-react';
 import contactData from '../data/contactData.json';
+import { PageFaqSection } from '../components/PageFaqSection';
+import { CONTACT_FAQS } from '../data/pageFaqs';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
@@ -342,7 +344,19 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         </div>
       </section>
 
-      {/* 3. Consultation Banner CTA */}
+      {/* 3. Tailored Contact & Inquiry FAQs */}
+      <PageFaqSection
+        id="contact-faq"
+        badge="Frequently Asked Questions"
+        titlePrefix="Frequently Asked"
+        titleHighlight="Questions"
+        description="Quick answers about our response times, Arnhem office visits, emergency staffing requests, and confidentiality."
+        faqs={CONTACT_FAQS}
+        onNavigate={onNavigate}
+        background="gray"
+      />
+
+      {/* 4. Consultation Banner CTA */}
       <section className="pb-16 sm:pb-24">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#111827] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">

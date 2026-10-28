@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import aboutData from '../data/aboutData.json';
 import { ContactFormSection } from '../components/ContactFormSection';
+import { PageFaqSection } from '../components/PageFaqSection';
+import { ABOUT_FAQS } from '../data/pageFaqs';
 import {
   CheckCircle2,
   Mail,
@@ -48,7 +50,7 @@ const ABOUT_HERO_IMAGES = [
   },
 ];
 
-export const AboutPage: React.FC<AboutPageProps> = () => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -460,7 +462,19 @@ export const AboutPage: React.FC<AboutPageProps> = () => {
         </div>
       </section>
 
-      {/* 6. Contact Form Section matching Home Page Theme */}
+      {/* 6. Tailored About Macee FAQs */}
+      <PageFaqSection
+        id="about-faq"
+        badge="Frequently Asked Questions"
+        titlePrefix="Frequently Asked"
+        titleHighlight="Questions"
+        description="Learn more about our 30+ year track record, SNA NEN 4400-1 compliance, and IND visa sponsor status."
+        faqs={ABOUT_FAQS}
+        onNavigate={onNavigate}
+        background="white"
+      />
+
+      {/* 7. Contact Form Section matching Home Page Theme */}
       <div id="about-contact">
         <ContactFormSection title={aboutData.contact.title} />
       </div>

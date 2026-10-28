@@ -27,6 +27,8 @@ import {
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
+import { PageFaqSection } from '../components/PageFaqSection';
+import { PROJECTS_FAQS } from '../data/pageFaqs';
 import {
   getAllJobs,
   fetchVacancies,
@@ -1034,10 +1036,22 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
 
 
-      {/* 6. Job Alert Banner */}
+      {/* 6. Tailored Project & Vacancy FAQs */}
+      <PageFaqSection
+        id="projects-faq"
+        badge="Frequently Asked Questions"
+        titlePrefix="Frequently Asked"
+        titleHighlight="Questions"
+        description="Learn more about submitting your CV, application timelines, hybrid options, and how our recruitment desk operates."
+        faqs={PROJECTS_FAQS}
+        onNavigate={onNavigate}
+        background="gray"
+      />
+
+      {/* 7. Job Alert Banner */}
       <JobalertBanner onNavigate={onNavigate} />
 
-      {/* 7. Contact Form Section */}
+      {/* 8. Contact Form Section */}
       <ContactFormSection title="Have questions about our open projects?" />
     </div>
   );

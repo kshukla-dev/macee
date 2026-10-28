@@ -1,6 +1,8 @@
 import React from 'react';
 import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
+import { PageFaqSection } from '../components/PageFaqSection';
+import { CLIENTS_FAQS } from '../data/pageFaqs';
 import clientsData from '../data/clientsData.json';
 import './ClientsPage.css';
 
@@ -8,7 +10,7 @@ interface ClientsPageProps {
   onNavigate: (page: string) => void;
 }
 
-export const ClientsPage: React.FC<ClientsPageProps> = () => {
+export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
   return (
     <div className="clients-page">
       {/* 1. Header / Intro Hero Section */}
@@ -192,7 +194,19 @@ export const ClientsPage: React.FC<ClientsPageProps> = () => {
         </div>
       </section>
 
-      {/* 6. Contact Form Section matching image */}
+      {/* 6. Tailored Client & Hiring FAQs */}
+      <PageFaqSection
+        id="clients-faq"
+        badge="Frequently Asked Questions"
+        titlePrefix="Frequently Asked"
+        titleHighlight="Questions"
+        description="Clear answers on our hiring turnaround, candidate replacement guarantee, Wet DBA risk mitigation, and fee structures."
+        faqs={CLIENTS_FAQS}
+        onNavigate={onNavigate}
+        background="white"
+      />
+
+      {/* 7. Contact Form Section matching image */}
       <div id="contact-form-clients" className="clients-contact-wrapper">
         <ContactFormSection
           title={clientsData.contact.title}
