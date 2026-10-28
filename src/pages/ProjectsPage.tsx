@@ -41,6 +41,7 @@ import {
   API_ENDPOINTS
 } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface ProjectAssignmentItem {
   id: string;
@@ -73,6 +74,7 @@ interface ProjectsPageProps {
 }
 
 export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQuery = '' }) => {
+  const { lang, t } = useLanguage();
   const [keyword, setKeyword] = useState(initialQuery);
   const [selectedLocation, setSelectedLocation] = useState('All');
   const [selectedBranche, setSelectedBranche] = useState('All');
@@ -98,9 +100,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-
-
-  // Load vacancies from OTYS API or fallback to curated list
+  // Load vacancies from OTYS API with proper publishedLanguage
   const loadVacancies = useCallback(async () => {
     setIsLoading(true);
     setApiError(null);
@@ -108,9 +108,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
       if (isOtysConfigured()) {
         const jobs = await getAllJobs({
           keywords: keyword.trim() || undefined,
-          itemsPerPage: 50
+          itemsPerPage: 50,
+          publishedLanguage: lang === 'NL' ? 'nl' : 'en'
         });
-
 
         if (Array.isArray(jobs) && jobs.length > 0) {
           setProjectsList(jobs);
@@ -120,7 +120,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
           console.log('ℹ️ [ProjectsPage] OTYS returned 0 vacancies, using curated Macee assignments.');
         }
       } else {
-        console.log('⚠️ [ProjectsPage] OTYS API Key not detected in .env or local settings. Add OTYS_API_KEY in .env or via OTYS settings button.');
+        console.log('⚠️ [ProjectsPage] OTYS API Key not detected in .env or local settings.');
       }
       setProjectsList(ALL_PROJECTS);
       setIsLiveConnected(false);
@@ -132,7 +132,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     } finally {
       setIsLoading(false);
     }
-  }, [keyword]);
+  }, [keyword, lang]);
 
   useEffect(() => {
     loadVacancies();
@@ -323,33 +323,37 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
             <Briefcase className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>Macee Project &amp; Assignment Desk</span>
+            <span>{lang === 'NL' ? 'Macee Projecten- & Vacaturedesk' : 'Macee Project & Assignment Desk'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            Projects &amp; <span className="text-[#E30613]">Vacancies</span>
+            {lang === 'NL' ? (
+              <>Projecten &amp; <span className="text-[#E30613]">Vacatures</span></>
+            ) : (
+              <>Projects &amp; <span className="text-[#E30613]">Vacancies</span></>
+            )}
           </h1>
 
           <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
-            Discover top-tier contract, interim, secondment, and permanent IT and Finance assignments across the Netherlands.
+            {lang === 'NL'
+              ? 'Ontdek toonaangevende interim-, contract-, detacherings- en vaste IT- en Finance-posities door heel Nederland.'
+              : 'Discover top-tier contract, interim, secondment, and permanent IT and Finance assignments across the Netherlands.'}
           </p>
 
           {/* Micro trust indicators & Live API status */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/90">
             <span className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
-              SNA NEN 4400-1 Certified
+              {lang === 'NL' ? 'SNA NEN 4400-1 Gecertificeerd' : 'SNA NEN 4400-1 Certified'}
             </span>
             <span className="flex items-center gap-2">
               <Globe2 className="w-4 h-4 text-[#E30613]" />
-              IND Recognised Sponsor
+              {lang === 'NL' ? 'IND Erkend Referent' : 'IND Recognised Sponsor'}
             </span>
             <span className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#E30613]" />
-              100% Wet DBA / WAADI Compliant
+              {lang === 'NL' ? '100% Wet DBA & WAADI Compliant' : '100% Wet DBA / WAADI Compliant'}
             </span>
-
-
           </div>
         </div>
       </section>
@@ -363,7 +367,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
               <div className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wider">
                 <SlidersHorizontal className="w-4 h-4 text-[#E30613]" />
-                <span>Search &amp; Filter Assignments</span>
+                <span>{lang === 'NL' ? 'Zoek & Filter Opdrachten' : 'Search & Filter Assignments'}</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -371,13 +375,15 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   onClick={loadVacancies}
                   disabled={isLoading}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors cursor-pointer"
-                  title="Reload vacancies from OTYS Recruitment API"
+                  title={lang === 'NL' ? 'Vacatures opnieuw laden via OTYS' : 'Reload vacancies from OTYS Recruitment API'}
                 >
                   <RefreshCw className={`w-3.5 h-3.5 text-[#E30613] ${isLoading ? 'animate-spin' : ''}`} />
-                  <span>Refresh</span>
+                  <span>{lang === 'NL' ? 'Vernieuwen' : 'Refresh'}</span>
                 </button>
                 <span className="text-xs text-gray-500 font-mono">
-                  {filteredProjects.length} of {projectsList.length} roles shown
+                  {lang === 'NL'
+                    ? `${filteredProjects.length} van ${projectsList.length} functies getoond`
+                    : `${filteredProjects.length} of ${projectsList.length} roles shown`}
                 </span>
               </div>
             </div>
@@ -386,12 +392,12 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               {/* Keyword Search */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Search keyword / tech
+                  {lang === 'NL' ? 'Zoek op trefwoord / tech' : 'Search keyword / tech'}
                 </label>
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="e.g. .NET, Kafka, Java, Security..."
+                    placeholder={lang === 'NL' ? 'bijv. .NET, Kafka, Java, Security...' : 'e.g. .NET, Kafka, Java, Security...'}
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
@@ -403,7 +409,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               {/* Location Select */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Location
+                  {lang === 'NL' ? 'Locatie' : 'Location'}
                 </label>
                 <select
                   value={selectedLocation}
@@ -412,7 +418,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 >
                   {locations.map((loc, i) => (
                     <option key={i} value={loc}>
-                      {loc === 'All' ? 'All Locations' : loc}
+                      {loc === 'All' ? (lang === 'NL' ? 'Alle Locaties' : 'All Locations') : loc}
                     </option>
                   ))}
                 </select>
@@ -421,7 +427,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               {/* Branche / Industry Select */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Sector / Branche
+                  {lang === 'NL' ? 'Sector / Branche' : 'Sector / Branche'}
                 </label>
                 <select
                   value={selectedBranche}
@@ -430,7 +436,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 >
                   {branches.map((br, i) => (
                     <option key={i} value={br}>
-                      {br === 'All' ? 'All Sectors' : br}
+                      {br === 'All' ? (lang === 'NL' ? 'Alle Branches' : 'All Sectors') : br}
                     </option>
                   ))}
                 </select>
@@ -439,7 +445,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               {/* Contract Type Select */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Contract Model
+                  {lang === 'NL' ? 'Contractvorm' : 'Contract Model'}
                 </label>
                 <select
                   value={selectedContract}
@@ -448,7 +454,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 >
                   {contractTypes.map((ct, i) => (
                     <option key={i} value={ct}>
-                      {ct === 'All' ? 'All Contracts' : ct}
+                      {ct === 'All' ? (lang === 'NL' ? 'Alle Contractvormen' : 'All Contracts') : ct}
                     </option>
                   ))}
                 </select>
@@ -808,7 +814,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   {/* 2. Job Description with Show More / Show Less */}
                   <div className="pt-2">
                     <h4 className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-3">
-                      Job description
+                      {lang === 'NL' ? 'Functieomschrijving' : 'Job description'}
                     </h4>
 
                     <div className="relative">
@@ -848,7 +854,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
                       className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-[#E30613] hover:text-[#111827] transition-colors cursor-pointer py-1"
                     >
-                      <span>{isDescriptionExpanded ? 'Show Less' : 'Show More...'}</span>
+                      <span>
+                        {lang === 'NL'
+                          ? (isDescriptionExpanded ? 'Minder tonen' : 'Meer tonen...')
+                          : (isDescriptionExpanded ? 'Show Less' : 'Show More...')}
+                      </span>
                       {isDescriptionExpanded ? (
                         <ChevronUp className="w-3.5 h-3.5" />
                       ) : (
@@ -860,7 +870,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   {/* 3. Requirements & Qualifications */}
                   <div className="pt-2">
                     <h4 className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-2">
-                      Requirements
+                      {lang === 'NL' ? 'Functie-eisen' : 'Requirements'}
                     </h4>
 
                     {activeProject.requirementsHtml ? (
@@ -876,7 +886,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       />
                     ) : (
                       <div>
-                        <p className="text-sm font-normal text-gray-900 mb-2">Required Skills &amp; Experience</p>
+                        <p className="text-sm font-normal text-gray-900 mb-2">
+                          {lang === 'NL' ? 'Gewenste Kennis & Ervaring' : 'Required Skills & Experience'}
+                        </p>
                         <ul className="list-disc pl-5 space-y-2.5 text-sm text-gray-700">
                           {activeProject.requirements.map((req, rIdx) => (
                             <li key={rIdx} className="leading-relaxed">
@@ -893,9 +905,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                     <ShieldCheck className="w-5 h-5 text-[#E30613] shrink-0 mt-0.5" />
                     <div className="text-xs text-gray-600 leading-relaxed">
                       <strong className="text-gray-900 block font-semibold mb-0.5">
-                        Macee Compliance Assurance
+                        {lang === 'NL' ? 'Macee Compliance Waarborg' : 'Macee Compliance Assurance'}
                       </strong>
-                      All engagements are fully covered under SNA NEN 4400-1 audit protocols, mitigating chain liability (inlenersaansprakelijkheid) and conforming with Dutch Wet DBA / WAADI guidelines.
+                      {lang === 'NL'
+                        ? 'Alle opdrachten worden uitgevoerd onder SNA NEN 4400-1 normen, waarmee inlenersaansprakelijkheid wordt uitgesloten conform de Wet DBA en WAADI.'
+                        : 'All engagements are fully covered under SNA NEN 4400-1 audit protocols, mitigating chain liability (inlenersaansprakelijkheid) and conforming with Dutch Wet DBA / WAADI guidelines.'}
                     </div>
                   </div>
 
@@ -903,14 +917,14 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   <div className="pt-4 border-t border-gray-100">
                     <h4 className="text-base font-bold font-display text-gray-900 mb-3 flex items-center gap-2">
                       <Send className="w-4 h-4 text-[#E30613]" />
-                      <span>Direct Application Form</span>
+                      <span>{lang === 'NL' ? 'Direct Solliciteren' : 'Direct Application Form'}</span>
                     </h4>
 
                     <form onSubmit={handleApplySubmit} className="space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Full Name *
+                            {lang === 'NL' ? 'Volledige naam *' : 'Full Name *'}
                           </label>
                           <input
                             type="text"
@@ -923,7 +937,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Email Address *
+                            {lang === 'NL' ? 'E-mailadres *' : 'Email Address *'}
                           </label>
                           <input
                             type="email"
@@ -939,7 +953,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Phone Number
+                            {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
                           </label>
                           <input
                             type="tel"
@@ -951,11 +965,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Target Rate or Salary Expectation
+                            {lang === 'NL' ? 'Gewenst tarief of salarisindicatie' : 'Target Rate or Salary Expectation'}
                           </label>
                           <input
                             type="text"
-                            placeholder="e.g. €95/hr or €85k/yr"
+                            placeholder={lang === 'NL' ? 'bijv. €95/uur of €85k/jaar' : 'e.g. €95/hr or €85k/yr'}
                             value={applicantRate}
                             onChange={(e) => setApplicantRate(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -966,7 +980,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       {/* File upload to OTYS */}
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">
-                          Resume / CV (PDF or Word)
+                          {lang === 'NL' ? 'Curriculum Vitae / CV (PDF of Word)' : 'Resume / CV (PDF or Word)'}
                         </label>
                         <div className="relative border border-dashed border-gray-300 rounded-lg p-3.5 text-center hover:border-[#E30613] transition-colors bg-gray-50/50">
                           <input
@@ -991,7 +1005,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                                   {applicantFile.name} ({(applicantFile.size / 1024).toFixed(0)} KB)
                                 </span>
                               ) : (
-                                'Click or drag your CV here (.pdf, .doc, .docx)'
+                                lang === 'NL'
+                                  ? 'Klik of sleep uw CV hierheen (.pdf, .doc, .docx)'
+                                  : 'Click or drag your CV here (.pdf, .doc, .docx)'
                               )}
                             </span>
                           </div>
@@ -1000,11 +1016,13 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">
-                          Short Motivation / Availability
+                          {lang === 'NL' ? 'Korte motivatie / Beschikbaarheid' : 'Short Motivation / Availability'}
                         </label>
                         <textarea
                           rows={2}
-                          placeholder="Available immediately, 36-40 hrs/week..."
+                          placeholder={lang === 'NL'
+                            ? 'Per direct beschikbaar, 36-40 uur/week...'
+                            : 'Available immediately, 36-40 hrs/week...'}
                           value={applicantNote}
                           onChange={(e) => setApplicantNote(e.target.value)}
                           className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -1019,10 +1037,10 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         {isSubmitting ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Submitting Application to OTYS...</span>
+                            <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application to OTYS...'}</span>
                           </>
                         ) : (
-                          <span>Submit Application to Macee Arnhem Desk</span>
+                          <span>{lang === 'NL' ? 'Sollicitatie Verzenden naar Macee Arnhem' : 'Submit Application to Macee Arnhem Desk'}</span>
                         )}
                       </button>
                     </form>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import aboutData from '../data/aboutData.json';
+import aboutDataEn from '../data/aboutData.json';
+import aboutDataNl from '../data/aboutData_nl.json';
+import { useLanguage } from '../context/LanguageContext';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { ABOUT_FAQS } from '../data/pageFaqs';
@@ -20,8 +22,6 @@ import {
 interface AboutPageProps {
   onNavigate?: (page: string) => void;
 }
-
-const TEAM_MEMBERS = aboutData.team.members;
 
 const ABOUT_HERO_IMAGES = [
   {
@@ -51,6 +51,9 @@ const ABOUT_HERO_IMAGES = [
 ];
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const aboutData = lang === 'NL' ? aboutDataNl : aboutDataEn;
+  const TEAM_MEMBERS = aboutData.team.members;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {

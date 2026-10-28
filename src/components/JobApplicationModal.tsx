@@ -3,6 +3,7 @@ import { X, CheckCircle2, Briefcase, MapPin, Clock, Send, Upload, Loader2 } from
 import { JobListing } from '../types';
 import { uploadCvFile, submitVacancyApplication } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
+import { useLanguage } from '../context/LanguageContext';
 
 interface JobApplicationModalProps {
   job: JobListing | null;
@@ -10,6 +11,7 @@ interface JobApplicationModalProps {
 }
 
 export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, onClose }) => {
+  const { lang } = useLanguage();
   const [applicantName, setApplicantName] = useState('');
   const [applicantEmail, setApplicantEmail] = useState('');
   const [applicantPhone, setApplicantPhone] = useState('');
@@ -93,7 +95,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
           </button>
 
           <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#E30613] mb-1">
-            Macee Project & Career Opportunities
+            {lang === 'NL' ? 'Macee Project & Carrièremogelijkheden' : 'Macee Project & Career Opportunities'}
           </span>
           <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
             {job.title}
@@ -127,10 +129,18 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
             <div className="text-center py-6 sm:py-8 space-y-4">
               <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
               <h4 className="text-xl sm:text-2xl font-bold text-[#111827] font-display">
-                Application Submitted!
+                {lang === 'NL' ? 'Sollicitatie Verzonden!' : 'Application Submitted!'}
               </h4>
               <p className="text-xs sm:text-sm text-[#54595F] max-w-md mx-auto leading-relaxed">
-                Thank you for applying for the <span className="font-semibold text-gray-800">{job.title}</span> role. Our recruiting team will review your qualifications and connect with you shortly.
+                {lang === 'NL' ? (
+                  <>
+                    Hartelijk dank voor uw sollicitatie op de rol van <span className="font-semibold text-gray-800">{job.title}</span>. Onze recruiters beoordelen uw profiel en nemen spoedig contact met u op.
+                  </>
+                ) : (
+                  <>
+                    Thank you for applying for the <span className="font-semibold text-gray-800">{job.title}</span> role. Our recruiting team will review your qualifications and connect with you shortly.
+                  </>
+                )}
               </p>
               <div className="pt-3">
                 <button
@@ -140,7 +150,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
                   }}
                   className="px-6 py-2.5 rounded-[6px] bg-[#111827] text-white text-sm font-semibold hover:bg-black transition-colors cursor-pointer"
                 >
-                  Close
+                  {lang === 'NL' ? 'Sluiten' : 'Close'}
                 </button>
               </div>
             </div>
@@ -148,7 +158,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
             <>
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
-                  Role Description
+                  {lang === 'NL' ? 'Functieomschrijving' : 'Role Description'}
                 </h4>
                 <p className="text-xs sm:text-sm text-[#54595F] leading-relaxed">
                   {job.description}
@@ -157,7 +167,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
 
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
-                  Key Requirements:
+                  {lang === 'NL' ? 'Belangrijkste Functie-eisen:' : 'Key Requirements:'}
                 </h4>
                 <ul className="space-y-1.5 text-xs sm:text-sm text-gray-700">
                   {job.requirements.map((req, i) => (
@@ -172,14 +182,14 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
               {/* Quick Application Form */}
               <div className="p-4 sm:p-5 bg-[#F8FAFB] rounded-xl border border-gray-200">
                 <h4 className="text-sm font-bold text-[#111827] mb-3">
-                  Quick Apply for this Position
+                  {lang === 'NL' ? 'Direct Solliciteren op deze Positie' : 'Quick Apply for this Position'}
                 </h4>
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <input
                       type="text"
                       required
-                      placeholder="Your Full Name *"
+                      placeholder={lang === 'NL' ? 'Uw Volledige Naam *' : 'Your Full Name *'}
                       value={applicantName}
                       onChange={(e) => setApplicantName(e.target.value)}
                       className="px-3.5 py-2.5 text-xs sm:text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
@@ -187,7 +197,7 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
                     <input
                       type="email"
                       required
-                      placeholder="Your Email *"
+                      placeholder={lang === 'NL' ? 'Uw E-mailadres *' : 'Your Email *'}
                       value={applicantEmail}
                       onChange={(e) => setApplicantEmail(e.target.value)}
                       className="px-3.5 py-2.5 text-xs sm:text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
@@ -198,14 +208,16 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
                     <input
                       type="tel"
                       required
-                      placeholder="Phone Number *"
+                      placeholder={lang === 'NL' ? 'Telefoonnummer *' : 'Phone Number *'}
                       value={applicantPhone}
                       onChange={(e) => setApplicantPhone(e.target.value)}
                       className="px-3.5 py-2.5 text-xs sm:text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
                     />
                     <label className="flex items-center justify-center gap-2 px-3.5 py-2.5 text-xs rounded-lg border border-dashed border-gray-300 bg-white cursor-pointer hover:border-[#E30613] text-gray-600 transition-all">
                       <Upload className="w-3.5 h-3.5 text-gray-500" />
-                      <span className="truncate">{resumeName || 'Attach Resume (PDF/Docx)'}</span>
+                      <span className="truncate">
+                        {resumeName || (lang === 'NL' ? 'Voeg CV toe (PDF/Docx)' : 'Attach Resume (PDF/Docx)')}
+                      </span>
                       <input
                         type="file"
                         className="hidden"
@@ -228,12 +240,12 @@ export const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ job, o
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        <span>Submitting to OTYS...</span>
+                        <span>{lang === 'NL' ? 'Versturen naar OTYS...' : 'Submitting to OTYS...'}</span>
                       </>
                     ) : (
                       <>
                         <Send className="w-3.5 h-3.5" />
-                        <span>Submit Application</span>
+                        <span>{lang === 'NL' ? 'Sollicitatie Versturen' : 'Submit Application'}</span>
                       </>
                     )}
                   </button>

@@ -11,7 +11,9 @@ import {
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
-import faqData from '../data/faqData.json';
+import faqDataEn from '../data/faqData.json';
+import faqDataNl from '../data/faqData_nl.json';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FaqPageProps {
   onNavigate: (page: string) => void;
@@ -19,12 +21,15 @@ interface FaqPageProps {
 }
 
 export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation }) => {
+  const { lang, t } = useLanguage();
+  const faqData = lang === 'NL' ? faqDataNl : faqDataEn;
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = faqData.categories;
   const ALL_FAQS = faqData.faqs;
+
 
   // Filter FAQs
   const filteredFaqs = useMemo(() => {
@@ -82,10 +87,10 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
               <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
                 <div>
                   <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                    Explore by Topic
+                    {lang === 'NL' ? 'Zoek op Onderwerp' : 'Explore by Topic'}
                   </span>
                   <h2 className="text-2xl sm:text-4xl font-bold font-display text-gray-900 mt-1">
-                    FAQ Categories
+                    {lang === 'NL' ? 'Veelgestelde Vragen' : 'FAQ Categories'}
                   </h2>
                 </div>
 
@@ -128,7 +133,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                         <span className="absolute bottom-3 left-3 text-xs font-bold text-white bg-[#E30613] px-2.5 py-0.5 rounded-full">
-                          {cat.count} Questions
+                          {cat.count} {lang === 'NL' ? 'Vragen' : 'Questions'}
                         </span>
                       </div>
 
@@ -157,11 +162,11 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                   className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#E30613] hover:underline cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>Show all categories</span>
+                  <span>{lang === 'NL' ? 'Toon alle categorieën' : 'Show all categories'}</span>
                 </button>
                 <span className="text-gray-300">|</span>
                 <span className="text-xs sm:text-sm font-medium text-gray-700">
-                  Showing {filteredFaqs.length} questions
+                  {lang === 'NL' ? `Toont ${filteredFaqs.length} vragen` : `Showing ${filteredFaqs.length} questions`}
                   {selectedCategory !== null && (
                     <> in <strong>{categories.find((c) => c.id === selectedCategory)?.title}</strong></>
                   )}
@@ -190,7 +195,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                     }}
                     className="mt-4 px-5 py-2 rounded-[5px] bg-[#E30613] text-white text-xs font-bold hover:bg-[#111827] transition-colors cursor-pointer"
                   >
-                    Reset Search
+                    {lang === 'NL' ? 'Herstel zoekopdracht' : 'Reset Search'}
                   </button>
                 </div>
               ) : (

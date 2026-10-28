@@ -1,0 +1,166 @@
+{
+  "hero": {
+    "badge": "Beter Denken. Slimmer Werven.",
+    "titlePrefix": "Over",
+    "titleHighlight": "Macee",
+    "description": "Uw betrouwbare partner voor flexibele inhuur, contractbeheer, compliance en internationale werving in Nederland en Europa.",
+    "primaryCta": {
+      "text": "Neem contact op",
+      "target": "about-contact"
+    },
+    "secondaryCta": {
+      "text": "Onze Diensten",
+      "target": "about-services"
+    },
+    "trustPoints": [
+      {
+        "id": "nen",
+        "text": "SNA NEN 4400-1 Gecertificeerd"
+      },
+      {
+        "id": "ind",
+        "text": "IND Erkend Referent"
+      },
+      {
+        "id": "experience",
+        "text": "30+ Jaar Ervaring"
+      }
+    ],
+    "image": {
+      "src": "/images/team-room.jpg",
+      "alt": "Macee Externe Personeelsspecialisten",
+      "badgeTitle": "Specialisten in Externe Inhuur",
+      "badgeSubtitle": "Arnhem · Amsterdam · Wereldwijd Talent"
+    }
+  },
+  "whatWeDo": {
+    "badge": "OVER ONS",
+    "title": "WAT WIJ DOEN",
+    "description": "Macee is een toonaangevende dienstverlener op het gebied van externe personeelsoplossingen, met een sterke focus op de IT-sector en ruime bedrijfservaring. Wij zijn gespecialiseerd in het werven en beheren van internationale aannemers, ZZP’ers en expats, en zorgen voor naadloze integratie binnen uw organisatie. Ons team benut een wereldwijd netwerk om u te verbinden met hooggekwalificeerde professionals, zodat uw organisatie wendbaar en slagvaardig blijft.",
+    "paragraphs": [
+      "Macee is een toonaangevende dienstverlener op het gebied van externe personeelsoplossingen, met een sterke focus op de IT-sector en ruime bedrijfservaring. Wij zijn gespecialiseerd in het werven en beheren van internationale aannemers, ZZP’ers en expats, en zorgen voor naadloze integratie binnen uw organisatie. Ons team benut een wereldwijd netwerk om u te verbinden met hooggekwalificeerde professionals, zodat uw organisatie wendbaar en slagvaardig blijft."
+    ],
+    "highlights": [
+      "Specialisatie in de IT-sector",
+      "Wereldwijd talentnetwerk",
+      "End-to-end compliance"
+    ],
+    "image": {
+      "src": "/uploads/macee1.png",
+      "fallback": "/images/team-room.jpg",
+      "alt": "Wat wij doen - Macee Werkplek",
+      "badgeTitle": "De beschermende schakel voor extern talent",
+      "badgeSubtitle": "SNA NEN 4400-1 gecertificeerd · Officieel IND Erkend Referent"
+    }
+  },
+  "howWeWork": {
+    "badge": "ONZE WERKWIJZE",
+    "title": "HOE WIJ WERKEN",
+    "description": "Wij zijn de tussenpersoon voor uw flexibele inhuur, maar we doen meer dan alleen bemiddelen. Zie ons als het verlengstuk van uw externe inhuurdesk; de beschermende schakel tussen uw organisatie en extern talent die compliance, gemak en gemoedsrust biedt. Altijd afgestemd op uw wensen.",
+    "paragraphs": [
+      "Wij zijn de tussenpersoon voor uw flexibele inhuur, maar we doen meer dan alleen bemiddelen. Zie ons als het verlengstuk van uw externe inhuurdesk; de beschermende schakel tussen uw organisatie en extern talent die compliance, gemak en gemoedsrust biedt. Altijd afgestemd op uw wensen."
+    ],
+    "features": [
+      "Volledige NEN 4400-1 arbeids- en fiscale compliance",
+      "Officieel IND Erkend Referent voor versnelde visummigratie",
+      "Meer dan 30 jaar gecombineerde ervaring in contracting en IT-recruitment"
+    ],
+    "image": {
+      "src": "/uploads/people-working-dsk.jpg",
+      "fallback": "/images/careers-handshake.jpg",
+      "alt": "Hoe wij werken - Macee Teamsamenwerking",
+      "badgeTitle": "Uw Externe Inhuurdesk",
+      "badgeSubtitle": "Compliant, ontzorgend, betrouwbaar"
+    }
+  },
+  "services": {
+    "badge": "OPLOSSINGEN OP MAAT",
+    "title": "DIENSTEN",
+    "subtitle": "Wat kunnen we voor u betekenen?",
+    "items": [
+      {
+        "id": "recruitment-staffing",
+        "icon": "Users",
+        "title": "Werving & Selectie",
+        "paragraphs": [
+          "Bij de zoektocht naar specifieke expertise, tijdelijk of vast, analyseren we zorgvuldig wat u zoekt. We combineren vakkennis, bedrijfscultuur en soft skills om de juiste professional voor uw organisatie te vinden.",
+          "Als onafhankelijke bemiddelaar focussen we uitsluitend op kandidaten met een bewezen staat van dienst. Onze aanpak stelt ons in staat breed te zoeken binnen en buiten Nederland."
+        ],
+        "tag": "Detachering & Vast"
+      },
+      {
+        "id": "contract-administration",
+        "icon": "Briefcase",
+        "title": "Contractbeheer & Payroll",
+        "paragraphs": [
+          "Zodra de juiste kandidaat is geselecteerd, verzorgen wij de volledige onboarding en regelen we alle relevante compliance-procedures.",
+          "Dit omvat alle aspecten rond lokale arbeids- en immigratiewetgeving, verloning en toepasselijke regelingen. We zorgen voor een soepele en professionele afhandeling, zodat u zich kunt richten op uw kernactiviteiten."
+        ],
+        "tag": "Payroll & EOR"
+      },
+      {
+        "id": "compliance-support",
+        "icon": "ShieldCheck",
+        "title": "Compliance & Ondersteuning",
+        "paragraphs": [
+          "Macee staat voor duidelijke, transparante en rechtsgeldige samenwerking. Ons team beschikt over diepgaande kennis van wet- en regelgeving.",
+          "We bieden ondersteuning bij compliance, arbeids- en immigratieeisen, loonheffingen en overige processen rond externe inhuur.",
+          "Of het nu gaat om onboarding, juridische toetsing of contractbeheer: wij staan uw organisatie bij met praktisch en betrouwbaar advies."
+        ],
+        "tag": "Juridische Bescherming"
+      }
+    ]
+  },
+  "team": {
+    "badge": "ONZE MENSEN",
+    "title": "TEAM MACEE",
+    "description": "Maak kennis met ons team van ervaren recruiters, contractmanagers en inhuurspecialisten.",
+    "members": [
+      {
+        "name": "Dick Noorlander",
+        "role": "Resourcing Manager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/sMzvFzco/uploads/Bredere%20foto.png",
+        "email": "dick.noorlander@macee.com",
+        "phone": "+31 (0)6 28 35 77 04"
+      },
+      {
+        "name": "Maarten Koekebakker",
+        "role": "Oprichter / Eigenaar",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/IAJ6bXf8/uploads/maarten-koekebakker.jpeg%20%281%29.jpg",
+        "email": "maartje.koekebakker@macee.com",
+        "phone": "+31 (0)6 82 85 97 10"
+      },
+      {
+        "name": "Adam Nichols",
+        "role": "Recruiter",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/k8LJpK7C/uploads/adam-nichols.jpeg.jpg",
+        "email": "adam.nichols@macee.com",
+        "phone": "+31 (0)6 82 85 97 29"
+      },
+      {
+        "name": "Michael Stip",
+        "role": "Financieel Manager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/WALuDQhd/uploads/michael-siep.png",
+        "email": "michael.stip@macee.com",
+        "phone": "+31 (0)6 82 85 97 06"
+      },
+      {
+        "name": "Amir Davis",
+        "role": "Relatiemanager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/2JLI5vyn/uploads/amin-david.jpeg.jpg",
+        "email": "amir.davis@macee.com",
+        "phone": "+31 (0)6 28 35 77 05"
+      },
+      {
+        "name": "Victor Weijdeman",
+        "role": "Relatiemanager",
+        "image": "https://www.macee.com/media/cache/square_crop_center/rc/sjXS1wcB/uploads/Nicky%20.jpg",
+        "email": "victor.weijdeman@macee.com",
+        "phone": "+31 (0)6 28 35 77 06"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Neem contact met ons op"
+  }
+}

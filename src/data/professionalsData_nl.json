@@ -1,0 +1,198 @@
+{
+  "hero": {
+    "badge": "Kansen in Nederland",
+    "title": "VOOR PROFESSIONALS",
+    "subtitle": "Freelance, Detachering en Kennismigranten kansen bij toonaangevende Nederlandse en internationale organisaties."
+  },
+  "whatWeDo": {
+    "eyebrow": "ONZE EXPERTISE",
+    "titlePrefix": "Wat",
+    "titleHighlight": "Wij Doen",
+    "description": "Wij verbinden ervaren specialisten met toonaangevende opdrachtgevers in diverse sectoren in Nederland.",
+    "items": [
+      {
+        "num": "01",
+        "icon": "Laptop",
+        "title": "ICT & Software",
+        "image": "/uploads/Software-Development-2.jpg",
+        "fallback": "https://www.macee.com/uploads/Software-Development-2.jpg",
+        "alt": "ICT Softwareontwikkeling",
+        "text": "ICT is onze kernactiviteit. Met jarenlange ervaring in de bemiddeling van tijdelijke en vaste ICT-professionals kennen we deze markt door en door. We begrijpen wat opdrachtgevers zoeken en spreken de taal van de professional.",
+        "tags": [
+          "IT Specialisten",
+          "Digitale Transformatie",
+          "Cloud"
+        ]
+      },
+      {
+        "num": "02",
+        "icon": "Landmark",
+        "title": "Publieke Sector",
+        "image": "/uploads/Dutch-government-3.jpg",
+        "fallback": "https://www.macee.com/uploads/Dutch-government-3.jpg",
+        "alt": "Publieke Sector",
+        "text": "De publieke sector ontwikkelt zich in hoog tempo. Digitale transformatie, procesoptimalisatie en veilige IT-infrastructuren vragen om sterke professionals. Wij ondersteunen overheidsorganisaties met specialisten die beleid en techniek effectief verbinden.",
+        "tags": [
+          "Publieke Sector",
+          "Beleid & Strategie",
+          "Infrastructuur"
+        ]
+      },
+      {
+        "num": "03",
+        "icon": "Database",
+        "title": "Bank- en verzekeringswezen",
+        "image": "/uploads/Finance-reporting.jpg",
+        "fallback": "https://www.macee.com/uploads/Finance-reporting.jpg",
+        "alt": "Bank- en verzekeringswezen",
+        "text": "MACEE heeft ruime ervaring in de financiële sector, met klanten variërend van grootbanken en vermogensbeheerders tot fintech-platforms. We leveren expertise op het gebied van risicobeheersing, compliance, data en cloudarchitectuur.",
+        "tags": [
+          "Bankwezen",
+          "Vermogensbeheer",
+          "Fintech"
+        ]
+      }
+    ]
+  },
+  "whatCanWeDo": {
+    "title": "Wat kunnen we voor jou betekenen?",
+    "description": "MACEE bemiddelt professionals voor uiteenlopende projecten en functies bij onze opdrachtgevers. Van tijdelijke opdrachten tot vaste aanstellingen. Hier is een overzicht van de contractvormen die we faciliteren:",
+    "services": [
+      {
+        "id": "freelance-zzp",
+        "title": "Freelance / ZZP",
+        "description": "Tijdelijke projecten voor zelfstandige ondernemers (ZZP), werkend voor opdrachtgevers zonder gezagsverhouding. Als ZZP’er bepaal je zelf je uurtarief, werktijden en werkwijze. MACEE zorgt voor duidelijke modelcontracten en gegarandeerde stipte betalingen."
+      },
+      {
+        "id": "contracting-secondment",
+        "title": "Detachering / Payrolling",
+        "description": "Werken op een uitdagend project of interim-rol terwijl je in loondienst bent bij MACEE. Door strengere wetgeving rondom schijnzelfstandigheid biedt onze detacherings- en payrolloplossing maximale rechtszekerheid met behoud van afwisseling."
+      },
+      {
+        "id": "outsourcing",
+        "title": "Outsourcing & Projectdiensten",
+        "description": "Resultaatgerichte opdrachten waarbij een extern team onder eigen leiding werkt en verantwoordelijk is voor het eindresultaat. Ideaal voor specialistische trajecten en duidelijke deliverables."
+      },
+      {
+        "id": "permanent",
+        "title": "Vaste Aanstelling (Werving & Selectie)",
+        "description": "Daarnaast ondersteunt MACEE opdrachtgevers actief bij de werving en selectie van professionals voor rechtstreekse vaste dienstverbanden."
+      },
+      {
+        "id": "hsm-expats",
+        "highlight": true,
+        "tag": "IND Erkend Referent",
+        "title": "Kennismigranten & Visum Sponsoring",
+        "description": "Heb je via ons een project gevonden? Als officieel IND Erkend Referent verzorgt MACEE de complete visumaanvraag en tewerkstellingsvergunning via de versnelde kennismigrantenprocedure, inclusief gezinshereniging en 30%-regeling."
+      }
+    ]
+  },
+  "industries": {
+    "title": "Sectoren",
+    "description": "Ervaring en bewezen staat van dienst in uiteenlopende markten",
+    "items": [
+      {
+        "id": "ict",
+        "name": "ICT",
+        "image": "/uploads/Software-Development-2.jpg",
+        "imgTitle": "ICT & Softwareontwikkeling",
+        "imgDesc": "Van software engineers en cloud architects tot cybersecurity experts en DevOps engineers.",
+        "text": "ICT is onze kernactiviteit. Met jarenlange ervaring in de bemiddeling van tijdelijke ICT-professionals kennen we de dynamiek van deze markt. We spreken de taal van tech-specialisten en verbinden je met interessante en uitdagende projecten."
+      },
+      {
+        "id": "telecom",
+        "name": "Telecom",
+        "image": "/uploads/Telecom (1).jpg",
+        "imgTitle": "Telecom & Connectiviteit",
+        "imgDesc": "Snelle netwerken, 5G-uitrol, glasvezelinfrastructuur en next-gen telecom engineering.",
+        "text": "De telecombranche is volop in beweging. Van supersnel internet tot slimme netwerken en innovatieve communicatieoplossingen. Wij ondersteunen opdrachtgevers met professionals die technisch bekwaam zijn én flexibel kunnen schakelen."
+      },
+      {
+        "id": "finance",
+        "name": "Bankwezen / Fintech / Finance",
+        "image": "/uploads/Finance-reporting.jpg",
+        "imgTitle": "Bankwezen & Financiële Technologie",
+        "imgDesc": "Vormgeven aan het digitale betalingsverkeer, risicomodellering en toezichtcompliance.",
+        "text": "In de fintech komen technologie en financiële dienstverlening samen. MACEE ondersteunt toonaangevende financiële instellingen, pensioenfondsen en fintechs met deskundige interim-professionals op het snijvlak van data, risk en IT."
+      },
+      {
+        "id": "hightech",
+        "name": "High Tech Industrie",
+        "image": "/uploads/Hightech-Industry-3.jpg",
+        "imgTitle": "High-Tech & Precisietechniek",
+        "imgDesc": "Eindhoven Brainport en Delft: hotspots voor robotica, halfgeleiders en embedded software.",
+        "text": "Nederland speelt mondiaal mee in de top van de hightech-industrie. In regio's zoals Brainport Eindhoven werken onze professionals dagelijks aan baanbrekende embedded software en mechatronica met wereldwijde impact."
+      },
+      {
+        "id": "government",
+        "name": "Overheid",
+        "image": "/uploads/Dutch-government-3.jpg",
+        "imgTitle": "Publieke Sector & Ministeries",
+        "imgDesc": "Digitale dienstverlening voor burgers, cloudtransities en veilige data governance.",
+        "text": "De publieke sector investeert sterk in veilige en betrouwbare digitale infrastructuren. Wij plaatsen ervaren IT- en businessspecialisten bij ministeries, uitvoeringsorganisaties en gemeenten."
+      },
+      {
+        "id": "oil-gas",
+        "name": "Olie, Gas & Energie",
+        "image": "/uploads/Oil--Gas-3.jpg",
+        "imgTitle": "Energie & Industriële Transformatie",
+        "imgDesc": "Realtime telemetrie, IoT, cloud analytics en monitoring van de energietransitie.",
+        "text": "De Nederlandse energiesector maakt een grootschalige digitale transitie door. Betrouwbare ICT-oplossingen, cybersecurity en data-analyse zijn cruciaal om veilige en toekomstbestendige operaties te waarborgen."
+      }
+    ]
+  },
+  "expertises": {
+    "title": "VAKGEBIEDEN",
+    "subtitle": "Rollen",
+    "description": "Softwareontwikkeling, Cloud, Data, Cyber Security, Testen, Reporting en PMO / Projectmanagement.",
+    "pills": [
+      "Softwareontwikkeling (.NET, C#, Java, Python)",
+      "BI & Data (Spark, PowerBI, AI/ML, Kafka)",
+      "Projectmanagement (PMO, Change Manager)",
+      "Cloud (AWS, Azure, Kubernetes)",
+      "Security (CISM, CISSP, IAM, CyberArk)",
+      "(Fin) Risicomanagement (AML, KYC, EMIR, Basel)"
+    ],
+    "roles": [
+      {
+        "title": "Softwareontwikkeling",
+        "tech": ".NET, C / C++ / C#, JAVA, Python etc."
+      },
+      {
+        "title": "BI & Data Engineering",
+        "tech": "Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc."
+      },
+      {
+        "title": "Project- & Programmamanagement",
+        "tech": "PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc."
+      },
+      {
+        "title": "Cloud & DevOps",
+        "tech": "AWS, Azure, Kubernetes etc."
+      },
+      {
+        "title": "Cyber Security & IAM",
+        "tech": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Netwerkbeveiliging"
+      },
+      {
+        "title": "(Fin) Risicomanagement",
+        "tech": "Toezichtrapportages, AML, FEC, KYC, Modellering, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "/uploads/Software-Development-2.jpg",
+        "fallback": "https://www.macee.com/uploads/Software-Development-2.jpg",
+        "alt": "Softwareontwikkeling en coding"
+      },
+      {
+        "src": "/uploads/people-working-dsk.jpg",
+        "fallback": "https://www.macee.com/uploads/people-working-dsk.jpg",
+        "alt": "Team samenwerkend rond een bureau"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Neem contact met ons op"
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, CheckCircle2, ArrowUpRight, Lightbulb } from 'lucide-react';
 import { ResourceItem } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ResourceModalProps {
   resource: ResourceItem | null;
@@ -13,6 +14,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
   onClose,
   onOpenConsultation,
 }) => {
+  const { lang } = useLanguage();
   // Close on Escape key press
   useEffect(() => {
     if (!resource) return;
@@ -55,7 +57,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
             {resource.title}
           </h3>
           <p className="text-xs sm:text-sm text-white/80 mt-1 sm:mt-2">
-            Macee Workforce Insights & Strategic Advisory
+            {resource.pages} · {lang === 'NL' ? 'Macee Workforce Inzichten & Strategisch Advies' : 'Macee Workforce Insights & Strategic Advisory'}
           </p>
         </div>
 
@@ -76,7 +78,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
             </div>
             <div className="space-y-1.5 sm:space-y-2 flex-1">
               <h4 className="text-xs sm:text-sm font-bold text-[#111827] uppercase tracking-wide">
-                Overview & Strategic Intent
+                {lang === 'NL' ? 'Overzicht & Strategische Inzichten' : 'Overview & Strategic Intent'}
               </h4>
               <p className="text-xs sm:text-sm text-[#54595F] leading-relaxed">
                 {resource.description}
@@ -87,7 +89,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
           {/* Topics & Key Takeaways */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2.5">
-              Key Topics Covered:
+              {lang === 'NL' ? 'Belangrijkste Onderwerpen:' : 'Key Topics Covered:'}
             </h4>
             <div className="space-y-2">
               {resource.topics.map((topic, i) => (
@@ -98,6 +100,7 @@ export const ResourceModal: React.FC<ResourceModalProps> = ({
               ))}
             </div>
           </div>
+
 
           {/* Action Card: Inquire & Connect for Full Details */}
           <div className="p-5 sm:p-6 bg-gradient-to-br from-[#F8FAFB] to-[#F1F4F9] rounded-2xl border border-gray-200/90 flex flex-col sm:flex-row items-center justify-between gap-5">

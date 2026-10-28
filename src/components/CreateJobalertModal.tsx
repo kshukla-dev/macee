@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Tag, Calendar, Mail, CheckCircle2, Loader2, Plus, Minus } from 'lucide-react';
 import { submitJobAlertForm } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CreateJobalertModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { lang } = useLanguage();
   const [selectedBranches, setSelectedBranches] = useState<string[]>([]);
   const [selectedContracts, setSelectedContracts] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -130,7 +132,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
         {/* Header */}
         <div className="px-6 sm:px-8 pt-6 pb-4 border-b border-gray-200 flex items-center justify-between">
           <h3 className="text-2xl sm:text-3xl font-light text-gray-800 tracking-tight font-heading">
-            Create Jobalert
+            {lang === 'NL' ? 'Job Alert Aanmaken' : 'Create Jobalert'}
           </h3>
           <button
             onClick={handleClose}
@@ -149,7 +151,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                 <CheckCircle2 className="w-9 h-9" />
               </div>
               <h4 className="text-2xl font-bold font-display text-gray-900">
-                Jobalert Created!
+                {lang === 'NL' ? 'Job Alert Aangemaakt!' : 'Jobalert Created!'}
               </h4>
               <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                 {statusMessage}
@@ -159,7 +161,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                 onClick={handleClose}
                 className="mt-4 px-8 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer"
               >
-                Done
+                {lang === 'NL' ? 'Klaar' : 'Done'}
               </button>
             </div>
           ) : (
@@ -177,7 +179,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                   {/* Branche checkboxes */}
                   <div>
                     <h4 className="text-sm font-semibold text-gray-900 mb-3">
-                      Branche
+                      {lang === 'NL' ? 'Sector / Branche' : 'Branche'}
                     </h4>
                     <div className="space-y-2">
                       {initialBranches.map((item) => (
@@ -220,12 +222,12 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                       {showMoreBranches ? (
                         <>
                           <Minus className="w-3.5 h-3.5 text-gray-500" />
-                          <span>Show less</span>
+                          <span>{lang === 'NL' ? 'Minder tonen' : 'Show less'}</span>
                         </>
                       ) : (
                         <>
                           <Plus className="w-3.5 h-3.5 text-gray-500" />
-                          <span>Show more</span>
+                          <span>{lang === 'NL' ? 'Meer tonen' : 'Show more'}</span>
                         </>
                       )}
                     </button>
@@ -234,7 +236,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                   {/* Language checkboxes */}
                   <div className="pt-2">
                     <h4 className="text-sm font-semibold text-gray-900 mb-3">
-                      Language
+                      {lang === 'NL' ? 'Taal' : 'Language'}
                     </h4>
                     <div className="space-y-2">
                       {languageOptions.map((item) => (
@@ -258,7 +260,7 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                 {/* Column 2: Type of contract */}
                 <div>
                   <h4 className="text-sm font-semibold text-gray-900 mb-3">
-                    Type of contract
+                    {lang === 'NL' ? 'Contractvorm' : 'Type of contract'}
                   </h4>
                   <div className="space-y-2">
                     {contractOptions.map((item) => (
@@ -283,13 +285,13 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                   {/* Keyword */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-                      Keyword
+                      {lang === 'NL' ? 'Trefwoord' : 'Keyword'}
                     </label>
                     <div className="relative">
                       <Tag className="w-4 h-4 text-red-500 absolute left-3 top-3 pointer-events-none" />
                       <input
                         type="text"
-                        placeholder="Search jobs by keyword"
+                        placeholder={lang === 'NL' ? 'Zoek vacatures op trefwoord' : 'Search jobs by keyword'}
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
                         className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -300,7 +302,8 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                   {/* Frequency */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-                      How often do you wish to receive vacancies? <span className="text-red-500">*</span>
+                      {lang === 'NL' ? 'Hoe vaak wilt u vacatures ontvangen?' : 'How often do you wish to receive vacancies?'}{' '}
+                      <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <Calendar className="w-4 h-4 text-red-500 absolute left-3 top-3 pointer-events-none" />
@@ -309,9 +312,9 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                         onChange={(e) => setFrequency(e.target.value)}
                         className="w-full pl-9 pr-8 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
                       >
-                        <option value="daily">Daily</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
+                        <option value="daily">{lang === 'NL' ? 'Dagelijks' : 'Daily'}</option>
+                        <option value="weekly">{lang === 'NL' ? 'Wekelijks' : 'Weekly'}</option>
+                        <option value="monthly">{lang === 'NL' ? 'Maandelijks' : 'Monthly'}</option>
                       </select>
                     </div>
                   </div>
@@ -319,14 +322,15 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                   {/* Email */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-                      What is your email address? <span className="text-red-500">*</span>
+                      {lang === 'NL' ? 'Wat is uw e-mailadres?' : 'What is your email address?'}{' '}
+                      <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <Mail className="w-4 h-4 text-red-500 absolute left-3 top-3 pointer-events-none" />
                       <input
                         type="email"
                         required
-                        placeholder="E-mail address"
+                        placeholder={lang === 'NL' ? 'Uw zakelijk of privé e-mailadres' : 'E-mail address'}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full pl-9 pr-3 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -344,10 +348,10 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Creating Jobalert...</span>
+                          <span>{lang === 'NL' ? 'Job Alert opslaan...' : 'Creating Jobalert...'}</span>
                         </>
                       ) : (
-                        <span>Create Jobalert</span>
+                        <span>{lang === 'NL' ? 'Job Alert Aanmaken' : 'Create Jobalert'}</span>
                       )}
                     </button>
                   </div>

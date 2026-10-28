@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onOpenConsultation: () => void;
@@ -12,6 +13,7 @@ export const Footer: React.FC<FooterProps> = ({
   onNavigateSection,
   onNavigatePage,
 }) => {
+  const { lang, t } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -45,7 +47,11 @@ export const Footer: React.FC<FooterProps> = ({
               <p className="font-semibold text-white text-base">Macee BV</p>
               <div className="flex items-start gap-2.5 pt-1">
                 <MapPin className="w-4 h-4 text-[#E30613] shrink-0 mt-0.5" />
-                <span>Nieuwe Stationsstraat 10, 6811 KS Arnhem, The Netherlands</span>
+                <span>
+                  {lang === 'NL'
+                    ? 'Nieuwe Stationsstraat 10, 6811 KS Arnhem, Nederland'
+                    : 'Nieuwe Stationsstraat 10, 6811 KS Arnhem, The Netherlands'}
+                </span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#E30613] shrink-0" />
@@ -61,19 +67,29 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
             </div>
 
-
+            {/* Certifications micro badges */}
+            <div className="pt-2 flex items-center gap-2">
+              <span className="text-[11px] font-mono bg-white/10 text-white/90 px-2.5 py-1 rounded">
+                {lang === 'NL' ? 'SNA NEN 4400-1 Gecertificeerd' : 'SNA NEN 4400-1 Certified'}
+              </span>
+              <span className="text-[11px] font-mono bg-white/10 text-white/90 px-2.5 py-1 rounded">
+                {lang === 'NL' ? 'IND Erkend Referent' : 'IND Recognised Sponsor'}
+              </span>
+            </div>
           </div>
 
           {/* Column 2: Information (lg:col-span-3) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Information</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
+              {t('footer.information')}
+            </h4>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <button
                   onClick={() => onNavigatePage ? onNavigatePage('about') : onNavigateSection('why-wfs')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  About us
+                  {t('nav.about')}
                 </button>
               </li>
               <li>
@@ -81,7 +97,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Clients &amp; Certifications
+                  {t('nav.clients')}
                 </button>
               </li>
               <li>
@@ -89,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Professionals
+                  {t('nav.professionals')}
                 </button>
               </li>
               <li>
@@ -97,7 +113,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('projects') : onNavigateSection('jobs')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Projects &amp; Vacancies
+                  {t('nav.projects')}
                 </button>
               </li>
               <li>
@@ -105,7 +121,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('faq') : onNavigateSection('resources')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  FAQ
+                  {t('nav.faq')}
                 </button>
               </li>
               <li>
@@ -113,7 +129,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('contact') : onOpenConsultation()}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Contact
+                  {t('nav.contact')}
                 </button>
               </li>
             </ul>
@@ -121,14 +137,16 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 3: For Candidates (lg:col-span-3) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">For Candidates</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
+              {t('footer.forCandidates')}
+            </h4>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <button
                   onClick={() => onNavigatePage ? onNavigatePage('projects') : onNavigateSection('jobs')}
                   className="hover:text-white transition-colors cursor-pointer text-left font-medium text-white/90"
                 >
-                  Search vacancies
+                  {t('footer.searchVacancies')}
                 </button>
               </li>
               <li>
@@ -136,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('jobalert') : null}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Create a Job alert
+                  {t('footer.createJobalert')}
                 </button>
               </li>
               <li>
@@ -144,7 +162,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('open-application') : null}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Open application
+                  {t('footer.openApplication')}
                 </button>
               </li>
               <li>
@@ -152,7 +170,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Contracting &amp; Freelance (ZZP)
+                  {t('footer.contracting')}
                 </button>
               </li>
               <li>
@@ -160,7 +178,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('professionals') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Expats &amp; Visa Sponsorship (HSM)
+                  {t('footer.expats')}
                 </button>
               </li>
             </ul>
@@ -168,14 +186,16 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 4: Services & Solutions (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Services</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
+              {t('footer.services')}
+            </h4>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <button
                   onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Clients Overview
+                  {t('footer.clientsOverview')}
                 </button>
               </li>
               <li>
@@ -183,7 +203,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigatePage ? onNavigatePage('clients') : onNavigateSection('what-we-do')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Contract Administration
+                  {t('footer.contractAdmin')}
                 </button>
               </li>
               <li>
@@ -191,7 +211,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => onNavigateSection('risk-survey')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Compliance Risk Survey
+                  {t('footer.complianceSurvey')}
                 </button>
               </li>
               <li className="pt-2">
@@ -199,7 +219,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={onOpenConsultation}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide bg-[#E30613] hover:bg-white hover:text-[#111827] text-white px-3 py-1.5 rounded transition-colors cursor-pointer"
                 >
-                  Get in touch
+                  {t('footer.getInTouch')}
                 </button>
               </li>
             </ul>
@@ -209,7 +229,7 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom Area: Copyright, SNA NEN Certification Logo & Socials */}
         <div className="mt-6 pt-4 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400">
-            Copyright © 2026 Macee BV | External Workforce Solutions
+            {t('footer.copyright')}
           </p>
 
           <div className="flex items-center gap-6">
@@ -262,3 +282,4 @@ export const Footer: React.FC<FooterProps> = ({
     </footer>
   );
 };
+

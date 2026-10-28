@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, MapPin, Briefcase, Clock, CheckCircle, Loader2 } from 'lucide-react';
-import { JOBS_DATA } from '../data/content';
+import { Briefcase, MapPin, Clock, ArrowRight, ShieldCheck, Sparkles, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { getJobsData } from '../data/content';
 import { JobListing } from '../types';
 import { getAllJobs } from '../lib/api';
 import { ProjectAssignmentItem } from '../pages/ProjectsPage';
 import { isOtysConfigured } from '../lib/auth';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CurrentJobListingsProps {
   onSelectJob: (job: JobListing) => void;
@@ -15,21 +16,28 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
   onSelectJob,
   onExploreAllJobs
 }) => {
+  const { lang, t } = useLanguage();
   const [selectedDept, setSelectedDept] = useState<string>('All');
-  const [jobs, setJobs] = useState<JobListing[]>(JOBS_DATA);
+  const [jobs, setJobs] = useState<JobListing[]>(() => getJobsData(lang));
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLiveConnected, setIsLiveConnected] = useState<boolean>(false);
 
-  // Load real vacancies from OTYS API
+  // Load real vacancies from OTYS API with proper publishedLanguage
   useEffect(() => {
     let isMounted = true;
 
     async function loadApiJobs() {
+      // Set localized fallback while loading
+      setJobs(getJobsData(lang));
+
       if (!isOtysConfigured()) return;
       setIsLoading(true);
 
       try {
-        const apiProjects: ProjectAssignmentItem[] = await getAllJobs({ itemsPerPage: 20 });
+        const apiProjects: ProjectAssignmentItem[] = await getAllJobs({
+          itemsPerPage: 20,
+          publishedLanguage: lang === 'NL' ? 'nl' : 'en'
+        });
 
         if (isMounted && Array.isArray(apiProjects) && apiProjects.length > 0) {
           // Sort to ensure the latest vacancies are prioritized at the top
@@ -48,33 +56,38 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             const cleanDesc =
               proj.description ||
               (proj.shortDescriptionHtml ? proj.shortDescriptionHtml.replace(/<[^>]+>/g, '').trim() : '') ||
-              'Explore this exciting vacancy at Macee and enterprise clients.';
+              (lang === 'NL'
+                ? 'Bekijk deze interessante vacature bij Macee en toonaangevende opdrachtgevers.'
+                : 'Explore this exciting vacancy at Macee and enterprise clients.');
 
             return {
               id: proj.id,
               title: proj.title,
-              department: proj.branche || proj.category || 'Consulting & Engineering',
-              location: proj.location || 'Netherlands',
-              type: proj.contractType || proj.hours || 'Permanent / Fulltime',
-              experience: proj.experience || 'Professional',
+              department: proj.branche || proj.category || (lang === 'NL' ? 'Consultancy & IT' : 'Consulting & Engineering'),
+              location: proj.location || (lang === 'NL' ? 'Nederland' : 'Netherlands'),
+              type: proj.contractType || proj.hours || (lang === 'NL' ? 'Vast / Fulltime' : 'Permanent / Fulltime'),
+              experience: proj.experience || (lang === 'NL' ? 'Professional' : 'Professional'),
               description: cleanDesc,
               postedDate: proj.postedDate,
               requirements:
                 proj.requirements && proj.requirements.length > 0
                   ? proj.requirements
                   : [
-                    'Relevant professional experience',
-                    'Strong communication & collaboration skills',
-                    'High dedication to quality and enterprise standards',
+                    lang === 'NL' ? 'Relevante professionele werkervaring' : 'Relevant professional experience',
+                    lang === 'NL' ? 'Sterke communicatieve vaardigheden' : 'Strong communication & collaboration skills',
+                    lang === 'NL' ? 'Kwaliteitsgericht en resultaatgedreven' : 'High dedication to quality and enterprise standards',
                   ],
             };
           });
 
           setJobs(mappedListings);
           setIsLiveConnected(true);
+        } else {
+          setJobs(getJobsData(lang));
         }
       } catch (err) {
         console.warn('[CurrentJobListings] Could not load live OTYS vacancies, using fallback:', err);
+        setJobs(getJobsData(lang));
       } finally {
         if (isMounted) setIsLoading(false);
       }
@@ -85,7 +98,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [lang]);
 
   // Compute dynamic departments from available jobs
   const departments = useMemo(() => {
@@ -119,18 +132,18 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
                 <Briefcase className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>Vacancies & Assignments</span>
+                <span>{t('jobs.badge')}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                Current Projects & Assignments
+                {t('jobs.title')}
               </h2>
               <h3 className="text-lg sm:text-xl font-semibold text-[#111827] mt-2 font-display">
-                Take the next step in your professional career
+                {lang === 'NL' ? 'Zet de volgende stap in uw carrière' : 'Take the next step in your professional career'}
               </h3>
             </div>
 
             <p className="text-sm sm:text-base text-[#54595F] leading-relaxed">
-              Check out our range of exciting projects and permanent positions at MACEE and our enterprise clients. Click on the project title to explore requirements and submit your application.
+              {t('jobs.subtitle')}
             </p>
 
             {/* Department filter tabs */}
@@ -145,7 +158,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                         : 'bg-[#F8FAFB] text-[#54595F] hover:bg-gray-100'
                       }`}
                   >
-                    {dept}
+                    {dept === 'All' ? t('jobs.all') : dept}
                   </button>
                 ))}
               </div>
@@ -155,7 +168,11 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
             {isLoading && (
               <div className="flex items-center gap-2 py-4 text-xs text-gray-500">
                 <Loader2 className="w-4 h-4 animate-spin text-[#E30613]" />
-                <span>Syncing live vacancies from OTYS recruitment system...</span>
+                <span>
+                  {lang === 'NL'
+                    ? 'Vacatures synchroniseren vanuit OTYS wervingssysteem...'
+                    : 'Syncing live vacancies from OTYS recruitment system...'}
+                </span>
               </div>
             )}
 
@@ -199,7 +216,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                     </div>
 
                     <div className="flex items-center text-xs font-semibold text-[#E30613] group-hover:text-[#111827] shrink-0">
-                      <span>View & Apply</span>
+                      <span>{t('jobs.apply')}</span>
                       <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
@@ -213,7 +230,7 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                 onClick={onExploreAllJobs}
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
               >
-                <span>Browse All Projects</span>
+                <span>{t('jobs.viewAll')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -232,11 +249,17 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
 
               <div className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-gray-100">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#111827]">
-                  <CheckCircle className="w-4 h-4 text-[#111827]" />
-                  <span>Can't find the project you are looking for?</span>
+                  <CheckCircle2 className="w-4 h-4 text-[#111827]" />
+                  <span>
+                    {lang === 'NL'
+                      ? 'Kunt u het project dat u zoekt niet vinden?'
+                      : "Can't find the project you are looking for?"}
+                  </span>
                 </div>
                 <p className="text-xs text-[#54595F] mt-1">
-                  Create a Jobalert or browse all open vacancies to receive automated notifications when suitable projects open!
+                  {lang === 'NL'
+                    ? 'Maak een Jobalert aan of bekijk alle vacatures om automatisch bericht te ontvangen bij nieuwe projecten!'
+                    : 'Create a Jobalert or browse all open vacancies to receive automated notifications when suitable projects open!'}
                 </p>
               </div>
             </div>
@@ -246,3 +269,4 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
     </section>
   );
 };
+

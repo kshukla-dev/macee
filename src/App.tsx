@@ -31,15 +31,19 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
 
-import { RESOURCES_DATA, JOBS_DATA } from './data/content';
+import { getResourcesData } from './data/content';
 import { ResourceItem, JobListing } from './types';
+
+import { Language } from './components/LanguageSelector';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'faq' | 'contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function App() {
+function AppContent() {
   const [currentPage, setCurrentPage] = useState<PageRoute>('home');
+  const { lang, setLang } = useLanguage();
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -103,6 +107,20 @@ export default function App() {
       window.removeEventListener('hashchange', handleLocation);
     };
   }, []);
+
+    // Ensure scroll resets to top whenever route changes
+  useEffect(() => {
+    document.body.style.overflow = '';
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+    return () => clearTimeout(t);
+  }, [currentPage]);
 
   const handleNavigatePage = (page: string) => {
     setIsMobileMenuOpen(false);
@@ -295,7 +313,7 @@ export default function App() {
   };
 
   const handleSelectResourceById = (resourceId: string) => {
-    const resource = RESOURCES_DATA.find((r) => r.id === resourceId);
+    const resource = getResourcesData(lang).find((r) => r.id === resourceId);
     if (resource) {
       setSelectedResource(resource);
     } else {
@@ -317,6 +335,8 @@ export default function App() {
         isMobileMenuOpen={isMobileMenuOpen}
         currentPage={currentPage}
         onNavigatePage={handleNavigatePage}
+        currentLang={lang}
+        onChangeLang={setLang}
       />
 
       {/* Mobile Menu Drawer */}
@@ -327,6 +347,8 @@ export default function App() {
         onNavigateSection={handleNavigateSection}
         onNavigatePage={handleNavigatePage}
         currentPage={currentPage}
+        currentLang={lang}
+        onChangeLang={setLang}
       />
 
       {/* Main Content Area */}
@@ -389,7 +411,7 @@ export default function App() {
 
             {/* 10. Get In Contact With Us Section */}
             <div id="contact">
-              <ContactFormSection title="Get in contact with us" />
+              <ContactFormSection />
             </div>
           </>
         )}
@@ -450,5 +472,13 @@ export default function App() {
         onClose={() => setIsJobalertModalOpen(false)}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }

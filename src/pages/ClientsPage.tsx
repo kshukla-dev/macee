@@ -3,7 +3,9 @@ import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag } 
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CLIENTS_FAQS } from '../data/pageFaqs';
-import clientsData from '../data/clientsData.json';
+import clientsDataEn from '../data/clientsData.json';
+import clientsDataNl from '../data/clientsData_nl.json';
+import { useLanguage } from '../context/LanguageContext';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
@@ -11,6 +13,8 @@ interface ClientsPageProps {
 }
 
 export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const clientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
   return (
     <div className="clients-page">
       {/* 1. Header / Intro Hero Section */}

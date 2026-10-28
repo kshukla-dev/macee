@@ -3,16 +3,19 @@ import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
-import professionalsData from '../data/professionalsData.json';
+import professionalsDataEn from '../data/professionalsData.json';
+import professionalsDataNl from '../data/professionalsData_nl.json';
+import { useLanguage } from '../context/LanguageContext';
 import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
   onNavigate?: (page: string) => void;
 }
 
-const INDUSTRIES_DATA = professionalsData.industries.items;
-
 export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const professionalsData = lang === 'NL' ? professionalsDataNl : professionalsDataEn;
+  const INDUSTRIES_DATA = professionalsData.industries.items;
   const [activeIndustryId, setActiveIndustryId] = useState<string>('ict');
 
   const activeIndustry =
@@ -20,6 +23,7 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
 
   return (
     <div className="prof-page">
+
       {/* Top Banner / Hero */}
       <section className="prof-hero-banner">
         <div className="prof-container">

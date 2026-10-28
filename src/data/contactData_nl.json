@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "badge": "Direct Contact met Macee Hoofdkantoor Arnhem",
+    "titlePrefix": "Contact met",
+    "titleHighlight": "Macee BV",
+    "description": "Neem contact op met onze gespecialiseerde teams in Arnhem voor externe personeelsoplossingen, detachering, visumsponsoring of compliance advies.",
+    "highlights": [
+      "Snelle Reactie (Binnen 24 Uur)",
+      "Arnhem Centraal Station Corridor",
+      "SNA NEN 4400-1 Geauditeerd"
+    ]
+  },
+  "office": {
+    "tag": "Neem Vandaag Contact Op",
+    "title": "Hoe kunnen we u ondersteunen?",
+    "description": "Of u nu een enterprise organisatie bent die compliante contractanten zoekt of een internationale professional die naar Nederland verhuist: ons team biedt persoonlijke en betrokken service.",
+    "name": "Macee BV Hoofdkantoor",
+    "city": "Arnhem, Nederland",
+    "badge": "Centraal Kantoor",
+    "address": {
+      "line1": "Nieuwe Stationsstraat 10",
+      "line2": "6811 KS Arnhem, Nederland"
+    },
+    "phone": "+31 (0)26 744 0024",
+    "phoneTel": "+310267440024",
+    "email": "info@macee.com",
+    "hours": "Maandag – Vrijdag: 08:30 – 17:30 CET",
+    "mapQuery": "https://maps.google.com/maps?q=Nieuwe%20Stationsstraat%2010,%206811%20KS%20Arnhem,%20Netherlands&t=&z=15&ie=UTF8&iwloc=&output=embed"
+  },
+  "desks": [
+    {
+      "badge": "Opdrachtgevers & Inleners",
+      "title": "Workforce Solutions Desk",
+      "description": "Detachering, contracting, payrolling en compliance audits."
+    },
+    {
+      "badge": "Professionals & Expats",
+      "title": "Talent & Visum Desk",
+      "description": "Opdrachten, ZZP bemiddeling, IND visa & 30%-regeling."
+    }
+  ],
+  "certifications": [
+    "SNA NEN 4400-1 Geregistreerd",
+    "IND Erkend Referent"
+  ],
+  "form": {
+    "title": "Stuur een Direct Bericht",
+    "subtitle": "Vul onderstaand formulier in en de betreffende accountmanager reageert binnen 24 uur.",
+    "topics": [
+      {
+        "value": "Hiring External Specialists",
+        "label": "Inhuur Externe Specialisten (Detachering / Contracting)"
+      },
+      {
+        "value": "Finding an Assignment / Job",
+        "label": "Zoeken naar een Opdracht / Vacature"
+      },
+      {
+        "value": "HSM Visa & Expat Sponsorship",
+        "label": "Kennismigranten Visumsponsoring & Relocatie"
+      },
+      {
+        "value": "SNA NEN 4400-1 Compliance",
+        "label": "SNA NEN 4400-1 Kwaliteitsnorm / Wet DBA"
+      },
+      {
+        "value": "General Question",
+        "label": "Algemene Vraag"
+      }
+    ],
+    "privacy": "Door dit bericht te verzenden gaat u ermee akkoord dat Macee BV uw contactgegevens verwerkt conform onze privacyverklaring (AVG). Wij delen uw gegevens nooit met derden.",
+    "buttonText": "Verstuur Bericht naar Macee"
+  },
+  "consultationBanner": {
+    "badge": "1-op-1 Adviesgesprek",
+    "title": "Behoefte aan een grondige compliance review?",
+    "description": "Plan een vertrouwelijk, vrijblijvend video-overleg van 20 minuten met onze Senior Relatiemanagers en Compliance Specialisten.",
+    "buttonText": "Plan Adviesgesprek"
+  }
+}

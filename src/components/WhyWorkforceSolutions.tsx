@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, UserCheck, Share2, Clock, HeartHandshake, ShieldCheck, Layers } from 'lucide-react';
-import { PILLARS_DATA } from '../data/content';
+import { getDifferencePillars } from '../data/content';
+import { useLanguage } from '../context/LanguageContext';
 
 interface WhyWorkforceSolutionsProps {
   onStartConsultation: () => void;
@@ -9,6 +10,9 @@ interface WhyWorkforceSolutionsProps {
 export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
   onStartConsultation
 }) => {
+  const { lang, t } = useLanguage();
+  const pillars = getDifferencePillars(lang);
+
   const getPillarIcon = (iconName: string) => {
     switch (iconName) {
       case 'UserCheck':
@@ -42,19 +46,19 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 why-wfs-header">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-3 backdrop-blur-xs">
             <ShieldCheck className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>The Macee Advantage</span>
+            <span>{t('why.badge')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display tracking-tight text-white">
-            Discover the Difference: Why Choose Macee
+            {t('why.title')}
           </h2>
           <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed">
-            With more than 30 years of experience, we provide tailored workforce solutions that take the complexity off your hands, letting you focus on what truly matters.
+            {t('why.subtitle')}
           </p>
         </div>
 
         {/* 6 Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {PILLARS_DATA.map((pillar) => (
+          {pillars.map((pillar) => (
             <div
               key={pillar.id}
               className="bg-white/95 backdrop-blur-sm text-[#333333] rounded-xl p-6 sm:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1 border border-white/20"
@@ -81,7 +85,7 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
               </div>
 
               <div className="mt-5 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors">
-                <span>Verified Compliance</span>
+                <span>{lang === 'NL' ? 'Geverifieerde Compliance' : 'Verified Compliance'}</span>
                 <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
@@ -94,7 +98,7 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
             onClick={onStartConsultation}
             className="inline-flex items-center gap-2.5 px-9 py-4 rounded-[5px] bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-semibold text-base shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer hover:-translate-y-0.5 group"
           >
-            <span>Start Your Collaboration</span>
+            <span>{t('why.cta')}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
@@ -102,3 +106,4 @@ export const WhyWorkforceSolutions: React.FC<WhyWorkforceSolutionsProps> = ({
     </section>
   );
 };
+

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface ContactFormData {
   firstName: string;
@@ -23,12 +24,20 @@ export interface ContactCardProps {
 }
 
 export const ContactCard: React.FC<ContactCardProps> = ({
-  title = 'Get in contact with us',
-  badge = 'Reach Out To Macee',
-  subtitle = 'Have a question about flexible staffing, contract administration, or compliance? Send us a message and our team will get back to you promptly.',
+  title,
+  badge,
+  subtitle,
   className = '',
   onSuccess,
 }) => {
+  const { lang, t } = useLanguage();
+
+  const effectiveTitle = title || (lang === 'NL' ? 'Neem contact met ons op' : 'Get in contact with us');
+  const effectiveBadge = badge || (lang === 'NL' ? 'Vrijblijvend Contact' : 'Reach Out To Macee');
+  const effectiveSubtitle = subtitle || (lang === 'NL'
+    ? 'Heeft u vragen over flexibele inhuur, contractbeheer of compliance? Stuur ons een bericht en onze specialisten reageren binnen 24 uur.'
+    : 'Have a question about flexible staffing, contract administration, or compliance? Send us a message and our team will get back to you promptly.');
+
   const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
     lastName: '',
@@ -66,18 +75,19 @@ export const ContactCard: React.FC<ContactCardProps> = ({
 
       {/* Header Area */}
       <div className="relative text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-        {badge && (
+        {effectiveBadge && (
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
             <MessageSquare className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>{badge}</span>
+            <span>{effectiveBadge}</span>
           </div>
         )}
+          
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-[#111827] tracking-tight">
-          {title}
+          {effectiveTitle}
         </h2>
-        {subtitle && (
+        {effectiveSubtitle && (
           <p className="mt-2.5 text-sm sm:text-base text-[#54595F] leading-relaxed">
-            {subtitle}
+            {effectiveSubtitle}
           </p>
         )}
       </div>
@@ -89,20 +99,22 @@ export const ContactCard: React.FC<ContactCardProps> = ({
             <CheckCircle2 className="w-9 h-9" />
           </div>
           <h3 className="text-2xl font-bold font-display text-[#111827] mb-2">
-            Message Sent Successfully!
+            {lang === 'NL' ? 'Bericht succesvol verzonden!' : 'Message Sent Successfully!'}
           </h3>
           <p className="text-sm text-[#54595F] leading-relaxed max-w-md mx-auto mb-6">
-            Thank you for reaching out to Macee BV. Our team will review your inquiry and contact you at{' '}
+            {lang === 'NL'
+              ? 'Bedankt voor uw bericht aan Macee BV. Onze specialisten nemen binnen 1 werkdag contact met u op via '
+              : 'Thank you for reaching out to Macee BV. Our team will review your inquiry and contact you at '}
             <span className="font-semibold text-[#111827] underline decoration-[#E30613]/40">
               {formData.email}
-            </span>{' '}
-            within 1 business day.
+            </span>
+            {lang === 'NL' ? '.' : ' within 1 business day.'}
           </p>
           <button
             onClick={handleReset}
             className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
           >
-            Send Another Message
+            {lang === 'NL' ? 'Nog een bericht sturen' : 'Send Another Message'}
           </button>
         </div>
       ) : (
@@ -112,12 +124,12 @@ export const ContactCard: React.FC<ContactCardProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
               <div>
                 <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                  First Name <span className="text-[#E30613]">*</span>
+                  {lang === 'NL' ? 'Voornaam' : 'First Name'} <span className="text-[#E30613]">*</span>
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Alexander"
+                  placeholder={lang === 'NL' ? 'bijv. Jan' : 'e.g. Alexander'}
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-[#111827] focus:ring-2 focus:ring-[#111827]/15 transition-all"
@@ -125,11 +137,11 @@ export const ContactCard: React.FC<ContactCardProps> = ({
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                  Last Name
+                  {lang === 'NL' ? 'Achternaam' : 'Last Name'}
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. van den Berg"
+                  placeholder={lang === 'NL' ? 'bijv. Jansen' : 'e.g. van den Berg'}
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-[#111827] focus:ring-2 focus:ring-[#111827]/15 transition-all"
@@ -140,7 +152,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
               <div>
                 <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                  Phone Number
+                  {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
                 </label>
                 <input
                   type="tel"
@@ -152,12 +164,12 @@ export const ContactCard: React.FC<ContactCardProps> = ({
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                  Email Address <span className="text-[#E30613]">*</span>
+                  {lang === 'NL' ? 'E-mailadres' : 'Email Address'} <span className="text-[#E30613]">*</span>
                 </label>
                 <input
                   type="email"
                   required
-                  placeholder="name@company.com"
+                  placeholder="naam@bedrijf.nl"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-[#111827] focus:ring-2 focus:ring-[#111827]/15 transition-all"
@@ -167,12 +179,14 @@ export const ContactCard: React.FC<ContactCardProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                Your Message or Question <span className="text-[#E30613]">*</span>
+                {lang === 'NL' ? 'Uw bericht of vraag' : 'Your Message or Question'} <span className="text-[#E30613]">*</span>
               </label>
               <textarea
                 rows={4}
                 required
-                placeholder="Tell us about your staffing requirements, contracting inquiries, or partnership opportunities..."
+                placeholder={lang === 'NL'
+                  ? 'Vertel ons over uw personeelsbehoefte, contracting-vraagstuk of samenwerkingsmogelijkheden...'
+                  : 'Tell us about your staffing requirements, contracting inquiries, or partnership opportunities...'}
                 value={formData.remark}
                 onChange={(e) => setFormData({ ...formData, remark: e.target.value })}
                 className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-[#111827] focus:ring-2 focus:ring-[#111827]/15 transition-all resize-y"
@@ -188,18 +202,20 @@ export const ContactCard: React.FC<ContactCardProps> = ({
                 {loading ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Sending...</span>
+                    <span>{lang === 'NL' ? 'Verzenden...' : 'Sending...'}</span>
                   </>
                 ) : (
                   <>
-                    <span>Send Message</span>
+                    <span>{lang === 'NL' ? 'Verstuur Bericht' : 'Send Message'}</span>
                     <Send className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </>
                 )}
               </button>
 
               <p className="text-[11px] text-gray-400 text-center sm:text-right">
-                🔒 We respect your privacy and never share your details.
+                {lang === 'NL'
+                  ? '🔒 Wij respecteren uw privacy en delen uw gegevens nooit.'
+                  : '🔒 We respect your privacy and never share your details.'}
               </p>
             </div>
           </form>
@@ -208,3 +224,4 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     </div>
   );
 };
+

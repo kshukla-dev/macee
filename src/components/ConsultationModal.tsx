@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, Send, Phone, Mail } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -7,12 +8,13 @@ interface ConsultationModalProps {
 }
 
 export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, onClose }) => {
+  const { lang } = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     workEmail: '',
     phoneNumber: '',
-    notes: ''
+        notes: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -62,13 +64,15 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
           </button>
 
           <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#E30613] mb-1">
-            Macee BV · Arnhem, Netherlands
+            Macee BV · Arnhem, {lang === 'NL' ? 'Nederland' : 'Netherlands'}
           </span>
           <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
-            Get in Touch with Macee
+            {lang === 'NL' ? 'Neem contact op met Macee' : 'Get in Touch with Macee'}
           </h3>
           <p className="text-xs sm:text-sm text-white/80 mt-1">
-            Speak directly with an external workforce advisor. SNA NEN 4400-1 certified and IND Recognised Sponsor.
+            {lang === 'NL'
+              ? 'Spreek direct met een specialist in flexibele arbeid. SNA NEN 4400-1 gecertificeerd en Erkend IND Referent.'
+              : 'Speak directly with an external workforce advisor. SNA NEN 4400-1 certified and IND Recognised Sponsor.'}
           </p>
         </div>
 
@@ -84,10 +88,18 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h4 className="text-xl sm:text-2xl font-bold text-[#111827] font-display">
-                Message Received!
+                {lang === 'NL' ? 'Bericht ontvangen!' : 'Message Received!'}
               </h4>
               <p className="text-xs sm:text-sm text-[#54595F] max-w-md mx-auto leading-relaxed">
-                Thank you, <span className="font-semibold text-gray-800">{formData.fullName}</span>. A specialist from Macee BV will review your request and contact you within 1 business day.
+                {lang === 'NL' ? (
+                  <>
+                    Hartelijk dank, <span className="font-semibold text-gray-800">{formData.fullName}</span>. Een specialist van Macee BV beoordeelt uw aanvraag en neemt binnen 1 werkdag contact met u op.
+                  </>
+                ) : (
+                  <>
+                    Thank you, <span className="font-semibold text-gray-800">{formData.fullName}</span>. A specialist from Macee BV will review your request and contact you within 1 business day.
+                  </>
+                )}
               </p>
               <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs text-[#54595F]">
                 <div className="flex items-center gap-1.5">
@@ -108,7 +120,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   }}
                   className="px-6 py-2.5 rounded-[6px] bg-[#111827] text-white text-sm font-semibold hover:bg-black transition-colors cursor-pointer"
                 >
-                  Done
+                  {lang === 'NL' ? 'Sluiten' : 'Done'}
                 </button>
               </div>
             </div>
@@ -117,12 +129,12 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Full Name *
+                    {lang === 'NL' ? 'Volledige naam *' : 'Full Name *'}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Robin van Dijk"
+                    placeholder={lang === 'NL' ? 'Robin van Dijk' : 'Robin van Dijk'}
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
@@ -131,12 +143,12 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Company / Organisation *
+                    {lang === 'NL' ? 'Bedrijf / Organisatie *' : 'Company / Organisation *'}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Company name or Professional"
+                    placeholder={lang === 'NL' ? 'Bedrijfsnaam of Professional' : 'Company name or Professional'}
                     value={formData.companyName}
                     onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
@@ -147,7 +159,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Work Email *
+                    {lang === 'NL' ? 'Zakelijk e-mailadres *' : 'Work Email *'}
                   </label>
                   <input
                     type="email"
@@ -161,7 +173,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Phone Number
+                    {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
                   </label>
                   <input
                     type="tel"
@@ -175,11 +187,15 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  How can we help you?
+                  {lang === 'NL' ? 'Hoe kunnen wij u helpen?' : 'How can we help you?'}
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Tell us about the project, technical requirements, or contract situation..."
+                  placeholder={
+                    lang === 'NL'
+                      ? 'Vertel ons over uw project, technische eisen of contractuele situatie...'
+                      : 'Tell us about the project, technical requirements, or contract situation...'
+                  }
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all resize-y"
@@ -193,10 +209,10 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   className="w-full py-3.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm sm:text-base shadow-md transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 active:scale-[0.99]"
                 >
                   {isSubmitting ? (
-                    <span>Sending Message...</span>
+                    <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending Message...'}</span>
                   ) : (
                     <>
-                      <span>Send Message to Macee</span>
+                      <span>{lang === 'NL' ? 'Verstuur bericht naar Macee' : 'Send Message to Macee'}</span>
                       <Send className="w-4 h-4" />
                     </>
                   )}
@@ -204,7 +220,9 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
               </div>
 
               <p className="text-[11px] text-center text-gray-400">
-                Your data is managed confidentially in accordance with Dutch GDPR / AVG standards.
+                {lang === 'NL'
+                  ? 'Uw gegevens worden vertrouwelijk behandeld conform de AVG / GDPR.'
+                  : 'Your data is managed confidentially in accordance with Dutch GDPR / AVG standards.'}
               </p>
             </form>
           )}

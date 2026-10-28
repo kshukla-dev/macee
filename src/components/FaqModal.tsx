@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { X, ChevronDown, HelpCircle, ArrowRight, Bell } from 'lucide-react';
-import { FAQ_DATA } from '../data/content';
+import { getFaqData } from '../data/content';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FaqModalProps {
   isOpen: boolean;
@@ -13,8 +14,19 @@ export const FaqModal: React.FC<FaqModalProps> = ({
   onClose,
   onOpenConsultation
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [expandedId, setExpandedId] = useState<string | null>(FAQ_DATA[0].id);
+  const { lang } = useLanguage();
+  const faqs = useMemo(() => getFaqData(lang), [lang]);
+  const allLabel = lang === 'NL' ? 'Alle' : 'All';
+  const [activeCategory, setActiveCategory] = useState<string>(allLabel);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  // Sync category and expanded FAQ on language switch or open
+  useEffect(() => {
+    setActiveCategory(lang === 'NL' ? 'Alle' : 'All');
+    if (faqs.length > 0) {
+      setExpandedId(faqs[0].id);
+    }
+  }, [lang, faqs]);
 
   // Close on Escape key press
   useEffect(() => {
@@ -28,11 +40,11 @@ export const FaqModal: React.FC<FaqModalProps> = ({
 
   if (!isOpen) return null;
 
-  const categories = ['All', 'What does MACEE do', 'Services and Contract options', 'Specialties and positions'];
+  const categories = [allLabel, ...Array.from(new Set(faqs.map((f) => f.category)))];
 
-  const filteredFaqs = activeCategory === 'All'
-    ? FAQ_DATA
-    : FAQ_DATA.filter(f => f.category === activeCategory);
+  const filteredFaqs = (activeCategory === 'All' || activeCategory === 'Alle')
+    ? faqs
+    : faqs.filter(f => f.category === activeCategory);
 
   return (
     <div 
@@ -60,15 +72,17 @@ export const FaqModal: React.FC<FaqModalProps> = ({
           <div className="flex items-center gap-2 mb-1.5">
             <HelpCircle className="w-4 h-4 text-[#E30613]" />
             <span className="text-xs font-semibold uppercase tracking-wider text-[#E30613]">
-              Macee Knowledge Base
+              {lang === 'NL' ? 'Macee Kennisbank' : 'Macee Knowledge Base'}
             </span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
-            Frequently Asked Questions
+            {lang === 'NL' ? 'Veelgestelde Vragen' : 'Frequently Asked Questions'}
           </h3>
           <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
-            Everything you need to know about external workforce hiring, contracting options, and visa sponsorship.
+            {lang === 'NL'
+              ? 'Alles wat u moet weten over externe inhuur, contractopties en visumsponsoring.'
+              : 'Everything you need to know about external workforce hiring, contracting options, and visa sponsorship.'}
           </p>
 
           {/* Category Tabs */}
@@ -132,10 +146,12 @@ export const FaqModal: React.FC<FaqModalProps> = ({
               </div>
               <div>
                 <h5 className="text-xs sm:text-sm font-bold text-[#111827]">
-                  Can’t find the project you are looking for?
+                  {lang === 'NL' ? 'Kunt u het project dat u zoekt niet vinden?' : 'Can’t find the project you are looking for?'}
                 </h5>
                 <p className="text-xs text-[#54595F]">
-                  Create a Jobalert or submit an open application to receive immediate notifications.
+                  {lang === 'NL'
+                    ? 'Maak een Jobalert aan of meld u aan voor automatische notificaties per e-mail.'
+                    : 'Create a Jobalert or submit an open application to receive immediate notifications.'}
                 </p>
               </div>
             </div>
@@ -147,7 +163,7 @@ export const FaqModal: React.FC<FaqModalProps> = ({
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shrink-0 active:scale-[0.99]"
             >
-              <span>Create Jobalert</span>
+              <span>{lang === 'NL' ? 'Jobalert Aanmaken' : 'Create Jobalert'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

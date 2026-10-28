@@ -13,7 +13,9 @@ import {
   ArrowRight,
   UserCheck
 } from 'lucide-react';
-import contactData from '../data/contactData.json';
+import contactDataEn from '../data/contactData.json';
+import contactDataNl from '../data/contactData_nl.json';
+import { useLanguage } from '../context/LanguageContext';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CONTACT_FAQS } from '../data/pageFaqs';
 
@@ -23,6 +25,9 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenConsultation }) => {
+  const { lang } = useLanguage();
+  const contactData = lang === 'NL' ? contactDataNl : contactDataEn;
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -127,7 +132,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-[#E30613] shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-semibold text-gray-900">Physical Address</p>
+                      <p className="font-semibold text-gray-900">
+                        {lang === 'NL' ? 'Bezoekadres' : 'Physical Address'}
+                      </p>
                       <p className="text-gray-600">{contactData.office.address.line1}</p>
                       <p className="text-gray-600">{contactData.office.address.line2}</p>
                     </div>
@@ -136,7 +143,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                   <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
                     <Phone className="w-5 h-5 text-[#E30613] shrink-0" />
                     <div>
-                      <p className="text-xs text-gray-500 font-medium">Direct Telephone</p>
+                      <p className="text-xs text-gray-500 font-medium">
+                        {lang === 'NL' ? 'Direct telefoonnummer' : 'Direct Telephone'}
+                      </p>
                       <a
                         href={`tel:${contactData.office.phoneTel}`}
                         className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
@@ -149,7 +158,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                   <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
                     <Mail className="w-5 h-5 text-[#E30613] shrink-0" />
                     <div>
-                      <p className="text-xs text-gray-500 font-medium">Official Email</p>
+                      <p className="text-xs text-gray-500 font-medium">
+                        {lang === 'NL' ? 'Officieel e-mailadres' : 'Official Email'}
+                      </p>
                       <a
                         href={`mailto:${contactData.office.email}`}
                         className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
@@ -202,11 +213,19 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                     </div>
 
                     <h3 className="text-2xl sm:text-3xl font-bold font-display text-gray-900">
-                      Message Sent Successfully!
+                      {lang === 'NL' ? 'Bericht succesvol verzonden!' : 'Message Sent Successfully!'}
                     </h3>
 
                     <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
-                      Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry. A dedicated Macee specialist will review your details and contact you within 24 business hours.
+                      {lang === 'NL' ? (
+                        <>
+                          Hartelijk dank, <strong>{firstName || 'relatie'}</strong>. We hebben uw aanvraag goed ontvangen. Een specialist van Macee neemt binnen 24 uur contact met u op.
+                        </>
+                      ) : (
+                        <>
+                          Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry . A dedicated Macee specialist will review your details and contact you within 24 business hours.
+                        </>
+                      )}
                     </p>
 
                     <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -214,14 +233,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         onClick={handleReset}
                         className="px-6 py-2.5 rounded-[5px] bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition-colors cursor-pointer"
                       >
-                        Send Another Inquiry
+                        {lang === 'NL' ? 'Nieuw bericht sturen' : 'Send Another Inquiry'}
                       </button>
 
                       <button
                         onClick={() => onNavigate('projects')}
                         className="px-6 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs font-bold transition-colors cursor-pointer"
                       >
-                        Browse Current Projects
+                        {lang === 'NL' ? 'Bekijk actuele vacatures' : 'Browse Current Projects'}
                       </button>
                     </div>
                   </div>
@@ -229,7 +248,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                   <>
                     <div className="border-b border-gray-100 pb-5 mb-6">
                       <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                        Online Contact Form
+                        {lang === 'NL' ? 'Online contactformulier' : 'Online Contact Form'}
                       </span>
                       <h3 className="text-2xl font-bold font-display text-gray-900 mt-1">
                         {contactData.form.title}
@@ -244,12 +263,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            First Name *
+                            {lang === 'NL' ? 'Voornaam *' : 'First Name *'}
                           </label>
                           <input
                             type="text"
                             required
-                            placeholder="e.g. Maarten"
+                            placeholder={lang === 'NL' ? 'bijv. Maarten' : 'e.g. Maarten'}
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -257,12 +276,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Last Name *
+                            {lang === 'NL' ? 'Achternaam *' : 'Last Name *'}
                           </label>
                           <input
                             type="text"
                             required
-                            placeholder="e.g. de Jong"
+                            placeholder={lang === 'NL' ? 'bijv. de Jong' : 'e.g. de Jong'}
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -274,12 +293,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Email Address *
+                            {lang === 'NL' ? 'E-mailadres *' : 'Email Address *'}
                           </label>
                           <input
                             type="email"
                             required
-                            placeholder="e.g. m.dejong@company.nl"
+                            placeholder={lang === 'NL' ? 'bijv. m.dejong@bedrijf.nl' : 'e.g. m.dejong@company.nl'}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -287,7 +306,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Phone Number
+                            {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
                           </label>
                           <input
                             type="tel"
@@ -299,16 +318,19 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         </div>
                       </div>
 
-
                       {/* Message Textarea */}
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">
-                          Your Message / Description of Needs *
+                          {lang === 'NL' ? 'Uw bericht / Toelichting op uw vraag *' : 'Your Message / Description of Needs *'}
                         </label>
                         <textarea
                           required
                           rows={4}
-                          placeholder="Please tell us about your requirements, project details, or any questions..."
+                          placeholder={
+                            lang === 'NL'
+                              ? 'Vertel ons over uw vraagstuk, gewenste specialisten of projectdetails...'
+                              : 'Please tell us about your requirements, project details, or any questions...'
+                          }
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
                           className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
@@ -327,7 +349,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
                       >
                         {isSubmitting ? (
-                          <span>Sending message...</span>
+                          <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending message...'}</span>
                         ) : (
                           <>
                             <Send className="w-4 h-4" />

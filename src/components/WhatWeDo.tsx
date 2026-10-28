@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, FileCheck, UserCheck, Layers } from 'lucide-react';
-import { SERVICES_DATA } from '../data/content';
+import { getServicesData } from '../data/content';
+import { useLanguage } from '../context/LanguageContext';
 
 interface WhatWeDoProps {
   onExploreAllServices: () => void;
@@ -9,6 +10,9 @@ interface WhatWeDoProps {
 export const WhatWeDo: React.FC<WhatWeDoProps> = ({
   onExploreAllServices
 }) => {
+  const { lang, t } = useLanguage();
+  const services = getServicesData(lang);
+
   const getIcon = (id: string) => {
     switch (id) {
       case 'recruitment-staffing': return <Users className="w-5 h-5 text-[#111827]" />;
@@ -41,8 +45,12 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               
               <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
-                <p className="text-sm font-semibold text-[#111827]">The Protective Link for External Talent</p>
-                <p className="text-xs text-[#54595F] mt-0.5">SNA NEN 4400-1 certified · Official IND Recognised Sponsor</p>
+                <p className="text-sm font-semibold text-[#111827]">
+                  {lang === 'NL' ? 'De Beschermende Schakel voor Extern Talent' : 'The Protective Link for External Talent'}
+                </p>
+                <p className="text-xs text-[#54595F] mt-0.5">
+                  {lang === 'NL' ? 'SNA NEN 4400-1 gecertificeerd · Officieel IND Erkend Referent' : 'SNA NEN 4400-1 certified · Official IND Recognised Sponsor'}
+                </p>
               </div>
             </div>
           </div>
@@ -52,20 +60,20 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
                 <Layers className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>What Can We Support You With?</span>
+                <span>{t('whatwedo.badge')}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                What We Do
+                {t('whatwedo.title')}
               </h2>
             </div>
 
             <p className="text-base sm:text-lg text-[#54595F] leading-relaxed">
-              We are the seamless extension of your External Hiring Desk, serving as the secure link between your organisation and external talent — ensuring efficiency, full compliance, and complete peace of mind.
+              {t('whatwedo.subtitle')}
             </p>
 
             {/* List of 7 Services + 8th Slot Check Out Our Services CTA */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              {SERVICES_DATA.map((service) => (
+              {services.map((service) => (
                 <div
                   key={service.id}
                   onClick={onExploreAllServices}
@@ -87,7 +95,7 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
                 className="flex items-center justify-between gap-3 p-3 rounded-lg bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
               >
                 <span className="text-sm font-semibold leading-snug pl-1">
-                  Check Out Our Services
+                  {t('whatwedo.cta')}
                 </span>
                 <ArrowRight className="w-4 h-4 text-white shrink-0 group-hover:translate-x-1 transition-transform mr-1" />
               </button>

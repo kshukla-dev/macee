@@ -370,3 +370,48 @@ export const FAQ_DATA: FaqItem[] = [
     answer: 'You can create a Jobalert on our website to receive automated notifications by email whenever matching projects are published, or submit an open application directly to our talent team.'
   }
 ];
+
+// Multilingual Helpers
+import {
+  SERVICES_DATA_NL,
+  RESOURCES_DATA_NL,
+  DIFFERENCE_PILLARS_NL,
+  FAQ_DATA_NL,
+  JOBS_DATA_NL,
+  RISK_SURVEY_QUESTIONS_NL,
+} from './content_nl';
+
+export {
+  SERVICES_DATA_NL,
+  RESOURCES_DATA_NL,
+  DIFFERENCE_PILLARS_NL,
+  FAQ_DATA_NL,
+  JOBS_DATA_NL,
+  RISK_SURVEY_QUESTIONS_NL,
+};
+
+export function getServicesData(lang: 'EN' | 'NL' = 'EN'): ServiceItem[] {
+  return lang === 'NL' ? SERVICES_DATA_NL : SERVICES_DATA;
+}
+
+export function getResourcesData(lang: 'EN' | 'NL' = 'EN'): ResourceItem[] {
+  return lang === 'NL' ? RESOURCES_DATA_NL : RESOURCES_DATA;
+}
+
+export function getDifferencePillars(lang: 'EN' | 'NL' = 'EN'): DifferencePillar[] {
+  return lang === 'NL' ? DIFFERENCE_PILLARS_NL : PILLARS_DATA;
+}
+
+export function getFaqData(lang: 'EN' | 'NL' = 'EN'): FaqItem[] {
+  return lang === 'NL' ? FAQ_DATA_NL : FAQ_DATA;
+}
+
+export function getJobsData(lang: 'EN' | 'NL' = 'EN'): JobListing[] {
+  return lang === 'NL' ? JOBS_DATA_NL : JOBS_DATA;
+}
+
+export function getRiskSurveyQuestions(lang: 'EN' | 'NL' = 'EN'): RiskQuestion[] {
+  return lang === 'NL' ? RISK_SURVEY_QUESTIONS_NL : RISK_SURVEY_QUESTIONS;
+}
+
+

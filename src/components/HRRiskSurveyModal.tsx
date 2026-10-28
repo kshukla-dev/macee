@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, ShieldAlert, CheckCircle2, ArrowRight, RotateCcw } from 'lucide-react';
-import { RISK_SURVEY_QUESTIONS } from '../data/content';
+import { getRiskSurveyQuestions } from '../data/content';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HRRiskSurveyModalProps {
   isOpen: boolean;
@@ -13,8 +14,10 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
   onClose,
   onRequestAudit
 }) => {
+  const { lang } = useLanguage();
+  const questions = getRiskSurveyQuestions(lang);
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<number[]>(new Array(RISK_SURVEY_QUESTIONS.length).fill(-1));
+  const [answers, setAnswers] = useState<number[]>(new Array(questions.length).fill(-1));
   const [isCompleted, setIsCompleted] = useState(false);
 
   // Close on Escape key press
@@ -36,7 +39,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
   };
 
   const handleNext = () => {
-    if (currentStep < RISK_SURVEY_QUESTIONS.length - 1) {
+    if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       setIsCompleted(true);
@@ -50,7 +53,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
   };
 
   const handleReset = () => {
-    setAnswers(new Array(RISK_SURVEY_QUESTIONS.length).fill(-1));
+    setAnswers(new Array(questions.length).fill(-1));
     setCurrentStep(0);
     setIsCompleted(false);
   };
@@ -58,43 +61,49 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
   // Calculate compliance risk score
   const totalWeight = answers.reduce((acc, optIdx, qIdx) => {
     if (optIdx === -1) return acc;
-    return acc + RISK_SURVEY_QUESTIONS[qIdx].options[optIdx].riskScore;
+    return acc + questions[qIdx].options[optIdx].riskScore;
   }, 0);
 
-  const maxPossibleWeight = RISK_SURVEY_QUESTIONS.length * 25;
+  const maxPossibleWeight = questions.length * 25;
   const rawRiskPercentage = Math.round((totalWeight / maxPossibleWeight) * 100);
   const normalizedRiskPercentage = Math.min(100, Math.max(12, rawRiskPercentage));
 
   const getRiskLevel = (score: number) => {
     if (score < 30) {
       return {
-        level: 'Low Risk',
+        level: lang === 'NL' ? 'Laag Risico' : 'Low Risk',
         color: 'text-emerald-600',
         bg: 'bg-emerald-50 border-emerald-200',
         badge: 'bg-emerald-100 text-emerald-800',
-        summary: 'Your organisation has clear safeguards, though regular SNA audits remain essential.'
+        summary: lang === 'NL'
+          ? 'Uw organisatie hanteert duidelijke voorzorgsmaatregelen, hoewel periodieke SNA-audits essentieel blijven.'
+          : 'Your organisation has clear safeguards, though regular SNA audits remain essential.'
       };
     }
     if (score < 65) {
       return {
-        level: 'Moderate Risk',
+        level: lang === 'NL' ? 'Gemiddeld Risico' : 'Moderate Risk',
         color: 'text-amber-600',
         bg: 'bg-amber-50 border-amber-200',
         badge: 'bg-amber-100 text-amber-800',
-        summary: 'Potential DBA, chain liability, or visa gaps detected. Secondment with Macee eliminates these liabilities.'
+        summary: lang === 'NL'
+          ? 'Mogelijke Wet DBA, inlenersaansprakelijkheid of visumrisico’s gesignaleerd. Detachering via Macee mitigeert deze aansprakelijkheden.'
+          : 'Potential DBA, chain liability, or visa gaps detected. Secondment with Macee eliminates these liabilities.'
       };
     }
     return {
-      level: 'High Risk Exposure',
+      level: lang === 'NL' ? 'Hoog Risico Expositie' : 'High Risk Exposure',
       color: 'text-rose-600',
       bg: 'bg-rose-50 border-rose-200',
       badge: 'bg-rose-100 text-rose-800',
-      summary: 'Critical liability identified under Dutch labour or tax laws (Wet DBA, WAADI, or non-certified intermediaries). Transitioning vulnerable engagements to Macee Secondment or Payroll is strongly advised.'
+      summary: lang === 'NL'
+        ? 'Kritieke risico’s vastgesteld conform Wet DBA, WAADI of niet-gecertificeerde tussenpersonen. Het overzetten naar Macee Detachering of Payroll wordt sterk geadviseerd.'
+        : 'Critical liability identified under Dutch labour or tax laws (Wet DBA, WAADI, or non-certified intermediaries). Transitioning vulnerable engagements to Macee Secondment or Payroll is strongly advised.'
     };
   };
 
   const riskInfo = getRiskLevel(normalizedRiskPercentage);
-  const currentQuestion = RISK_SURVEY_QUESTIONS[currentStep];
+  const currentQuestion = questions[currentStep];
 
   return (
     <div 
@@ -122,12 +131,12 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
           <div className="flex items-center gap-2 mb-1.5">
             <ShieldAlert className="w-4 h-4 text-[#E30613]" />
             <span className="text-xs font-semibold uppercase tracking-wider text-[#E30613]">
-              Macee Compliance Audit
+              {lang === 'NL' ? 'Macee Compliancy Audit' : 'Macee Compliance Audit'}
             </span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
-            Dutch & EU Contractor Compliance Check
+            {lang === 'NL' ? 'Nederlandse & EU Inhuur Risicoscan' : 'Dutch & EU Contractor Compliance Check'}
           </h3>
 
           {!isCompleted && (
@@ -135,11 +144,11 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
               <div className="flex-1 bg-white/20 h-1.5 rounded-full overflow-hidden">
                 <div
                   className="bg-[#E30613] h-full transition-all duration-300"
-                  style={{ width: `${((currentStep + 1) / RISK_SURVEY_QUESTIONS.length) * 100}%` }}
+                  style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
                 />
               </div>
               <span className="text-xs font-mono text-white/80">
-                Question {currentStep + 1} of {RISK_SURVEY_QUESTIONS.length}
+                {lang === 'NL' ? `Vraag ${currentStep + 1} van ${questions.length}` : `Question ${currentStep + 1} of ${questions.length}`}
               </span>
             </div>
           )}
@@ -163,7 +172,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
                     {normalizedRiskPercentage}%
                   </span>
                   <span className="text-xs text-gray-500 text-left font-mono leading-tight">
-                    ESTIMATED<br />COMPLIANCE RISK
+                    {lang === 'NL' ? <>GESCHAT<br />COMPLIANCY RISICO</> : <>ESTIMATED<br />COMPLIANCE RISK</>}
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-gray-700 max-w-lg mx-auto">
@@ -174,9 +183,9 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
               {/* Review of answered points */}
               <div className="space-y-2.5 max-h-52 overflow-y-auto pr-1">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Detailed Findings By Compliance Area:
+                  {lang === 'NL' ? 'Gedetailleerde bevindingen per thema:' : 'Detailed Findings By Compliance Area:'}
                 </h4>
-                {RISK_SURVEY_QUESTIONS.map((q, idx) => {
+                {questions.map((q, idx) => {
                   const selIdx = answers[idx];
                   const selOpt = selIdx !== -1 ? q.options[selIdx] : null;
                   return (
@@ -196,7 +205,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
                   className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-[#111827] font-semibold cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Retake Survey</span>
+                  <span>{lang === 'NL' ? 'Scan opnieuw doen' : 'Retake Survey'}</span>
                 </button>
 
                 <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -207,7 +216,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
                     }}
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold shadow-sm transition-all cursor-pointer active:scale-[0.99]"
                   >
-                    <span>Request Macee Compliance Audit</span>
+                    <span>{lang === 'NL' ? 'Vraag Macee Compliance Audit aan' : 'Request Macee Compliance Audit'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -256,7 +265,7 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
                   disabled={currentStep === 0}
                   className="px-3.5 py-2 rounded text-xs font-semibold text-gray-600 hover:text-gray-900 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  Previous
+                  {lang === 'NL' ? 'Vorige' : 'Previous'}
                 </button>
 
                 <button
@@ -265,7 +274,11 @@ export const HRRiskSurveyModal: React.FC<HRRiskSurveyModalProps> = ({
                   disabled={answers[currentStep] === -1}
                   className="inline-flex items-center gap-1.5 px-5 sm:px-6 py-2.5 rounded-[6px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs active:scale-[0.99]"
                 >
-                  <span>{currentStep === RISK_SURVEY_QUESTIONS.length - 1 ? 'View Compliance Report' : 'Next Question'}</span>
+                  <span>
+                    {currentStep === questions.length - 1
+                      ? (lang === 'NL' ? 'Bekijk Resultaten' : 'View Compliance Report')
+                      : (lang === 'NL' ? 'Volgende Vraag' : 'Next Question')}
+                  </span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>

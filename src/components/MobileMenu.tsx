@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Phone, ArrowUpRight } from 'lucide-react';
-import { AutoLanguageSelector } from './AutoLanguageSelector';
+import { LanguageSelector, Language } from './LanguageSelector';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -9,6 +9,8 @@ interface MobileMenuProps {
   onNavigateSection: (sectionId: string) => void;
   onNavigatePage?: (page: string) => void;
   currentPage?: string;
+  currentLang?: Language;
+  onChangeLang?: (lang: Language) => void;
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -18,8 +20,35 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   onNavigateSection,
   onNavigatePage,
   currentPage = 'home',
+  currentLang = 'EN',
+  onChangeLang,
 }) => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+
+  const labels = {
+    EN: {
+      home: 'Home',
+      about: 'About Us',
+      clients: 'Clients',
+      professionals: 'Professionals',
+      projects: 'Projects',
+      faq: 'FAQ',
+      contact: 'Contact',
+      getInTouch: 'Get in Touch with Macee',
+      call: 'Call: +31 (0)26 744 0024',
+    },
+    NL: {
+      home: 'Home',
+      about: 'Over ons',
+      clients: 'Opdrachtgevers',
+      professionals: 'Professionals',
+      projects: 'Vacatures',
+      faq: 'FAQ',
+      contact: 'Contact',
+      getInTouch: 'Neem contact op met Macee',
+      call: 'Bel: +31 (0)26 744 0024',
+    },
+  }[currentLang];
 
   if (!isOpen) return null;
 
@@ -63,8 +92,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             className="h-8 w-auto"
           />
         </a>
-        <div className="flex items-center gap-2">
-          <AutoLanguageSelector />
+        <div className="flex items-center gap-3">
+          {onChangeLang && (
+            <LanguageSelector
+              currentLang={currentLang}
+              onChangeLang={onChangeLang}
+            />
+          )}
           <button
             onClick={onClose}
             className="p-2 text-gray-700 hover:text-[#E30613] rounded-md text-sm font-semibold cursor-pointer"
@@ -77,7 +111,20 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       {/* Nav List */}
       <div className="p-6 space-y-2 flex-1">
 
-        {/* About */}
+                {/* Home */}
+        <div>
+          <button
+            onClick={() => handlePage('home')}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'home'
+              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+              : 'font-medium text-gray-800 hover:text-[#E30613]'
+              }`}
+          >
+            {labels.home}
+          </button>
+        </div>
+
+{/* About */}
         <div>
           <button
             onClick={() => handlePage('about')}
@@ -86,7 +133,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            About Us
+            {labels.about}
           </button>
         </div>
 
@@ -99,7 +146,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            Clients
+            {labels.clients}
           </button>
         </div>
 
@@ -112,7 +159,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            Professionals
+            {labels.professionals}
           </button>
         </div>
 
@@ -125,7 +172,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            Projects
+            {labels.projects}
           </button>
         </div>
 
@@ -138,7 +185,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            FAQ
+            {labels.faq}
           </button>
         </div>
 
@@ -151,7 +198,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               : 'font-medium text-gray-800 hover:text-[#E30613]'
               }`}
           >
-            Contact
+            {labels.contact}
           </button>
         </div>
       </div>
@@ -163,7 +210,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-medium text-sm hover:bg-[#153439] transition-colors"
         >
           <Phone className="w-4 h-4" />
-          <span>Call: +31 (0)26 744 0024</span>
+          <span>{labels.call}</span>
         </a>
 
         <button
@@ -171,9 +218,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             onClose();
             onOpenConsultation();
           }}
-          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-semibold text-sm hover:bg-[#540833] transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-semibold text-sm hover:bg-[#540833] transition-colors shadow-sm cursor-pointer"
         >
-          <span>Get in Touch with Macee</span>
+          <span>{labels.getInTouch}</span>
           <ArrowUpRight className="w-4 h-4" />
         </button>
       </div>

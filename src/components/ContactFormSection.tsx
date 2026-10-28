@@ -11,7 +11,7 @@ export const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   id = 'contact-section',
   sectionClassName = '',
   containerClassName = 'max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 w-full',
-  title = 'Get in contact with us',
+  title,
   ...cardProps
 }) => {
   return (

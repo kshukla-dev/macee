@@ -1,0 +1,102 @@
+{
+  "hero": {
+    "badge": "Kennisbank & Regelgeving",
+    "titlePrefix": "Veelgestelde",
+    "titleHighlight": "Vragen (FAQ)",
+    "description": "Antwoorden op veelgestelde vragen over de diensten van MACEE, contractvormen en IND visumsponsoring."
+  },
+  "categories": [
+    {
+      "id": 1,
+      "title": "Wat doet MACEE",
+      "image": "/uploads/Dutch-government-3.jpg",
+      "count": 3,
+      "desc": "Sectoren, expertise en waarom organisaties samenwerken met MACEE"
+    },
+    {
+      "id": 2,
+      "title": "Diensten en Contracten",
+      "image": "/uploads/Software-Development-2.jpg",
+      "count": 3,
+      "desc": "Detachering, ZZP, IND visumsponsoring en 30%-belastingregeling"
+    },
+    {
+      "id": 3,
+      "title": "Specialismen en functies",
+      "image": "/uploads/Finance-reporting.jpg",
+      "count": 2,
+      "desc": "Senior ontwikkelaars, data engineers, cybersecurity en financieel risicobeheer"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-1-1",
+      "categoryId": 1,
+      "categoryName": "Wat doet MACEE",
+      "question": "In welke branches is MACEE actief?",
+      "answer": "Wij zijn actief in diverse sectoren waaronder: High Tech, Banken & Financiële Dienstverlening, Consultancy, Olie & Gas, Energie & Utilities, Overheid, Farma, eCommerce en meer.",
+      "date": "6 februari 2026 16:59"
+    },
+    {
+      "id": "faq-1-2",
+      "categoryId": 1,
+      "categoryName": "Wat doet MACEE",
+      "question": "Voor welke functies werft MACEE voornamelijk?",
+      "answer": "Softwareontwikkeling: .NET, C / C++ / C#, JAVA, Python\n\nBI & Data: Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop\n\nProjectmanagement: PMO, Program Manager\n\nCloud: AWS, Azure, Kubernetes\n\nSecurity: CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Netwerkbeveiliging\n\nFinancieel Risicomanagement: Toezichtrapportages, AML, FEC, KYC, Modellering, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR",
+      "date": "16 maart 2023 14:38"
+    },
+    {
+      "id": "faq-1-3",
+      "categoryId": 1,
+      "categoryName": "Wat doet MACEE",
+      "question": "Waarom kiezen voor zakendoen met MACEE?",
+      "answer": "Voor vrijwel iedere situatie bieden wij een passende oplossing. Met meer dan 30 jaar ervaring in contracting en (IT-)recruitment beschikken wij over een breed internationaal netwerk en actuele kennis van de technologische ontwikkelingen. Onze service is persoonlijk en betrokken: bij ons bent u geen nummer.",
+      "date": "6 februari 2026 17:00"
+    },
+    {
+      "id": "faq-2-1",
+      "categoryId": 2,
+      "categoryName": "Diensten en Contracten",
+      "question": "Welke aanvullende diensten kan MACEE verzorgen?",
+      "answer": "• Ondersteuning bij de aanvraag van de 30%-belastingregeling\n• Visumaanvragen voor partner en gezinsleden\n• Werving & selectie voor tijdelijke projecten en vaste functies",
+      "date": "6 februari 2026"
+    },
+    {
+      "id": "faq-2-2",
+      "categoryId": 2,
+      "categoryName": "Diensten en Contracten",
+      "question": "Welke contractvormen biedt MACEE aan?",
+      "answer": "• Detachering\n• Freelance / ZZP bemiddeling\n• Werving & Selectie voor vaste dienstverbanden bij onze opdrachtgevers\n• Deta-Vast (contract-to-perm)",
+      "date": "6 februari 2026"
+    },
+    {
+      "id": "faq-2-3",
+      "categoryId": 2,
+      "categoryName": "Diensten en Contracten",
+      "question": "Kan MACEE mijn werkvisum sponsoren?",
+      "answer": "Ja! Wij treden op als uw erkend sponsor voor uw werkvisum wanneer u een project uitvoert bij een opdrachtgever. MACEE is officieel geregistreerd als Erkend Referent bij de Immigratie- en Naturalisatiedienst (IND).",
+      "date": "6 februari 2026"
+    },
+    {
+      "id": "faq-3-1",
+      "categoryId": 3,
+      "categoryName": "Specialismen en functies",
+      "question": "Welke typen projecten en opdrachten voert MACEE uit voor opdrachtgevers?",
+      "answer": "Wij bedienen diverse opdrachtgevers in uiteenlopende sectoren. De meeste projecten zijn IT- en businessgerelateerd, waaronder: Cloud & Infrastructuur, Netwerken, Softwareontwikkeling, (Financieel) Risicomanagement & Compliance, Toezichtrapportages, Cybersecurity, Project- & Programmamanagement en Data Engineering.",
+      "date": "6 februari 2026 17:02"
+    },
+    {
+      "id": "faq-3-2",
+      "categoryId": 3,
+      "categoryName": "Specialismen en functies",
+      "question": "Voor welk niveau professionals werft MACEE?",
+      "answer": "MACEE levert een breed spectrum aan specialisten, maar ons netwerk richt zich primair op senior professionals. Denk aan functies zoals: Business/Informatie Analist, Data Engineer, (Cyber) Security Consultant, Software Tester, Software Ontwikkelaar, Finance/Reporting Specialist en technisch/functioneel Projectmanager.",
+      "date": "6 februari 2026 17:02"
+    }
+  ],
+  "searchPlaceholder": "Doorzoek alle vragen...",
+  "noResults": {
+    "title": "Geen vragen gevonden die voldoen aan uw zoekopdracht",
+    "description": "Probeer een andere zoekterm of selecteer hierboven een andere categorie."
+  }
+}

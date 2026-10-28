@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Lock, Bell } from 'lucide-react';
 import { OpenApplicationModal } from './OpenApplicationModal';
 import { CreateJobalertModal } from './CreateJobalertModal';
+import { useLanguage } from '../context/LanguageContext';
 
 export interface JobalertBannerProps {
   /** Navigation callback */
@@ -59,9 +60,12 @@ export const JobalertBanner: React.FC<JobalertBannerProps> = ({
   secondaryBtnPage = 'contact',
   onSecondaryClick,
   securityNote,
-  lang = 'EN',
+  lang,
   className = ''
 }) => {
+  const { lang: contextLang } = useLanguage();
+  const effectiveLang = lang || contextLang || 'EN';
+
   // Modal state for direct interactive opening
   const [isOpenAppModalOpen, setIsOpenAppModalOpen] = useState(false);
   const [isJobalertModalOpen, setIsJobalertModalOpen] = useState(false);
@@ -69,31 +73,31 @@ export const JobalertBanner: React.FC<JobalertBannerProps> = ({
   // Brand authentic copy with Dutch/English localization
   const effectiveBadge =
     badge ||
-    (lang === 'NL' ? 'VACATURES & PROJECT NOTIFICATIES' : 'CAREER & ASSIGNMENT ALERTS');
+    (effectiveLang === 'NL' ? 'VACATURES & PROJECT NOTIFICATIES' : 'CAREER & ASSIGNMENT ALERTS');
 
   const effectiveTitle =
     title ||
-    (lang === 'NL'
+    (effectiveLang === 'NL'
       ? 'Kun je de vacature die je zoekt niet vinden?'
       : "Can't find the project you are looking for?");
 
   const effectiveDescription =
     description ||
-    (lang === 'NL'
+    (effectiveLang === 'NL'
       ? 'Maak een Jobalert aan en ontvang een melding per mail wanneer er nieuwe vacatures zijn!'
       : 'Make a Jobalert and receive automatically notifications by email when there are suitable projects!');
 
   const effectivePrimaryText =
     primaryBtnText ||
-    (lang === 'NL' ? 'Jobalert aanmaken' : 'Create a Job alert');
+    (effectiveLang === 'NL' ? 'Jobalert aanmaken' : 'Create a Job alert');
 
   const effectiveSecondaryText =
     secondaryBtnText ||
-    (lang === 'NL' ? 'Open sollicitatie' : 'Open application');
+    (effectiveLang === 'NL' ? 'Open sollicitatie' : 'Open application');
 
   const effectiveSecurityNote =
     securityNote ||
-    (lang === 'NL'
+    (effectiveLang === 'NL'
       ? 'Jouw gegevens worden strikt vertrouwelijk en veilig verwerkt.'
       : 'Your information is secure and confidential.');
 

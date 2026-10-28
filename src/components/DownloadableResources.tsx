@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowRight, BookOpen } from 'lucide-react';
-import { RESOURCES_DATA } from '../data/content';
+import { getResourcesData } from '../data/content';
 import { ResourceItem } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface DownloadableResourcesProps {
   onSelectResource: (resource: ResourceItem) => void;
@@ -10,6 +11,9 @@ interface DownloadableResourcesProps {
 export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
   onSelectResource
 }) => {
+  const { lang, t } = useLanguage();
+  const resources = getResourcesData(lang);
+
   return (
     <section 
       id="resources"
@@ -20,19 +24,19 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 resources-heading">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
             <BookOpen className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>Knowledge & Guidance</span>
+            <span>{t('resources.badge')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-            Workforce Insights & Guides
+            {t('resources.title')}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-[#54595F]">
-            Essential compliance frameworks, contractor hiring guides, and expat relocation blueprints curated by Macee specialists.
+            {t('resources.subtitle')}
           </p>
         </div>
 
         {/* 3 Resource Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {RESOURCES_DATA.map((item) => (
+          {resources.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-[26px] overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.08)] hover:shadow-[0px_10px_30px_rgba(0,0,0,0.14)] transition-all duration-300 flex flex-col group border border-gray-100/80 hover:-translate-y-1"
@@ -70,7 +74,7 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
                     onClick={() => onSelectResource(item)}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-2xs hover:shadow"
                   >
-                    <span>View Guide</span>
+                    <span>{t('resources.viewGuide')}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -82,12 +86,12 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
         {/* Bottom Banner */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#54595F]">
-            Looking for customized secondment solutions or compliance advice?{' '}
+            {lang === 'NL' ? 'Op zoek naar maatwerkoplossingen of juridisch compliance-advies? ' : 'Looking for customized secondment solutions or compliance advice? '}
             <button
-              onClick={() => onSelectResource(RESOURCES_DATA[0])}
+              onClick={() => onSelectResource(resources[0])}
               className="text-[#E30613] hover:text-[#111827] font-semibold underline underline-offset-4 cursor-pointer inline-flex items-center gap-1"
             >
-              <span>Explore all client guides</span>
+              <span>{lang === 'NL' ? 'Bekijk alle gidsen en dossiers' : 'Explore all client guides'}</span>
               <BookOpen className="w-3.5 h-3.5" />
             </button>
           </p>
@@ -96,3 +100,4 @@ export const DownloadableResources: React.FC<DownloadableResourcesProps> = ({
     </section>
   );
 };
+

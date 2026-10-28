@@ -188,35 +188,3 @@ footer h2 {
 [data-lenis-prevent]::-webkit-scrollbar-thumb:hover {
   background: #E30613;
 }
-
-/* ==========================================================================
-   Google Translate Automatic Translation Cleanup & Resets
-   ========================================================================== */
-body {
-  top: 0px !important;
-  position: static !important;
-}
-
-body>.skiptranslate,
-.goog-te-banner-frame.skiptranslate,
-iframe.goog-te-banner-frame,
-.goog-te-gadget-simple,
-#goog-gt-tt,
-.goog-te-balloon-frame {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-#google_translate_element {
-  display: none !important;
-}
-
-.goog-text-highlight {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.goog-tooltip,
-.goog-tooltip:hover {
-  display: none !important;
-}

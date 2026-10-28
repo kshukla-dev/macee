@@ -1,0 +1,130 @@
+{
+  "hero": {
+    "pill": "Oplossingen voor Organisaties",
+    "title": "Wat kunnen we doen voor uw organisatie?",
+    "text": "Wij zijn een gespecialiseerde partner in personeels- en inhuuroplossingen. Maar wat we doen gaat veel verder dan werving alleen. MACEE is het naadloze verlengstuk van uw inhuurteam; de betrouwbare schakel tussen uw organisatie en extern talent — met maximale efficiëntie, sluitende compliance en volledige gemoedsrust. Altijd op maat. Altijd afgestemd op uw doelstellingen. Waar kunnen we u bij ondersteunen?",
+    "primaryCta": {
+      "text": "Neem contact met ons op",
+      "target": "contact-form-clients"
+    },
+    "trustBadge": "NEN 4400-1 Gecertificeerd & IND Referent",
+    "image": {
+      "src": "/uploads/people-working-dsk.jpg",
+      "fallback": "https://www.macee.com/uploads/people-working-dsk.jpg",
+      "alt": "Macee professional aan het werk met meerdere schermen"
+    }
+  },
+  "services": {
+    "title": "Diensten",
+    "description": "Complete werving, contractbeheer en compliance management afgestemd op uw specifieke personeelsuitdagingen.",
+    "items": [
+      {
+        "id": "recruitment",
+        "title": "Werving & Selectie",
+        "description": "Bij het zoeken naar specifieke expertise op tijdelijke (of vaste) basis analyseren wij altijd exact wat uw organisatie nodig heeft op het gebied van vakkennis, bedrijfscultuur en soft skills. Als onafhankelijke bemiddelaar bevelen we uitsluitend professionals aan met een bewezen staat van dienst. We beperken ons niet tot ons lokale netwerk, maar hebben directe toegang tot een omvangrijk internationaal netwerk."
+      },
+      {
+        "id": "contract-administration",
+        "title": "Contractbeheer & Payroll",
+        "description": "Zodra de juiste kandidaat is geselecteerd, verzorgt MACEE de volledige onboarding en regelen we alle compliance-procedures rond lokale arbeids-, immigratie- en fiscale wetgeving—ongeacht of het een aannemer, ZZP’er of expat (kennismigrant) betreft. Van detachering tot payroll, van projectondersteuning tot juridisch werkgeverschap (EOR): MACEE biedt de best passende oplossing op maat."
+      },
+      {
+        "id": "compliancy-support",
+        "title": "Compliance & Ondersteuning",
+        "description": "MACEE staat voor duidelijke, transparante en conforme afspraken dankzij onze diepgaande kennis van wet- en regelgeving (WAADI, Wet DBA, WTT/A1, WIK). We zorgen ervoor dat alle relevante wetten nauwgezet worden nageleefd en gemonitord bij de inzet van contractanten, ZZP’ers en expats. Indien nodig treden wij op als mediator bij geschillen, waardoor extern inhuren volledig zorgeloos verloopt."
+      }
+    ]
+  },
+  "certifications": {
+    "title": "Certificeringen",
+    "description": "Geauditeerd, transparant en officieel gecertificeerd volgens de hoogste Nederlandse arbeidsmarkt- en immigratienormen.",
+    "items": [
+      {
+        "id": "sna",
+        "tag": "SNA Arbeidsnorm",
+        "title": "MACEE is geregistreerd bij de SNA (Stichting Normering Arbeid)",
+        "text": "De SNA is hét kwaliteitskeurmerk voor flexibele arbeid in Nederland voor ondernemingen die arbeidskrachten ter beschikking stellen en opdrachtgevers die werk uitbesteden. MACEE is NEN 4400-1 gecertificeerd, waarmee ketenaansprakelijkheid en fiscale risico's voor inleners worden uitgesloten.",
+        "image": {
+          "src": "/uploads/NEN-4400-1.png",
+          "fallback": "https://www.macee.com/uploads/NEN-4400-1.png",
+          "alt": "NEN 4400-1 Keurmerk Logo"
+        }
+      },
+      {
+        "id": "ind",
+        "tag": "Immigratie- en Naturalisatiedienst (IND)",
+        "accent": true,
+        "title": "IND Erkend Referent",
+        "text": "Door de schaarste aan gespecialiseerde IT-kennis in Nederland is talent niet altijd binnen de landsgrenzen of de EU te vinden. MACEE is een officieel Erkend Referent bij de IND. Hierdoor kunnen wij specialisten van buiten de EU snel naar Nederland halen onder de kennismigrantenregeling en gezinsvisa verzorgen, waarbij we ons wereldwijde netwerk inzetten."
+      },
+      {
+        "id": "sbb",
+        "tag": "SBB Beroepsonderwijs",
+        "title": "Erkend Leerbedrijf",
+        "text": "MACEE is een erkend leerbedrijf; wij leveren een actieve bijdrage aan toekomstige generaties op de arbeidsmarkt. Als door de Samenwerkingsorganisatie Beroepsonderwijs Bedrijfsleven (SBB) goedgekeurde organisatie bieden we studenten een veilige praktijkleeromgeving onder deskundige begeleiding.",
+        "image": {
+          "src": "/uploads/Accredited work placement company (2).png",
+          "fallback": "https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png",
+          "alt": "Erkend Leerbedrijf SBB Logo"
+        }
+      }
+    ]
+  },
+  "industries": {
+    "title": "Sectoren",
+    "subheading": "Ervaring en bewezen staat van dienst",
+    "paragraphs": [
+      "Onze opdrachtgevers variëren van innovatieve start-ups en scale-ups tot wereldwijde multinationals die behoefte hebben aan naadloze mobiliteit en het beste talent van over de hele wereld willen aantrekken.",
+      "MACEE werkt voor toonaangevende spelers in sectoren zoals Telecom, FMCG, Olie & Gas, Consultancy, Zorg & Farma, Energie & Utilities en de Publieke Sector. Daarnaast hebben we jarenlange ervaring in de financiële sector (Grootbanken, Vermogensbeheer, Pensioenfondsen en Fintech)."
+    ],
+    "tags": [
+      "Telecom",
+      "FMCG",
+      "Olie & Gas",
+      "Consultancy",
+      "Zorg & Farma",
+      "Energie & Utilities",
+      "Bankwezen & Fintech",
+      "Vermogensbeheer",
+      "Pensioenfondsen",
+      "Betaalplatforms"
+    ]
+  },
+  "expertise": {
+    "title": "Expertise",
+    "subheading": "Bewezen staat van dienst in technische kennis en ervaring",
+    "intro": "Wij leveren uiteenlopende specialisten, met een sterke nadruk op senior profielen zoals: Business/Informatie Analisten, Data Engineers, (Cyber) Security Consultants, Software Ontwikkelaars, Compliance Specialisten en technische PMO/Projectmanagers.",
+    "prompt": "Hieronder vindt u de domeinen waarin wij een bewezen track record hebben opgebouwd:",
+    "items": [
+      {
+        "domain": "Softwareontwikkeling",
+        "technologies": ".NET, C / C++ / C#, JAVA, Python etc."
+      },
+      {
+        "domain": "BI & Data Engineering",
+        "technologies": "Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc."
+      },
+      {
+        "domain": "Project- & Programmamanagement",
+        "technologies": "PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc."
+      },
+      {
+        "domain": "Cloud & DevOps",
+        "technologies": "AWS, Azure, Kubernetes etc."
+      },
+      {
+        "domain": "Cyber Security & IAM",
+        "technologies": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Netwerkbeveiliging"
+      },
+      {
+        "domain": "Financieel Risicomanagement",
+        "technologies": "Toezichtrapportages, AML, FEC, KYC, Modellering, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Neem contact met ons op",
+    "badge": "Vrijblijvend Advies",
+    "subtitle": "Heeft u vragen over flexibele inhuur, contractbeheer of compliance? Neem direct contact op met onze specialisten in Arnhem."
+  }
+}

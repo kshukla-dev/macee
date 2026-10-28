@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Menu, X, ArrowUpRight } from 'lucide-react';
-import { AutoLanguageSelector } from './AutoLanguageSelector';
+import { LanguageSelector, Language } from './LanguageSelector';
 import './HeaderNav.css';
 
 interface HeaderProps {
@@ -11,6 +11,8 @@ interface HeaderProps {
   isMobileMenuOpen: boolean;
   currentPage?: string;
   onNavigatePage?: (page: string) => void;
+  currentLang?: Language;
+  onChangeLang?: (lang: Language) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,8 +22,33 @@ export const Header: React.FC<HeaderProps> = ({
   isMobileMenuOpen,
   currentPage = 'home',
   onNavigatePage,
+  currentLang = 'EN',
+  onChangeLang,
 }) => {
   const [scrolled, setScrolled] = useState(false);
+
+  const labels = {
+    EN: {
+      home: 'Home',
+      about: 'About Us',
+      clients: 'Clients',
+      professionals: 'Professionals',
+      projects: 'Projects',
+      faq: 'FAQ',
+      contact: 'Contact',
+      getInTouch: 'Get in Touch',
+    },
+    NL: {
+      home: 'Home',
+      about: 'Over ons',
+      clients: 'Opdrachtgevers',
+      professionals: 'Professionals',
+      projects: 'Vacatures',
+      faq: 'FAQ',
+      contact: 'Contact',
+      getInTouch: 'Neem contact op',
+    },
+  }[currentLang];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +100,21 @@ export const Header: React.FC<HeaderProps> = ({
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
 
 
-          {/* About */}
+                    {/* Home */}
+          <button
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('home');
+              } else {
+                onNavigateSection('hero');
+              }
+            }}
+            className={`nav-button rounded-md ${currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'}`}
+          >
+            {labels.home}
+          </button>
+
+{/* About */}
           <button
             onClick={() => {
               if (onNavigatePage) {
@@ -85,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            About Us
+            {labels.about}
           </button>
 
           {/* Clients */}
@@ -100,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            Clients
+            {labels.clients}
           </button>
 
           {/* Professionals */}
@@ -115,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'professionals' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            Professionals
+            {labels.professionals}
           </button>
 
           {/* Projects */}
@@ -130,7 +171,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'projects' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            Projects
+            {labels.projects}
           </button>
 
           {/* FAQ */}
@@ -145,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            FAQ
+            {labels.faq}
           </button>
 
           {/* Contact */}
@@ -160,19 +201,25 @@ export const Header: React.FC<HeaderProps> = ({
             className={`nav-button rounded-md ${currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
               }`}
           >
-            Contact
+            {labels.contact}
           </button>
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
+        {/* Action Button & Language Selector & Mobile Toggle */}
         <div className="flex items-center gap-2.5 sm:gap-3">
-          <AutoLanguageSelector />
+          {/* Language Switcher Dropdown */}
+          {onChangeLang && (
+            <LanguageSelector
+              currentLang={currentLang}
+              onChangeLang={onChangeLang}
+            />
+          )}
 
           <button
             onClick={onOpenConsultation}
             className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-4 sm:px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
           >
-            <span>Get in Touch</span>
+            <span>{labels.getInTouch}</span>
             <ArrowUpRight className="w-4 h-4" />
           </button>
 

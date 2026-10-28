@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, UploadCloud, CheckCircle2, Loader2, FileText, Trash2 } from 'lucide-react';
 import { uploadCvFile, submitOpenApplication } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
+import { useLanguage } from '../context/LanguageContext';
 
 interface OpenApplicationModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { lang } = useLanguage();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
@@ -108,7 +110,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
         {/* Header */}
         <div className="px-6 sm:px-8 pt-6 pb-4 border-b border-gray-200 flex items-center justify-between">
           <h3 className="text-2xl sm:text-3xl font-light text-gray-800 tracking-tight font-heading">
-            Open application
+            {lang === 'NL' ? 'Open sollicitatie' : 'Open application'}
           </h3>
           <button
             onClick={handleClose}
@@ -127,7 +129,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                 <CheckCircle2 className="w-9 h-9" />
               </div>
               <h4 className="text-2xl font-bold font-display text-gray-900">
-                Application Received!
+                {lang === 'NL' ? 'Sollicitatie ontvangen!' : 'Application Received!'}
               </h4>
               <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                 {statusMessage}
@@ -137,7 +139,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                 onClick={handleClose}
                 className="mt-4 px-8 py-2.5 rounded-md bg-[#111827] hover:bg-black text-white text-sm font-semibold transition-colors cursor-pointer"
               >
-                Close
+                {lang === 'NL' ? 'Sluiten' : 'Close'}
               </button>
             </div>
           ) : (
@@ -158,7 +160,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       <input
                         type="text"
                         required
-                        placeholder="First name *"
+                        placeholder={lang === 'NL' ? 'Voornaam *' : 'First name *'}
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -168,7 +170,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       <input
                         type="text"
                         required
-                        placeholder="Last name *"
+                        placeholder={lang === 'NL' ? 'Achternaam *' : 'Last name *'}
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -181,7 +183,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                     <input
                       type="tel"
                       required
-                      placeholder="Phone *"
+                      placeholder={lang === 'NL' ? 'Telefoonnummer *' : 'Phone *'}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -193,7 +195,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                     <input
                       type="email"
                       required
-                      placeholder="Email *"
+                      placeholder={lang === 'NL' ? 'E-mailadres *' : 'Email *'}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-md border border-gray-300 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]"
@@ -209,7 +211,11 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                         onChange={(e) => setPrivacyAgreed(e.target.checked)}
                         className="w-4 h-4 rounded border-gray-300 text-[#111827] focus:ring-[#111827] cursor-pointer"
                       />
-                      <span>I agree with the privacy conditions.</span>
+                      <span>
+                        {lang === 'NL'
+                          ? 'Ik ga akkoord met de privacyvoorwaarden.'
+                          : 'I agree with the privacy conditions.'}
+                      </span>
                     </label>
                   </div>
 
@@ -223,10 +229,10 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Sending application...</span>
+                          <span>{lang === 'NL' ? 'Sollicitatie verzenden...' : 'Sending application...'}</span>
                         </>
                       ) : (
-                        <span>Send application</span>
+                        <span>{lang === 'NL' ? 'Sollicitatie versturen' : 'Send application'}</span>
                       )}
                     </button>
                   </div>
@@ -244,7 +250,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                         }
                       }}
                       className="absolute inset-0 opacity-0 cursor-pointer"
-                      title="Click or drag to upload CV"
+                      title={lang === 'NL' ? 'Klik of sleep om CV te uploaden' : 'Click or drag to upload CV'}
                     />
 
                     {cvFile ? (
@@ -267,17 +273,17 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                           className="inline-flex items-center gap-1 text-xs text-red-600 hover:underline pt-1 cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
-                          <span>Remove file</span>
+                          <span>{lang === 'NL' ? 'Bestand verwijderen' : 'Remove file'}</span>
                         </button>
                       </div>
                     ) : (
                       <>
                         <UploadCloud className="w-14 h-14 text-[#E30613] stroke-[1.4] mb-2" />
                         <span className="text-sm font-bold text-[#E30613]">
-                          Upload CV
+                          {lang === 'NL' ? 'Upload CV' : 'Upload CV'}
                         </span>
                         <span className="text-xs text-gray-400 mt-0.5">
-                          Drag &amp; Drop or Browse
+                          {lang === 'NL' ? 'Sleep bestand hierheen of blader' : 'Drag & Drop or Browse'}
                         </span>
                       </>
                     )}

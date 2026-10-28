@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, ShieldCheck, Users, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
   onStartJourney: () => void;
@@ -34,6 +35,7 @@ const HERO_CAROUSEL_IMAGES = [
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices }) => {
+  const { lang, t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -58,15 +60,18 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
           <div className="lg:col-span-7 space-y-6 text-left hero-content">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8E96CB]/15 text-[#36427D] text-xs sm:text-sm font-semibold tracking-wide">
               <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
-              <span>Think Better. Recruit Smarter.</span>
+              <span>{t('hero.badge')}</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
-              External Workforce <span className="text-[#E30613] decoration-[#E30613]/20">Solutions</span>
+              {t('hero.title1')}{' '}
+              <span className="text-[#E30613] decoration-[#E30613]/20">
+                {t('hero.title2')}
+              </span>
             </h1>
 
             <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
-              Hiring external and temporary staff shouldn't slow you down. From sourcing to onboarding, contract administration to full compliancy, we take the complexity off your hands.
+              {t('hero.desc')}
             </p>
 
             {/* CTAs */}
@@ -75,7 +80,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
                 onClick={onStartJourney}
                 className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-base shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group hover:-translate-y-0.5"
               >
-                <span>Explore Projects & Talent</span>
+                <span>{t('hero.cta.primary')}</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 
@@ -83,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
                 onClick={onExploreServices}
                 className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-[5px] bg-white border border-gray-300 text-[#111827] hover:bg-[#F0F2FA] hover:text-[#E30613] font-semibold text-base transition-colors duration-200 cursor-pointer"
               >
-                <span>Our Services</span>
+                <span>{t('hero.cta.secondary')}</span>
               </button>
             </div>
 
@@ -91,15 +96,15 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
             <div className="pt-6 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-[#333333]">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">SNA NEN 4400-1 Certified</span>
+                <span className="font-medium">{t('hero.trust.nen')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">IND Recognised Sponsor</span>
+                <span className="font-medium">{t('hero.trust.ind')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">30+ Years Experience</span>
+                <span className="font-medium">{t('hero.trust.exp')}</span>
               </div>
             </div>
           </div>
@@ -155,10 +160,10 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices })
                 </div>
                 <div>
                   <div className="text-xs sm:text-sm font-bold text-[#111827] tracking-tight">
-                    {HERO_CAROUSEL_IMAGES[currentSlide].title}
+                    {lang === 'NL' ? 'Uw Externe Inhuurdesk' : HERO_CAROUSEL_IMAGES[currentSlide].title}
                   </div>
                   <div className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
-                    {HERO_CAROUSEL_IMAGES[currentSlide].subtitle}
+                    {lang === 'NL' ? 'Werving Internationaal Talent & Expats' : HERO_CAROUSEL_IMAGES[currentSlide].subtitle}
                   </div>
                 </div>
               </div>
