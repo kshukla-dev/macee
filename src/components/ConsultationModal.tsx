@@ -12,8 +12,6 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
     companyName: '',
     workEmail: '',
     phoneNumber: '',
-    inquiryType: 'Hiring External Staff / Secondment',
-    serviceInterest: 'Recruitment & Staffing',
     notes: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -172,45 +170,6 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                     onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
                   />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    I am interested as
-                  </label>
-                  <select
-                    value={formData.inquiryType}
-                    onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
-                  >
-                    <option>Client: Hiring External Staff / Secondment</option>
-                    <option>Client: Contract Administration & Compliance</option>
-                    <option>Client: Expat & IND Visa Sponsorship</option>
-                    <option>Professional: Seeking Contracting / Interim Project</option>
-                    <option>Professional: Freelancer (ZZP) Assignments</option>
-                    <option>Professional: Expat Visa Sponsorship (HSM)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Primary Service Focus
-                  </label>
-                  <select
-                    value={formData.serviceInterest}
-                    onChange={(e) => setFormData({ ...formData, serviceInterest: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
-                  >
-                    <option>Recruitment & Staffing</option>
-                    <option>Contract Administration</option>
-                    <option>Compliancy & Support</option>
-                    <option>Contracting & Secondment</option>
-                    <option>Freelance / ZZP</option>
-                    <option>HSM / Expats / Visa Sponsorship</option>
-                    <option>Outsourcing & Project Services</option>
-                  </select>
                 </div>
               </div>
 
