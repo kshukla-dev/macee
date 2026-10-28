@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Clock, 
-  Send, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Building2, 
-  Globe2, 
-  Calendar, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle2,
+  ShieldCheck,
+  Building2,
+  Globe2,
+  Calendar,
   ArrowRight,
   UserCheck
 } from 'lucide-react';
@@ -25,8 +25,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [company, setCompany] = useState('');
-  const [inquiryType, setInquiryType] = useState('Hiring External Specialists');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +44,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     setLastName('');
     setEmail('');
     setPhone('');
-    setCompany('');
     setMessage('');
   };
 
@@ -58,7 +55,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         style={{ backgroundImage: `url("/uploads/PM-2.jpg")` }}
       >
         <div className="absolute inset-0 bg-[#2a0209]/85 backdrop-blur-[2px]" />
-        
+
         {/* Glow ambient shapes */}
         <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#E30613]/20 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-black/40 blur-3xl pointer-events-none" />
@@ -92,10 +89,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
       <section className="py-16 sm:py-24">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
+
             {/* Left Column: Office Details, Desks & Map (5 Cols) */}
             <div className="lg:col-span-5 space-y-8">
-              
+
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
                   {contactData.office.tag}
@@ -167,22 +164,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                 </div>
               </div>
 
-              {/* Department Desks */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {contactData.desks.map((desk, idx) => (
-                  <div key={idx} className="bg-white p-5 rounded-xl border border-gray-200 shadow-xs space-y-1.5">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] block">
-                      {desk.badge}
-                    </span>
-                    <h4 className="text-sm font-bold text-gray-900">
-                      {desk.title}
-                    </h4>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      {desk.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
 
               {/* Map Embed Frame */}
               <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-xs h-64 bg-gray-100 relative">
@@ -211,7 +192,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
             {/* Right Column: Interactive Contact Form (7 Cols) */}
             <div className="lg:col-span-7">
               <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-gray-200">
-                
+
                 {submitted ? (
                   <div className="text-center py-12 space-y-5">
                     <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600">
@@ -317,37 +298,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         </div>
                       </div>
 
-                      {/* Company & Topic Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Organisation / Company (Optional)
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Macee Partner BV"
-                            value={company}
-                            onChange={(e) => setCompany(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            Subject / Inquiry Topic
-                          </label>
-                          <select
-                            value={inquiryType}
-                            onChange={(e) => setInquiryType(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-[#E30613]"
-                          >
-                            {contactData.form.topics.map((item, idx) => (
-                              <option key={idx} value={item.value}>
-                                {item.label}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
 
                       {/* Message Textarea */}
                       <div>
