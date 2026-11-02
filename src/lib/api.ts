@@ -696,7 +696,7 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
   const rawDateStr = otys.datePublished || otys.dateCreated || otys.publishedDate || otys.entryDate || otys.dateLastModified || '';
   const postedDate = rawDateStr
     ? new Date(rawDateStr).toLocaleDateString()
-    : 'Active OTYS Assignment';
+    : 'Active';
 
   return {
     id: `otys-${id}`,

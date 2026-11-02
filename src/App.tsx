@@ -20,7 +20,7 @@ import { Footer } from './components/Footer';
 import { ConsultationModal } from './components/ConsultationModal';
 import { HRRiskSurveyModal } from './components/HRRiskSurveyModal';
 import { ResourceModal } from './components/ResourceModal';
-import { JobApplicationModal } from './components/JobApplicationModal';
+import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { FaqModal } from './components/FaqModal';
 import { OpenApplicationModal } from './components/OpenApplicationModal';
 import { CreateJobalertModal } from './components/CreateJobalertModal';
@@ -525,8 +525,8 @@ function AppContent() {
         }}
       />
 
-      <JobApplicationModal
-        job={selectedJob}
+      <ProjectDetailModal
+        project={selectedJob}
         onClose={() => setSelectedJob(null)}
       />
 
