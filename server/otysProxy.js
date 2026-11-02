@@ -125,7 +125,7 @@ export async function handleOtysProxy(req, res, subPath = '') {
     }
 
     // ========================================================================
-    // SPECIAL HANDLER 1: POST /files (Dual Upload to REST + OWS fileService)
+    // SPECIAL HANDLER 1: POST /files (Upload file to OTYS REST /files)
     // ========================================================================
     const isFileUpload = req.method === 'POST' && cleanSubPath.replace(/\?.*$/, '') === '/files';
     let owsFileUid = null;
@@ -142,17 +142,9 @@ export async function handleOtysProxy(req, res, subPath = '') {
         const file = formData.get('file') || formData.get('cv');
         if (file && typeof file === 'object') {
           uploadedFileName = file.name || 'resume.pdf';
-          const sessionToken = await loginOws();
-          try {
-            console.log(`[Proxy] Uploading '${uploadedFileName}' to OWS fileService.php...`);
-            owsFileUid = await uploadFileToOws(sessionToken, file, uploadedFileName);
-            console.log(`[Proxy] OWS file uploaded successfully, OUID: ${owsFileUid}`);
-          } finally {
-            await logoutOws(sessionToken);
-          }
         }
-      } catch (owsErr) {
-        console.warn('[Proxy OWS File Upload Warning (non-fatal)]:', owsErr.message);
+      } catch (fileParseErr) {
+        console.warn('[Proxy File Parse Warning]:', fileParseErr.message);
       }
     }
 
@@ -214,61 +206,9 @@ export async function handleOtysProxy(req, res, subPath = '') {
         // Not JSON
       }
 
-      // Check if application was accepted (200, 201, or 409 duplicate)
-      let dossierId = null;
-      if (upstreamRes.status >= 200 && upstreamRes.status < 300 && bodyBuffer) {
-        try {
-          const appPayload = JSON.parse(bodyBuffer.toString('utf-8'));
-          const candidateOwsFileUid =
-            appPayload.owsFileUid ||
-            appPayload.fileUid ||
-            appPayload.answers?.q1356391 ||
-            null;
-
-          let firstName = appPayload.firstName || appPayload.answers?.q1356387 || '';
-          let lastName = appPayload.lastName || appPayload.answers?.q1356388 || '';
-          const email = appPayload.email || appPayload.answers?.q1356389 || '';
-          const phone = appPayload.phone || appPayload.answers?.q1356390 || '';
-
-          if (!firstName && appPayload.name) {
-            const parts = String(appPayload.name).trim().split(' ');
-            firstName = parts[0] || 'Applicant';
-            lastName = parts.slice(1).join(' ') || '.';
-          }
-
-          if (candidateOwsFileUid && (firstName || email)) {
-            console.log(`[Proxy] Attaching CV '${candidateOwsFileUid}' to candidate '${firstName} ${lastName}' Dossier via OWS...`);
-            const sessionToken = await loginOws();
-            try {
-              const candidateUid = await getOrCreateCandidateOuid(
-                sessionToken,
-                firstName,
-                lastName,
-                email,
-                phone
-              );
-              if (candidateUid) {
-                dossierId = await attachDocumentToCandidateDossier(
-                  sessionToken,
-                  candidateUid,
-                  candidateOwsFileUid,
-                  `${firstName} ${lastName}`.trim()
-                );
-                console.log(`[Proxy Success] CV attached to Candidate Dossier! Dossier ID: ${dossierId}`);
-              }
-            } finally {
-              await logoutOws(sessionToken);
-            }
-          }
-        } catch (dossierErr) {
-          console.error('[Proxy Dossier Attachment Error (non-fatal)]:', dossierErr.message);
-        }
-      }
-
       const finalResponse = {
         ...(typeof restAppResponse === 'object' && restAppResponse !== null ? restAppResponse : {}),
         success: upstreamRes.ok,
-        dossierId,
       };
 
       res.writeHead(upstreamRes.status, {

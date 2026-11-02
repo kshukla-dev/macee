@@ -591,12 +591,13 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
     location = `${otys.city}${otys.country ? ` (${otys.country.toUpperCase()})` : ''} / Hybrid`;
   }
 
-  // 3. Dynamic fields from matchCriteria (Criterion 5 = Contract, 8 = Hours, 1 = Branche, 7 = Salary, etc.)
+  // 3. Dynamic fields from matchCriteria (Criterion 5 = Contract, 8 = Hours, 1 = Branche, etc.)
   let contractType = 'Contracting';
   let branche = 'ICT';
   let category = 'ICT & Cloud';
   let hours = otys.hoursPerWeek ? `${otys.hoursPerWeek} hours` : '36 - 40 hrs';
-  let rate = 'Competitive Market Rate';
+  // Standardized rate across all vacancies as requested
+  const rate = 'Competitive Market Rate';
   let experience = 'Bachelor / 4+ Years';
   const skills: string[] = [];
 
@@ -619,13 +620,6 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
       if (critId === 1 || critName.includes('branche')) {
         if (optionNames.length > 0) branche = optionNames[0];
       }
-      // Salary / Rate (Criterion ID 7)
-      if (critId === 7 || critName.includes('salary') || critName.includes('salaris')) {
-        if (optionNames.length > 0) {
-          const val = optionNames[0];
-          rate = val.includes('€') ? val : `€${val} / hr`;
-        }
-      }
       // Education level (Criterion ID 10)
       if (critId === 10 || critName.includes('education') || critName.includes('opleiding')) {
         if (optionNames.length > 0) experience = `${optionNames[0]} Level`;
@@ -643,16 +637,60 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
     }
   }
 
-  // 4. Fallback skills inference based on job title
-  if (skills.length === 0) {
-    if (title.includes('.NET')) skills.push('.NET 8', 'C#', 'Azure AKS', 'Microservices');
-    else if (title.includes('Data')) skills.push('Python', 'Spark', 'Kafka', 'Data Lakehouse');
-    else if (title.includes('Security') || title.includes('IAM')) skills.push('IAM', 'Zero Trust', 'CyberArk', 'Ping Identity');
-    else if (title.includes('Python')) skills.push('Python', 'APIs', 'REST', 'Cloud');
-    else if (title.includes('QA') || title.includes('Test')) skills.push('Automated Testing', 'Selenium', 'CI/CD');
-    else if (title.includes('Power Platform')) skills.push('Power Platform', 'Power Automate', 'Power Apps');
-    else if (title.includes('Network')) skills.push('Routing & Switching', 'BGP', 'Firewalls', 'Cisco');
-    else skills.push('Agile / Scrum', 'Enterprise IT', 'Consulting');
+  // 4. Skills augmentation based on title and description
+  if (title.includes('GCP') || title.includes('Google Cloud') || title.includes('Cloud Engineer')) {
+    ['Google Cloud (GCP)', 'Terraform', 'Apache Kafka', 'Bigtable'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('.NET')) {
+    ['.NET 8', 'C#', 'Azure AKS', 'Microservices'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('Data')) {
+    ['Python', 'Spark', 'Kafka', 'Data Engineering'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('Security') || title.includes('IAM')) {
+    ['IAM', 'Zero Trust', 'CyberArk', 'Ping Identity'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('Python')) {
+    ['Python', 'APIs', 'REST', 'Cloud'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('QA') || title.includes('Test')) {
+    ['Automated Testing', 'Selenium', 'CI/CD'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('Power Platform')) {
+    ['Power Platform', 'Power Automate', 'Power Apps'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (title.includes('Network')) {
+    ['Routing & Switching', 'BGP', 'Firewalls', 'Cisco'].forEach((s) => {
+      if (!skills.includes(s)) skills.push(s);
+    });
+  } else if (skills.length === 0) {
+    skills.push('Agile / Scrum', 'Enterprise IT', 'Consulting');
+  }
+
+  // 5. Contact person / Recruiter from OTYS user
+  let contactPerson: ProjectAssignmentItem['contactPerson'] = undefined;
+  if (otys.user && typeof otys.user === 'object') {
+    const uName = `${otys.user.firstName || ''} ${otys.user.infix ? otys.user.infix + ' ' : ''}${otys.user.lastName || ''}`.trim();
+    if (uName) {
+      const phoneList = Array.isArray(otys.user.phoneNumbers) ? otys.user.phoneNumbers : [];
+      const primaryPhone =
+        phoneList.find((p: any) => p.type === 'primary' || p.type === 'mobile')?.number ||
+        phoneList[0]?.number ||
+        '';
+      contactPerson = {
+        name: uName,
+        jobTitle: otys.user.jobTitle || 'Resourcing Manager',
+        email: otys.user.email || 'recruitment@macee.com',
+        phone: primaryPhone,
+      };
+    }
   }
 
   const rawDateStr = otys.datePublished || otys.dateCreated || otys.publishedDate || otys.entryDate || otys.dateLastModified || '';
@@ -681,6 +719,7 @@ export function mapOtysVacancyToProject(otys: any): ProjectAssignmentItem {
     postedDate,
     rawDate: typeof rawDateStr === 'string' ? rawDateStr : '',
     isFeatured: Boolean(otys.featured || otys.isFeatured || otys.highlighted),
+    contactPerson,
   };
 }
 
@@ -863,15 +902,27 @@ export async function submitVacancyApplication(
     const firstName = nameParts[0] || 'Applicant';
     const lastName = nameParts.slice(1).join(' ') || '.';
 
+    // Phone validation & international formatting for OTYS (NotBlank constraint on q1356390)
+    let formattedPhone = (data.phone || '').trim();
+    if (!formattedPhone) {
+      formattedPhone = '+31600000000';
+    } else if (!formattedPhone.startsWith('+') && !formattedPhone.startsWith('00')) {
+      if (formattedPhone.startsWith('06')) {
+        formattedPhone = '+31' + formattedPhone.slice(1);
+      } else if (!formattedPhone.startsWith('+31')) {
+        formattedPhone = '+31 ' + formattedPhone;
+      }
+    }
+
     const answers: Record<string, any> = {
       q1356387: firstName,
       q1356388: lastName,
-      q1356389: data.email,
+      q1356389: data.email.trim(),
+      q1356390: formattedPhone,
       q1356392: ['1'],
       'q-666': ['1'],
     };
 
-    if (data.phone) answers.q1356390 = data.phone;
     if (data.fileId) answers.q1356391 = data.fileId;
 
     payload = {
@@ -879,7 +930,7 @@ export async function submitVacancyApplication(
       lastName,
       name: data.name,
       email: data.email,
-      phone: data.phone,
+      phone: formattedPhone,
       fileId: data.fileId,
       owsFileUid: data.owsFileUid,
       answers,
@@ -889,11 +940,14 @@ export async function submitVacancyApplication(
           medium: 'website_project_application',
         },
         referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl/projects',
+        ...(data.rate ? { targetRate: data.rate } : {}),
+        ...(data.note ? { motivation: data.note } : {}),
       },
     };
   }
 
-  const response = await authenticatedFetch(API_ENDPOINTS.forms.vacancyApplication(vacancyId), {
+  const cleanVacId = String(vacancyId).replace(/^otys-/, '').replace(/^macee-/, '');
+  const response = await authenticatedFetch(API_ENDPOINTS.forms.vacancyApplication(cleanVacId), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/ld+json',
@@ -905,26 +959,37 @@ export async function submitVacancyApplication(
   if (response.status === 409) {
     return {
       success: true,
-      message: 'You have already applied for this assignment. The Macee team is already reviewing your profile.',
+      message: 'You have already applied for this assignment. The Macee recruitment team is reviewing your profile.',
     };
   }
 
   if (!response.ok) {
-    const errorText = await response.text().catch(() => '');
-    if (errorText.toLowerCase().includes('already') || errorText.toLowerCase().includes('duplicate')) {
+    let errorDetail = '';
+    try {
+      const errJson = await response.json();
+      errorDetail =
+        errJson?.detail ||
+        (Array.isArray(errJson?.violations) ? errJson.violations.map((v: any) => v.message).join(', ') : '') ||
+        errJson?.message ||
+        '';
+    } catch {
+      errorDetail = await response.text().catch(() => '');
+    }
+
+    if (errorDetail.toLowerCase().includes('already') || errorDetail.toLowerCase().includes('duplicate')) {
       return {
         success: true,
         message: 'You have already submitted an application for this vacancy.',
       };
     }
-    throw new Error(`Application failed (Status ${response.status}): ${errorText || response.statusText}`);
+    throw new Error(`Application failed (Status ${response.status}): ${errorDetail || response.statusText}`);
   }
 
   const resJson = await response.json().catch(() => ({}));
 
   return {
     success: true,
-    message: 'Your application and CV have been successfully submitted into OTYS Recruitment System!',
+    message: 'Your application has been successfully submitted to the Macee recruitment team!',
     dossierId: resJson?.dossierId || null,
   };
 }

@@ -64,6 +64,12 @@ export interface ProjectAssignmentItem {
   postedDate: string;
   rawDate?: string;
   isFeatured?: boolean;
+  contactPerson?: {
+    name: string;
+    jobTitle?: string;
+    email?: string;
+    phone?: string;
+  };
 }
 
 export const ALL_PROJECTS: ProjectAssignmentItem[] = [];
@@ -99,8 +105,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
   const [applicantFile, setApplicantFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [applyError, setApplyError] = useState('');
 
-  // Load vacancies from OTYS API with proper publishedLanguage
+  // Load vacancies from OTYS API (fetches all active published vacancies)
   const loadVacancies = useCallback(async () => {
     setIsLoading(true);
     setApiError(null);
@@ -109,7 +116,6 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         const jobs = await getAllJobs({
           keywords: keyword.trim() || undefined,
           itemsPerPage: 50,
-          publishedLanguage: lang === 'NL' ? 'nl' : 'en'
         });
 
         if (Array.isArray(jobs) && jobs.length > 0) {
@@ -224,6 +230,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     setActiveProject(proj);
     setApplySubmitted(false);
     setSubmitMessage('');
+    setApplyError('');
     setApplicantFile(null);
     setIsDescriptionExpanded(false);
 
@@ -231,7 +238,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     if (isOtysConfigured()) {
       setIsLoadingDetails(true);
       try {
-        const cleanId = proj.id.replace(/^otys-/, '');
+        const cleanId = String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '');
         console.log(`🔍 [ProjectsPage] Fetching complete vacancy details for ID: ${cleanId}...`);
         const fullDetails = await getJobDetails(cleanId);
         if (fullDetails) {
@@ -252,6 +259,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
     setIsSubmitting(true);
     setSubmitMessage('');
+    setApplyError('');
 
     try {
       let fileId: string | undefined;
@@ -268,9 +276,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         }
       }
 
-      // 2. Submit application into OTYS recruitment system & bind CV to Dossier in OTYS Go!
+      // 2. Submit application into OTYS recruitment system
       if (isOtysConfigured()) {
-        const cleanVacancyId = activeProject.id.replace('otys-', '').replace('macee-', '');
+        const cleanVacancyId = String(activeProject.id).replace(/^otys-/, '').replace(/^macee-/, '');
         const res = await submitVacancyApplication(cleanVacancyId, {
           name: applicantName,
           email: applicantEmail,
@@ -282,12 +290,13 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         });
         setSubmitMessage(res.message);
       } else {
-        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your profile for ${activeProject.title} has been logged with Macee's recruitment desk.`);
+        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been received by Macee's recruitment team.`);
       }
 
       setApplySubmitted(true);
     } catch (err: any) {
-      alert(`Submission notice: ${err.message || 'Please check your inputs and try again.'}`);
+      console.error('Submission error:', err);
+      setApplyError(err.message || 'Submission error. Please verify your details and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -733,7 +742,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                     Application Received!
                   </h4>
                   <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                    {submitMessage || `Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been logged with Macee’s recruitment desk.`}
+                    {submitMessage || `Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been received by Macee's recruitment team.`}
                   </p>
                   <button
                     onClick={() => {
@@ -798,20 +807,25 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 <>
                   {/* 1. Assignment Parameters (Start, End, Extension, Hours) */}
                   {activeProject.shortDescriptionHtml ? (
-                    <div
-                      className="text-sm text-gray-800 leading-relaxed font-sans space-y-1 [&_p]:mb-0 [&_br]:block"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeHtml(activeProject.shortDescriptionHtml),
-                      }}
-                    />
+                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
+                        {lang === 'NL' ? 'Opdracht Specificaties' : 'Assignment Overview'}
+                      </h5>
+                      <div
+                        className="text-sm text-gray-800 leading-relaxed font-sans space-y-1 [&_p]:mb-1 [&_br]:block font-medium"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHtml(activeProject.shortDescriptionHtml),
+                        }}
+                      />
+                    </div>
                   ) : null}
 
-                  {/* 2. Job Description with Show More / Show Less */}
+                  {/* 2. Job Description with Show More / Show Less Toggle */}
                   {(() => {
                     const rawDescriptionText = activeProject.jobDescriptionHtml
                       ? activeProject.jobDescriptionHtml.replace(/<[^>]+>/g, '').trim()
                       : (activeProject.description || '').trim();
-                    const isLongDescription = rawDescriptionText.length > 220;
+                    const isLongDescription = rawDescriptionText.length > 200;
 
                     return (
                       <div className="pt-2">
@@ -838,10 +852,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                             />
                           ) : (
                             <p
-                              className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${isLongDescription && !isDescriptionExpanded
-                                ? 'line-clamp-4 max-h-28 overflow-hidden'
-                                : ''
-                                }`}
+                              className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${
+                                isLongDescription && !isDescriptionExpanded
+                                  ? 'line-clamp-4 max-h-28 overflow-hidden'
+                                  : ''
+                              }`}
                             >
                               {activeProject.description}
                             </p>
@@ -874,8 +889,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                                     ? 'Minder tonen'
                                     : 'Meer tonen'
                                   : isDescriptionExpanded
-                                    ? 'Show Less'
-                                    : 'Show More'}
+                                  ? 'Show Less'
+                                  : 'Show More'}
                               </span>
                               {isDescriptionExpanded ? (
                                 <ChevronUp className="w-4 h-4 text-[#E30613] group-hover:text-white transition-transform duration-200 group-hover:-translate-y-0.5" />
@@ -921,6 +936,41 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       </div>
                     )}
                   </div>
+
+                  {/* Contact Person / Recruiter Card */}
+                  {activeProject.contactPerson && (
+                    <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center shrink-0 text-sm">
+                        {activeProject.contactPerson.name
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </div>
+                      <div className="text-xs text-gray-700 space-y-0.5">
+                        <span className="font-semibold text-gray-900 text-sm block">
+                          {activeProject.contactPerson.name}
+                        </span>
+                        <span className="text-gray-500 block">
+                          {activeProject.contactPerson.jobTitle || 'Resourcing Manager'} · Macee
+                        </span>
+                        <div className="flex flex-wrap items-center gap-3 pt-1 text-gray-600">
+                          {activeProject.contactPerson.email && (
+                            <a
+                              href={`mailto:${activeProject.contactPerson.email}`}
+                              className="hover:text-[#E30613] underline font-medium"
+                            >
+                              {activeProject.contactPerson.email}
+                            </a>
+                          )}
+                          {activeProject.contactPerson.phone && (
+                            <span>· {activeProject.contactPerson.phone}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Compliance Guarantee */}
                   <div className="p-4 rounded-xl bg-[#F8FAFB] border border-gray-200 flex items-start gap-3">
@@ -975,10 +1025,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
+                            {lang === 'NL' ? 'Telefoonnummer *' : 'Phone Number *'}
                           </label>
                           <input
                             type="tel"
+                            required
                             placeholder="+31 6 1234 5678"
                             value={applicantPhone}
                             onChange={(e) => setApplicantPhone(e.target.value)}
@@ -1051,6 +1102,14 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         />
                       </div>
 
+                      {/* Inline Error Alert Banner */}
+                      {applyError && (
+                        <div className="p-3.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 font-medium flex items-start gap-2 animate-fadeIn">
+                          <AlertCircle className="w-4 h-4 text-[#E30613] shrink-0 mt-0.5" />
+                          <span>{applyError}</span>
+                        </div>
+                      )}
+
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -1059,10 +1118,10 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         {isSubmitting ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application'}</span>
+                            <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application...'}</span>
                           </>
                         ) : (
-                          <span>{lang === 'NL' ? 'Sollicitatie Verzenden naar Macee Arnhem' : 'Submit Application'}</span>
+                          <span>{lang === 'NL' ? 'Sollicitatie Verzenden' : 'Submit Application'}</span>
                         )}
                       </button>
                     </form>

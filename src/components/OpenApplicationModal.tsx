@@ -85,7 +85,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
         setStatusMessage(res.message);
       } else {
         setStatusMessage(
-          `Thank you, ${firstName} ${lastName}. Your open application has been logged with Macee Arnhem Desk!`
+          `Thank you, ${firstName} ${lastName}. Your open application has been logged with Macee team!`
         );
       }
 
@@ -151,7 +151,7 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-                
+
                 {/* Left Side: Inputs */}
                 <div className="md:col-span-6 space-y-4">
                   {/* First name & Last name */}
