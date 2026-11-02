@@ -590,12 +590,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       <span>View &amp; Apply</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
-                    <button
-                      onClick={() => handleOpenModal(proj)}
-                      className="inline-flex items-center justify-center px-4 py-2.5 rounded-[5px] border border-gray-200 hover:border-gray-300 bg-white text-gray-700 text-xs font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
-                    >
-                      Assignment Details
-                    </button>
+
                   </div>
                 </div>
               ))
@@ -812,60 +807,87 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   ) : null}
 
                   {/* 2. Job Description with Show More / Show Less */}
-                  <div className="pt-2">
-                    <h4 className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-3">
-                      {lang === 'NL' ? 'Functieomschrijving' : 'Job description'}
-                    </h4>
+                  {(() => {
+                    const rawDescriptionText = activeProject.jobDescriptionHtml
+                      ? activeProject.jobDescriptionHtml.replace(/<[^>]+>/g, '').trim()
+                      : (activeProject.description || '').trim();
+                    const isLongDescription = rawDescriptionText.length > 220;
 
-                    <div className="relative">
-                      {activeProject.jobDescriptionHtml ? (
-                        <div
-                          className={`text-sm text-gray-700 leading-relaxed transition-all duration-300
-                            [&_p]:mb-4 [&_p]:text-sm [&_p]:leading-relaxed
-                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-3.5 [&_ul]:space-y-2.5 [&_ul]:text-sm
-                            [&_li]:text-gray-700 [&_li]:leading-relaxed
-                            [&_strong]:font-semibold [&_strong]:text-gray-900
-                            ${!isDescriptionExpanded ? 'line-clamp-6 max-h-56 overflow-hidden' : ''}
-                          `}
-                          dangerouslySetInnerHTML={{
-                            __html: sanitizeHtml(activeProject.jobDescriptionHtml),
-                          }}
-                        />
-                      ) : (
-                        <p
-                          className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${!isDescriptionExpanded && activeProject.description.length > 250
-                            ? 'line-clamp-4 max-h-28 overflow-hidden'
-                            : ''
-                            }`}
+                    return (
+                      <div className="pt-2">
+                        <h4
+                          id="job-description-heading"
+                          className="text-xl sm:text-2xl font-normal text-gray-900 font-display mb-3"
                         >
-                          {activeProject.description}
-                        </p>
-                      )}
+                          {lang === 'NL' ? 'Functieomschrijving' : 'Job description'}
+                        </h4>
 
-                      {/* Gradient fade overlay when collapsed */}
-                      {!isDescriptionExpanded && (
-                        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-                      )}
-                    </div>
+                        <div className="relative">
+                          {activeProject.jobDescriptionHtml ? (
+                            <div
+                              className={`text-sm text-gray-700 leading-relaxed transition-all duration-300
+                                [&_p]:mb-4 [&_p]:text-sm [&_p]:leading-relaxed
+                                [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-3.5 [&_ul]:space-y-2.5 [&_ul]:text-sm
+                                [&_li]:text-gray-700 [&_li]:leading-relaxed
+                                [&_strong]:font-semibold [&_strong]:text-gray-900
+                                ${isLongDescription && !isDescriptionExpanded ? 'max-h-56 overflow-hidden' : ''}
+                              `}
+                              dangerouslySetInnerHTML={{
+                                __html: sanitizeHtml(activeProject.jobDescriptionHtml),
+                              }}
+                            />
+                          ) : (
+                            <p
+                              className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${isLongDescription && !isDescriptionExpanded
+                                  ? 'line-clamp-4 max-h-28 overflow-hidden'
+                                  : ''
+                                }`}
+                            >
+                              {activeProject.description}
+                            </p>
+                          )}
 
-                    {/* Show More / Show Less Toggle Button */}
-                    <button
-                      type="button"
-                      onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                      className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-[#E30613] hover:text-[#111827] transition-colors cursor-pointer py-1"
-                    >
-                      <span>
-                        {lang === 'NL'
-                          ? (isDescriptionExpanded ? 'Minder tonen' : 'Meer tonen...')
-                          : (isDescriptionExpanded ? 'Show Less' : 'Show More...')}
-                      </span>
-                      {isDescriptionExpanded ? (
-                        <ChevronUp className="w-3.5 h-3.5" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  </div>
+                          {/* Gradient fade overlay when collapsed */}
+                          {isLongDescription && !isDescriptionExpanded && (
+                            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none" />
+                          )}
+                        </div>
+
+                        {/* Show More / Show Less Toggle Button */}
+                        {isLongDescription && (
+                          <div className="mt-3.5 flex items-center">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (isDescriptionExpanded) {
+                                  document
+                                    .getElementById('job-description-heading')
+                                    ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                }
+                                setIsDescriptionExpanded(!isDescriptionExpanded);
+                              }}
+                              className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg border border-red-200 hover:border-[#E30613] bg-red-50/70 hover:bg-[#E30613] text-[#E30613] hover:text-white font-semibold text-xs sm:text-sm shadow-xs hover:shadow transition-all duration-200 cursor-pointer group"
+                            >
+                              <span>
+                                {lang === 'NL'
+                                  ? isDescriptionExpanded
+                                    ? 'Minder tonen'
+                                    : 'Meer tonen'
+                                  : isDescriptionExpanded
+                                    ? 'Show Less'
+                                    : 'Show More'}
+                              </span>
+                              {isDescriptionExpanded ? (
+                                <ChevronUp className="w-4 h-4 text-[#E30613] group-hover:text-white transition-transform duration-200 group-hover:-translate-y-0.5" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#E30613] group-hover:text-white transition-transform duration-200 group-hover:translate-y-0.5" />
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {/* 3. Requirements & Qualifications */}
                   <div className="pt-2">
@@ -1037,10 +1059,10 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                         {isSubmitting ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application to OTYS...'}</span>
+                            <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application'}</span>
                           </>
                         ) : (
-                          <span>{lang === 'NL' ? 'Sollicitatie Verzenden naar Macee Arnhem' : 'Submit Application to Macee Arnhem Desk'}</span>
+                          <span>{lang === 'NL' ? 'Sollicitatie Verzenden naar Macee Arnhem' : 'Submit Application'}</span>
                         )}
                       </button>
                     </form>
