@@ -28,7 +28,7 @@ export const MACEE_FAQS: FaqItem[] = [
     categoryId: 1,
     categoryName: 'What does MACEE do',
     question: 'In which branches is MACEE active ?',
-    answer: 'We are active is different branches like: High Tech, Finance and Banking, Consultancy, Oil & Gas, Utility and Energy, Government, Pharma, eCommerce and more',
+    answer: 'MACEE works with clients in various industries, such as Telecoms, FMCG, Oil and Gas, Consultancy, Pharma, Energy/Utilities and many more. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies.',
     date: 'February 6, 2026'
   },
   {
