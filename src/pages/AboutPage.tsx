@@ -22,6 +22,7 @@ import {
 
 interface AboutPageProps {
   onNavigate?: (page: string) => void;
+  onSelectService?: (serviceId: string) => void;
 }
 
 const ABOUT_HERO_IMAGES = [
@@ -63,7 +64,7 @@ const ABOUT_HERO_IMAGES = [
   },
 ];
 
-export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
   const aboutData = lang === 'NL' ? aboutDataNl : aboutDataEn;
   const TEAM_MEMBERS = aboutData.team.members;
@@ -378,7 +379,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             {aboutData.services.items.map((svc) => (
               <div
                 key={svc.id}
-                className="bg-white rounded-2xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+                onClick={() => onSelectService && onSelectService(svc.id)}
+                className="bg-white rounded-2xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden cursor-pointer hover:border-[#E30613]/50"
               >
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div>

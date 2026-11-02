@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag } from 'lucide-react';
+import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag, ArrowRight } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CLIENTS_FAQS } from '../data/pageFaqs';
@@ -10,9 +10,10 @@ import './ClientsPage.css';
 
 interface ClientsPageProps {
   onNavigate: (page: string) => void;
+  onSelectService?: (serviceId: string) => void;
 }
 
-export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
+export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
   const clientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
   return (
@@ -84,9 +85,21 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate }) => {
 
           <div className="clients-services-grid">
             {clientsData.services.items.map((service) => (
-              <div key={service.id} className="clients-service-card">
-                <h3 className="clients-service-title">{service.title}</h3>
+              <div
+                key={service.id}
+                onClick={() => onSelectService && onSelectService(service.id)}
+                className="clients-service-card cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group"
+                title={`Click to view detailed explanation for ${service.title}`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="clients-service-title group-hover:text-[#E30613] transition-colors">{service.title}</h3>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                </div>
                 <p className="clients-service-desc">{service.description}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
+                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting' : 'View full explanation & features'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             ))}
           </div>

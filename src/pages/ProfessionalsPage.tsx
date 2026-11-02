@@ -10,9 +10,10 @@ import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
   onNavigate?: (page: string) => void;
+  onSelectService?: (serviceId: string) => void;
 }
 
-export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate }) => {
+export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
   const professionalsData = lang === 'NL' ? professionalsDataNl : professionalsDataEn;
   const INDUSTRIES_DATA = professionalsData.industries.items;
@@ -151,14 +152,26 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
 
           <div className="prof-service-list">
             {professionalsData.whatCanWeDo.services.map((svc) => (
-              <div key={svc.id} className={`prof-service-item ${svc.highlight ? 'highlight' : ''}`}>
+              <div
+                key={svc.id}
+                onClick={() => onSelectService && onSelectService(svc.id)}
+                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
+                title={`Click to view detailed explanation for ${svc.title}`}
+              >
                 {svc.tag && (
                   <div className="prof-service-tag">
                     <span>{svc.tag}</span>
                   </div>
                 )}
-                <h3 className="prof-service-title">{svc.title}</h3>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                </div>
                 <p className="prof-service-desc">{svc.description}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
+                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             ))}
           </div>

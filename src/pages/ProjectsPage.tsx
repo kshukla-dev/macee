@@ -678,12 +678,15 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
       {activeProject && (
         <div
           data-lenis-prevent
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto modal-scrollable"
           onClick={() => setActiveProject(null)}
+          onWheel={(e) => e.stopPropagation()}
         >
           <div
+            data-lenis-prevent
             className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[88vh] my-auto animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="px-6 py-5 border-b border-gray-100 flex items-start justify-between bg-[#F8FAFB]">
@@ -732,7 +735,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
             </div>
 
             {/* Modal Content - Scrollable */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
+            <div
+              data-lenis-prevent
+              className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1 modal-scrollable"
+              onWheel={(e) => e.stopPropagation()}
+            >
               {applySubmitted ? (
                 <div className="text-center py-10 space-y-4">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600">

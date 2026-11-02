@@ -100,12 +100,15 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
   return (
     <div
       data-lenis-prevent
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto animate-fadeIn modal-scrollable"
       onClick={handleClose}
+      onWheel={(e) => e.stopPropagation()}
     >
       <div
-        className="relative w-full max-w-4xl bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden my-auto"
+        data-lenis-prevent
+        className="relative w-full max-w-4xl bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden my-auto modal-scrollable"
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-6 sm:px-8 pt-6 pb-4 border-b border-gray-200 flex items-center justify-between">

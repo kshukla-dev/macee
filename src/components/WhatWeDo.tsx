@@ -6,11 +6,13 @@ import { useLanguage } from '../context/LanguageContext';
 interface WhatWeDoProps {
   onExploreAllServices: () => void;
   onNavigate?: (page: string) => void;
+  onSelectService?: (serviceId: string) => void;
 }
 
 export const WhatWeDo: React.FC<WhatWeDoProps> = ({
   onExploreAllServices,
-  onNavigate
+  onNavigate,
+  onSelectService
 }) => {
   const { lang, t } = useLanguage();
   const services = getServicesData(lang);
@@ -96,12 +98,16 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
                 <div
                   key={service.id}
                   onClick={() => {
-                    const target = getServiceTargetPage(service.id);
-                    if (onNavigate) onNavigate(target);
-                    else onExploreAllServices();
+                    if (onSelectService) {
+                      onSelectService(service.id);
+                    } else if (onNavigate) {
+                      onNavigate(getServiceTargetPage(service.id));
+                    } else {
+                      onExploreAllServices();
+                    }
                   }}
                   className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group"
-                  title={`View details for ${service.title}`}
+                  title={`View detailed explanation for ${service.title}`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">

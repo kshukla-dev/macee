@@ -24,6 +24,7 @@ import { JobApplicationModal } from './components/JobApplicationModal';
 import { FaqModal } from './components/FaqModal';
 import { OpenApplicationModal } from './components/OpenApplicationModal';
 import { CreateJobalertModal } from './components/CreateJobalertModal';
+import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { AboutPage } from './pages/AboutPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { ProfessionalsPage } from './pages/ProfessionalsPage';
@@ -31,8 +32,8 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
 
-import { getResourcesData } from './data/content';
-import { ResourceItem, JobListing } from './types';
+import { getResourcesData, getServicesData } from './data/content';
+import { ResourceItem, JobListing, ServiceItem } from './types';
 
 import { Language } from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
@@ -51,6 +52,7 @@ function AppContent() {
   const [isJobalertModalOpen, setIsJobalertModalOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState<ResourceItem | null>(null);
   const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const lenisRef = useRef<Lenis | null>(null);
@@ -63,6 +65,7 @@ function AppContent() {
     isJobalertModalOpen ||
     Boolean(selectedResource) ||
     Boolean(selectedJob) ||
+    Boolean(selectedService) ||
     isMobileMenuOpen;
 
   useEffect(() => {
@@ -124,6 +127,17 @@ function AppContent() {
 
   const handleNavigatePage = (page: string) => {
     setIsMobileMenuOpen(false);
+    setSelectedService(null);
+    setSelectedResource(null);
+    setSelectedJob(null);
+    setIsConsultationOpen(false);
+    setIsRiskSurveyOpen(false);
+    setIsFaqOpen(false);
+    setIsOpenApplicationOpen(false);
+    setIsJobalertModalOpen(false);
+    document.body.style.overflow = '';
+    lenisRef.current?.start();
+
     if (page === 'open-application' || page === 'open_application') {
       setIsOpenApplicationOpen(true);
       return;
@@ -163,20 +177,43 @@ function AppContent() {
     }
   };
 
+  const handleOpenServiceDetail = (serviceId: string) => {
+    const services = getServicesData(lang);
+    let normId = serviceId.toLowerCase().trim();
+    if (normId === 'recruitment' || normId === 'permanent' || normId === 'recruitment-&-selection') normId = 'recruitment-staffing';
+    if (normId === 'outsourcing' || normId === 'it-projects') normId = 'it-outsourcing';
+    if (normId === 'contracting' || normId === 'secondment') normId = 'contracting-secondment';
+    if (normId === 'zzp' || normId === 'freelance') normId = 'freelance-zzp';
+    if (normId === 'expats' || normId === 'hsm' || normId === 'expat') normId = 'hsm-expats';
+    if (normId === 'compliance' || normId === 'compliancy') normId = 'compliancy-support';
+    if (normId === 'administration' || normId === 'payroll' || normId === 'backoffice') normId = 'contract-administration';
+
+    const found =
+      services.find((s) => s.id === normId || s.id.toLowerCase().includes(normId) || normId.includes(s.id.toLowerCase())) ||
+      services[0];
+    setSelectedService(found);
+  };
+
   // Initialize Lenis & GSAP ScrollTrigger
   useEffect(() => {
     const lenis = new Lenis({
+      autoRaf: true,
       duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.2,
+      allowNestedScroll: true,
       prevent: (node) => {
         return (
           node instanceof HTMLElement &&
           (node.hasAttribute('data-lenis-prevent') ||
             Boolean(node.closest?.('[data-lenis-prevent]')) ||
-            Boolean(node.closest?.('.modal-scrollable')))
+            Boolean(node.closest?.('.modal-scrollable')) ||
+            Boolean(node.closest?.('[role="dialog"]')) ||
+            Boolean(node.closest?.('.fixed')) ||
+            Boolean(node.closest?.('.overflow-y-auto')) ||
+            Boolean(node.closest?.('.overflow-auto')))
         );
       },
     });
@@ -184,12 +221,6 @@ function AppContent() {
 
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
-
-    const updateTicker = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(500, 33);
 
     // Subtle GSAP scroll reveal animations
     const ctx = gsap.context(() => {
@@ -269,7 +300,6 @@ function AppContent() {
 
     return () => {
       ctx.revert();
-      gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);
@@ -354,11 +384,11 @@ function AppContent() {
       {/* Main Content Area */}
       <main className="flex-1">
         {currentPage === 'about' ? (
-          <AboutPage onNavigate={handleNavigatePage} />
+          <AboutPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
         ) : currentPage === 'clients' ? (
-          <ClientsPage onNavigate={handleNavigatePage} />
+          <ClientsPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
         ) : currentPage === 'professionals' ? (
-          <ProfessionalsPage onNavigate={handleNavigatePage} />
+          <ProfessionalsPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
         ) : currentPage === 'projects' ? (
           <ProjectsPage onNavigate={handleNavigatePage} />
         ) : currentPage === 'faq' ? (
@@ -378,6 +408,7 @@ function AppContent() {
             <WhatWeDo
               onNavigate={handleNavigatePage}
               onExploreAllServices={() => handleNavigatePage('about')}
+              onSelectService={handleOpenServiceDetail}
             />
 
             {/* 5. Discover the Difference: Why Choose Macee (30+ Years) */}
@@ -472,6 +503,19 @@ function AppContent() {
       <CreateJobalertModal
         isOpen={isJobalertModalOpen}
         onClose={() => setIsJobalertModalOpen(false)}
+      />
+
+      <ServiceDetailModal
+        service={selectedService}
+        onClose={() => setSelectedService(null)}
+        onOpenConsultation={() => {
+          setSelectedService(null);
+          setIsConsultationOpen(true);
+        }}
+        onNavigatePage={(page) => {
+          setSelectedService(null);
+          handleNavigatePage(page);
+        }}
       />
     </div>
   );
