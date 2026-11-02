@@ -223,7 +223,7 @@ export const JOBS_DATA_NL: JobListing[] = [
     location: 'Arnhem, Nederland (Hybride)',
     type: 'Detachering / Payroll',
     experience: '5+ Jaar',
-    description: 'Versterk een toonaangevende enterprise opdrachtgever in Arnhem bij het ontwerpen van schaalbare cloud microservices, REST API’s en event-driven architecturen op Microsoft Azure en .NET 8.',
+    description: 'Versterk een toonaangevende enterprise opdrachtgever bij het ontwerpen van schaalbare cloud microservices, REST API’s en event-driven architecturen op Microsoft Azure en .NET 8.',
     requirements: [
       'Ruime ervaring met C#, .NET Core / .NET 8 en moderne ASP.NET Core architecturen',
       'Gedegen kennis van Microsoft Azure, Docker, Kubernetes en CI/CD automatisering',

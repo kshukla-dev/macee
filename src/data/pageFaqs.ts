@@ -55,7 +55,7 @@ export const ABOUT_FAQS: FaqItem[] = [
   {
     question: 'Where is Macee located and what areas do you serve?',
     answer:
-      'Macee is headquartered in Arnhem, Netherlands, and operates nationwide across Amsterdam, Utrecht, Rotterdam, Eindhoven, and cross-border European talent corridors, supplying both on-site and hybrid specialists.',
+      'Macee is headquartered, Netherlands, and operates nationwide across Amsterdam, Utrecht, Rotterdam, Eindhoven, and cross-border European talent corridors, supplying both on-site and hybrid specialists.',
     tag: 'Arnhem Headquarters & National Reach',
   },
   {

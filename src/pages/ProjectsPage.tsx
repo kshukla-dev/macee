@@ -282,7 +282,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         });
         setSubmitMessage(res.message);
       } else {
-        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your profile for ${activeProject.title} has been logged with Macee's recruitment desk in Arnhem.`);
+        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your profile for ${activeProject.title} has been logged with Macee's recruitment desk.`);
       }
 
       setApplySubmitted(true);
@@ -733,7 +733,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                     Application Received!
                   </h4>
                   <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                    {submitMessage || `Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been logged with Macee’s recruitment desk in Arnhem.`}
+                    {submitMessage || `Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been logged with Macee’s recruitment desk.`}
                   </p>
                   <button
                     onClick={() => {
@@ -839,8 +839,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                           ) : (
                             <p
                               className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line transition-all duration-300 ${isLongDescription && !isDescriptionExpanded
-                                  ? 'line-clamp-4 max-h-28 overflow-hidden'
-                                  : ''
+                                ? 'line-clamp-4 max-h-28 overflow-hidden'
+                                : ''
                                 }`}
                             >
                               {activeProject.description}

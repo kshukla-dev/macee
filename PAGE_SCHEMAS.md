@@ -176,7 +176,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
           "name": "Where is Macee located and what areas do you serve?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Macee is headquartered in Arnhem, Netherlands, operating nationwide across Amsterdam, Utrecht, Rotterdam, Eindhoven, and cross-border European talent corridors."
+            "text": "Macee is headquartered , Netherlands, operating nationwide across Amsterdam, Utrecht, Rotterdam, Eindhoven, and cross-border European talent corridors."
           }
         },
         {

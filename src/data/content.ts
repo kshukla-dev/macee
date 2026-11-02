@@ -212,7 +212,7 @@ export const JOBS_DATA: JobListing[] = [
     location: 'Arnhem, Netherlands (Hybrid)',
     type: 'Contracting / Secondment',
     experience: '5+ Years',
-    description: 'Join an enterprise client in Arnhem designing resilient cloud microservices, REST APIs, and event-driven backend architectures on Microsoft Azure and .NET 8.',
+    description: 'Join an enterprise client designing resilient cloud microservices, REST APIs, and event-driven backend architectures on Microsoft Azure and .NET 8.',
     requirements: [
       'Extensive experience with C#, .NET Core / .NET 8, and modern ASP.NET Core',
       'Solid background in Microsoft Azure, Docker, Kubernetes, and CI/CD automation',
