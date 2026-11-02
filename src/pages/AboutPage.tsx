@@ -30,24 +30,36 @@ const ABOUT_HERO_IMAGES = [
     alt: 'Macee Workforce Solutions Professional',
     title: 'Your External Hiring Desk',
     subtitle: 'Sourcing International Talent & Expats',
+    page: 'clients',
+    badgeEn: 'Explore Hirers Desk',
+    badgeNl: 'Bekijk Inhuurdesk',
   },
   {
     src: '/images/global-team-collaboration.jpg',
     alt: 'International Sourcing & Talent Management',
     title: 'Cross-Border Talent Network',
     subtitle: 'High-Caliber Interim & Expat Specialists',
+    page: 'professionals',
+    badgeEn: 'For Professionals & Expats',
+    badgeNl: 'Voor Professionals',
   },
   {
     src: '/uploads/people-working-dsk.jpg',
     alt: 'Dedicated External Talent Teams',
     title: 'End-to-End Workforce Solutions',
     subtitle: 'Compliance, Payroll & Rapid Deployment',
+    page: 'about',
+    badgeEn: 'About Macee Desk',
+    badgeNl: 'Over Macee Desk',
   },
   {
     src: '/images/careers-handshake.jpg',
     alt: 'Reliable Certified Partnerships',
     title: 'Certified & Compliant Staffing',
     subtitle: 'SNA NEN 4400-1 & IND Recognised Sponsor',
+    page: 'projects',
+    badgeEn: 'View Live Projects',
+    badgeNl: 'Bekijk Actuele Projecten',
   },
 ];
 
@@ -143,17 +155,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   {ABOUT_HERO_IMAGES.map((img, idx) => (
                     <div
                       key={img.src}
-                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                      onClick={() => onNavigate && onNavigate(img.page)}
+                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer group/slide ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                         }`}
+                      title={`Click to explore ${img.title}`}
                     >
                       <img
                         src={img.src}
                         alt={img.alt}
-                        className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out ${idx === currentSlide ? 'scale-105' : 'scale-100'
+                        className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out group-hover/slide:scale-110 ${idx === currentSlide ? 'scale-105' : 'scale-100'
                           }`}
                       />
                       {/* Subtle bottom shadow vignette */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                     </div>
                   ))}
 
@@ -172,19 +186,24 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* Floating strategic badge (Replacing plain "M" box with high-end live desk emblem) */}
-                <div className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl">
+                {/* Floating strategic badge (clickable to go directly to slide target page) */}
+                <div
+                  onClick={() => onNavigate && onNavigate(ABOUT_HERO_IMAGES[currentSlide].page)}
+                  className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 hover:border-[#E30613]/50 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl cursor-pointer group/badge"
+                  title={`Click to explore ${ABOUT_HERO_IMAGES[currentSlide].title}`}
+                >
                   <div className="shrink-0 flex items-center justify-center">
                     <img
                       src="/uploads/favicon-96x96.png"
                       alt="Macee"
-                      className="w-10 h-10 object-contain"
+                      className="w-10 h-10 object-contain group-hover/badge:scale-105 transition-transform"
                     />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm font-bold text-[#111827] tracking-tight">
-                      {ABOUT_HERO_IMAGES[currentSlide].title}
-                    </p>
+                    <div className="text-xs sm:text-sm font-bold text-[#111827] group-hover/badge:text-[#E30613] transition-colors tracking-tight flex items-center gap-1">
+                      <span>{ABOUT_HERO_IMAGES[currentSlide].title}</span>
+                      <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 transition-all" />
+                    </div>
                     <p className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
                       {ABOUT_HERO_IMAGES[currentSlide].subtitle}
                     </p>

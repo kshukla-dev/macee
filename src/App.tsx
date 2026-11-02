@@ -369,13 +369,15 @@ function AppContent() {
           <>
             {/* 3. Hero Section: "External Workforce Solutions" */}
             <Hero
-              onStartJourney={() => setIsConsultationOpen(true)}
+              onStartJourney={() => handleNavigatePage('projects')}
               onExploreServices={() => handleNavigateSection('what-we-do')}
+              onNavigate={handleNavigatePage}
             />
 
             {/* 4. What We Do: 7 Core Macee Offerings */}
             <WhatWeDo
-              onExploreAllServices={() => handleNavigateSection('why-wfs')}
+              onNavigate={handleNavigatePage}
+              onExploreAllServices={() => handleNavigatePage('about')}
             />
 
             {/* 5. Discover the Difference: Why Choose Macee (30+ Years) */}

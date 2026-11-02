@@ -5,13 +5,32 @@ import { useLanguage } from '../context/LanguageContext';
 
 interface WhatWeDoProps {
   onExploreAllServices: () => void;
+  onNavigate?: (page: string) => void;
 }
 
 export const WhatWeDo: React.FC<WhatWeDoProps> = ({
-  onExploreAllServices
+  onExploreAllServices,
+  onNavigate
 }) => {
   const { lang, t } = useLanguage();
   const services = getServicesData(lang);
+
+  const getServiceTargetPage = (serviceId: string): string => {
+    switch (serviceId) {
+      case 'recruitment-staffing':
+      case 'contract-administration':
+      case 'compliancy-support':
+        return 'clients';
+      case 'contracting-secondment':
+      case 'freelance-zzp':
+      case 'hsm-expats':
+        return 'professionals';
+      case 'it-outsourcing':
+        return 'projects';
+      default:
+        return 'clients';
+    }
+  };
 
   const getIcon = (id: string) => {
     switch (id) {
@@ -76,23 +95,31 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
               {services.map((service) => (
                 <div
                   key={service.id}
-                  onClick={onExploreAllServices}
-                  className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#111827]/30 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                  onClick={() => {
+                    const target = getServiceTargetPage(service.id);
+                    if (onNavigate) onNavigate(target);
+                    else onExploreAllServices();
+                  }}
+                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                  title={`View details for ${service.title}`}
                 >
-                  <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
-                    {getIcon(service.id)}
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
+                      {getIcon(service.id)}
+                    </div>
+                    <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
+                      {service.title}
+                    </span>
                   </div>
-                  <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
-                    {service.title}
-                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
                 </div>
               ))}
 
               {/* 8th Slot: Check Out Our Services CTA Button */}
               <button
                 type="button"
-                onClick={onExploreAllServices}
-                className="flex items-center justify-between gap-3 p-3 rounded-lg bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
+                onClick={() => onNavigate ? onNavigate('about') : onExploreAllServices()}
+                className="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
               >
                 <span className="text-sm font-semibold leading-snug pl-1">
                   {t('whatwedo.cta')}
