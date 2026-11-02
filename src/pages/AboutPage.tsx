@@ -456,7 +456,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   <div className="w-full border-t border-gray-100 mb-5" />
 
                   <div className="space-y-2.5">
-
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
@@ -474,6 +473,30 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                         <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
                         <span>{member.phone}</span>
                       </a>
+                    )}
+
+                    {/* Action buttons for executive / owner without personal phone/email */}
+                    {!member.email && !member.phone && (
+                      <>
+                        {member.linkedin && (
+                          <a
+                            href={member.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#0A66C2]/10 hover:bg-[#0A66C2] hover:text-white text-xs font-semibold text-[#0A66C2] transition-colors group/btn shadow-2xs"
+                          >
+                            <Linkedin className="w-4 h-4 fill-current text-[#0A66C2] group-hover/btn:text-white shrink-0" />
+                            <span>{lang === 'NL' ? 'Connect via LinkedIn' : 'Connect on LinkedIn'}</span>
+                          </a>
+                        )}
+                        <a
+                          href="mailto:info@macee.com"
+                          className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
+                        >
+                          <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+                          <span>{'desk' in member && member.desk ? member.desk : (lang === 'NL' ? 'Contact via Hoofdkantoor' : 'Contact via Macee Desk')}</span>
+                        </a>
+                      </>
                     )}
                   </div>
                 </div>
