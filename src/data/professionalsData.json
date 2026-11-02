@@ -41,10 +41,10 @@
       {
         "num": "03",
         "icon": "Database",
-        "title": "Bank- en verzekeringswezen",
+        "title": "Banking, Fintech, Finance",
         "image": "/uploads/Finance-reporting.jpg",
         "fallback": "https://www.macee.com/uploads/Finance-reporting.jpg",
-        "alt": "Bank- en verzekeringswezen",
+        "alt": "Banking, Fintech, Finance",
         "text": "MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies. Delivering expertise in risk, compliance, cloud architecture, and fintech innovation.",
         "tags": [
           "Banking",
