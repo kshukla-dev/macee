@@ -193,7 +193,7 @@ export const FAQ_DATA_NL: FaqItem[] = [
     id: 'faq-nl-1',
     category: 'Wat doet MACEE',
     question: 'In welke branches is MACEE actief?',
-    answer: 'MACEE is actief in diverse sectoren waaronder High Tech, Banken & Verzekeringen, Consultancy, Energie & Utilities, Overheid, Pharma en eCommerce.'
+    answer: 'MACEE werkt voor opdrachtgevers in diverse sectoren waaronder Telecom, FMCG, Olie & Gas, Consultancy, Farma, Energie & Utilities en meer. Daarnaast heeft MACEE ruime ervaring in de financiële sector met banken, beleggings- en vermogensbeheer, pensioenfondsen, betaalplatforms en andere fintechbedrijven.'
   },
   {
     id: 'faq-nl-2',

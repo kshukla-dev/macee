@@ -25,7 +25,7 @@ export const HOME_FAQS: FaqItem[] = [
   {
     question: 'In which sectors does Macee have proven recruitment expertise?',
     answer:
-      'Macee is deeply established across High Tech & Software Engineering, Data & AI, Cloud & Infrastructure, Cybersecurity, Financial Risk & Regulatory Compliance (AML, KYC, Corep/Finrep), Energy & Utilities, and Government sectors.',
+      'MACEE works with clients in various industries, such as Telecoms, FMCG, Oil and Gas, Consultancy, Pharma, Energy/Utilities and many more. MACEE has extensive experience in the finance sector, working with Banks, Investment and Asset Management, Pension funds, Payment Platforms and other Fintech companies.',
     tag: 'Specialized Domain Verticals',
   },
   {
