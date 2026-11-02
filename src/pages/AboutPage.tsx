@@ -16,7 +16,8 @@ import {
   ArrowRight,
   Award,
   Calendar,
-  Globe2
+  Globe2,
+  Linkedin
 } from 'lucide-react';
 
 interface AboutPageProps {
@@ -414,6 +415,20 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                 key={member.name}
                 className="relative bg-white rounded-[26px] px-6 pb-6 pt-16 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 text-center flex flex-col justify-between group"
               >
+                {/* LinkedIn Badge in top right corner of card */}
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} LinkedIn`}
+                    title={`View ${member.name} on LinkedIn`}
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#0A66C2]/10 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs hover:scale-110 z-10"
+                  >
+                    <Linkedin className="w-4 h-4 fill-current" />
+                  </a>
+                )}
+
                 {/* Floating Circular Avatar overlapping top border */}
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full p-1 bg-white ring-4 ring-[#EFF2F4] shadow-md overflow-hidden">
                   <img
@@ -441,20 +456,25 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   <div className="w-full border-t border-gray-100 mb-5" />
 
                   <div className="space-y-2.5">
-                    <a
-                      href={`mailto:${member.email}`}
-                      className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn"
-                    >
-                      <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
-                      <span className="truncate">{member.email}</span>
-                    </a>
-                    <a
-                      href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
-                      className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
-                    >
-                      <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
-                      <span>{member.phone}</span>
-                    </a>
+
+                    {member.email && (
+                      <a
+                        href={`mailto:${member.email}`}
+                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn"
+                      >
+                        <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+                        <span className="truncate">{member.email}</span>
+                      </a>
+                    )}
+                    {member.phone && (
+                      <a
+                        href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
+                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
+                      >
+                        <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+                        <span>{member.phone}</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

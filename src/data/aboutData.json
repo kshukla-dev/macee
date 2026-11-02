@@ -121,42 +121,46 @@
         "role": "Resourcing Manager",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/sMzvFzco/uploads/Bredere%20foto.png",
         "email": "d.noorlander@macee.com",
-        "phone": "+31 (0)6 49 53 36 35"
+        "phone": "+31 (0)6 49 53 36 35",
+        "linkedin": "https://www.linkedin.com/in/dicknoorlander/"
       },
       {
         "name": "Maarten Koekebakker",
         "role": "Founder / Owner",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/IAJ6bXf8/uploads/maarten-koekebakker.jpeg%20%281%29.jpg",
-        "email": "m.koekebakker@macee.com",
-        "phone": "+31 (0)26 744 0024"
+        "linkedin": "https://www.linkedin.com/in/koekebakker/"
       },
       {
         "name": "Adam Nichols",
         "role": "Director",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/k8LJpK7C/uploads/adam-nichols.jpeg.jpg",
         "email": "a.nichols@macee.com",
-        "phone": "+31 (0)6 50 22 23 90"
+        "phone": "+31 (0)6 50 22 23 90",
+        "linkedin": "https://www.linkedin.com/in/adsnichols/"
       },
       {
         "name": "Michael Siep",
         "role": "Resourcing Manager",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/WALuDQhd/uploads/michael-siep.png",
         "email": "m.siep@macee.com",
-        "phone": "+31 (0)6 54 67 32 63"
+        "phone": "+31 (0)6 54 67 32 63",
+        "linkedin": "https://www.linkedin.com/in/michaelsiep/"
       },
       {
         "name": "Amin David",
         "role": "Administration",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/2JLI5vyn/uploads/amin-david.jpeg.jpg",
         "email": "a.david@macee.com",
-        "phone": "+31 (0)26 744 0024"
+        "phone": "+31 (0)26 744 0024",
+        "linkedin": "https://www.linkedin.com/in/amin-david-3711b1116/"
       },
       {
         "name": "Nicky Weijgertze",
         "role": "Administration",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/sjXS1wcB/uploads/Nicky%20.jpg",
         "email": "n.weijgertze@macee.com",
-        "phone": "+31 (0)26 744 0024"
+        "phone": "+31 (0)26 744 0024",
+        "linkedin": "https://www.linkedin.com/in/nicky-weijgertze"
       }
     ]
   },

@@ -568,7 +568,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       <span className="text-gray-300 hidden sm:inline">·</span>
                       <span className="flex items-center gap-1.5 font-bold text-gray-900">
                         <Euro className="w-4 h-4 text-[#E30613]" />
-                        {proj.rate}
+                        Competitive Market Rate
                       </span>
                     </div>
 
@@ -719,7 +719,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                   <span>·</span>
                   <span className="flex items-center gap-1 font-bold text-gray-900">
                     <Euro className="w-3.5 h-3.5 text-[#E30613]" />
-                    {activeProject.rate}
+                    Competitive Market Rate
                   </span>
                 </div>
               </div>
