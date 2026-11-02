@@ -349,7 +349,7 @@ export const FAQ_DATA: FaqItem[] = [
     id: 'faq-5',
     category: 'Services and Contract options',
     question: 'What kind of contracts can MACEE provide?',
-    answer: 'We provide Secondment, Freelance / ZZP agreements, Permanent placements at clients of MACEE, Contract-to-Perm (Deta-Vast), and outcome-based Outsourcing project agreements.'
+    answer: 'We provide Secondment, Freelance / ZZP agreements, Employer of Record (EOR / Legal Employment Services), Permanent placements at clients of MACEE, Contract-to-Perm (Deta-Vast), and outcome-based Outsourcing project agreements.'
   },
   {
     id: 'faq-6',

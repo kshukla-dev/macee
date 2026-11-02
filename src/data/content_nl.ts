@@ -205,7 +205,7 @@ export const FAQ_DATA_NL: FaqItem[] = [
     id: 'faq-nl-3',
     category: 'Diensten en Contracten',
     question: 'Welke contractvormen biedt MACEE aan?',
-    answer: 'Wij bieden Detachering, Payrolling, Freelance / ZZP bemiddeling, Werving & Selectie voor vaste posities en Deta-Vast constructies.'
+    answer: 'Wij bieden Detachering, Payrolling, Employer of Record (EOR / Juridisch Werkgeverschap), Freelance / ZZP bemiddeling, Werving & Selectie voor vaste posities en Deta-Vast constructies.'
   },
   {
     id: 'faq-nl-4',

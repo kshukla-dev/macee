@@ -19,7 +19,7 @@ export const HOME_FAQS: FaqItem[] = [
   {
     question: 'What contract models does Macee offer?',
     answer:
-      'We provide flexible contracting options tailored to your project scope:\n• Secondment (interim project deployment with full employer liability management)\n• Freelance / ZZP brokerage and contract compliance\n• Contract-to-Permanent (Deta-Vast) models\n• Permanent recruitment and executive search',
+      'We provide flexible contracting options tailored to your project scope:\n• Secondment (interim project deployment with full employer liability management)\n• Freelance / ZZP brokerage and contract compliance\n• Employer of Record (EOR / Legal Employment Services with full local & international compliance)\n• Contract-to-Permanent (Deta-Vast) models\n• Permanent recruitment and executive search',
     tag: 'Flexible Engagement Models',
   },
   {
@@ -127,7 +127,7 @@ export const PROFESSIONALS_FAQS: FaqItem[] = [
   {
     question: 'What contract options are available for professionals working through Macee?',
     answer:
-      'You can choose the contract model that best fits your situation:\n• Secondment employment contract with steady monthly salary, paid holiday allowance, and pension\n• Freelance / ZZP broker agreement with swift invoice payment cycles\n• Contract-to-perm (Deta-Vast) opportunities with top enterprise employers',
+      'You can choose the contract model that best fits your situation:\n• Secondment employment contract with steady monthly salary, paid holiday allowance, and pension\n• Employer of Record (EOR / Legal Employment) with complete immigration & payroll compliance\n• Freelance / ZZP broker agreement with swift invoice payment cycles\n• Contract-to-perm (Deta-Vast) opportunities with top enterprise employers',
     tag: 'Flexible Contracting Choices',
   },
   {
