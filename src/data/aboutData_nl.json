@@ -99,7 +99,7 @@
         "tag": "Payroll & EOR"
       },
       {
-        "id": "compliance-support",
+        "id": "compliancy-support",
         "icon": "ShieldCheck",
         "title": "Compliance & Ondersteuning",
         "paragraphs": [
@@ -108,6 +108,46 @@
           "Of het nu gaat om onboarding, juridische toetsing of contractbeheer: wij staan uw organisatie bij met praktisch en betrouwbaar advies."
         ],
         "tag": "Juridische Bescherming"
+      },
+      {
+        "id": "contracting-secondment",
+        "icon": "UserCheck",
+        "title": "Detachering & Payrolling",
+        "paragraphs": [
+          "Werk aan uitdagende tijdelijke projecten of interim-rollen terwijl u in loondienst bent bij MACEE met volledige rechtszekerheid.",
+          "Door strengere handhaving van de Wet DBA biedt MACEE de betrouwbare detacheringsoplossing met behoud van flexibiliteit, pensioenopbouw en tijdige maandelijkse uitbetaling."
+        ],
+        "tag": "Flexibele Zekerheid"
+      },
+      {
+        "id": "freelance-zzp",
+        "icon": "Award",
+        "title": "Freelance / ZZP Bemiddeling",
+        "paragraphs": [
+          "Gerichte projectbemiddeling voor zelfstandige professionals (ZZP) die zelf hun uurtarief, werktijden en werkwijze bepalen.",
+          "Wij verbinden u met toonaangevende enterprise-opdrachten, verzorgen goedgekeurde modelovereenkomsten zonder schijnzelfstandigheid en garanderen snelle factuurverwerking."
+        ],
+        "tag": "Zelfstandig Ondernemerschap"
+      },
+      {
+        "id": "hsm-expats",
+        "icon": "FileCheck",
+        "title": "Kennismigranten & Visumsponsoring",
+        "paragraphs": [
+          "MACEE is officieel Erkend Referent bij de IND. Wij halen gespecialiseerd internationaal talent van buiten de EU snel en compliant naar Nederland.",
+          "Wij verzorgen de versnelde kennismigrantenprocedure, gezinshereniging, relocatiebegeleiding (BSN, bank, huisvesting) en de aanvraag voor de 30%-regeling."
+        ],
+        "tag": "IND Erkend Referent"
+      },
+      {
+        "id": "it-outsourcing",
+        "icon": "Cpu",
+        "title": "Outsourcing & Projectdiensten",
+        "paragraphs": [
+          "Resultaatgerichte projectuitvoering op basis van een Statement of Work (SOW), waarbij een extern team onder eigen verantwoordelijkheid mijlpalen oplevert.",
+          "Ideaal voor afgebakende IT-migraties, capaciteitsuitbreiding of specialistische projecten zonder langdurige vaste personeelsverplichtingen."
+        ],
+        "tag": "SOW & Resultaatgericht"
       }
     ]
   },

@@ -99,7 +99,7 @@
         "tag": "Payroll & EOR"
       },
       {
-        "id": "compliance-support",
+        "id": "compliancy-support",
         "icon": "ShieldCheck",
         "title": "Compliance & Support",
         "paragraphs": [
@@ -108,6 +108,46 @@
           "Whether you need help with onboarding, compliance, or workforce administration, we work alongside your organisation to provide practical and reliable support."
         ],
         "tag": "Legal & Risk Defense"
+      },
+      {
+        "id": "contracting-secondment",
+        "icon": "UserCheck",
+        "title": "Contracting & Secondment",
+        "paragraphs": [
+          "Work on high-impact temporary projects or interim roles while employed on the payroll of MACEE with full legal security and secondary benefits.",
+          "Due to strict Dutch labor laws and Wet DBA enforcement, interim roles often require a reliable secondment model. MACEE provides full employment benefits and monthly payroll security."
+        ],
+        "tag": "Flexible Employment"
+      },
+      {
+        "id": "freelance-zzp",
+        "icon": "Award",
+        "title": "Freelance / ZZP Intermediation",
+        "paragraphs": [
+          "Specialized project mediation for self-employed professionals (ZZP) who operate independently and determine their own rates, hours, and working method.",
+          "We connect top independent specialists with tier-1 enterprise clients, providing DBA-proof model contracts, fast invoice processing, and ongoing project management."
+        ],
+        "tag": "Self-Employed (ZZP)"
+      },
+      {
+        "id": "hsm-expats",
+        "icon": "FileCheck",
+        "title": "Highly Skilled Migrants & Visa Sponsorship",
+        "paragraphs": [
+          "MACEE is an official IND Recognised Sponsor (Erkend Referent), enabling fast-track relocation of international non-EU specialists to the Netherlands.",
+          "We take care of full residence permits, family visas, relocation assistance (BSN, housing, banking), and the Dutch 30% tax benefit ruling application."
+        ],
+        "tag": "IND Recognised Sponsor"
+      },
+      {
+        "id": "it-outsourcing",
+        "icon": "Cpu",
+        "title": "Outsourcing & Project Services",
+        "paragraphs": [
+          "Outcome-based project delivery where specialized external teams execute technical milestones under managed responsibility (Statement of Work / SOW).",
+          "Ideal for temporary IT deliverables, system migrations, or scaling technical capacity without adding permanent headcount or employment liabilities."
+        ],
+        "tag": "SOW & Milestone Delivery"
       }
     ]
   },

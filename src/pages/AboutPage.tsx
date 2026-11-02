@@ -12,12 +12,17 @@ import {
   ShieldCheck,
   Users,
   Briefcase,
+  UserCheck,
+  Award,
+  FileCheck,
+  Cpu,
   ArrowUpRight,
   ArrowRight,
-  Award,
   Calendar,
   Globe2,
-  Linkedin
+  Linkedin,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 interface AboutPageProps {
@@ -69,6 +74,74 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
   const aboutData = lang === 'NL' ? aboutDataNl : aboutDataEn;
   const TEAM_MEMBERS = aboutData.team.members;
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Services Carousel States
+  const [servicesSlide, setServicesSlide] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [isServicesPaused, setIsServicesPaused] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener('resize', updateVisibleCount);
+  }, []);
+
+  const totalServices = aboutData.services.items.length;
+  const maxIndex = Math.max(0, totalServices - visibleCount);
+
+  useEffect(() => {
+    setServicesSlide((prev) => Math.min(prev, maxIndex));
+  }, [maxIndex]);
+
+  const handlePrevService = () => {
+    setServicesSlide((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  };
+
+  const handleNextService = () => {
+    setServicesSlide((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  };
+
+  // Autoplay for services carousel with pause on hover
+  useEffect(() => {
+    if (isServicesPaused || maxIndex <= 0) return;
+    const timer = setInterval(() => {
+      setServicesSlide((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [isServicesPaused, maxIndex]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > 50) {
+      handleNextService();
+    } else if (distance < -50) {
+      handlePrevService();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -360,55 +433,130 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
         </div>
       </section>
 
-      {/* 4. SERVICES */}
-      <section id="about-services" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
+      {/* 4. SERVICES CAROUSEL */}
+      <section id="about-services" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100 overflow-hidden">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-              {aboutData.services.badge}
+          {/* Header with Title and Carousel Controls */}
+          <div className="flex flex-row items-center justify-between mb-8 sm:mb-12 gap-3 sm:gap-6">
+            <div className="text-left flex-1 min-w-0 pr-2">
+              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-1.5 sm:mb-2">
+                {aboutData.services.badge}
+              </div>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                {aboutData.services.title}
+              </h2>
+              <p className="mt-1.5 sm:mt-3 text-sm sm:text-lg font-semibold text-[#111827]/80">
+                {aboutData.services.subtitle}
+              </p>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-              {aboutData.services.title}
-            </h2>
-            <p className="mt-3 text-lg font-semibold text-[#111827]/80">
-              {aboutData.services.subtitle}
-            </p>
+
+            {/* Carousel Navigation Arrows & Page Indicator */}
+            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+              <div className="text-[11px] sm:text-xs font-semibold text-gray-500 bg-[#F8FAFB] border border-gray-200/80 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full flex items-center gap-1">
+                <span className="text-[#111827] font-bold">{servicesSlide + 1}</span>
+                <span className="text-gray-400">/</span>
+                <span>{maxIndex + 1}</span>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrevService}
+                  aria-label="Previous Service"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
+                >
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-0.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextService}
+                  aria-label="Next Service"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
+                >
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {aboutData.services.items.map((svc) => (
-              <div
-                key={svc.id}
-                onClick={() => onSelectService && onSelectService(svc.id)}
-                className="bg-white rounded-2xl p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden cursor-pointer hover:border-[#E30613]/50"
-              >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center transition-colors mb-6 shadow-2xs">
-                    {svc.icon === 'Users' ? (
-                      <Users className="w-6 h-6" />
-                    ) : svc.icon === 'Briefcase' ? (
-                      <Briefcase className="w-6 h-6" />
-                    ) : (
-                      <ShieldCheck className="w-6 h-6" />
-                    )}
-                  </div>
-                  <h3 className="text-xl font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors mb-4">
-                    {svc.title}
-                  </h3>
-                  <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
-                    {svc.paragraphs.map((p, pIdx) => (
-                      <p key={pIdx}>{p}</p>
-                    ))}
+          {/* Carousel Viewport Container */}
+          <div
+            className="relative -mx-3 px-1 py-4 -my-4 overflow-hidden"
+            onMouseEnter={() => setIsServicesPaused(true)}
+            onMouseLeave={() => setIsServicesPaused(false)}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div
+              className="flex items-stretch transition-transform duration-500 ease-out"
+              style={{
+                transform: `translateX(-${servicesSlide * (100 / visibleCount)}%)`,
+              }}
+            >
+              {aboutData.services.items.map((svc) => (
+                <div
+                  key={svc.id}
+                  className="shrink-0 px-3 flex flex-col"
+                  style={{ width: `${100 / visibleCount}%` }}
+                >
+                  <div
+                    onClick={() => onSelectService && onSelectService(svc.id)}
+                    className="h-full bg-white rounded-2xl p-7 sm:p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden cursor-pointer hover:border-[#E30613]/50 select-none"
+                  >
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center transition-colors mb-6 shadow-2xs">
+                        {svc.icon === 'Users' ? (
+                          <Users className="w-6 h-6" />
+                        ) : svc.icon === 'Briefcase' ? (
+                          <Briefcase className="w-6 h-6" />
+                        ) : svc.icon === 'UserCheck' ? (
+                          <UserCheck className="w-6 h-6" />
+                        ) : svc.icon === 'Award' ? (
+                          <Award className="w-6 h-6" />
+                        ) : svc.icon === 'FileCheck' ? (
+                          <FileCheck className="w-6 h-6" />
+                        ) : svc.icon === 'Cpu' ? (
+                          <Cpu className="w-6 h-6" />
+                        ) : (
+                          <ShieldCheck className="w-6 h-6" />
+                        )}
+                      </div>
+                      <h3 className="text-xl font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors mb-4 line-clamp-2">
+                        {svc.title}
+                      </h3>
+                      <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
+                        {svc.paragraphs.map((p, pIdx) => (
+                          <p key={pIdx} className="line-clamp-4">{p}</p>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
+                        {svc.tag}
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] transition-colors" />
+                    </div>
                   </div>
                 </div>
-                <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
-                    {svc.tag}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] transition-colors" />
-                </div>
-              </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Dot Navigation */}
+          <div className="flex items-center justify-center gap-2 mt-8">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setServicesSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === servicesSlide
+                    ? 'w-7 bg-[#E30613]'
+                    : 'w-2 bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
             ))}
           </div>
         </div>
