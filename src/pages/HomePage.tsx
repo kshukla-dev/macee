@@ -150,7 +150,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
       <JobalertBanner onNavigate={onNavigate} bgImage="/uploads/PM-2.jpg" />
 
       {/* 4. Contact Form Section */}
-      <ContactFormSection title="Get in contact with us" />
+      <ContactFormSection title="Get in Touch with Us" />
     </div>
   );
 };

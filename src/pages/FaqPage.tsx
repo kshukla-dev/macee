@@ -282,7 +282,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
       />
 
       {/* 6. Contact Form Section */}
-      <ContactFormSection title="Get in contact with us" />
+      <ContactFormSection title="Get in Touch with Us" />
     </div>
   );
 };

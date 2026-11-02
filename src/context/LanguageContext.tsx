@@ -80,7 +80,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'risk.cta': 'Start Compliance Survey',
 
     // Contact Form Section
-    'contact.title': 'Get in contact with us',
+    'contact.title': 'Get in Touch with Us',
     'contact.subtitle': 'Do you have questions about flexible staffing, contract administration, or compliancy? Send us a message and our specialists will respond within 24 hours.',
     'contact.name': 'Your name',
     'contact.firstName': 'First name',

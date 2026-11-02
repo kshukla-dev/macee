@@ -32,7 +32,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
 }) => {
   const { lang, t } = useLanguage();
 
-  const effectiveTitle = title || (lang === 'NL' ? 'Neem contact met ons op' : 'Get in contact with us');
+  const effectiveTitle = title || (lang === 'NL' ? 'Neem contact met ons op' : 'Get in Touch with Us');
   const effectiveBadge = badge || (lang === 'NL' ? 'Vrijblijvend Contact' : 'Reach Out To Macee');
   const effectiveSubtitle = subtitle || (lang === 'NL'
     ? 'Heeft u vragen over flexibele inhuur, contractbeheer of compliance? Stuur ons een bericht en onze specialisten reageren binnen 24 uur.'

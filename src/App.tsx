@@ -93,7 +93,7 @@ function AppContent() {
         setCurrentPage('projects');
       } else if (path === '/faq' || path === '/faqs' || path === '/faq-guides' || path === '/guides' || hash === '#faq' || hash === '#guides') {
         setCurrentPage('faq');
-      } else if (path === '/contact' || path === '/contact-us' || hash === '#contact' || hash === '#contact-us') {
+      } else if (path === '/contact' || path === '/contact-us' || path === '/get-in-touch' || hash === '#contact' || hash === '#contact-us' || hash === '#get-in-touch') {
         setCurrentPage('contact');
       } else {
         setCurrentPage('home');
@@ -152,7 +152,7 @@ function AppContent() {
       setCurrentPage('faq');
       window.history.pushState(null, '', '/faq');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'contact' || page === 'contact-us') {
+    } else if (page === 'contact' || page === 'contact-us' || page === 'get-in-touch') {
       setCurrentPage('contact');
       window.history.pushState(null, '', '/contact');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -289,7 +289,7 @@ function AppContent() {
       handleNavigatePage('faq');
       return;
     }
-    if (sectionId === 'contact' || sectionId === 'contact-us') {
+    if (sectionId === 'contact' || sectionId === 'contact-us' || sectionId === 'get-in-touch') {
       handleNavigatePage('contact');
       return;
     }
@@ -409,7 +409,7 @@ function AppContent() {
               background="white"
             />
 
-            {/* 10. Get In Contact With Us Section */}
+            {/* 10. Get In Touch With Us Section */}
             <div id="contact">
               <ContactFormSection />
             </div>

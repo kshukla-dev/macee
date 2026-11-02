@@ -267,7 +267,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
       </section>
 
       {/* Contact Form Section */}
-      <ContactFormSection title="Get in contact with us" />
+      <ContactFormSection title="Get in Touch with Us" />
     </div>
   );
 };

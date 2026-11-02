@@ -216,7 +216,13 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           <button
-            onClick={onOpenConsultation}
+            onClick={() => {
+              if (onNavigatePage) {
+                onNavigatePage('contact');
+              } else {
+                onNavigateSection('contact');
+              }
+            }}
             className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-4 sm:px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>{labels.getInTouch}</span>

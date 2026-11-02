@@ -216,7 +216,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <button
           onClick={() => {
             onClose();
-            onOpenConsultation();
+            if (onNavigatePage) {
+              onNavigatePage('contact');
+            } else {
+              onNavigateSection('contact');
+            }
           }}
           className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-[5px] bg-[#E30613] text-white font-semibold text-sm hover:bg-[#540833] transition-colors shadow-sm cursor-pointer"
         >

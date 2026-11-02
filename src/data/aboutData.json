@@ -112,8 +112,8 @@
     ]
   },
   "team": {
-    "badge": "OUR PEOPLE",
-    "title": "TEAM MACEE",
+    "badge": "OUR TEAM",
+    "title": "Our Team",
     "description": "Meet our team of experienced recruiters, contract managers, and workforce specialists.",
     "members": [
       {
@@ -161,6 +161,6 @@
     ]
   },
   "contact": {
-    "title": "Get in contact with us"
+    "title": "Get in Touch with Us"
   }
 }
