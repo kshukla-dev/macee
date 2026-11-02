@@ -458,8 +458,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   <div className="space-y-2.5">
                     {member.email && (
                       <a
-                        href={`mailto:${member.email}`}
-                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn"
+                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(member.email)}&su=${encodeURIComponent('Inquiry via Macee Website')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Send an email to ${member.name} (${member.email})`}
+                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn cursor-pointer"
                       >
                         <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
                         <span className="truncate">{member.email}</span>
@@ -468,7 +471,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                     {member.phone && (
                       <a
                         href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
-                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
+                        title={`Call ${member.name} (${member.phone})`}
+                        onClick={() => {
+                          window.location.href = `tel:${member.phone.replace(/[^0-9+]/g, '')}`;
+                        }}
+                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
                       >
                         <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
                         <span>{member.phone}</span>
@@ -483,15 +490,18 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                             href={member.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#0A66C2]/10 hover:bg-[#0A66C2] hover:text-white text-xs font-semibold text-[#0A66C2] transition-colors group/btn shadow-2xs"
+                            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#0A66C2]/10 hover:bg-[#0A66C2] hover:text-white text-xs font-semibold text-[#0A66C2] transition-colors group/btn shadow-2xs cursor-pointer"
                           >
                             <Linkedin className="w-4 h-4 fill-current text-[#0A66C2] group-hover/btn:text-white shrink-0" />
                             <span>{lang === 'NL' ? 'Connect via LinkedIn' : 'Connect on LinkedIn'}</span>
                           </a>
                         )}
                         <a
-                          href="mailto:info@macee.com"
-                          className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn"
+                          href={`https://mail.google.com/mail/?view=cm&fs=1&to=info@macee.com&su=${encodeURIComponent('Inquiry via Macee Desk')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Contact Macee Headquarters Desk"
+                          className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
                         >
                           <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
                           <span>{'desk' in member && member.desk ? member.desk : (lang === 'NL' ? 'Contact via Hoofdkantoor' : 'Contact via Macee Desk')}</span>
