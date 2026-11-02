@@ -170,8 +170,8 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                 <Loader2 className="w-4 h-4 animate-spin text-[#E30613]" />
                 <span>
                   {lang === 'NL'
-                    ? 'Vacatures synchroniseren vanuit OTYS wervingssysteem...'
-                    : 'Syncing live vacancies from OTYS recruitment system...'}
+                    ? 'Actuele vacatures synchroniseren...'
+                    : 'Syncing live vacancies...'}
                 </span>
               </div>
             )}
@@ -207,8 +207,11 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
                         {job.postedDate && (
                           <>
                             <span>·</span>
-                            <span className="text-[11px] font-mono text-gray-400">
-                              {job.postedDate}
+                            <span className="text-[11px] font-mono text-gray-500 font-medium">
+                              {job.postedDate.toLowerCase().includes('otys') ||
+                              job.postedDate.toLowerCase().includes('assignment')
+                                ? 'Active'
+                                : job.postedDate}
                             </span>
                           </>
                         )}

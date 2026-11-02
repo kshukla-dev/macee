@@ -615,7 +615,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>{lang === 'NL' ? 'Verzenden naar OTYS...' : 'Submitting Application...'}</span>
+                        <span>{lang === 'NL' ? 'Sollicitatie verzenden...' : 'Submitting Application...'}</span>
                       </>
                     ) : (
                       <span>{lang === 'NL' ? 'Sollicitatie Verzenden' : 'Submit Application'}</span>
