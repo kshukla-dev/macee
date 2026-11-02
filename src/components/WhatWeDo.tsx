@@ -124,7 +124,13 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
               {/* 8th Slot: Check Out Our Services CTA Button */}
               <button
                 type="button"
-                onClick={() => onNavigate ? onNavigate('about') : onExploreAllServices()}
+                onClick={() => {
+                  if (onNavigate) {
+                    onNavigate('about-services');
+                  } else if (onExploreAllServices) {
+                    onExploreAllServices();
+                  }
+                }}
                 className="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
               >
                 <span className="text-sm font-semibold leading-snug pl-1">

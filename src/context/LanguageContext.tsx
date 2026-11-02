@@ -277,7 +277,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: 'EN',
-  setLang: () => {},
+  setLang: () => { },
   t: (key: string) => key,
 });
 

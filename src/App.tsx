@@ -86,8 +86,20 @@ function AppContent() {
     const handleLocation = () => {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.toLowerCase();
-      if (path === '/about' || path === '/about-us' || hash === '#about' || hash === '#about-us') {
+      if (path === '/about' || path === '/about-us' || hash === '#about' || hash === '#about-us' || hash === '#about-services' || hash === '#services') {
         setCurrentPage('about');
+        if (hash === '#about-services' || hash === '#services') {
+          setTimeout(() => {
+            const el = document.getElementById('about-services');
+            if (el) {
+              if (lenisRef.current) {
+                lenisRef.current.scrollTo(el, { offset: -90 });
+              } else {
+                el.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+          }, 200);
+        }
       } else if (path === '/clients' || path === '/clients-page' || hash === '#clients' || hash === '#clients-page') {
         setCurrentPage('clients');
       } else if (path === '/professionals' || path === '/professionals-page' || hash === '#professionals' || hash === '#professionals-page') {
@@ -111,9 +123,24 @@ function AppContent() {
     };
   }, []);
 
-    // Ensure scroll resets to top whenever route changes
+  // Ensure scroll resets to top whenever route changes, unless targeting a specific section hash
   useEffect(() => {
     document.body.style.overflow = '';
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#about-services' || hash === '#services') {
+      const tScroll = setTimeout(() => {
+        const el = document.getElementById('about-services');
+        if (el) {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(el, { offset: -90 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 150);
+      return () => clearTimeout(tScroll);
+    }
+
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
     } else {
@@ -144,6 +171,23 @@ function AppContent() {
     }
     if (page === 'jobalert' || page === 'job-alert' || page === 'create-jobalert') {
       setIsJobalertModalOpen(true);
+      return;
+    }
+    if (page === 'about-services' || page === 'about#about-services' || page === 'services') {
+      window.history.pushState(null, '', '/about#about-services');
+      if (currentPage !== 'about') {
+        setCurrentPage('about');
+      }
+      setTimeout(() => {
+        const el = document.getElementById('about-services');
+        if (el) {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(el, { offset: -90 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }, 180);
       return;
     }
     if (page === 'about' || page === 'about-us') {
@@ -407,7 +451,7 @@ function AppContent() {
             {/* 4. What We Do: 7 Core Macee Offerings */}
             <WhatWeDo
               onNavigate={handleNavigatePage}
-              onExploreAllServices={() => handleNavigatePage('about')}
+              onExploreAllServices={() => handleNavigatePage('about-services')}
               onSelectService={handleOpenServiceDetail}
             />
 

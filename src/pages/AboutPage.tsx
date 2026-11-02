@@ -361,7 +361,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
       </section>
 
       {/* 4. SERVICES */}
-      <section id="about-services" className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
+      <section id="about-services" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
