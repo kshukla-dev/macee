@@ -34,6 +34,7 @@ import { ContactPage } from './pages/ContactPage';
 
 import { getResourcesData, getServicesData } from './data/content';
 import { ResourceItem, JobListing, ServiceItem } from './types';
+import { getAllJobs, getCachedJobs } from './lib/api';
 
 import { Language } from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
@@ -57,6 +58,27 @@ function AppContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [projectBrancheFilter, setProjectBrancheFilter] = useState<string>('All');
   const [projectQueryFilter, setProjectQueryFilter] = useState<string>('');
+  const [vacancyCount, setVacancyCount] = useState<number>(() => {
+    const cached = getCachedJobs();
+    return cached && cached.length > 0 ? cached.length : 0;
+  });
+
+  // Fetch live vacancy count for the navigation tabs
+  useEffect(() => {
+    let isMounted = true;
+    getAllJobs({ itemsPerPage: 50 })
+      .then((jobs) => {
+        if (isMounted && jobs && jobs.length > 0) {
+          setVacancyCount(jobs.length);
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not fetch vacancy count for header:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -454,6 +476,7 @@ function AppContent() {
         onNavigatePage={handleNavigatePage}
         currentLang={lang}
         onChangeLang={setLang}
+        vacancyCount={vacancyCount}
       />
 
       {/* Mobile Menu Drawer */}
@@ -466,6 +489,7 @@ function AppContent() {
         currentPage={currentPage}
         currentLang={lang}
         onChangeLang={setLang}
+        vacancyCount={vacancyCount}
       />
 
       {/* Main Content Area */}

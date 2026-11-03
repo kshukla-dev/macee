@@ -11,6 +11,7 @@ interface MobileMenuProps {
   currentPage?: string;
   currentLang?: Language;
   onChangeLang?: (lang: Language) => void;
+  vacancyCount?: number;
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -22,6 +23,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   currentPage = 'home',
   currentLang = 'EN',
   onChangeLang,
+  vacancyCount = 0,
 }) => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
@@ -101,37 +103,39 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           )}
           <button
             onClick={onClose}
-            className="p-2 text-gray-700 hover:text-[#E30613] rounded-md text-sm font-semibold cursor-pointer"
+            aria-label="Close menu"
+            className="p-2 text-gray-500 hover:text-gray-700"
           >
             ✕
           </button>
         </div>
       </div>
 
-      {/* Nav List */}
-      <div className="p-6 space-y-2 flex-1">
-
-                {/* Home */}
+      {/* Nav Links */}
+      <div className="p-4 space-y-2">
+        {/* Home */}
         <div>
           <button
             onClick={() => handlePage('home')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'home'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'home'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.home}
           </button>
         </div>
 
-{/* About */}
+        {/* About */}
         <div>
           <button
             onClick={() => handlePage('about')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'about'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'about'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.about}
           </button>
@@ -141,10 +145,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('clients')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'clients'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'clients'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.clients}
           </button>
@@ -154,10 +159,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('professionals')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'professionals'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'professionals'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.professionals}
           </button>
@@ -167,12 +173,21 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('projects')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'projects'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full flex items-center justify-between py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'projects'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
-            {labels.projects}
+            <span>{labels.projects}</span>
+            {vacancyCount > 0 && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold rounded-full bg-[#E30613] text-white">
+                <span>{vacancyCount}</span>
+                <span className="text-[10px] font-medium opacity-90">
+                  {currentLang === 'NL' ? 'vacatures' : 'roles'}
+                </span>
+              </span>
+            )}
           </button>
         </div>
 
@@ -180,10 +195,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('faq')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'faq'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'faq'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.faq}
           </button>
@@ -193,10 +209,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         <div>
           <button
             onClick={() => handlePage('contact')}
-            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${currentPage === 'contact'
-              ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
-              : 'font-medium text-gray-800 hover:text-[#E30613]'
-              }`}
+            className={`w-full text-left py-2.5 px-3 rounded-md text-base transition-colors ${
+              currentPage === 'contact'
+                ? 'text-[#E30613] font-bold bg-[#E30613]/5 border-l-4 border-[#E30613]'
+                : 'font-medium text-gray-800 hover:text-[#E30613]'
+            }`}
           >
             {labels.contact}
           </button>
