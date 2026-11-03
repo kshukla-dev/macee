@@ -9,7 +9,7 @@ import { useLanguage } from '../context/LanguageContext';
 import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, options?: any) => void;
   onSelectService?: (serviceId: string) => void;
 }
 
@@ -78,66 +78,87 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
           </div>
 
           <div className="prof-what-grid">
-            {professionalsData.whatWeDo.items.map((item) => (
-              <div key={item.num} className="prof-what-card">
-                <div className="prof-what-media">
-                  <span className="prof-what-num-badge">{item.num}</span>
-                  <img
-                    src={item.image}
-                    alt={item.alt}
-                    className="prof-what-img"
-                    onError={(e) => {
-                      e.currentTarget.src = item.fallback;
-                    }}
-                  />
-                  <svg
-                    className="prof-what-wave-svg"
-                    viewBox="0 0 400 45"
-                    preserveAspectRatio="none"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0 45H400V15C310 38 180 5 0 28V45Z"
-                      fill="#ffffff"
+            {professionalsData.whatWeDo.items.map((item) => {
+              const getBranche = () => {
+                const t = item.title.toLowerCase();
+                if (t.includes('ict') || t.includes('software')) return 'ICT';
+                if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
+                if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
+                return 'ICT';
+              };
+              const targetBranche = getBranche();
+
+              return (
+                <div key={item.num} className="prof-what-card">
+                  <div className="prof-what-media">
+                    <span className="prof-what-num-badge">{item.num}</span>
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      className="prof-what-img"
+                      onError={(e) => {
+                        e.currentTarget.src = item.fallback;
+                      }}
                     />
-                  </svg>
-                  <div className="prof-what-floating-icon">
-                    {item.icon === 'Laptop' ? (
-                      <Laptop size={20} />
-                    ) : item.icon === 'Landmark' ? (
-                      <Landmark size={20} />
-                    ) : (
-                      <Database size={20} />
-                    )}
-                  </div>
-                </div>
-
-                <div className="prof-what-body">
-                  <h3 className="prof-what-title">{item.title}</h3>
-                  <span className="prof-what-title-line" />
-                  <p className="prof-what-text">{item.text}</p>
-
-                  <div className="prof-what-tags">
-                    {item.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="prof-what-tag">{tag}</span>
-                    ))}
-                  </div>
-
-                  <div className="prof-what-footer">
-                    <button
-                      onClick={() => onNavigate && onNavigate('clients')}
-                      className="prof-what-learn-btn"
+                    <svg
+                      className="prof-what-wave-svg"
+                      viewBox="0 0 400 45"
+                      preserveAspectRatio="none"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <span>Learn more</span>
-                      <span className="prof-what-btn-arrow">
-                        <ArrowRight size={14} />
-                      </span>
-                    </button>
+                      <path
+                        d="M0 45H400V15C310 38 180 5 0 28V45Z"
+                        fill="#ffffff"
+                      />
+                    </svg>
+                    <div className="prof-what-floating-icon">
+                      {item.icon === 'Laptop' ? (
+                        <Laptop size={20} />
+                      ) : item.icon === 'Landmark' ? (
+                        <Landmark size={20} />
+                      ) : (
+                        <Database size={20} />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="prof-what-body">
+                    <h3 className="prof-what-title">{item.title}</h3>
+                    <span className="prof-what-title-line" />
+                    <p className="prof-what-text">{item.text}</p>
+
+                    <div className="prof-what-tags">
+                      {item.tags.map((tag, tIdx) => (
+                        <button
+                          key={tIdx}
+                          type="button"
+                          onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
+                          className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
+                          title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="prof-what-footer">
+                      <button
+                        type="button"
+                        onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
+                        className="prof-what-learn-btn"
+                        title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
+                      >
+                        <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
+                        <span className="prof-what-btn-arrow">
+                          <ArrowRight size={14} />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -203,6 +224,25 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                   <span className="prof-ind-active-badge">Active Focus</span>
                   <h4 className="prof-ind-img-title">{activeIndustry.imgTitle}</h4>
                   <p className="prof-ind-img-desc">{activeIndustry.imgDesc}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const brancheMap: Record<string, string> = {
+                        ict: 'ICT',
+                        telecom: 'Telecom',
+                        finance: 'Banking and insurance',
+                        hightech: 'ICT',
+                        government: 'Public sector',
+                        'oil-gas': 'Energy Transition'
+                      };
+                      const b = brancheMap[activeIndustry.id] || activeIndustry.name;
+                      onNavigate && onNavigate('projects', { branche: b });
+                    }}
+                    className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#E30613] text-white text-xs font-semibold hover:bg-white hover:text-[#111827] transition-all cursor-pointer shadow"
+                  >
+                    <span>{lang === 'NL' ? `Bekijk ${activeIndustry.name} opdrachten` : `View ${activeIndustry.name} projects`}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -229,6 +269,30 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                       {isActive && <span className="prof-ind-selected-tag">Selected</span>}
                     </div>
                     <p className="prof-ind-text">{ind.text}</p>
+                    {isActive && (
+                      <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const brancheMap: Record<string, string> = {
+                              ict: 'ICT',
+                              telecom: 'Telecom',
+                              finance: 'Banking and insurance',
+                              hightech: 'ICT',
+                              government: 'Public sector',
+                              'oil-gas': 'Energy Transition'
+                            };
+                            const b = brancheMap[ind.id] || ind.name;
+                            onNavigate && onNavigate('projects', { branche: b });
+                          }}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E30613] hover:underline cursor-pointer"
+                        >
+                          <span>{lang === 'NL' ? `Bekijk opdrachten in ${ind.name}` : `View projects in ${ind.name}`}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })}

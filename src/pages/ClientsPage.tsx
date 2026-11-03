@@ -26,7 +26,7 @@ import { useLanguage } from '../context/LanguageContext';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
-  onNavigate: (page: string) => void;
+  onNavigate: (page: string, options?: any) => void;
   onSelectService?: (serviceId: string) => void;
 }
 
@@ -325,10 +325,17 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             {/* Industry quick tags */}
             <div className="clients-tags-container">
               {clientsData.industries.tags.map((ind, i) => (
-                <span key={i} className="clients-industry-tag">
-                  <Tag className="w-3 h-3 text-[#E30613] shrink-0" />
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('projects', { branche: ind })}
+                  className="clients-industry-tag cursor-pointer group hover:!border-[#E30613] hover:!text-[#E30613] transition-all"
+                  title={lang === 'NL' ? `Bekijk opdrachten in ${ind}` : `View projects in ${ind}`}
+                >
+                  <Tag className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
                   <span>{ind}</span>
-                </span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-0.5 transition-all" />
+                </button>
               ))}
             </div>
           </div>

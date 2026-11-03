@@ -55,6 +55,8 @@ function AppContent() {
   const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [projectBrancheFilter, setProjectBrancheFilter] = useState<string>('All');
+  const [projectQueryFilter, setProjectQueryFilter] = useState<string>('');
 
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -106,6 +108,15 @@ function AppContent() {
       } else if (path === '/professionals' || path === '/professionals-page' || hash === '#professionals' || hash === '#professionals-page') {
         setCurrentPage('professionals');
       } else if (path === '/projects' || path === '/assignments' || path === '/vacancies' || hash === '#projects' || hash === '#assignments') {
+        const searchParams = new URLSearchParams(window.location.search);
+        const b = searchParams.get('branche');
+        if (b) {
+          setProjectBrancheFilter(decodeURIComponent(b));
+        }
+        const q = searchParams.get('query');
+        if (q) {
+          setProjectQueryFilter(decodeURIComponent(q));
+        }
         setCurrentPage('projects');
       } else if (path === '/faq' || path === '/faqs' || path === '/faq-guides' || path === '/guides' || hash === '#faq' || hash === '#guides') {
         setCurrentPage('faq');
@@ -153,7 +164,10 @@ function AppContent() {
     return () => clearTimeout(t);
   }, [currentPage]);
 
-  const handleNavigatePage = (page: string) => {
+  const handleNavigatePage = (
+    page: string,
+    options?: { branche?: string; query?: string } | string
+  ) => {
     setIsMobileMenuOpen(false);
     setSelectedService(null);
     setSelectedResource(null);
@@ -165,6 +179,25 @@ function AppContent() {
     setIsJobalertModalOpen(false);
     document.body.style.overflow = '';
     lenisRef.current?.start();
+
+    let targetPage = page;
+    let targetBranche: string | undefined = undefined;
+    let targetQuery: string | undefined = undefined;
+
+    if (typeof options === 'object' && options !== null) {
+      if (options.branche) targetBranche = options.branche;
+      if (options.query) targetQuery = options.query;
+    } else if (typeof options === 'string' && options) {
+      targetBranche = options;
+    }
+
+    if (page.includes('?')) {
+      const [base, queryString] = page.split('?');
+      targetPage = base;
+      const params = new URLSearchParams(queryString);
+      if (params.get('branche')) targetBranche = decodeURIComponent(params.get('branche')!);
+      if (params.get('query')) targetQuery = decodeURIComponent(params.get('query')!);
+    }
 
     if (page === 'open-application' || page === 'open_application') {
       setIsOpenApplicationOpen(true);
@@ -203,9 +236,18 @@ function AppContent() {
       setCurrentPage('professionals');
       window.history.pushState(null, '', '/professionals');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'projects' || page === 'assignments' || page === 'vacancies') {
+    } else if (targetPage === 'projects' || targetPage === 'assignments' || targetPage === 'vacancies') {
+      const br = targetBranche !== undefined ? targetBranche : 'All';
+      const q = targetQuery !== undefined ? targetQuery : '';
+      setProjectBrancheFilter(br);
+      setProjectQueryFilter(q);
       setCurrentPage('projects');
-      window.history.pushState(null, '', '/projects');
+      const searchParams = new URLSearchParams();
+      if (br && br !== 'All') searchParams.set('branche', br);
+      if (q) searchParams.set('query', q);
+      const qs = searchParams.toString();
+      const newUrl = qs ? `/projects?${qs}` : '/projects';
+      window.history.pushState(null, '', newUrl);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (page === 'faq' || page === 'faqs' || page === 'faq-guides' || page === 'guides') {
       setCurrentPage('faq');
@@ -435,7 +477,12 @@ function AppContent() {
         ) : currentPage === 'professionals' ? (
           <ProfessionalsPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
         ) : currentPage === 'projects' ? (
-          <ProjectsPage onNavigate={handleNavigatePage} />
+          <ProjectsPage
+            onNavigate={handleNavigatePage}
+            initialBranche={projectBrancheFilter}
+            initialQuery={projectQueryFilter}
+            onBrancheChange={(br) => setProjectBrancheFilter(br)}
+          />
         ) : currentPage === 'faq' ? (
           <FaqPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
         ) : currentPage === 'contact' ? (
