@@ -204,68 +204,7 @@ export const PILLARS_DATA: DifferencePillar[] = [
   }
 ];
 
-export const JOBS_DATA: JobListing[] = [
-  {
-    id: 'macee-net-dev',
-    title: 'Senior .NET / Azure Cloud Developer',
-    department: 'ICT / Software Development',
-    location: 'Arnhem, Netherlands (Hybrid)',
-    type: 'Contracting / Secondment',
-    experience: '5+ Years',
-    description: 'Join an enterprise client designing resilient cloud microservices, REST APIs, and event-driven backend architectures on Microsoft Azure and .NET 8.',
-    requirements: [
-      'Extensive experience with C#, .NET Core / .NET 8, and modern ASP.NET Core',
-      'Solid background in Microsoft Azure, Docker, Kubernetes, and CI/CD automation',
-      'Strong grasp of microservices, distributed architectures, and event queues (Kafka / RabbitMQ)',
-      'Fluent in English; Dutch proficiency is a distinct advantage'
-    ]
-  },
-  {
-    id: 'macee-data-eng',
-    title: 'Lead Data Engineer & BI Specialist',
-    department: 'Banking & Fintech',
-    location: 'Amsterdam, Netherlands (Hybrid)',
-    type: 'Freelance / ZZP',
-    experience: '6+ Years',
-    description: 'Build automated high-throughput data pipelines, ETL workflows, and regulatory BI dashboards for a leading Dutch financial institution.',
-    requirements: [
-      'Proven track record with Apache Spark, Kafka, Python, and SQL data warehousing',
-      'Hands-on expertise in PowerBI, MSBI, and cloud data platforms (Azure Synapse / Snowflake)',
-      'Experience in financial risk modelling, regulatory reporting (Finrep/Corep), or KYC analytics',
-      'Registered as a self-employed professional (ZZP) with the Dutch Chamber of Commerce (KVK)'
-    ]
-  },
-  {
-    id: 'macee-sec-arch',
-    title: 'Cyber Security & IAM Specialist',
-    department: 'Government & Public Sector',
-    location: 'The Hague, Netherlands',
-    type: 'Contracting / Secondment',
-    experience: '5+ Years',
-    description: 'Support critical Dutch public sector digital transformations by engineering robust Identity & Access Management (IAM), RBAC policies, and threat defense.',
-    requirements: [
-      'Professional security certifications such as CISM, CISSP, or CISO credentials',
-      'In-depth experience in CyberArk, SailPoint, Azure AD, and privileged access governance',
-      'Strong knowledge of BIO (Baseline Informatiebeveiliging Overheid) and GDPR standards',
-      'Eligible for Dutch security screening (VGB)'
-    ]
-  },
-  {
-    id: 'macee-java-dev',
-    title: 'Senior Java / Microservices Specialist',
-    department: 'High Tech Industry',
-    location: 'Eindhoven, Netherlands',
-    type: 'HSM Visa Sponsorship Available',
-    experience: '7+ Years',
-    description: 'Develop precision control systems and distributed backend architectures in the world-renowned Brainport Eindhoven high-tech corridor.',
-    requirements: [
-      'Mastery of modern Java (17/21), Spring Boot, and reactive programming paradigms',
-      'Experience in high-throughput, low-latency, and distributed systems architecture',
-      'Eligible for fast-track Dutch Highly Skilled Migrant (HSM) visa processing sponsored by MACEE',
-      'Relocation guidance and 30% tax benefit ruling application support provided'
-    ]
-  }
-];
+export const JOBS_DATA: JobListing[] = [];
 
 export const RISK_SURVEY_QUESTIONS: RiskQuestion[] = [
   {

@@ -7,17 +7,22 @@ import {
   Send,
   CheckCircle2,
   ShieldCheck,
-  Building2,
   Globe2,
   Calendar,
-  ArrowRight,
-  UserCheck
+  AlertCircle
 } from 'lucide-react';
 import contactDataEn from '../data/contactData.json';
 import contactDataNl from '../data/contactData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CONTACT_FAQS } from '../data/pageFaqs';
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidName,
+  isValidText,
+  VALIDATION_MESSAGES
+} from '../lib/validation';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
@@ -27,17 +32,89 @@ interface ContactPageProps {
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenConsultation }) => {
   const { lang } = useLanguage();
   const contactData = lang === 'NL' ? contactDataNl : contactDataEn;
+  const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const validateField = (field: string, value: string): string => {
+    switch (field) {
+      case 'firstName':
+        if (!value.trim()) return msgs.firstNameRequired;
+        if (!isValidName(value)) return msgs.firstNameRequired;
+        return '';
+      case 'lastName':
+        if (!value.trim()) return msgs.lastNameRequired;
+        if (!isValidName(value)) return msgs.lastNameRequired;
+        return '';
+      case 'email':
+        if (!value.trim()) return msgs.emailRequired;
+        if (!isValidEmail(value)) return msgs.emailInvalid;
+        return '';
+      case 'phone':
+        if (value.trim() && !isValidPhone(value)) return msgs.phoneInvalid;
+        return '';
+      case 'message':
+        if (!value.trim()) return msgs.messageRequired;
+        if (!isValidText(value, 10)) return msgs.messageRequired;
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    if (field === 'firstName') setFirstName(value);
+    if (field === 'lastName') setLastName(value);
+    if (field === 'email') setEmail(value);
+    if (field === 'phone') setPhone(value);
+    if (field === 'message') setMessage(value);
+
+    if (touched[field]) {
+      const err = validateField(field, value);
+      setErrors((prev) => ({ ...prev, [field]: err }));
+    }
+  };
+
+  const handleFieldBlur = (field: string, value: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const err = validateField(field, value);
+    setErrors((prev) => ({ ...prev, [field]: err }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors: Record<string, string> = {
+      firstName: validateField('firstName', firstName),
+      lastName: validateField('lastName', lastName),
+      email: validateField('email', email),
+      phone: validateField('phone', phone),
+      message: validateField('message', message),
+    };
+
+    setErrors(newErrors);
+    setTouched({
+      firstName: true,
+      lastName: true,
+      email: true,
+      phone: true,
+      message: true,
+    });
+
+    const hasErrors = Object.values(newErrors).some((err) => Boolean(err));
+    if (hasErrors) {
+      return;
+    }
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -52,6 +129,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     setEmail('');
     setPhone('');
     setMessage('');
+    setErrors({});
+    setTouched({});
   };
 
   return (
@@ -177,7 +256,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                 </div>
               </div>
 
-
               {/* Map Embed Frame */}
               <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-xs h-64 bg-gray-100 relative">
                 <iframe
@@ -223,7 +301,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                         </>
                       ) : (
                         <>
-                          Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry . A dedicated Macee specialist will review your details and contact you within 24 business hours.
+                          Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry. A dedicated Macee specialist will review your details and contact you within 24 business hours.
                         </>
                       )}
                     </p>
@@ -258,7 +336,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} noValidate className="space-y-4">
                       {/* Name Row */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
@@ -267,12 +345,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                           </label>
                           <input
                             type="text"
-                            required
                             placeholder={lang === 'NL' ? 'bijv. Maarten' : 'e.g. Maarten'}
                             value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                            onChange={(e) => handleFieldChange('firstName', e.target.value)}
+                            onBlur={() => handleFieldBlur('firstName', firstName)}
+                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                              errors.firstName
+                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                : 'border-gray-300 focus:border-[#E30613]'
+                            }`}
                           />
+                          {errors.firstName && (
+                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                              <span>{errors.firstName}</span>
+                            </p>
+                          )}
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -280,12 +368,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                           </label>
                           <input
                             type="text"
-                            required
                             placeholder={lang === 'NL' ? 'bijv. de Jong' : 'e.g. de Jong'}
                             value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                            onChange={(e) => handleFieldChange('lastName', e.target.value)}
+                            onBlur={() => handleFieldBlur('lastName', lastName)}
+                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                              errors.lastName
+                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                : 'border-gray-300 focus:border-[#E30613]'
+                            }`}
                           />
+                          {errors.lastName && (
+                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                              <span>{errors.lastName}</span>
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -297,12 +395,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                           </label>
                           <input
                             type="email"
-                            required
                             placeholder={lang === 'NL' ? 'bijv. m.dejong@bedrijf.nl' : 'e.g. m.dejong@company.nl'}
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                            onChange={(e) => handleFieldChange('email', e.target.value)}
+                            onBlur={() => handleFieldBlur('email', email)}
+                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                              errors.email
+                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                : 'border-gray-300 focus:border-[#E30613]'
+                            }`}
                           />
+                          {errors.email && (
+                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                              <span>{errors.email}</span>
+                            </p>
+                          )}
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -312,9 +420,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                             type="tel"
                             placeholder="+31 6 1234 5678"
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                            onChange={(e) => handleFieldChange('phone', e.target.value)}
+                            onBlur={() => handleFieldBlur('phone', phone)}
+                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                              errors.phone
+                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                : 'border-gray-300 focus:border-[#E30613]'
+                            }`}
                           />
+                          {errors.phone && (
+                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                              <span>{errors.phone}</span>
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -324,7 +443,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                           {lang === 'NL' ? 'Uw bericht / Toelichting op uw vraag *' : 'Your Message / Description of Needs *'}
                         </label>
                         <textarea
-                          required
                           rows={4}
                           placeholder={
                             lang === 'NL'
@@ -332,9 +450,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                               : 'Please tell us about your requirements, project details, or any questions...'
                           }
                           value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                          onChange={(e) => handleFieldChange('message', e.target.value)}
+                          onBlur={() => handleFieldBlur('message', message)}
+                          className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all resize-y ${
+                            errors.message
+                              ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                              : 'border-gray-300 focus:border-[#E30613]'
+                          }`}
                         />
+                        {errors.message && (
+                          <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                            <span>{errors.message}</span>
+                          </p>
+                        )}
                       </div>
 
                       {/* Privacy Notice */}
@@ -346,10 +475,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
                       >
                         {isSubmitting ? (
-                          <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending message...'}</span>
+                          <>
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending message...'}</span>
+                          </>
                         ) : (
                           <>
                             <Send className="w-4 h-4" />
