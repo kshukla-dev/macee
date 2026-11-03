@@ -1,5 +1,22 @@
-import React from 'react';
-import { Award, Globe2, Briefcase, CheckCircle2, ChevronRight, Building2, Tag, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Award,
+  Globe2,
+  Briefcase,
+  CheckCircle2,
+  ChevronRight,
+  Building2,
+  Tag,
+  ArrowRight,
+  ShieldCheck,
+  FileCheck,
+  Clock,
+  Users,
+  Search,
+  Sparkles,
+  Layers,
+  Check
+} from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CLIENTS_FAQS } from '../data/pageFaqs';
@@ -9,13 +26,20 @@ import { useLanguage } from '../context/LanguageContext';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
-  onNavigate: (page: string) => void;
+  onNavigate: (page: string, options?: any) => void;
   onSelectService?: (serviceId: string) => void;
 }
 
 export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
   const clientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
+  const [selectedExpertiseDomain, setSelectedExpertiseDomain] = useState<string>('all');
+
+  // Filtered expertise items
+  const filteredExpertise = selectedExpertiseDomain === 'all'
+    ? clientsData.expertise.items
+    : clientsData.expertise.items.filter((item) => item.domain.toLowerCase().includes(selectedExpertiseDomain.toLowerCase()));
+
   return (
     <div className="clients-page">
       {/* 1. Header / Intro Hero Section */}
@@ -54,6 +78,51 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                   <span>{clientsData.hero.trustBadge}</span>
                 </div>
               </div>
+
+              {/* 3 Quick Hirer Trust Pills (Client Value Assurance) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 mt-6 border-t border-gray-200/80 text-left">
+                <div className="flex items-center gap-2.5 bg-white/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200/80 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[#E30613]/10 text-[#E30613] flex items-center justify-center shrink-0 font-bold text-xs">
+                    48h
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#111827]">
+                      {lang === 'NL' ? 'Snelle Shortlist SLA' : '48-72h Shortlist SLA'}
+                    </div>
+                    <div className="text-[11px] text-gray-500 font-medium">
+                      {lang === 'NL' ? 'Geverifieerde kandidaatprofielen' : 'Pre-screened candidate profiles'}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 bg-white/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200/80 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[#111827]/10 text-[#111827] flex items-center justify-center shrink-0 font-bold text-xs">
+                    <ShieldCheck className="w-4 h-4 text-[#111827]" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#111827]">
+                      {lang === 'NL' ? '100% NEN 4400-1 Vrijwaring' : '100% NEN 4400-1 Protection'}
+                    </div>
+                    <div className="text-[11px] text-gray-500 font-medium">
+                      {lang === 'NL' ? 'Geen ketenaansprakelijkheid' : 'Zero chain liability exposure'}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 bg-white/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200/80 shadow-2xs">
+                  <div className="w-8 h-8 rounded-lg bg-[#E30613]/10 text-[#E30613] flex items-center justify-center shrink-0 font-bold text-xs">
+                    <FileCheck className="w-4 h-4 text-[#E30613]" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#111827]">
+                      {lang === 'NL' ? 'Wet DBA & WAADI Compliant' : 'Wet DBA & WAADI Compliant'}
+                    </div>
+                    <div className="text-[11px] text-gray-500 font-medium">
+                      {lang === 'NL' ? 'Goedgekeurde modelovereenkomsten' : 'Approved model contracts & audit'}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Right: Desk Image with screens and keyboard */}
@@ -73,41 +142,117 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
         </div>
       </section>
 
-      {/* 2. Services Section */}
-      <section className="clients-section">
+      {/* 2. THE 4-STEP HIRER WORKFLOW (Dedicated for Clients) */}
+      <section className="clients-section-alt">
         <div className="clients-container">
           <div className="clients-section-header">
-            <h2 className="clients-section-heading">{clientsData.services.title}</h2>
+            <div className="clients-pill-badge mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
+              <span>{lang === 'NL' ? 'Onze Werkwijze' : 'How We Work'}</span>
+            </div>
+            <h2 className="clients-section-heading">
+              {lang === 'NL' ? 'In 4 Stappen naar de Juiste Specialist' : 'How We Partner With Your Organisation'}
+            </h2>
+            <div className="clients-subheading">
+              {lang === 'NL' ? 'Snel, compliant en met volledige garantie' : 'Fast, compliant, and fully guaranteed'}
+            </div>
             <p className="clients-section-desc">
-              {clientsData.services.description}
+              {lang === 'NL'
+                ? 'Van de eerste rolverkenning tot compliant contractbeheer en continue opvolging — transparant en zorgeloos.'
+                : 'From initial role intake and rapid sourcing to fully compliant contract administration and ongoing success.'}
             </p>
           </div>
 
-          <div className="clients-services-grid">
-            {clientsData.services.items.map((service) => (
-              <div
-                key={service.id}
-                onClick={() => onSelectService && onSelectService(service.id)}
-                className="clients-service-card cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group"
-                title={`Click to view detailed explanation for ${service.title}`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="clients-service-title group-hover:text-[#E30613] transition-colors">{service.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Step 1 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
+                  01
                 </div>
-                <p className="clients-service-desc">{service.description}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
-                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting' : 'View full explanation & features'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                </div>
+                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
+                  {lang === 'NL' ? 'Intake & Rolverkenning' : 'Role Intake & Scoping'}
+                </h3>
+                <p className="text-sm text-[#54595F] leading-relaxed">
+                  {lang === 'NL'
+                    ? 'Binnen 24 uur analyseren we uw technische vereisten, teamdynamiek, projectdoelstellingen en de ideale kandidaat-match.'
+                    : 'Within 24 hours, we deep-dive into your tech stack, team culture, project deliverables, and rate parameters.'}
+                </p>
               </div>
-            ))}
+              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>{lang === 'NL' ? 'Binnen 24 uur' : 'Turnaround: 24h'}</span>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
+                  02
+                </div>
+                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
+                  {lang === 'NL' ? 'Geverifieerde Shortlist' : 'Vetted Shortlist'}
+                </h3>
+                <p className="text-sm text-[#54595F] leading-relaxed">
+                  {lang === 'NL'
+                    ? 'We presenteren 2 à 3 grondig gescreende, direct inzetbare senior specialisten met geverifieerde track records.'
+                    : 'We present 2 to 3 thoroughly vetted, interview-ready senior professionals with proven project achievements.'}
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>{lang === 'NL' ? '48 – 72 uur SLA' : '48 – 72h SLA'}</span>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
+                  03
+                </div>
+                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
+                  {lang === 'NL' ? 'Compliant Onboarding' : 'Compliant Onboarding'}
+                </h3>
+                <p className="text-sm text-[#54595F] leading-relaxed">
+                  {lang === 'NL'
+                    ? 'Wij verzorgen alle overeenkomsten (detachering, ZZP of EOR), screening, WAADI-naleving en G-rekeningzekerheid.'
+                    : 'We execute DBA-proof model contracts, verify tax IDs, manage payroll, and handle G-account compliance.'}
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>{lang === 'NL' ? '100% Juridisch gedekt' : '100% Legally Audited'}</span>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
+                  04
+                </div>
+                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
+                  {lang === 'NL' ? 'Begeleiding & Garantie' : 'Support & Guarantee'}
+                </h3>
+                <p className="text-sm text-[#54595F] leading-relaxed">
+                  {lang === 'NL'
+                    ? 'Een vast aanspreekpunt, periodieke evaluaties en een no-sourcing-fee vervangingsgarantie voor maximale rust.'
+                    : 'Dedicated account manager, regular milestone reviews, and a risk-free candidate replacement guarantee.'}
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>{lang === 'NL' ? 'Vervangingsgarantie' : 'Replacement Guarantee'}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* 3. Certifications Section */}
-      <section className="clients-section-alt">
+      <section className="clients-section">
         <div className="clients-container">
           <div className="clients-section-header">
             <h2 className="clients-section-heading">{clientsData.certifications.title}</h2>
@@ -164,8 +309,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
         </div>
       </section>
 
-      {/* 4. Industries Section */}
-      <section className="clients-section">
+      {/* 4. Industries Section (Original Content Preserved) */}
+      <section className="clients-section-alt">
         <div className="clients-container">
           <div className="clients-industries-panel">
             <h2 className="clients-section-heading">{clientsData.industries.title}</h2>
@@ -180,18 +325,25 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             {/* Industry quick tags */}
             <div className="clients-tags-container">
               {clientsData.industries.tags.map((ind, i) => (
-                <span key={i} className="clients-industry-tag">
-                  <Tag className="w-3 h-3 text-[#E30613] shrink-0" />
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('projects', { branche: ind })}
+                  className="clients-industry-tag cursor-pointer group hover:!border-[#E30613] hover:!text-[#E30613] transition-all"
+                  title={lang === 'NL' ? `Bekijk opdrachten in ${ind}` : `View projects in ${ind}`}
+                >
+                  <Tag className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
                   <span>{ind}</span>
-                </span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-0.5 transition-all" />
+                </button>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Expertise Section */}
-      <section className="clients-section-alt">
+      {/* 5. Expertise Section (Original Content Preserved with Interactive Filter Pills) */}
+      <section className="clients-section">
         <div className="clients-container">
           <div className="clients-section-header clients-expertise-intro">
             <h2 className="clients-section-heading">{clientsData.expertise.title}</h2>
@@ -200,8 +352,35 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             <p className="clients-expertise-prompt">{clientsData.expertise.prompt}</p>
           </div>
 
-          <div className="clients-expertise-grid">
+          {/* Interactive Domain Filter Pills */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            <button
+              onClick={() => setSelectedExpertiseDomain('all')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
+                selectedExpertiseDomain === 'all'
+                  ? 'bg-[#111827] text-white shadow-xs'
+                  : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
+              }`}
+            >
+              {lang === 'NL' ? 'Alle Domeinen (6)' : 'All Domains (6)'}
+            </button>
             {clientsData.expertise.items.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedExpertiseDomain(item.domain)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
+                  selectedExpertiseDomain === item.domain
+                    ? 'bg-[#E30613] text-white shadow-xs'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
+                }`}
+              >
+                {item.domain}
+              </button>
+            ))}
+          </div>
+
+          <div className="clients-expertise-grid">
+            {filteredExpertise.map((item, idx) => (
               <div key={idx} className="clients-expertise-item">
                 <span className="clients-domain-badge">{item.domain}</span>
                 <p className="clients-tech-text">{item.technologies}</p>
@@ -223,7 +402,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
         background="white"
       />
 
-      {/* 7. Contact Form Section matching image */}
+      {/* 7. Contact Form Section */}
       <div id="contact-form-clients" className="clients-contact-wrapper">
         <ContactFormSection
           title={clientsData.contact.title}

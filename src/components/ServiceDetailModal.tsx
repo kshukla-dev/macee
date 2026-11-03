@@ -19,7 +19,7 @@ import { useLanguage } from '../context/LanguageContext';
 interface ServiceDetailModalProps {
   service: ServiceItem | null;
   onClose: () => void;
-  onOpenConsultation: () => void;
+  onOpenConsultation: (defaultNotes?: string) => void;
   onNavigatePage?: (page: string) => void;
 }
 
@@ -184,7 +184,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
             </div>
             <span className="inline-flex items-center gap-1 font-semibold text-[#111827] shrink-0">
               <Building2 className="w-3.5 h-3.5 text-[#E30613]" />
-              Arnhem HQ
+              Macee HQ
             </span>
           </div>
         </div>
@@ -210,8 +210,11 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
 
           <button
             onClick={() => {
+              const defaultMsg = lang === 'NL'
+                ? `Hallo, ik wil graag meer informatie over de dienst "${service.title}". Neem alstublieft contact met mij op.`
+                : `Hello, I would like to inquire about "${service.title}". Please contact me with more information.`;
               onClose();
-              onOpenConsultation();
+              onOpenConsultation(defaultMsg);
             }}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-[#E30613] hover:bg-[#111827] text-white text-sm font-semibold shadow-sm transition-all cursor-pointer"
           >

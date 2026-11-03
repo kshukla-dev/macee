@@ -75,17 +75,105 @@ export interface ProjectAssignmentItem {
 
 export const ALL_PROJECTS: ProjectAssignmentItem[] = [];
 
-interface ProjectsPageProps {
-  onNavigate: (page: string) => void;
-  initialQuery?: string;
+export function matchesProjectBranche(
+  proj: { branche?: string; category?: string; title?: string; description?: string },
+  selectedBranche: string
+): boolean {
+  if (!selectedBranche || selectedBranche === 'All') return true;
+
+  const sel = selectedBranche.toLowerCase().trim();
+  const pBr = (proj.branche || '').toLowerCase().trim();
+  const cat = (proj.category || '').toLowerCase().trim();
+  const title = (proj.title || '').toLowerCase().trim();
+  const desc = (proj.description || '').toLowerCase().trim();
+
+  if (pBr === sel || pBr.includes(sel) || sel.includes(pBr)) {
+    return true;
+  }
+  if (
+    (sel.includes('ict') || sel.includes('software') || sel === 'it') &&
+    (pBr.includes('ict') || pBr.includes('it') || pBr.includes('software') || cat.includes('it') || cat.includes('ict') || cat.includes('developer') || title.includes('developer') || title.includes('engineer') || title.includes('.net') || title.includes('java'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('public') || sel.includes('overheid') || sel.includes('publiek') || sel.includes('governm')) &&
+    (pBr.includes('public') || pBr.includes('overheid') || pBr.includes('publiek') || pBr.includes('governm') || cat.includes('public') || cat.includes('overheid') || title.includes('overheid') || title.includes('public'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('bank') || sel.includes('finan') || sel.includes('fintech') || sel.includes('insurance')) &&
+    (pBr.includes('bank') || pBr.includes('finan') || pBr.includes('insurance') || pBr.includes('fintech') || cat.includes('finance') || cat.includes('finan') || title.includes('bank') || title.includes('finance') || title.includes('risk'))
+  ) {
+    return true;
+  }
+  if (
+    sel.includes('telecom') &&
+    (pBr.includes('telecom') || cat.includes('telecom') || title.includes('telecom'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('oil') || sel.includes('gas') || sel.includes('energy')) &&
+    (pBr.includes('energy') || pBr.includes('oil') || pBr.includes('gas') || cat.includes('energy') || title.includes('energy') || title.includes('oil'))
+  ) {
+    return true;
+  }
+  if (
+    sel.includes('consult') &&
+    (pBr.includes('consult') || cat.includes('consult') || title.includes('consult'))
+  ) {
+    return true;
+  }
+  if (title.includes(sel) || desc.includes(sel)) {
+    return true;
+  }
+  return false;
 }
 
-export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQuery = '' }) => {
+interface ProjectsPageProps {
+  onNavigate: (page: string, options?: any) => void;
+  initialQuery?: string;
+  initialBranche?: string;
+  onBrancheChange?: (branche: string) => void;
+}
+
+export const ProjectsPage: React.FC<ProjectsPageProps> = ({
+  onNavigate,
+  initialQuery = '',
+  initialBranche = 'All',
+  onBrancheChange
+}) => {
   const { lang, t } = useLanguage();
   const [keyword, setKeyword] = useState(initialQuery);
   const [selectedLocation, setSelectedLocation] = useState('All');
-  const [selectedBranche, setSelectedBranche] = useState('All');
+  const [selectedBranche, setSelectedBranche] = useState(initialBranche || 'All');
   const [selectedContract, setSelectedContract] = useState('All');
+
+  useEffect(() => {
+    if (initialBranche !== undefined) {
+      setSelectedBranche(initialBranche);
+    }
+  }, [initialBranche]);
+
+  useEffect(() => {
+    if (initialQuery !== undefined) {
+      setKeyword(initialQuery);
+    }
+  }, [initialQuery]);
+
+  useEffect(() => {
+    if (initialBranche && initialBranche !== 'All') {
+      const timer = setTimeout(() => {
+        const filterEl = document.getElementById('projects-filter-bar');
+        if (filterEl) {
+          filterEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 250);
+      return () => clearTimeout(timer);
+    }
+  }, [initialBranche]);
 
   // API & Vacancies state
   const [projectsList, setProjectsList] = useState<ProjectAssignmentItem[]>(ALL_PROJECTS);
@@ -157,11 +245,15 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
   const branches = useMemo(() => {
     const brSet = new Set<string>(['All']);
+    ['ICT', 'Public sector', 'Banking and insurance', 'Telecom', 'Energy Transition'].forEach((b) => brSet.add(b));
+    if (selectedBranche && selectedBranche !== 'All') {
+      brSet.add(selectedBranche);
+    }
     projectsList.forEach((p) => {
       if (p.branche) brSet.add(p.branche);
     });
     return Array.from(brSet);
-  }, [projectsList]);
+  }, [projectsList, selectedBranche]);
 
   const contractTypes = useMemo(() => {
     const ctSet = new Set<string>(['All']);
@@ -186,9 +278,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         selectedLocation === 'All' ||
         proj.location.toLowerCase().includes(selectedLocation.toLowerCase());
 
-      const matchesBranche =
-        selectedBranche === 'All' ||
-        proj.branche.toLowerCase() === selectedBranche.toLowerCase();
+        const matchesBranche = matchesProjectBranche(proj, selectedBranche);
 
       const matchesContract =
         selectedContract === 'All' ||
@@ -309,6 +399,10 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
     setSelectedBranche('All');
     setSelectedContract('All');
     setCurrentPage(1);
+    if (onBrancheChange) {
+      onBrancheChange('All');
+    }
+    window.history.pushState(null, '', '/projects');
   };
 
   const hasActiveFilters =
@@ -373,7 +467,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Filter Container */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 mb-10">
+          <div id="projects-filter-bar" className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 mb-10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
               <div className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wider">
                 <SlidersHorizontal className="w-4 h-4 text-[#E30613]" />
@@ -441,7 +535,13 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                 </label>
                 <select
                   value={selectedBranche}
-                  onChange={(e) => setSelectedBranche(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSelectedBranche(val);
+                    if (onBrancheChange) {
+                      onBrancheChange(val);
+                    }
+                  }}
                   className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
                 >
                   {branches.map((br, i) => (
@@ -516,17 +616,33 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
               <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 p-8 shadow-xs">
                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <h3 className="text-xl font-bold font-display text-gray-900 mb-2">
-                  No matching projects found
+                  {selectedBranche !== 'All'
+                    ? (lang === 'NL' ? `Geen vacatures gevonden in ${selectedBranche}` : `No matching projects found in ${selectedBranche}`)
+                    : (lang === 'NL' ? 'Geen overeenkomende opdrachten gevonden' : 'No matching projects found')}
                 </h3>
                 <p className="text-sm text-gray-600 max-w-md mx-auto">
-                  We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.
+                  {selectedBranche !== 'All'
+                    ? (lang === 'NL'
+                      ? `Momenteel zijn er geen actieve projecten in de sector ${selectedBranche}. U kunt alle vacatures bekijken of een Job Alert instellen.`
+                      : `We currently don't have active openings in ${selectedBranche}. You can view all available roles or register a Job Alert for new matches.`)
+                    : (lang === 'NL'
+                      ? 'We hebben geen opdrachten gevonden die aan de filters voldoen. U kunt de filters wissen of een job alert aanmaken.'
+                      : "We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.")}
                 </p>
-                <button
-                  onClick={handleResetFilters}
-                  className="mt-6 px-6 py-2.5 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
-                >
-                  Reset Filters
-                </button>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    onClick={handleResetFilters}
+                    className="px-6 py-2.5 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
+                  >
+                    {lang === 'NL' ? 'Bekijk alle vacatures' : 'Reset Filters & View All'}
+                  </button>
+                  <button
+                    onClick={() => onNavigate && onNavigate('jobalert')}
+                    className="px-6 py-2.5 rounded-[5px] border border-gray-300 bg-white text-gray-700 text-sm font-semibold hover:border-[#E30613] hover:text-[#E30613] transition-colors cursor-pointer"
+                  >
+                    {lang === 'NL' ? 'Maak Job Alert' : 'Create Job Alert'}
+                  </button>
+                </div>
               </div>
             ) : (
               paginatedProjects.map((proj) => (
@@ -551,7 +667,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
                       )}
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl font-bold font-display text-gray-900 group-hover:text-[#E30613] transition-colors">
+                    <h3
+                      onClick={() => handleOpenModal(proj)}
+                      className="text-xl sm:text-2xl font-bold font-display text-gray-900 hover:text-[#E30613] cursor-pointer transition-colors inline-block"
+                      title={lang === 'NL' ? 'Klik om volledige vacaturedetails te bekijken' : 'Click to view full project details'}
+                    >
                       {proj.title}
                     </h3>
 
@@ -683,6 +803,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
 
 
 
+      {/* 5. Job Alert Banner (Positioned above FAQ as requested in Point 43) */}
+      <JobalertBanner onNavigate={onNavigate} />
+
       {/* 6. Tailored Project & Vacancy FAQs */}
       <PageFaqSection
         id="projects-faq"
@@ -695,10 +818,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate, initialQ
         background="gray"
       />
 
-      {/* 7. Job Alert Banner */}
-      <JobalertBanner onNavigate={onNavigate} />
-
-      {/* 8. Contact Form Section */}
+      {/* 7. Contact Form Section */}
       <ContactFormSection title="Have questions about our open projects?" />
     </div>
   );

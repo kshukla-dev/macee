@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
@@ -6,10 +6,13 @@ import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
 import professionalsDataEn from '../data/professionalsData.json';
 import professionalsDataNl from '../data/professionalsData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
+import { getAllJobs, getCachedJobs } from '../lib/api';
+import { isOtysConfigured } from '../lib/auth';
+import { ProjectAssignmentItem, matchesProjectBranche } from './ProjectsPage';
 import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, options?: any) => void;
   onSelectService?: (serviceId: string) => void;
 }
 
@@ -18,9 +21,59 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
   const professionalsData = lang === 'NL' ? professionalsDataNl : professionalsDataEn;
   const INDUSTRIES_DATA = professionalsData.industries.items;
   const [activeIndustryId, setActiveIndustryId] = useState<string>('ict');
+  const [vacancies, setVacancies] = useState<ProjectAssignmentItem[]>(() => getCachedJobs() || []);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadVacancies() {
+      try {
+        if (isOtysConfigured()) {
+          const jobs = await getAllJobs({ itemsPerPage: 50 });
+          if (isMounted && Array.isArray(jobs) && jobs.length > 0) {
+            setVacancies(jobs);
+          }
+        }
+      } catch (err) {
+        // Silent catch
+      }
+    }
+    loadVacancies();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const getTargetBranche = (id: string): string => {
+    switch (id) {
+      case 'ict':
+        return 'ICT';
+      case 'telecom':
+        return 'Telecom';
+      case 'finance':
+        return 'Banking and insurance';
+      case 'hightech':
+        return 'ICT';
+      case 'government':
+        return 'Public sector';
+      case 'oil-gas':
+        return 'Energy Transition';
+      default:
+        return 'ICT';
+    }
+  };
+
+  const getProjectCountForIndustry = (indId: string): number => {
+    if (!vacancies || vacancies.length === 0) {
+      return 0;
+    }
+    const targetBranche = getTargetBranche(indId);
+    return vacancies.filter((v) => matchesProjectBranche(v, targetBranche)).length;
+  };
 
   const activeIndustry =
     INDUSTRIES_DATA.find((ind) => ind.id === activeIndustryId) || INDUSTRIES_DATA[0];
+
+  const activeProjectCount = getProjectCountForIndustry(activeIndustry.id);
 
   return (
     <div className="prof-page">
@@ -39,8 +92,44 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
         </div>
       </section>
 
-      {/* 1. WHAT WE DO */}
-      <section className="prof-section prof-what-section">
+      {/* 1. WHAT CAN WE DO FOR YOU */}
+      <section className="prof-section">
+        <div className="prof-container">
+          <div className="prof-section-header">
+            <h2 className="prof-section-title">{professionalsData.whatCanWeDo.title}</h2>
+            <p className="prof-section-desc">{professionalsData.whatCanWeDo.description}</p>
+          </div>
+
+          <div className="prof-service-list">
+            {professionalsData.whatCanWeDo.services.map((svc) => (
+              <div
+                key={svc.id}
+                onClick={() => onSelectService && onSelectService(svc.id)}
+                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
+                title={`Click to view detailed explanation for ${svc.title}`}
+              >
+                {svc.tag && (
+                  <div className="prof-service-tag">
+                    <span>{svc.tag}</span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                </div>
+                <p className="prof-service-desc">{svc.description}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
+                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2. WHAT WE DO */}
+      <section className="prof-section-alt prof-what-section">
         <div className="prof-container">
           <div className="prof-what-header-wrap">
             <div className="prof-what-header-left">
@@ -78,102 +167,87 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
           </div>
 
           <div className="prof-what-grid">
-            {professionalsData.whatWeDo.items.map((item) => (
-              <div key={item.num} className="prof-what-card">
-                <div className="prof-what-media">
-                  <span className="prof-what-num-badge">{item.num}</span>
-                  <img
-                    src={item.image}
-                    alt={item.alt}
-                    className="prof-what-img"
-                    onError={(e) => {
-                      e.currentTarget.src = item.fallback;
-                    }}
-                  />
-                  <svg
-                    className="prof-what-wave-svg"
-                    viewBox="0 0 400 45"
-                    preserveAspectRatio="none"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0 45H400V15C310 38 180 5 0 28V45Z"
-                      fill="#ffffff"
+            {professionalsData.whatWeDo.items.map((item) => {
+              const getBranche = () => {
+                const t = item.title.toLowerCase();
+                if (t.includes('ict') || t.includes('software')) return 'ICT';
+                if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
+                if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
+                return 'ICT';
+              };
+              const targetBranche = getBranche();
+
+              return (
+                <div key={item.num} className="prof-what-card">
+                  <div className="prof-what-media">
+                    <span className="prof-what-num-badge">{item.num}</span>
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      className="prof-what-img"
+                      onError={(e) => {
+                        e.currentTarget.src = item.fallback;
+                      }}
                     />
-                  </svg>
-                  <div className="prof-what-floating-icon">
-                    {item.icon === 'Laptop' ? (
-                      <Laptop size={20} />
-                    ) : item.icon === 'Landmark' ? (
-                      <Landmark size={20} />
-                    ) : (
-                      <Database size={20} />
-                    )}
-                  </div>
-                </div>
-
-                <div className="prof-what-body">
-                  <h3 className="prof-what-title">{item.title}</h3>
-                  <span className="prof-what-title-line" />
-                  <p className="prof-what-text">{item.text}</p>
-
-                  <div className="prof-what-tags">
-                    {item.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="prof-what-tag">{tag}</span>
-                    ))}
-                  </div>
-
-                  <div className="prof-what-footer">
-                    <button
-                      onClick={() => onNavigate && onNavigate('clients')}
-                      className="prof-what-learn-btn"
+                    <svg
+                      className="prof-what-wave-svg"
+                      viewBox="0 0 400 45"
+                      preserveAspectRatio="none"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <span>Learn more</span>
-                      <span className="prof-what-btn-arrow">
-                        <ArrowRight size={14} />
-                      </span>
-                    </button>
+                      <path
+                        d="M0 45H400V15C310 38 180 5 0 28V45Z"
+                        fill="#ffffff"
+                      />
+                    </svg>
+                    <div className="prof-what-floating-icon">
+                      {item.icon === 'Laptop' ? (
+                        <Laptop size={20} />
+                      ) : item.icon === 'Landmark' ? (
+                        <Landmark size={20} />
+                      ) : (
+                        <Database size={20} />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="prof-what-body">
+                    <h3 className="prof-what-title">{item.title}</h3>
+                    <span className="prof-what-title-line" />
+                    <p className="prof-what-text">{item.text}</p>
+
+                    <div className="prof-what-tags">
+                      {item.tags.map((tag, tIdx) => (
+                        <button
+                          key={tIdx}
+                          type="button"
+                          onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
+                          className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
+                          title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="prof-what-footer">
+                      <button
+                        type="button"
+                        onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
+                        className="prof-what-learn-btn"
+                        title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
+                      >
+                        <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
+                        <span className="prof-what-btn-arrow">
+                          <ArrowRight size={14} />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 2. WHAT CAN WE DO FOR YOU */}
-      <section className="prof-section-alt">
-        <div className="prof-container">
-          <div className="prof-section-header">
-            <h2 className="prof-section-title">{professionalsData.whatCanWeDo.title}</h2>
-            <p className="prof-section-desc">{professionalsData.whatCanWeDo.description}</p>
-          </div>
-
-          <div className="prof-service-list">
-            {professionalsData.whatCanWeDo.services.map((svc) => (
-              <div
-                key={svc.id}
-                onClick={() => onSelectService && onSelectService(svc.id)}
-                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
-                title={`Click to view detailed explanation for ${svc.title}`}
-              >
-                {svc.tag && (
-                  <div className="prof-service-tag">
-                    <span>{svc.tag}</span>
-                  </div>
-                )}
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
-                </div>
-                <p className="prof-service-desc">{svc.description}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
-                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -199,6 +273,24 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                     e.currentTarget.src = `https://www.macee.com${activeIndustry.image}`;
                   }}
                 />
+                {/* Floating Notification Button on the Picture */}
+                <div key={`notif-${activeIndustry.id}`} className="prof-ind-floating-notification">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate && onNavigate('projects', { branche: getTargetBranche(activeIndustry.id) })}
+                    className="prof-ind-notif-btn group cursor-pointer"
+                    title={lang === 'NL' ? `Bekijk alle ${activeProjectCount} openstaande opdrachten direct` : `View all ${activeProjectCount} open projects right now`}
+                  >
+                    <span className="prof-ind-notif-count">{activeProjectCount}</span>
+                    <span className="prof-ind-notif-label">
+                      {lang === 'NL' ? 'Openstaande Opdrachten' : 'Open Projects'}
+                    </span>
+                    <span className="prof-ind-notif-arrow">
+                      <ArrowRight size={13} />
+                    </span>
+                  </button>
+                </div>
+
                 <div className="prof-ind-img-overlay">
                   <span className="prof-ind-active-badge">Active Focus</span>
                   <h4 className="prof-ind-img-title">{activeIndustry.imgTitle}</h4>
@@ -226,9 +318,33 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                   >
                     <div className="prof-ind-header-row">
                       <h3 className="prof-ind-name">{ind.name}</h3>
-                      {isActive && <span className="prof-ind-selected-tag">Selected</span>}
+                      <div className="flex items-center gap-2">
+                        <span className="prof-ind-count-badge">
+                          {getProjectCountForIndustry(ind.id)} {lang === 'NL' ? 'posities' : 'open'}
+                        </span>
+                        {isActive && <span className="prof-ind-selected-tag">Selected</span>}
+                      </div>
                     </div>
                     <p className="prof-ind-text">{ind.text}</p>
+                    {isActive && (
+                      <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onNavigate && onNavigate('projects', { branche: getTargetBranche(ind.id) });
+                          }}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E30613] hover:underline cursor-pointer"
+                        >
+                          <span>
+                            {lang === 'NL'
+                              ? `Bekijk alle ${getProjectCountForIndustry(ind.id)} opdrachten in ${ind.name}`
+                              : `View all ${getProjectCountForIndustry(ind.id)} projects in ${ind.name}`}
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })}

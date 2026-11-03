@@ -679,6 +679,165 @@
   line-height: 1.5;
 }
 
+/* Floating Notification on Picture */
+.prof-ind-floating-notification {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  animation: profNotifSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes profNotifSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.prof-ind-notif-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(17, 24, 39, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.prof-ind-notif-btn:hover {
+  background: #E30613;
+  border-color: #E30613;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(227, 6, 19, 0.45);
+}
+
+.prof-ind-notif-live {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+}
+
+.prof-ind-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: #22c55e;
+  opacity: 0.75;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.prof-ind-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #22c55e;
+}
+
+.prof-ind-notif-count {
+  background: #E30613;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.prof-ind-notif-btn:hover .prof-ind-notif-count {
+  background: #ffffff;
+  color: #E30613;
+}
+
+.prof-ind-notif-label {
+  letter-spacing: -0.01em;
+}
+
+.prof-ind-notif-arrow {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.prof-ind-notif-btn:hover .prof-ind-notif-arrow {
+  transform: translateX(3px);
+}
+
+/* Full-width CTA Button inside Overlay */
+.prof-ind-cta-button {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 18px;
+  background: #E30613;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(227, 6, 19, 0.35);
+  transition: all 0.25s ease;
+}
+
+.prof-ind-cta-button:hover {
+  background: #ffffff;
+  color: #111827;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.prof-ind-cta-pill {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.prof-ind-cta-button:hover .prof-ind-cta-pill {
+  background: #E30613;
+  color: #ffffff;
+}
+
+.prof-ind-count-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.prof-ind-item.active .prof-ind-count-badge {
+  color: #E30613;
+  background: rgba(227, 6, 19, 0.08);
+  border-color: rgba(227, 6, 19, 0.2);
+}
+
 .prof-ind-list {
   display: flex;
   flex-direction: column;
