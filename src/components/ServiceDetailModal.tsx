@@ -184,7 +184,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
             </div>
             <span className="inline-flex items-center gap-1 font-semibold text-[#111827] shrink-0">
               <Building2 className="w-3.5 h-3.5 text-[#E30613]" />
-              Arnhem HQ
+              Macee HQ
             </span>
           </div>
         </div>
