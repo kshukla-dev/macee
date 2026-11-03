@@ -79,6 +79,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
   const [servicesSlide, setServicesSlide] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const [isServicesPaused, setIsServicesPaused] = useState(false);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
@@ -482,7 +483,10 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
           <div
             className="relative -mx-3 px-1 py-4 -my-4 overflow-hidden"
             onMouseEnter={() => setIsServicesPaused(true)}
-            onMouseLeave={() => setIsServicesPaused(false)}
+            onMouseLeave={() => {
+              setIsServicesPaused(false);
+              setHoveredCardIndex(null);
+            }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -493,53 +497,84 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
                 transform: `translateX(-${servicesSlide * (100 / visibleCount)}%)`,
               }}
             >
-              {aboutData.services.items.map((svc) => (
-                <div
-                  key={svc.id}
-                  className="shrink-0 px-3 flex flex-col"
-                  style={{ width: `${100 / visibleCount}%` }}
-                >
+              {aboutData.services.items.map((svc, idx) => {
+                const centerActiveIndex = visibleCount === 3 ? servicesSlide + 1 : servicesSlide;
+                const isCardActive = hoveredCardIndex !== null ? hoveredCardIndex === idx : idx === centerActiveIndex;
+                return (
                   <div
-                    onClick={() => onSelectService && onSelectService(svc.id)}
-                    className="h-full bg-white rounded-2xl p-7 sm:p-8 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden cursor-pointer hover:border-[#E30613]/50 select-none"
+                    key={svc.id}
+                    className="shrink-0 px-3 flex flex-col"
+                    style={{ width: `${100 / visibleCount}%` }}
+                    onMouseEnter={() => setHoveredCardIndex(idx)}
+                    onMouseLeave={() => setHoveredCardIndex(null)}
                   >
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div>
-                      <div className="w-12 h-12 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center transition-colors mb-6 shadow-2xs">
-                        {svc.icon === 'Users' ? (
-                          <Users className="w-6 h-6" />
-                        ) : svc.icon === 'Briefcase' ? (
-                          <Briefcase className="w-6 h-6" />
-                        ) : svc.icon === 'UserCheck' ? (
-                          <UserCheck className="w-6 h-6" />
-                        ) : svc.icon === 'Award' ? (
-                          <Award className="w-6 h-6" />
-                        ) : svc.icon === 'FileCheck' ? (
-                          <FileCheck className="w-6 h-6" />
-                        ) : svc.icon === 'Cpu' ? (
-                          <Cpu className="w-6 h-6" />
-                        ) : (
-                          <ShieldCheck className="w-6 h-6" />
-                        )}
+                    <div
+                      onClick={() => onSelectService && onSelectService(svc.id)}
+                      className={`h-full bg-white rounded-2xl p-7 sm:p-8 border transition-all duration-300 flex flex-col justify-between relative overflow-hidden cursor-pointer select-none ${
+                        isCardActive
+                          ? 'border-[#E30613]/60 shadow-xl -translate-y-1.5'
+                          : 'border-gray-200/80 shadow-sm'
+                      }`}
+                    >
+                      <div
+                        className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] transition-opacity duration-300 ${
+                          isCardActive ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      />
+                      <div>
+                        <div
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 mb-6 shadow-2xs ${
+                            isCardActive
+                              ? 'bg-[#E30613] text-white'
+                              : 'bg-[#111827]/10 text-[#111827]'
+                          }`}
+                        >
+                          {svc.icon === 'Users' ? (
+                            <Users className="w-6 h-6" />
+                          ) : svc.icon === 'Briefcase' ? (
+                            <Briefcase className="w-6 h-6" />
+                          ) : svc.icon === 'UserCheck' ? (
+                            <UserCheck className="w-6 h-6" />
+                          ) : svc.icon === 'Award' ? (
+                            <Award className="w-6 h-6" />
+                          ) : svc.icon === 'FileCheck' ? (
+                            <FileCheck className="w-6 h-6" />
+                          ) : svc.icon === 'Cpu' ? (
+                            <Cpu className="w-6 h-6" />
+                          ) : (
+                            <ShieldCheck className="w-6 h-6" />
+                          )}
+                        </div>
+
+                        <h3
+                          className={`text-xl font-bold font-display transition-colors mb-4 line-clamp-2 ${
+                            isCardActive ? 'text-[#E30613]' : 'text-[#111827]'
+                          }`}
+                        >
+                          {svc.title}
+                        </h3>
+                        <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
+                          {svc.paragraphs.map((p, pIdx) => (
+                            <p key={pIdx} className="line-clamp-4">{p}</p>
+                          ))}
+                        </div>
                       </div>
-                      <h3 className="text-xl font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors mb-4 line-clamp-2">
-                        {svc.title}
-                      </h3>
-                      <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
-                        {svc.paragraphs.map((p, pIdx) => (
-                          <p key={pIdx} className="line-clamp-4">{p}</p>
-                        ))}
+                      <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
+                          {svc.tag}
+                        </span>
+                        <ArrowUpRight
+                          className={`w-4 h-4 transition-colors ${
+                            isCardActive
+                              ? 'text-[#E30613]'
+                              : 'text-gray-400'
+                          }`}
+                        />
                       </div>
-                    </div>
-                    <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
-                        {svc.tag}
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] transition-colors" />
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
