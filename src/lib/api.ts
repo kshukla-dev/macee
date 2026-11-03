@@ -756,10 +756,25 @@ export function mapOtysCollectionToProjects(data: any): ProjectAssignmentItem[] 
 // 5. PUBLIC API METHODS (FOR PAGES & COMPONENTS)
 // ============================================================================
 
+let memoryCachedJobs: { data: ProjectAssignmentItem[]; timestamp: number } | null = null;
+
+export function getCachedJobs(): ProjectAssignmentItem[] | null {
+  if (memoryCachedJobs && Date.now() - memoryCachedJobs.timestamp < 60000) {
+    return memoryCachedJobs.data;
+  }
+  return null;
+}
+
 /**
  * Fetches all vacancies from OTYS API and formats them for the Projects page.
  */
 export async function getAllJobs(filterParams?: VacancyFilterParams): Promise<ProjectAssignmentItem[]> {
+  const isDefaultFetch = !filterParams?.keywords && (!filterParams?.itemsPerPage || filterParams.itemsPerPage >= 50);
+  const now = Date.now();
+  if (isDefaultFetch && memoryCachedJobs && now - memoryCachedJobs.timestamp < 60000) {
+    return memoryCachedJobs.data;
+  }
+
   const endpoint = buildVacanciesUrl(filterParams);
 
   try {
@@ -775,7 +790,11 @@ export async function getAllJobs(filterParams?: VacancyFilterParams): Promise<Pr
       const numB = parseInt(b.id.replace(/\D/g, ''), 10) || 0;
       return numB - numA;
     });
-    return sorted.length > 0 ? sorted : ALL_PROJECTS;
+    const result = sorted.length > 0 ? sorted : ALL_PROJECTS;
+    if (isDefaultFetch && result.length > 0) {
+      memoryCachedJobs = { data: result, timestamp: now };
+    }
+    return result;
   } catch (error) {
     console.error('Failed to fetch vacancies, using fallback data:', error);
     return ALL_PROJECTS;

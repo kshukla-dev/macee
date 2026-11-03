@@ -75,6 +75,63 @@ export interface ProjectAssignmentItem {
 
 export const ALL_PROJECTS: ProjectAssignmentItem[] = [];
 
+export function matchesProjectBranche(
+  proj: { branche?: string; category?: string; title?: string; description?: string },
+  selectedBranche: string
+): boolean {
+  if (!selectedBranche || selectedBranche === 'All') return true;
+
+  const sel = selectedBranche.toLowerCase().trim();
+  const pBr = (proj.branche || '').toLowerCase().trim();
+  const cat = (proj.category || '').toLowerCase().trim();
+  const title = (proj.title || '').toLowerCase().trim();
+  const desc = (proj.description || '').toLowerCase().trim();
+
+  if (pBr === sel || pBr.includes(sel) || sel.includes(pBr)) {
+    return true;
+  }
+  if (
+    (sel.includes('ict') || sel.includes('software') || sel === 'it') &&
+    (pBr.includes('ict') || pBr.includes('it') || pBr.includes('software') || cat.includes('it') || cat.includes('ict') || cat.includes('developer') || title.includes('developer') || title.includes('engineer') || title.includes('.net') || title.includes('java'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('public') || sel.includes('overheid') || sel.includes('publiek') || sel.includes('governm')) &&
+    (pBr.includes('public') || pBr.includes('overheid') || pBr.includes('publiek') || pBr.includes('governm') || cat.includes('public') || cat.includes('overheid') || title.includes('overheid') || title.includes('public'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('bank') || sel.includes('finan') || sel.includes('fintech') || sel.includes('insurance')) &&
+    (pBr.includes('bank') || pBr.includes('finan') || pBr.includes('insurance') || pBr.includes('fintech') || cat.includes('finance') || cat.includes('finan') || title.includes('bank') || title.includes('finance') || title.includes('risk'))
+  ) {
+    return true;
+  }
+  if (
+    sel.includes('telecom') &&
+    (pBr.includes('telecom') || cat.includes('telecom') || title.includes('telecom'))
+  ) {
+    return true;
+  }
+  if (
+    (sel.includes('oil') || sel.includes('gas') || sel.includes('energy')) &&
+    (pBr.includes('energy') || pBr.includes('oil') || pBr.includes('gas') || cat.includes('energy') || title.includes('energy') || title.includes('oil'))
+  ) {
+    return true;
+  }
+  if (
+    sel.includes('consult') &&
+    (pBr.includes('consult') || cat.includes('consult') || title.includes('consult'))
+  ) {
+    return true;
+  }
+  if (title.includes(sel) || desc.includes(sel)) {
+    return true;
+  }
+  return false;
+}
+
 interface ProjectsPageProps {
   onNavigate: (page: string, options?: any) => void;
   initialQuery?: string;
@@ -221,52 +278,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
         selectedLocation === 'All' ||
         proj.location.toLowerCase().includes(selectedLocation.toLowerCase());
 
-      let matchesBranche = selectedBranche === 'All';
-      if (!matchesBranche) {
-        const sel = selectedBranche.toLowerCase().trim();
-        const pBr = (proj.branche || '').toLowerCase().trim();
-        const cat = (proj.category || '').toLowerCase().trim();
-        const title = (proj.title || '').toLowerCase().trim();
-        const desc = (proj.description || '').toLowerCase().trim();
-
-        if (pBr === sel || pBr.includes(sel) || sel.includes(pBr)) {
-          matchesBranche = true;
-        } else if (
-          (sel.includes('ict') || sel.includes('software') || sel.includes('it')) &&
-          (pBr.includes('ict') || pBr.includes('it') || pBr.includes('software') || cat.includes('it') || cat.includes('ict') || cat.includes('developer') || title.includes('developer') || title.includes('engineer') || title.includes('.net') || title.includes('java'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          (sel.includes('public') || sel.includes('overheid') || sel.includes('publiek') || sel.includes('governm')) &&
-          (pBr.includes('public') || pBr.includes('overheid') || pBr.includes('publiek') || pBr.includes('governm') || cat.includes('public') || cat.includes('overheid') || title.includes('overheid') || title.includes('public'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          (sel.includes('bank') || sel.includes('finan') || sel.includes('fintech') || sel.includes('insurance')) &&
-          (pBr.includes('bank') || pBr.includes('finan') || pBr.includes('insurance') || pBr.includes('fintech') || cat.includes('finance') || cat.includes('finan') || title.includes('bank') || title.includes('finance') || title.includes('risk'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          sel.includes('telecom') &&
-          (pBr.includes('telecom') || cat.includes('telecom') || title.includes('telecom'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          (sel.includes('oil') || sel.includes('gas') || sel.includes('energy')) &&
-          (pBr.includes('energy') || pBr.includes('oil') || pBr.includes('gas') || cat.includes('energy') || title.includes('energy') || title.includes('oil'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          sel.includes('consult') &&
-          (pBr.includes('consult') || cat.includes('consult') || title.includes('consult'))
-        ) {
-          matchesBranche = true;
-        } else if (
-          title.includes(sel) || desc.includes(sel)
-        ) {
-          matchesBranche = true;
-        }
-      }
+        const matchesBranche = matchesProjectBranche(proj, selectedBranche);
 
       const matchesContract =
         selectedContract === 'All' ||
@@ -611,11 +623,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
                 <p className="text-sm text-gray-600 max-w-md mx-auto">
                   {selectedBranche !== 'All'
                     ? (lang === 'NL'
-                        ? `Momenteel zijn er geen actieve projecten in de sector ${selectedBranche}. U kunt alle vacatures bekijken of een Job Alert instellen.`
-                        : `We currently don't have active openings in ${selectedBranche}. You can view all available roles or register a Job Alert for new matches.`)
+                      ? `Momenteel zijn er geen actieve projecten in de sector ${selectedBranche}. U kunt alle vacatures bekijken of een Job Alert instellen.`
+                      : `We currently don't have active openings in ${selectedBranche}. You can view all available roles or register a Job Alert for new matches.`)
                     : (lang === 'NL'
-                        ? 'We hebben geen opdrachten gevonden die aan de filters voldoen. U kunt de filters wissen of een job alert aanmaken.'
-                        : "We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.")}
+                      ? 'We hebben geen opdrachten gevonden die aan de filters voldoen. U kunt de filters wissen of een job alert aanmaken.'
+                      : "We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.")}
                 </p>
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                   <button

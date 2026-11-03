@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
@@ -6,6 +6,9 @@ import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
 import professionalsDataEn from '../data/professionalsData.json';
 import professionalsDataNl from '../data/professionalsData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
+import { getAllJobs, getCachedJobs } from '../lib/api';
+import { isOtysConfigured } from '../lib/auth';
+import { ProjectAssignmentItem, matchesProjectBranche } from './ProjectsPage';
 import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
@@ -18,9 +21,59 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
   const professionalsData = lang === 'NL' ? professionalsDataNl : professionalsDataEn;
   const INDUSTRIES_DATA = professionalsData.industries.items;
   const [activeIndustryId, setActiveIndustryId] = useState<string>('ict');
+  const [vacancies, setVacancies] = useState<ProjectAssignmentItem[]>(() => getCachedJobs() || []);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadVacancies() {
+      try {
+        if (isOtysConfigured()) {
+          const jobs = await getAllJobs({ itemsPerPage: 50 });
+          if (isMounted && Array.isArray(jobs) && jobs.length > 0) {
+            setVacancies(jobs);
+          }
+        }
+      } catch (err) {
+        // Silent catch
+      }
+    }
+    loadVacancies();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const getTargetBranche = (id: string): string => {
+    switch (id) {
+      case 'ict':
+        return 'ICT';
+      case 'telecom':
+        return 'Telecom';
+      case 'finance':
+        return 'Banking and insurance';
+      case 'hightech':
+        return 'ICT';
+      case 'government':
+        return 'Public sector';
+      case 'oil-gas':
+        return 'Energy Transition';
+      default:
+        return 'ICT';
+    }
+  };
+
+  const getProjectCountForIndustry = (indId: string): number => {
+    if (!vacancies || vacancies.length === 0) {
+      return 0;
+    }
+    const targetBranche = getTargetBranche(indId);
+    return vacancies.filter((v) => matchesProjectBranche(v, targetBranche)).length;
+  };
 
   const activeIndustry =
     INDUSTRIES_DATA.find((ind) => ind.id === activeIndustryId) || INDUSTRIES_DATA[0];
+
+  const activeProjectCount = getProjectCountForIndustry(activeIndustry.id);
 
   return (
     <div className="prof-page">
@@ -220,29 +273,28 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                     e.currentTarget.src = `https://www.macee.com${activeIndustry.image}`;
                   }}
                 />
+                {/* Floating Notification Button on the Picture */}
+                <div key={`notif-${activeIndustry.id}`} className="prof-ind-floating-notification">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate && onNavigate('projects', { branche: getTargetBranche(activeIndustry.id) })}
+                    className="prof-ind-notif-btn group cursor-pointer"
+                    title={lang === 'NL' ? `Bekijk alle ${activeProjectCount} openstaande opdrachten direct` : `View all ${activeProjectCount} open projects right now`}
+                  >
+                    <span className="prof-ind-notif-count">{activeProjectCount}</span>
+                    <span className="prof-ind-notif-label">
+                      {lang === 'NL' ? 'Openstaande Opdrachten' : 'Open Projects'}
+                    </span>
+                    <span className="prof-ind-notif-arrow">
+                      <ArrowRight size={13} />
+                    </span>
+                  </button>
+                </div>
+
                 <div className="prof-ind-img-overlay">
                   <span className="prof-ind-active-badge">Active Focus</span>
                   <h4 className="prof-ind-img-title">{activeIndustry.imgTitle}</h4>
                   <p className="prof-ind-img-desc">{activeIndustry.imgDesc}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const brancheMap: Record<string, string> = {
-                        ict: 'ICT',
-                        telecom: 'Telecom',
-                        finance: 'Banking and insurance',
-                        hightech: 'ICT',
-                        government: 'Public sector',
-                        'oil-gas': 'Energy Transition'
-                      };
-                      const b = brancheMap[activeIndustry.id] || activeIndustry.name;
-                      onNavigate && onNavigate('projects', { branche: b });
-                    }}
-                    className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#E30613] text-white text-xs font-semibold hover:bg-white hover:text-[#111827] transition-all cursor-pointer shadow"
-                  >
-                    <span>{lang === 'NL' ? `Bekijk ${activeIndustry.name} opdrachten` : `View ${activeIndustry.name} projects`}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
                 </div>
               </div>
             </div>
@@ -266,7 +318,12 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                   >
                     <div className="prof-ind-header-row">
                       <h3 className="prof-ind-name">{ind.name}</h3>
-                      {isActive && <span className="prof-ind-selected-tag">Selected</span>}
+                      <div className="flex items-center gap-2">
+                        <span className="prof-ind-count-badge">
+                          {getProjectCountForIndustry(ind.id)} {lang === 'NL' ? 'posities' : 'open'}
+                        </span>
+                        {isActive && <span className="prof-ind-selected-tag">Selected</span>}
+                      </div>
                     </div>
                     <p className="prof-ind-text">{ind.text}</p>
                     {isActive && (
@@ -275,20 +332,15 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            const brancheMap: Record<string, string> = {
-                              ict: 'ICT',
-                              telecom: 'Telecom',
-                              finance: 'Banking and insurance',
-                              hightech: 'ICT',
-                              government: 'Public sector',
-                              'oil-gas': 'Energy Transition'
-                            };
-                            const b = brancheMap[ind.id] || ind.name;
-                            onNavigate && onNavigate('projects', { branche: b });
+                            onNavigate && onNavigate('projects', { branche: getTargetBranche(ind.id) });
                           }}
                           className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E30613] hover:underline cursor-pointer"
                         >
-                          <span>{lang === 'NL' ? `Bekijk opdrachten in ${ind.name}` : `View projects in ${ind.name}`}</span>
+                          <span>
+                            {lang === 'NL'
+                              ? `Bekijk alle ${getProjectCountForIndustry(ind.id)} opdrachten in ${ind.name}`
+                              : `View all ${getProjectCountForIndustry(ind.id)} projects in ${ind.name}`}
+                          </span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
