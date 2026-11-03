@@ -5,19 +5,30 @@ import { useLanguage } from '../context/LanguageContext';
 interface ConsultationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialNotes?: string;
 }
 
-export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, onClose }) => {
+export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, onClose, initialNotes = '' }) => {
   const { lang } = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     workEmail: '',
     phoneNumber: '',
-        notes: ''
+    notes: initialNotes || ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Sync initialNotes whenever modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData((prev) => ({
+        ...prev,
+        notes: initialNotes || ''
+      }));
+    }
+  }, [isOpen, initialNotes]);
 
   // Close on Escape key press
   useEffect(() => {

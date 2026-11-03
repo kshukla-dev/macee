@@ -46,6 +46,7 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState<PageRoute>('home');
   const { lang, setLang } = useLanguage();
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const [consultationNotes, setConsultationNotes] = useState('');
   const [isRiskSurveyOpen, setIsRiskSurveyOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
   const [isOpenApplicationOpen, setIsOpenApplicationOpen] = useState(false);
@@ -504,7 +505,11 @@ function AppContent() {
       {/* Interactive Modals */}
       <ConsultationModal
         isOpen={isConsultationOpen}
-        onClose={() => setIsConsultationOpen(false)}
+        onClose={() => {
+          setIsConsultationOpen(false);
+          setConsultationNotes('');
+        }}
+        initialNotes={consultationNotes}
       />
 
       <HRRiskSurveyModal
@@ -552,8 +557,9 @@ function AppContent() {
       <ServiceDetailModal
         service={selectedService}
         onClose={() => setSelectedService(null)}
-        onOpenConsultation={() => {
+        onOpenConsultation={(defaultNotes) => {
           setSelectedService(null);
+          setConsultationNotes(defaultNotes || '');
           setIsConsultationOpen(true);
         }}
         onNavigatePage={(page) => {
