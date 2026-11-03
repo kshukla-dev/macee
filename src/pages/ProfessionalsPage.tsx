@@ -39,8 +39,44 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
         </div>
       </section>
 
-      {/* 1. WHAT WE DO */}
-      <section className="prof-section prof-what-section">
+      {/* 1. WHAT CAN WE DO FOR YOU */}
+      <section className="prof-section">
+        <div className="prof-container">
+          <div className="prof-section-header">
+            <h2 className="prof-section-title">{professionalsData.whatCanWeDo.title}</h2>
+            <p className="prof-section-desc">{professionalsData.whatCanWeDo.description}</p>
+          </div>
+
+          <div className="prof-service-list">
+            {professionalsData.whatCanWeDo.services.map((svc) => (
+              <div
+                key={svc.id}
+                onClick={() => onSelectService && onSelectService(svc.id)}
+                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
+                title={`Click to view detailed explanation for ${svc.title}`}
+              >
+                {svc.tag && (
+                  <div className="prof-service-tag">
+                    <span>{svc.tag}</span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                </div>
+                <p className="prof-service-desc">{svc.description}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
+                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2. WHAT WE DO */}
+      <section className="prof-section-alt prof-what-section">
         <div className="prof-container">
           <div className="prof-what-header-wrap">
             <div className="prof-what-header-left">
@@ -159,42 +195,6 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* 2. WHAT CAN WE DO FOR YOU */}
-      <section className="prof-section-alt">
-        <div className="prof-container">
-          <div className="prof-section-header">
-            <h2 className="prof-section-title">{professionalsData.whatCanWeDo.title}</h2>
-            <p className="prof-section-desc">{professionalsData.whatCanWeDo.description}</p>
-          </div>
-
-          <div className="prof-service-list">
-            {professionalsData.whatCanWeDo.services.map((svc) => (
-              <div
-                key={svc.id}
-                onClick={() => onSelectService && onSelectService(svc.id)}
-                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
-                title={`Click to view detailed explanation for ${svc.title}`}
-              >
-                {svc.tag && (
-                  <div className="prof-service-tag">
-                    <span>{svc.tag}</span>
-                  </div>
-                )}
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
-                </div>
-                <p className="prof-service-desc">{svc.description}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
-                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
