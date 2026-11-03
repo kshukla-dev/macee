@@ -185,11 +185,7 @@ export const Header: React.FC<HeaderProps> = ({
             <span>{labels.projects}</span>
             {vacancyCount > 0 && (
               <span
-                className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full transition-all duration-200 ${
-                  currentPage === 'projects'
-                    ? 'bg-[#E30613] text-white shadow-xs'
-                    : 'bg-[#E30613]/10 text-[#E30613] hover:bg-[#E30613] hover:text-white'
-                }`}
+                className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full bg-[#E30613] text-white shadow-[0_2px_8px_rgba(227,6,19,0.35)] transition-all duration-200"
                 title={`${vacancyCount} ${currentLang === 'NL' ? 'openstaande vacatures' : 'open vacancies'}`}
               >
                 {vacancyCount}

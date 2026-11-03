@@ -181,7 +181,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             <span>{labels.projects}</span>
             {vacancyCount > 0 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold rounded-full bg-[#E30613] text-white">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold rounded-full bg-[#E30613] text-white shadow-[0_2px_8px_rgba(227,6,19,0.35)]">
                 <span>{vacancyCount}</span>
                 <span className="text-[10px] font-medium opacity-90">
                   {currentLang === 'NL' ? 'vacatures' : 'roles'}
