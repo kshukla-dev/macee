@@ -667,7 +667,11 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
                       )}
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl font-bold font-display text-gray-900 group-hover:text-[#E30613] transition-colors">
+                    <h3
+                      onClick={() => handleOpenModal(proj)}
+                      className="text-xl sm:text-2xl font-bold font-display text-gray-900 hover:text-[#E30613] cursor-pointer transition-colors inline-block"
+                      title={lang === 'NL' ? 'Klik om volledige vacaturedetails te bekijken' : 'Click to view full project details'}
+                    >
                       {proj.title}
                     </h3>
 
@@ -799,6 +803,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
 
 
 
+      {/* 5. Job Alert Banner (Positioned above FAQ as requested in Point 43) */}
+      <JobalertBanner onNavigate={onNavigate} />
+
       {/* 6. Tailored Project & Vacancy FAQs */}
       <PageFaqSection
         id="projects-faq"
@@ -811,10 +818,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
         background="gray"
       />
 
-      {/* 7. Job Alert Banner */}
-      <JobalertBanner onNavigate={onNavigate} />
-
-      {/* 8. Contact Form Section */}
+      {/* 7. Contact Form Section */}
       <ContactFormSection title="Have questions about our open projects?" />
     </div>
   );
