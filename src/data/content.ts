@@ -337,13 +337,13 @@ export const FAQ_DATA: FaqItem[] = [
     id: 'faq-3',
     category: 'What does MACEE do',
     question: 'Why do business with MACEE?',
-    answer: 'We have a solution for almost every situation, backed by more than 30 years of combined experience in contracting and recruitment. We are SNA / NEN 4400-1 certified and an official IND Recognised Sponsor, providing full compliance, convenience, and complete peace of mind.'
+    answer: 'We have a solution for almost every situation, backed by more than 30 years of combined experience in contracting and recruitment. We are SNA / NEN 4400-1 certified, providing full compliance, convenience, and complete peace of mind.'
   },
   {
     id: 'faq-4',
     category: 'Services and Contract options',
     question: 'What kind of services can MACEE provide?',
-    answer: 'MACEE provides Recruitment & Staffing for temporary and permanent positions, Contract Administration, Payroll and Secondment, Compliancy and Legal support, assistance with the Dutch 30% tax benefit ruling, and visa applications for international specialists and their families.'
+    answer: 'MACEE provides Recruitment & Staffing for temporary and permanent positions, Contract Administration, Payroll and Secondment, Compliancy and Legal support, assistance with the Dutch 30% tax benefit ruling, and onboarding guidance for international specialists.'
   },
   {
     id: 'faq-5',
@@ -354,8 +354,8 @@ export const FAQ_DATA: FaqItem[] = [
   {
     id: 'faq-6',
     category: 'Services and Contract options',
-    question: 'Can MACEE sponsor my work Visa?',
-    answer: 'Yes! We can be your sponsor for your work Visa when you have a project with a client. MACEE is an official IND (Immigration and Naturalisation Service) registered sponsor, enabling fast-track Highly-Skilled Migrant (HSM) visa processing for you and your family.'
+    question: 'How does MACEE guarantee compliance with Dutch labor regulations?',
+    answer: 'MACEE is fully SNA / NEN 4400-1 certified and strictly adheres to Dutch WAADI and Wet DBA regulations. We utilize verified model agreements, maintain a dedicated G-account for payroll taxes, and provide full indemnity against chain liability.'
   },
   {
     id: 'faq-7',

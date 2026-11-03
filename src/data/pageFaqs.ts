@@ -13,8 +13,8 @@ export const HOME_FAQS: FaqItem[] = [
   {
     question: 'How does Macee guarantee 100% compliance with Dutch labor regulations?',
     answer:
-      'Macee is SNA NEN 4400-1 certified and an official IND Recognised Sponsor. We strictly adhere to the Dutch WAADI legislation, DBA regulations (mitigating bogus self-employment / schijnzelfstandigheid), and operate a verified G-account for transparent payroll taxes and social security contributions.',
-    tag: 'SNA NEN 4400-1 & IND Certified',
+      'Macee is SNA NEN 4400-1 certified. We strictly adhere to the Dutch WAADI legislation, DBA regulations (mitigating bogus self-employment / schijnzelfstandigheid), and operate a verified G-account for transparent payroll taxes and social security contributions.',
+    tag: 'SNA NEN 4400-1 Certified',
   },
   {
     question: 'What contract models does Macee offer?',
@@ -29,10 +29,10 @@ export const HOME_FAQS: FaqItem[] = [
     tag: 'Specialized Domain Verticals',
   },
   {
-    question: 'Can Macee recruit and sponsor international talent from outside the EU?',
+    question: 'How quickly can Macee deploy qualified professionals to a project?',
     answer:
-      'Yes. As an official IND Recognised Sponsor in the Netherlands, Macee fast-tracks work permits, Highly Skilled Migrant (Kennismigrant) visas, and partner/family reunification visas with accelerated turnaround.',
-    tag: 'Global Mobility & IND Sponsorship',
+      'For high-demand roles across IT, Data, Cybersecurity, and Financial Risk, our pre-screened specialist network enables us to introduce verified candidate shortlists within 48 to 72 hours, with rapid contract execution.',
+    tag: 'Rapid 48-72h Deployment',
   },
 ];
 
@@ -107,10 +107,10 @@ export const CLIENTS_FAQS: FaqItem[] = [
 // ============================================================================
 export const PROFESSIONALS_FAQS: FaqItem[] = [
   {
-    question: 'Can Macee sponsor my Dutch residence and Highly Skilled Migrant work permit?',
+    question: 'What onboarding and relocation support does Macee offer to professionals?',
     answer:
-      'Yes. Macee is an officially registered IND Recognised Sponsor (Erkend Referent). If you are selected for a qualified assignment, we submit and manage your Highly Skilled Migrant visa application, typically finalized within 2 to 4 weeks.',
-    tag: 'Official IND Visa Sponsorship',
+      'Macee provides end-to-end guidance for specialists joining Dutch projects, including 30% tax ruling application support, Dutch municipal registration (BSN) guidance, and transparent contract onboarding.',
+    tag: 'Onboarding & Relocation Guidance',
   },
   {
     question: 'Does Macee support applications for the 30% Tax Ruling (30%-regeling)?',
@@ -121,8 +121,8 @@ export const PROFESSIONALS_FAQS: FaqItem[] = [
   {
     question: 'Can my spouse and dependent children move to the Netherlands with me?',
     answer:
-      'Yes. As an IND sponsor, Macee coordinates dependent family residence permits simultaneously with your main application, allowing your partner to also work freely in the Netherlands without separate work permit restrictions.',
-    tag: 'Family Relocation Permits',
+      'Yes. For international professionals relocating for long-term project engagements, Macee assists with family settling-in guidance, schooling information, and practical local logistics in the Netherlands.',
+    tag: 'Family Relocation Assistance',
   },
   {
     question: 'What contract options are available for professionals working through Macee?',

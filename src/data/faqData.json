@@ -3,7 +3,7 @@
     "badge": "Knowledge Base & Regulatory Blueprints",
     "titlePrefix": "FAQ &",
     "titleHighlight": "Knowledge Base",
-    "description": "Frequently asked questions about MACEE services, contracting, and IND visa sponsorships."
+    "description": "Frequently asked questions about MACEE services, contracting, compliance, and recruitment."
   },
   "categories": [
     {
@@ -18,7 +18,7 @@
       "title": "Services and Contract options",
       "image": "/uploads/Software-Development-2.jpg",
       "count": 3,
-      "desc": "Secondment, ZZP, IND visa sponsorships, and 30% tax benefit"
+      "desc": "Secondment, ZZP contracting, compliance, and 30% tax benefit"
     },
     {
       "id": 3,
@@ -58,7 +58,7 @@
       "categoryId": 2,
       "categoryName": "Services and Contract options",
       "question": "What kind of services can MACEE provide ?",
-      "answer": "• Helping with the application for the 30% tax benefit ruling\n• Visa application for partner and children\n• Recruitment for temporary projects and permanent positions",
+      "answer": "• Relocation guidance for international specialists\n• Helping with the application for the 30% tax benefit ruling\n• Recruitment for temporary projects and permanent positions",
       "date": "February 6, 2026"
     },
     {
@@ -73,8 +73,8 @@
       "id": "faq-2-3",
       "categoryId": 2,
       "categoryName": "Services and Contract options",
-      "question": "Can MACEE sponsor my work Visa ?",
-      "answer": "Yes, we can be your sponsor for your work Visa when you have a project with a client. MACEE is an official IND registered company.",
+      "question": "How does MACEE guarantee compliance with Dutch labor regulations ?",
+      "answer": "MACEE is fully SNA NEN 4400-1 certified and operates strictly within Dutch WAADI and Wet DBA regulations. We utilize verified model agreements, maintain a dedicated G-account for payroll taxes, and provide full indemnity against chain liability.",
       "date": "February 6, 2026"
     },
     {

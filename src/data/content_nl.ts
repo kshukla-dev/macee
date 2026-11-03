@@ -210,8 +210,8 @@ export const FAQ_DATA_NL: FaqItem[] = [
   {
     id: 'faq-nl-4',
     category: 'Diensten en Contracten',
-    question: 'Kan MACEE een werkvisum sponsoren?',
-    answer: 'Ja, als officieel IND Erkend Referent verzorgen wij de visumsponsoring voor kennismigranten van buiten de EU, inclusief partner- en gezinsaanvragen en ondersteuning bij de 30%-regeling.'
+    question: 'Hoe waarborgt MACEE compliance met de Nederlandse arbeidswetgeving?',
+    answer: 'MACEE is SNA / NEN 4400-1 gecertificeerd en werkt volledig conform de WAADI- en Wet DBA-richtlijnen. Wij hanteren goedgekeurde modelovereenkomsten, een geverifieerde G-rekening voor loonheffingen en vrijwaren onze opdrachtgevers van inlenersaansprakelijkheid.'
   }
 ];
 

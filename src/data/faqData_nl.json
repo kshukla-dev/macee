@@ -3,7 +3,7 @@
     "badge": "Kennisbank & Regelgeving",
     "titlePrefix": "Veelgestelde",
     "titleHighlight": "Vragen (FAQ)",
-    "description": "Antwoorden op veelgestelde vragen over de diensten van MACEE, contractvormen en IND visumsponsoring."
+    "description": "Antwoorden op veelgestelde vragen over de diensten van MACEE, contractvormen en compliance."
   },
   "categories": [
     {
@@ -18,7 +18,7 @@
       "title": "Diensten en Contracten",
       "image": "/uploads/Software-Development-2.jpg",
       "count": 3,
-      "desc": "Detachering, ZZP, IND visumsponsoring en 30%-belastingregeling"
+      "desc": "Detachering, ZZP bemiddeling, compliance en 30%-belastingregeling"
     },
     {
       "id": 3,
@@ -58,7 +58,7 @@
       "categoryId": 2,
       "categoryName": "Diensten en Contracten",
       "question": "Welke aanvullende diensten kan MACEE verzorgen?",
-      "answer": "• Ondersteuning bij de aanvraag van de 30%-belastingregeling\n• Visumaanvragen voor partner en gezinsleden\n• Werving & selectie voor tijdelijke projecten en vaste functies",
+      "answer": "• Begeleiding van internationale specialisten bij relocatie\n• Ondersteuning bij de aanvraag van de 30%-belastingregeling\n• Werving & selectie voor tijdelijke projecten en vaste functies",
       "date": "6 februari 2026"
     },
     {
@@ -73,8 +73,8 @@
       "id": "faq-2-3",
       "categoryId": 2,
       "categoryName": "Diensten en Contracten",
-      "question": "Kan MACEE mijn werkvisum sponsoren?",
-      "answer": "Ja! Wij treden op als uw erkend sponsor voor uw werkvisum wanneer u een project uitvoert bij een opdrachtgever. MACEE is officieel geregistreerd als Erkend Referent bij de Immigratie- en Naturalisatiedienst (IND).",
+      "question": "Hoe waarborgt MACEE compliance met de Nederlandse arbeidswetgeving?",
+      "answer": "MACEE is SNA NEN 4400-1 gecertificeerd en werkt volledig conform de WAADI- en Wet DBA-wetgeving. Wij maken gebruik van goedgekeurde modelovereenkomsten, beschikken over een geverifieerde G-rekening voor loonheffingen en vrijwaren onze opdrachtgevers van inleners- en ketenaansprakelijkheid.",
       "date": "6 februari 2026"
     },
     {
