@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { X, Tag, Calendar, Mail, CheckCircle2, Loader2, Plus, Minus } from 'lucide-react';
+import { X, Tag, Calendar, Mail, CheckCircle2, Loader2, Plus, Minus, AlertCircle } from 'lucide-react';
 import { submitJobAlertForm } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
 import { useLanguage } from '../context/LanguageContext';
+import { isValidEmail, VALIDATION_MESSAGES } from '../lib/validation';
 
 interface CreateJobalertModalProps {
   isOpen: boolean;
@@ -87,8 +88,13 @@ export const CreateJobalertModal: React.FC<CreateJobalertModalProps> = ({
     e.preventDefault();
     setErrorMessage('');
 
-    if (!email || !email.includes('@')) {
-      setErrorMessage('Please provide a valid email address.');
+    const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
+    if (!email.trim()) {
+      setErrorMessage(msgs.emailRequired);
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setErrorMessage(msgs.emailInvalid);
       return;
     }
 

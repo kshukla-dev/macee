@@ -24,6 +24,13 @@ import { isOtysConfigured } from '../lib/auth';
 import { useLanguage } from '../context/LanguageContext';
 import { ProjectAssignmentItem } from '../pages/ProjectsPage';
 import { JobListing } from '../types';
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidName,
+  validateCvFile,
+  VALIDATION_MESSAGES
+} from '../lib/validation';
 
 export interface ProjectDetailModalProps {
   project: ProjectAssignmentItem | JobListing | null;
@@ -46,9 +53,67 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
   const [applicantRate, setApplicantRate] = useState('');
   const [applicantNote, setApplicantNote] = useState('');
   const [applicantFile, setApplicantFile] = useState<File | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
   const [applyError, setApplyError] = useState('');
+
+  const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
+
+  const validateField = (field: string, value: string): string => {
+    switch (field) {
+      case 'applicantName':
+        if (!value.trim()) return msgs.fullNameRequired;
+        if (!isValidName(value)) return msgs.fullNameRequired;
+        return '';
+      case 'applicantEmail':
+        if (!value.trim()) return msgs.emailRequired;
+        if (!isValidEmail(value)) return msgs.emailInvalid;
+        return '';
+      case 'applicantPhone':
+        if (!value.trim()) return msgs.phoneInvalid;
+        if (!isValidPhone(value)) return msgs.phoneInvalid;
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    if (field === 'applicantName') setApplicantName(value);
+    if (field === 'applicantEmail') setApplicantEmail(value);
+    if (field === 'applicantPhone') setApplicantPhone(value);
+    if (field === 'applicantRate') setApplicantRate(value);
+    if (field === 'applicantNote') setApplicantNote(value);
+
+    if (touched[field]) {
+      const err = validateField(field, value);
+      setFieldErrors((prev) => ({ ...prev, [field]: err }));
+    }
+  };
+
+  const handleFieldBlur = (field: string, value: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const err = validateField(field, value);
+    setFieldErrors((prev) => ({ ...prev, [field]: err }));
+  };
+
+  const handleFileChange = (file: File | null) => {
+    if (!file) {
+      setApplicantFile(null);
+      setFieldErrors((prev) => ({ ...prev, applicantFile: '' }));
+      return;
+    }
+    const check = validateCvFile(file, lang);
+    if (!check.valid) {
+      setFieldErrors((prev) => ({ ...prev, applicantFile: check.error || '' }));
+      setApplicantFile(null);
+    } else {
+      setFieldErrors((prev) => ({ ...prev, applicantFile: '' }));
+      setApplicantFile(file);
+    }
+  };
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -126,6 +191,32 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
   const handleApplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!activeProject) return;
+
+    const newErrors: Record<string, string> = {
+      applicantName: validateField('applicantName', applicantName),
+      applicantEmail: validateField('applicantEmail', applicantEmail),
+      applicantPhone: validateField('applicantPhone', applicantPhone),
+    };
+
+    if (applicantFile) {
+      const fileCheck = validateCvFile(applicantFile, lang);
+      if (!fileCheck.valid) {
+        newErrors.applicantFile = fileCheck.error || '';
+      }
+    }
+
+    setFieldErrors(newErrors);
+    setTouched({
+      applicantName: true,
+      applicantEmail: true,
+      applicantPhone: true,
+      applicantFile: true,
+    });
+
+    const hasErrors = Object.values(newErrors).some((err) => Boolean(err));
+    if (hasErrors) {
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitMessage('');
@@ -487,7 +578,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                   <span>{lang === 'NL' ? 'Direct Solliciteren' : 'Direct Application Form'}</span>
                 </h4>
 
-                <form onSubmit={handleApplySubmit} className="space-y-4">
+                <form onSubmit={handleApplySubmit} noValidate className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -495,12 +586,22 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                       </label>
                       <input
                         type="text"
-                        required
                         placeholder="e.g. Robin van Dijk"
                         value={applicantName}
-                        onChange={(e) => setApplicantName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                        onChange={(e) => handleFieldChange('applicantName', e.target.value)}
+                        onBlur={() => handleFieldBlur('applicantName', applicantName)}
+                        className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                          fieldErrors.applicantName
+                            ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                            : 'border-gray-300 focus:border-[#E30613]'
+                        }`}
                       />
+                      {fieldErrors.applicantName && (
+                        <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{fieldErrors.applicantName}</span>
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -508,12 +609,22 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                       </label>
                       <input
                         type="email"
-                        required
                         placeholder="e.g. robin@example.com"
                         value={applicantEmail}
-                        onChange={(e) => setApplicantEmail(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                        onChange={(e) => handleFieldChange('applicantEmail', e.target.value)}
+                        onBlur={() => handleFieldBlur('applicantEmail', applicantEmail)}
+                        className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                          fieldErrors.applicantEmail
+                            ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                            : 'border-gray-300 focus:border-[#E30613]'
+                        }`}
                       />
+                      {fieldErrors.applicantEmail && (
+                        <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{fieldErrors.applicantEmail}</span>
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -524,12 +635,22 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                       </label>
                       <input
                         type="tel"
-                        required
                         placeholder="+31 6 1234 5678"
                         value={applicantPhone}
-                        onChange={(e) => setApplicantPhone(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
+                        onChange={(e) => handleFieldChange('applicantPhone', e.target.value)}
+                        onBlur={() => handleFieldBlur('applicantPhone', applicantPhone)}
+                        className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                          fieldErrors.applicantPhone
+                            ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                            : 'border-gray-300 focus:border-[#E30613]'
+                        }`}
                       />
+                      {fieldErrors.applicantPhone && (
+                        <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{fieldErrors.applicantPhone}</span>
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -539,7 +660,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                         type="text"
                         placeholder={lang === 'NL' ? 'bijv. €95/uur of €85k/jaar' : 'e.g. €95/hr or €85k/yr'}
                         value={applicantRate}
-                        onChange={(e) => setApplicantRate(e.target.value)}
+                        onChange={(e) => handleFieldChange('applicantRate', e.target.value)}
                         className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#E30613]"
                       />
                     </div>
@@ -550,13 +671,17 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
                       {lang === 'NL' ? 'Curriculum Vitae / CV (PDF of Word)' : 'Resume / CV (PDF or Word)'}
                     </label>
-                    <div className="relative border border-dashed border-gray-300 rounded-lg p-3.5 text-center hover:border-[#E30613] transition-colors bg-gray-50/50">
+                    <div className={`relative border border-dashed rounded-lg p-3.5 text-center transition-colors bg-gray-50/50 ${
+                      fieldErrors.applicantFile
+                        ? 'border-[#E30613] bg-red-50/20'
+                        : 'border-gray-300 hover:border-[#E30613]'
+                    }`}>
                       <input
                         type="file"
                         accept=".pdf,.doc,.docx"
                         onChange={(e) => {
                           if (e.target.files && e.target.files[0]) {
-                            setApplicantFile(e.target.files[0]);
+                            handleFileChange(e.target.files[0]);
                           }
                         }}
                         className="absolute inset-0 opacity-0 cursor-pointer"
@@ -573,13 +698,19 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                               {applicantFile.name} ({(applicantFile.size / 1024).toFixed(0)} KB)
                             </span>
                           ) : lang === 'NL' ? (
-                            'Klik of sleep uw CV hierheen (.pdf, .doc, .docx)'
+                            'Klik of sleep uw CV hierheen (.pdf, .doc, .docx maximaal 10MB)'
                           ) : (
-                            'Click or drag your CV here (.pdf, .doc, .docx)'
+                            'Click or drag your CV here (.pdf, .doc, .docx max 10MB)'
                           )}
                         </span>
                       </div>
                     </div>
+                    {fieldErrors.applicantFile && (
+                      <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{fieldErrors.applicantFile}</span>
+                      </p>
+                    )}
                   </div>
 
                   <div>

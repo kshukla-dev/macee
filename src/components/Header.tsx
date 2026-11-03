@@ -13,6 +13,7 @@ interface HeaderProps {
   onNavigatePage?: (page: string) => void;
   currentLang?: Language;
   onChangeLang?: (lang: Language) => void;
+  vacancyCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -24,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigatePage,
   currentLang = 'EN',
   onChangeLang,
+  vacancyCount = 0,
 }) => {
   const [scrolled, setScrolled] = useState(false);
 
@@ -60,8 +62,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-white transition-all duration-300 ${scrolled ? 'shadow-md py-2.5' : 'border-b border-gray-100 py-3.5'
-        }`}
+      className={`sticky top-0 z-40 bg-white transition-all duration-300 ${
+        scrolled ? 'shadow-md py-2.5' : 'border-b border-gray-100 py-3.5'
+      }`}
     >
       <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
@@ -98,9 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-
-
-                    {/* Home */}
+          {/* Home */}
           <button
             onClick={() => {
               if (onNavigatePage) {
@@ -109,12 +110,14 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('hero');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'}`}
+            className={`nav-button rounded-md ${
+              currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.home}
           </button>
 
-{/* About */}
+          {/* About */}
           <button
             onClick={() => {
               if (onNavigatePage) {
@@ -123,8 +126,9 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('why-wfs');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md ${
+              currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.about}
           </button>
@@ -138,8 +142,9 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('what-we-do');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md ${
+              currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.clients}
           </button>
@@ -153,13 +158,16 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('what-we-do');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'professionals' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md ${
+              currentPage === 'professionals'
+                ? 'active !text-[#E30613] font-bold'
+                : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.professionals}
           </button>
 
-          {/* Projects */}
+          {/* Projects with live count badge */}
           <button
             onClick={() => {
               if (onNavigatePage) {
@@ -168,10 +176,25 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('jobs');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'projects' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md inline-flex items-center gap-1.5 ${
+              currentPage === 'projects'
+                ? 'active !text-[#E30613] font-bold'
+                : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
-            {labels.projects}
+            <span>{labels.projects}</span>
+            {vacancyCount > 0 && (
+              <span
+                className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full transition-all duration-200 ${
+                  currentPage === 'projects'
+                    ? 'bg-[#E30613] text-white shadow-xs'
+                    : 'bg-[#E30613]/10 text-[#E30613] hover:bg-[#E30613] hover:text-white'
+                }`}
+                title={`${vacancyCount} ${currentLang === 'NL' ? 'openstaande vacatures' : 'open vacancies'}`}
+              >
+                {vacancyCount}
+              </span>
+            )}
           </button>
 
           {/* FAQ */}
@@ -183,8 +206,9 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('resources');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md ${
+              currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.faq}
           </button>
@@ -198,8 +222,9 @@ export const Header: React.FC<HeaderProps> = ({
                 onNavigateSection('contact');
               }
             }}
-            className={`nav-button rounded-md ${currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-              }`}
+            className={`nav-button rounded-md ${
+              currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+            }`}
           >
             {labels.contact}
           </button>
@@ -232,7 +257,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile hamburger */}
           <button
             onClick={onToggleMobileMenu}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             className="lg:hidden p-2 rounded-md text-[#E30613] hover:bg-gray-100 transition-colors cursor-pointer"
           >
             {isMobileMenuOpen ? (

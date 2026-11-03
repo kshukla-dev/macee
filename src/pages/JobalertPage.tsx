@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Bell, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Bell, CheckCircle2, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { BRANCHES_LIST } from '../data/maceeContent';
 import jobalertData from '../data/jobalertData.json';
+import { isValidEmail } from '../lib/validation';
 
 interface JobalertPageProps {
   onNavigate: (page: string) => void;
@@ -15,6 +16,7 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
   const [keyword, setKeyword] = useState('');
   const [frequency, setFrequency] = useState('Weekly');
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [showAllBranches, setShowAllBranches] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -48,6 +50,11 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !isValidEmail(email)) {
+      setEmailError('Please enter a valid email address (e.g. name@company.com).');
+      return;
+    }
+    setEmailError('');
     setSubmitted(true);
   };
 
@@ -243,12 +250,24 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                   </label>
                   <input
                     type="email"
-                    required
                     placeholder={jobalertData.form.emailPlaceholder}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#e8382e]"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (emailError) setEmailError('');
+                    }}
+                    className={`w-full px-4 py-3 rounded-lg border text-sm focus:outline-none transition-all ${
+                      emailError
+                        ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                        : 'border-gray-300 focus:border-[#E30613]'
+                    }`}
                   />
+                  {emailError && (
+                    <p className="mt-1.5 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{emailError}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div className="pt-4">

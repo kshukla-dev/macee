@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { X, UploadCloud, CheckCircle2, Loader2, FileText, Trash2 } from 'lucide-react';
+import { X, UploadCloud, CheckCircle2, Loader2, FileText, Trash2, AlertCircle } from 'lucide-react';
 import { uploadCvFile, submitOpenApplication } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
 import { useLanguage } from '../context/LanguageContext';
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidName,
+  validateCvFile,
+  VALIDATION_MESSAGES,
+} from '../lib/validation';
 
 interface OpenApplicationModalProps {
   isOpen: boolean;
@@ -49,8 +56,38 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
     e.preventDefault();
     setErrorMessage('');
 
+    const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
+
+    if (!isValidName(firstName)) {
+      setErrorMessage(msgs.firstNameRequired);
+      return;
+    }
+
+    if (!isValidName(lastName)) {
+      setErrorMessage(msgs.lastNameRequired);
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setErrorMessage(msgs.emailInvalid);
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      setErrorMessage(msgs.phoneInvalid);
+      return;
+    }
+
+    if (cvFile) {
+      const fileCheck = validateCvFile(cvFile, lang);
+      if (!fileCheck.valid) {
+        setErrorMessage(fileCheck.error || '');
+        return;
+      }
+    }
+
     if (!privacyAgreed) {
-      setErrorMessage('Please agree with the privacy conditions to proceed.');
+      setErrorMessage(msgs.privacyRequired);
       return;
     }
 
@@ -249,7 +286,15 @@ export const OpenApplicationModal: React.FC<OpenApplicationModalProps> = ({
                       accept=".pdf,.doc,.docx"
                       onChange={(e) => {
                         if (e.target.files && e.target.files[0]) {
-                          setCvFile(e.target.files[0]);
+                          const file = e.target.files[0];
+                          const check = validateCvFile(file, lang);
+                          if (!check.valid) {
+                            setErrorMessage(check.error || '');
+                            setCvFile(null);
+                          } else {
+                            setErrorMessage('');
+                            setCvFile(file);
+                          }
                         }
                       }}
                       className="absolute inset-0 opacity-0 cursor-pointer"

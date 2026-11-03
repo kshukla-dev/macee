@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Send, Phone, Mail } from 'lucide-react';
+import { X, CheckCircle2, Send, Phone, Mail, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidName,
+  isValidText,
+  VALIDATION_MESSAGES,
+} from '../lib/validation';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -8,15 +15,24 @@ interface ConsultationModalProps {
   initialNotes?: string;
 }
 
-export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, onClose, initialNotes = '' }) => {
+export const ConsultationModal: React.FC<ConsultationModalProps> = ({
+  isOpen,
+  onClose,
+  initialNotes = '',
+}) => {
   const { lang } = useLanguage();
+  const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
+
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     workEmail: '',
     phoneNumber: '',
-    notes: initialNotes || ''
+    notes: initialNotes || '',
   });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -25,8 +41,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
     if (isOpen) {
       setFormData((prev) => ({
         ...prev,
-        notes: initialNotes || ''
+        notes: initialNotes || '',
       }));
+      setErrors({});
+      setTouched({});
+      setIsSubmitted(false);
     }
   }, [isOpen, initialNotes]);
 
@@ -42,8 +61,66 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
   if (!isOpen) return null;
 
+  const validateField = (field: string, value: string): string => {
+    switch (field) {
+      case 'fullName':
+        if (!value.trim()) return msgs.fullNameRequired;
+        if (!isValidName(value)) return msgs.fullNameRequired;
+        return '';
+      case 'companyName':
+        if (!value.trim()) return msgs.companyRequired;
+        if (!isValidText(value, 2)) return msgs.companyRequired;
+        return '';
+      case 'workEmail':
+        if (!value.trim()) return msgs.emailRequired;
+        if (!isValidEmail(value)) return msgs.emailInvalid;
+        return '';
+      case 'phoneNumber':
+        if (value.trim() && !isValidPhone(value)) return msgs.phoneInvalid;
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (touched[field]) {
+      const err = validateField(field, value);
+      setErrors((prev) => ({ ...prev, [field]: err }));
+    }
+  };
+
+  const handleFieldBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const val = (formData as any)[field] || '';
+    const err = validateField(field, val);
+    setErrors((prev) => ({ ...prev, [field]: err }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors: Record<string, string> = {
+      fullName: validateField('fullName', formData.fullName),
+      companyName: validateField('companyName', formData.companyName),
+      workEmail: validateField('workEmail', formData.workEmail),
+      phoneNumber: validateField('phoneNumber', formData.phoneNumber),
+    };
+
+    setErrors(newErrors);
+    setTouched({
+      fullName: true,
+      companyName: true,
+      workEmail: true,
+      phoneNumber: true,
+    });
+
+    const hasErrors = Object.values(newErrors).some((err) => Boolean(err));
+    if (hasErrors) {
+      return;
+    }
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -52,7 +129,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
   };
 
   return (
-    <div 
+    <div
       data-lenis-prevent
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
       onClick={onClose}
@@ -69,28 +146,46 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer"
+            className="absolute top-5 right-5 p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#E30613] mb-1">
-            Macee BV · Arnhem, {lang === 'NL' ? 'Nederland' : 'Netherlands'}
+          <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#E30613] text-white tracking-wider uppercase mb-2">
+            Macee Workforce Solutions
           </span>
-          <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
-            {lang === 'NL' ? 'Neem contact op met Macee' : 'Get in Touch with Macee'}
+
+          <h3 className="text-xl sm:text-2xl font-bold font-display tracking-tight text-white">
+            {lang === 'NL' ? 'Vrijblijvend Adviesgesprek' : 'Request Consultation'}
           </h3>
-          <p className="text-xs sm:text-sm text-white/80 mt-1">
+
+          <p className="mt-1 text-xs sm:text-sm text-gray-300">
             {lang === 'NL'
-              ? 'Spreek direct met een specialist in flexibele arbeid. SNA NEN 4400-1 gecertificeerd en Erkend IND Referent.'
-              : 'Speak directly with an external workforce advisor. SNA NEN 4400-1 certified and IND Recognised Sponsor.'}
+              ? 'Bespreek direct uw inhuur- of capaciteitsvraagstuk met een senior adviseur.'
+              : 'Direct consultation on interim staffing, compliance, or contracting strategies.'}
           </p>
+
+          <div className="mt-3 flex flex-wrap items-center gap-3 pt-3 border-t border-white/10 text-xs text-white/80">
+            <span className="flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-[#E30613]" />
+              info@macee.com
+            </span>
+            <span>·</span>
+            <span className="flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5 text-[#E30613]" />
+              +31 (0)26 744 0024
+            </span>
+            <span>·</span>
+            <span className="text-white/60">
+              Macee BV · Arnhem, {lang === 'NL' ? 'Nederland' : 'Netherlands'}
+            </span>
+          </div>
         </div>
 
-        {/* Scrollable Form Body or Success State */}
-        <div 
-          data-lenis-prevent 
-          className="p-5 sm:p-7 overflow-y-auto flex-1 overscroll-contain modal-scrollable"
+        {/* Scrollable Body Container */}
+        <div
+          data-lenis-prevent
+          className="p-5 sm:p-7 overflow-y-auto flex-1 modal-scrollable"
           onWheel={(e) => e.stopPropagation()}
         >
           {isSubmitted ? (
@@ -99,31 +194,22 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h4 className="text-xl sm:text-2xl font-bold text-[#111827] font-display">
-                {lang === 'NL' ? 'Bericht ontvangen!' : 'Message Received!'}
+                {lang === 'NL' ? 'Aanvraag succesvol ontvangen!' : 'Inquiry Received Successfully!'}
               </h4>
-              <p className="text-xs sm:text-sm text-[#54595F] max-w-md mx-auto leading-relaxed">
+              <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                 {lang === 'NL' ? (
                   <>
-                    Hartelijk dank, <span className="font-semibold text-gray-800">{formData.fullName}</span>. Een specialist van Macee BV beoordeelt uw aanvraag en neemt binnen 1 werkdag contact met u op.
+                    Hartelijk dank, <strong>{formData.fullName}</strong>. Een adviseur van Macee neemt binnen 1 werkdag contact met u op via{' '}
+                    <span className="text-[#E30613] font-semibold">{formData.workEmail}</span>.
                   </>
                 ) : (
                   <>
-                    Thank you, <span className="font-semibold text-gray-800">{formData.fullName}</span>. A specialist from Macee BV will review your request and contact you within 1 business day.
+                    Thank you, <strong>{formData.fullName}</strong>. A dedicated Macee advisor will review your notes and contact you within 1 business day at{' '}
+                    <span className="text-[#E30613] font-semibold">{formData.workEmail}</span>.
                   </>
                 )}
               </p>
-              <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs text-[#54595F]">
-                <div className="flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-[#E30613]" />
-                  <span>Direct: +31 (0)26 744 0024</span>
-                </div>
-                <span className="hidden sm:inline">·</span>
-                <div className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-[#E30613]" />
-                  <span>info@macee.com</span>
-                </div>
-              </div>
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   onClick={() => {
                     setIsSubmitted(false);
@@ -136,7 +222,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -144,12 +230,22 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   </label>
                   <input
                     type="text"
-                    required
                     placeholder={lang === 'NL' ? 'Robin van Dijk' : 'Robin van Dijk'}
                     value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
+                    onChange={(e) => handleFieldChange('fullName', e.target.value)}
+                    onBlur={() => handleFieldBlur('fullName')}
+                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                      errors.fullName
+                        ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                        : 'border-gray-200 focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                    }`}
                   />
+                  {errors.fullName && (
+                    <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.fullName}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -158,12 +254,22 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   </label>
                   <input
                     type="text"
-                    required
                     placeholder={lang === 'NL' ? 'Bedrijfsnaam of Professional' : 'Company name or Professional'}
                     value={formData.companyName}
-                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
+                    onChange={(e) => handleFieldChange('companyName', e.target.value)}
+                    onBlur={() => handleFieldBlur('companyName')}
+                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                      errors.companyName
+                        ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                        : 'border-gray-200 focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                    }`}
                   />
+                  {errors.companyName && (
+                    <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.companyName}</span>
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -174,12 +280,22 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   </label>
                   <input
                     type="email"
-                    required
                     placeholder="robin@company.nl"
                     value={formData.workEmail}
-                    onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
+                    onChange={(e) => handleFieldChange('workEmail', e.target.value)}
+                    onBlur={() => handleFieldBlur('workEmail')}
+                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                      errors.workEmail
+                        ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                        : 'border-gray-200 focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                    }`}
                   />
+                  {errors.workEmail && (
+                    <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.workEmail}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -190,9 +306,20 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                     type="tel"
                     placeholder="+31 6 12345678"
                     value={formData.phoneNumber}
-                    onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all"
+                    onChange={(e) => handleFieldChange('phoneNumber', e.target.value)}
+                    onBlur={() => handleFieldBlur('phoneNumber')}
+                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
+                      errors.phoneNumber
+                        ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                        : 'border-gray-200 focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                    }`}
                   />
+                  {errors.phoneNumber && (
+                    <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.phoneNumber}</span>
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -208,7 +335,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                       : 'Tell us about the project, technical requirements, or contract situation...'
                   }
                   value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15 transition-all resize-y"
                 />
               </div>
