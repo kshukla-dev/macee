@@ -8,6 +8,7 @@
     "build": "node ./node_modules/vite/bin/vite.js build",
     "preview": "node ./node_modules/vite/bin/vite.js preview",
     "start": "node server.js",
+    "otys:configure-website": "node scripts/configure-otys-website.js",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
   },

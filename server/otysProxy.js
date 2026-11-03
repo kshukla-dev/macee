@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import dns from 'node:dns';
+import { handleOtysWebhook } from './otysWebhook.js';
 
 // Ensure IPv4 first to avoid IPv6 connect timeouts on ows.otys.nl
 try {
@@ -82,9 +83,15 @@ export function clearServerTokenCache() {
  */
 export async function handleOtysProxy(req, res, subPath = '') {
   try {
+    const cleanSubPath = subPath.startsWith('/') ? subPath : `/${subPath}`;
+
+    // Delegate incoming Webhooks directly to the OTYS Webhook Handler
+    if (cleanSubPath.includes('webhook')) {
+      return handleOtysWebhook(req, res);
+    }
+
     let token = await getOtysServerToken();
     const baseUrl = process.env.OTYS_API_BASE_URL || 'https://webapi.otys.app/api';
-    const cleanSubPath = subPath.startsWith('/') ? subPath : `/${subPath}`;
     const targetUrl = `${baseUrl.replace(/\/+$/, '')}${cleanSubPath}`;
 
     // Read incoming body chunks if not already read by express

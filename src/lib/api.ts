@@ -44,6 +44,9 @@ export const API_ENDPOINTS = {
     vacancyApplication: (vacancyId: string | number) =>
       `/vacancy_application/${encodeURIComponent(String(vacancyId))}`,
   },
+  webhook: {
+    endpoint: '/otys/webhook',
+  },
 } as const;
 
 // ============================================================================
@@ -1199,3 +1202,6 @@ export async function submitJobAlertForm(
     id: resJson?.id || null,
   };
 }
+
+// Re-export OTYS Webhook types
+export type { OtysWebhookEventName, OtysWebhookPayload } from './otysWebsite';
