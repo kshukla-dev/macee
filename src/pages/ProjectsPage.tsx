@@ -23,7 +23,8 @@ import {
   ChevronUp,
   ChevronLeft,
   ChevronRight,
-  Briefcase
+  Briefcase,
+  RotateCcw
 } from 'lucide-react';
 import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
@@ -406,7 +407,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
   };
 
   const hasActiveFilters =
-    Boolean(keyword) ||
+    Boolean(keyword.trim()) ||
     selectedLocation !== 'All' ||
     selectedBranche !== 'All' ||
     selectedContract !== 'All';
@@ -572,15 +573,14 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
             </div>
 
             {hasActiveFilters && (
-              <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-xs text-gray-600">
-                  Filters applied. Found <strong>{filteredProjects.length}</strong> matching vacancies.
-                </span>
+              <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-end">
                 <button
+                  type="button"
                   onClick={handleResetFilters}
-                  className="text-xs font-bold text-[#E30613] hover:underline cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-full text-xs font-bold text-[#E30613] bg-white border-2 border-[#E30613] hover:bg-[#E30613] hover:text-white shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer group active:scale-95"
                 >
-                  Reset all filters
+                  <RotateCcw className="w-3.5 h-3.5 group-hover:-rotate-90 transition-transform duration-300" />
+                  <span>{lang === 'NL' ? 'Alle filters wissen' : 'Reset all filters'}</span>
                 </button>
               </div>
             )}
