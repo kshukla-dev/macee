@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, FileCheck, UserCheck, Layers } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CheckCircle2, Briefcase, Users, Cpu, ShieldCheck, Award, FileCheck, UserCheck, Layers, ChevronDown, ChevronUp } from 'lucide-react';
 import { getServicesData } from '../data/content';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -15,6 +15,7 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
   onSelectService
 }) => {
   const { lang, t } = useLanguage();
+  const [isMobileExpanded, setIsMobileExpanded] = useState<boolean>(false);
   const services = getServicesData(lang);
 
   const getServiceTargetPage = (serviceId: string): string => {
@@ -94,32 +95,54 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
 
             {/* List of 7 Services + 8th Slot Check Out Our Services CTA */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              {services.map((service) => (
-                <div
-                  key={service.id}
-                  onClick={() => {
-                    if (onSelectService) {
-                      onSelectService(service.id);
-                    } else if (onNavigate) {
-                      onNavigate(getServiceTargetPage(service.id));
-                    } else {
-                      onExploreAllServices();
-                    }
-                  }}
-                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group"
-                  title={`View detailed explanation for ${service.title}`}
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
-                      {getIcon(service.id)}
+              {services.map((service, index) => {
+                const isHiddenOnMobile = !isMobileExpanded && index >= 3;
+                return (
+                  <div
+                    key={service.id}
+                    onClick={() => {
+                      if (onSelectService) {
+                        onSelectService(service.id);
+                      } else if (onNavigate) {
+                        onNavigate(getServiceTargetPage(service.id));
+                      } else {
+                        onExploreAllServices();
+                      }
+                    }}
+                    className={`${
+                      isHiddenOnMobile ? 'hidden sm:flex' : 'flex'
+                    } items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group`}
+                    title={`View detailed explanation for ${service.title}`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
+                        {getIcon(service.id)}
+                      </div>
+                      <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
+                        {service.title}
+                      </span>
                     </div>
-                    <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
-                      {service.title}
-                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
-                </div>
-              ))}
+                );
+              })}
+
+              {/* Mobile View Toggle: Show More / Show Less Button */}
+              <button
+                type="button"
+                onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+                className="sm:hidden flex items-center justify-center gap-2 p-3.5 rounded-xl border border-gray-200 bg-white hover:bg-[#F8FAFB] hover:border-[#E30613]/40 text-[#111827] hover:text-[#E30613] font-semibold text-sm shadow-2xs transition-all duration-200 active:scale-[0.99] cursor-pointer group"
+                aria-expanded={isMobileExpanded}
+              >
+                <span>
+                  {isMobileExpanded ? t('whatwedo.showLess') : t('whatwedo.showMore')}
+                </span>
+                {isMobileExpanded ? (
+                  <ChevronUp className="w-4 h-4 text-[#E30613] group-hover:-translate-y-0.5 transition-transform duration-200" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-[#E30613] group-hover:translate-y-0.5 transition-transform duration-200" />
+                )}
+              </button>
 
               {/* 8th Slot: Check Out Our Services CTA Button */}
               <button

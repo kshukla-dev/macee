@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
+import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
@@ -22,6 +22,54 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
   const INDUSTRIES_DATA = professionalsData.industries.items;
   const [activeIndustryId, setActiveIndustryId] = useState<string>('ict');
   const [vacancies, setVacancies] = useState<ProjectAssignmentItem[]>(() => getCachedJobs() || []);
+  const [expandedServices, setExpandedServices] = useState<Record<string, boolean>>({
+    'freelance-zzp': true,
+    'contracting-secondment': false,
+    'hsm-expats': false,
+  });
+
+  const toggleService = (id: string) => {
+    setExpandedServices((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  // Carousel State for Section 2 (What We Do) on Mobile
+  const [whatSlide, setWhatSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const totalWhatSlides = professionalsData.whatWeDo.items.length;
+
+  const handlePrevWhat = () => {
+    setWhatSlide((prev) => (prev > 0 ? prev - 1 : totalWhatSlides - 1));
+  };
+
+  const handleNextWhat = () => {
+    setWhatSlide((prev) => (prev < totalWhatSlides - 1 ? prev + 1 : 0));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > 45) {
+      handleNextWhat();
+    } else if (distance < -45) {
+      handlePrevWhat();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -75,6 +123,92 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
 
   const activeProjectCount = getProjectCountForIndustry(activeIndustry.id);
 
+  const renderWhatCard = (item: typeof professionalsData.whatWeDo.items[0]) => {
+    const getBranche = () => {
+      const t = item.title.toLowerCase();
+      if (t.includes('ict') || t.includes('software')) return 'ICT';
+      if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
+      if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
+      return 'ICT';
+    };
+    const targetBranche = getBranche();
+
+    return (
+      <div className="prof-what-card h-full">
+        <div className="prof-what-media">
+          <span className="prof-what-num-badge">{item.num}</span>
+          <img
+            src={item.image}
+            alt={item.alt}
+            className="prof-what-img"
+            onError={(e) => {
+              e.currentTarget.src = item.fallback;
+            }}
+          />
+          <svg
+            className="prof-what-wave-svg"
+            viewBox="0 0 400 45"
+            preserveAspectRatio="none"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 45H400V15C310 38 180 5 0 28V45Z"
+              fill="#ffffff"
+            />
+          </svg>
+          <div className="prof-what-floating-icon">
+            {item.icon === 'Laptop' ? (
+              <Laptop size={20} />
+            ) : item.icon === 'Landmark' ? (
+              <Landmark size={20} />
+            ) : (
+              <Database size={20} />
+            )}
+          </div>
+        </div>
+
+        <div className="prof-what-body flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="prof-what-title">{item.title}</h3>
+            <span className="prof-what-title-line" />
+            <p className="prof-what-text">{item.text}</p>
+          </div>
+
+          <div>
+            <div className="prof-what-tags">
+              {item.tags.map((tag, tIdx) => (
+                <button
+                  key={tIdx}
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
+                  className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
+                  title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <div className="prof-what-footer">
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
+                className="prof-what-learn-btn"
+                title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
+              >
+                <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
+                <span className="prof-what-btn-arrow">
+                  <ArrowRight size={14} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="prof-page">
 
@@ -101,29 +235,92 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
           </div>
 
           <div className="prof-service-list">
-            {professionalsData.whatCanWeDo.services.map((svc) => (
-              <div
-                key={svc.id}
-                onClick={() => onSelectService && onSelectService(svc.id)}
-                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
-                title={`Click to view detailed explanation for ${svc.title}`}
-              >
-                {svc.tag && (
-                  <div className="prof-service-tag">
-                    <span>{svc.tag}</span>
+            {professionalsData.whatCanWeDo.services.map((svc) => {
+              const isExpanded = expandedServices[svc.id] ?? false;
+              return (
+                <div
+                  key={svc.id}
+                  className={`prof-service-item hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${
+                    svc.highlight ? 'highlight' : ''
+                  } ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
+                >
+                  {/* Header: Clickable on mobile to expand/collapse, on desktop opens service modal */}
+                  <div
+                    onClick={() => {
+                      if (window.innerWidth < 768) {
+                        toggleService(svc.id);
+                      } else if (onSelectService) {
+                        onSelectService(svc.id);
+                      }
+                    }}
+                    className="cursor-pointer"
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={isExpanded}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (window.innerWidth < 768) {
+                          toggleService(svc.id);
+                        } else if (onSelectService) {
+                          onSelectService(svc.id);
+                        }
+                      }
+                    }}
+                    title={lang === 'NL' ? 'Klik om toelichting te bekijken' : 'Click to view details'}
+                  >
+                    {svc.tag && (
+                      <div className="prof-service-tag">
+                        <span>{svc.tag}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors mb-0">
+                        {svc.title}
+                      </h3>
+                      {/* Desktop arrow */}
+                      <ArrowRight className="hidden md:block w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                      {/* Mobile Expand / Collapse Chevron */}
+                      <div className="md:hidden shrink-0">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isExpanded
+                              ? 'bg-[#E30613]/10 text-[#E30613]'
+                              : 'bg-gray-100 text-gray-500'
+                          }`}
+                        >
+                          <ChevronDown
+                            size={18}
+                            className={`transition-transform duration-300 ${
+                              isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                            }`}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+
+                  {/* Expandable Body: Always visible on desktop (md:block), toggled on mobile */}
+                  <div className={`prof-service-body ${isExpanded ? 'block' : 'hidden md:block'} mt-2.5`}>
+                    <p className="prof-service-desc">{svc.description}</p>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onSelectService) onSelectService(svc.id);
+                      }}
+                      className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] hover:underline cursor-pointer"
+                    >
+                      <span>
+                        {lang === 'NL'
+                          ? 'Bekijk volledige toelichting & voordelen'
+                          : 'View full explanation & key features'}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
                 </div>
-                <p className="prof-service-desc">{svc.description}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
-                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -147,7 +344,7 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
               </p>
             </div>
 
-            <div className="prof-what-header-right">
+            <div className="prof-what-header-right hidden md:flex">
               <div className="prof-what-map-bg">
                 <svg viewBox="0 0 160 140" fill="none" className="prof-what-map-svg" aria-hidden="true">
                   <path
@@ -166,88 +363,71 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
             </div>
           </div>
 
-          <div className="prof-what-grid">
-            {professionalsData.whatWeDo.items.map((item) => {
-              const getBranche = () => {
-                const t = item.title.toLowerCase();
-                if (t.includes('ict') || t.includes('software')) return 'ICT';
-                if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
-                if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
-                return 'ICT';
-              };
-              const targetBranche = getBranche();
+          {/* Mobile View: Swipeable Carousel */}
+          <div
+            className="md:hidden relative overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Top Navigation Controls: Counter & Arrow Buttons */}
+            <div className="flex items-center justify-end gap-2 mb-4 px-1">
+              <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
+                <span className="text-[#111827]">{whatSlide + 1}</span> / {totalWhatSlides}
+              </span>
+              <button
+                type="button"
+                onClick={handlePrevWhat}
+                aria-label="Previous slide"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+              >
+                <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+              </button>
+              <button
+                type="button"
+                onClick={handleNextWhat}
+                aria-label="Next slide"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+              >
+                <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
 
-              return (
-                <div key={item.num} className="prof-what-card">
-                  <div className="prof-what-media">
-                    <span className="prof-what-num-badge">{item.num}</span>
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      className="prof-what-img"
-                      onError={(e) => {
-                        e.currentTarget.src = item.fallback;
-                      }}
-                    />
-                    <svg
-                      className="prof-what-wave-svg"
-                      viewBox="0 0 400 45"
-                      preserveAspectRatio="none"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0 45H400V15C310 38 180 5 0 28V45Z"
-                        fill="#ffffff"
-                      />
-                    </svg>
-                    <div className="prof-what-floating-icon">
-                      {item.icon === 'Laptop' ? (
-                        <Laptop size={20} />
-                      ) : item.icon === 'Landmark' ? (
-                        <Landmark size={20} />
-                      ) : (
-                        <Database size={20} />
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="prof-what-body">
-                    <h3 className="prof-what-title">{item.title}</h3>
-                    <span className="prof-what-title-line" />
-                    <p className="prof-what-text">{item.text}</p>
-
-                    <div className="prof-what-tags">
-                      {item.tags.map((tag, tIdx) => (
-                        <button
-                          key={tIdx}
-                          type="button"
-                          onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
-                          className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
-                          title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="prof-what-footer">
-                      <button
-                        type="button"
-                        onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
-                        className="prof-what-learn-btn"
-                        title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
-                      >
-                        <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
-                        <span className="prof-what-btn-arrow">
-                          <ArrowRight size={14} />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+            {/* Slides Track */}
+            <div
+              className="flex items-stretch transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${whatSlide * 100}%)` }}
+            >
+              {professionalsData.whatWeDo.items.map((item) => (
+                <div key={item.num} className="w-full shrink-0 px-1 flex flex-col">
+                  {renderWhatCard(item)}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Bottom Dots Indicator (Centered) */}
+            <div className="flex items-center justify-center gap-2 mt-5">
+              {professionalsData.whatWeDo.items.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setWhatSlide(idx)}
+                  aria-label={`Slide ${idx + 1}`}
+                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
+                    idx === whatSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop View: Pristine 3 Columns Grid */}
+          <div className="hidden md:grid md:grid-cols-3 md:gap-7">
+            {professionalsData.whatWeDo.items.map((item) => (
+              <div key={item.num} className="h-full flex flex-col">
+                {renderWhatCard(item)}
+              </div>
+            ))}
           </div>
         </div>
       </section>

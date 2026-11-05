@@ -189,9 +189,16 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 48px;
+  gap: 16px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .prof-what-header-wrap {
+    gap: 32px;
+    margin-bottom: 48px;
+  }
 }
 
 .prof-what-header-left {
@@ -247,11 +254,17 @@
 
 /* Header Right: Floating Netherlands Badge */
 .prof-what-header-right {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 240px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .prof-what-header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 240px;
+  }
 }
 
 .prof-what-map-bg {
@@ -537,15 +550,25 @@
 .prof-service-item {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 28px 32px;
+  padding: 22px 20px;
   border: 1px solid #e7e9ed;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
 }
 
+@media (min-width: 768px) {
+  .prof-service-item {
+    padding: 28px 32px;
+  }
+}
+
 .prof-service-item:hover {
   border-color: #cbd5e1;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.prof-service-item.is-expanded {
+  border-color: #cbd5e1;
 }
 
 .prof-service-item.highlight {

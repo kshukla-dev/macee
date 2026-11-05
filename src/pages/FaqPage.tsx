@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import {
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   HelpCircle,
   ArrowLeft,
   ArrowRight,
@@ -47,6 +49,85 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
 
   const toggleFaq = (id: string) => {
     setOpenFaqId(openFaqId === id ? null : id);
+  };
+
+  // Carousel State for FAQ Category Cards on Mobile
+  const [catSlide, setCatSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const totalCatSlides = categories.length;
+
+  const handlePrevCat = () => {
+    setCatSlide((prev) => (prev > 0 ? prev - 1 : totalCatSlides - 1));
+  };
+
+  const handleNextCat = () => {
+    setCatSlide((prev) => (prev < totalCatSlides - 1 ? prev + 1 : 0));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > 45) {
+      handleNextCat();
+    } else if (distance < -45) {
+      handlePrevCat();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
+  const renderCategoryCard = (cat: (typeof categories)[0]) => {
+    const isSelected = selectedCategory === cat.id;
+    return (
+      <div
+        key={cat.id}
+        onClick={() => {
+          setSelectedCategory(isSelected ? null : cat.id);
+        }}
+        className={`group cursor-pointer rounded-2xl overflow-hidden bg-white shadow-xs hover:shadow-md transition-all duration-300 border-2 h-full flex flex-col ${
+          isSelected
+            ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+            : 'border-transparent hover:border-gray-200'
+        }`}
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 shrink-0">
+          <img
+            src={cat.image}
+            alt={cat.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              e.currentTarget.src = '/uploads/Software-Development-2.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+          <span className="absolute bottom-3 left-3 text-xs font-bold text-white bg-[#E30613] px-2.5 py-0.5 rounded-full shadow-xs">
+            {cat.count} {lang === 'NL' ? 'Vragen' : 'Questions'}
+          </span>
+        </div>
+
+        <div className="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="text-base font-bold font-display text-gray-900 group-hover:text-[#E30613] transition-colors leading-snug">
+              {cat.title}
+            </h3>
+            <p className="text-xs text-gray-500 mt-2 line-clamp-2">
+              {cat.desc}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -107,46 +188,67 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {categories.map((cat) => {
-                const isSelected = selectedCategory === cat.id;
-                return (
-                  <div
-                    key={cat.id}
-                    onClick={() => {
-                      setSelectedCategory(isSelected ? null : cat.id);
-                    }}
-                    className={`group cursor-pointer rounded-2xl overflow-hidden bg-white shadow-xs hover:shadow-md transition-all duration-300 border-2 ${isSelected
-                      ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
-                      : 'border-transparent hover:border-gray-200'
-                      }`}
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                      <img
-                        src={cat.image}
-                        alt={cat.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.currentTarget.src = '/uploads/Software-Development-2.jpg';
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                      <span className="absolute bottom-3 left-3 text-xs font-bold text-white bg-[#E30613] px-2.5 py-0.5 rounded-full">
-                        {cat.count} {lang === 'NL' ? 'Vragen' : 'Questions'}
-                      </span>
-                    </div>
+            {/* Mobile View: Swipeable Carousel */}
+            <div
+              className="md:hidden relative overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* Top Navigation Controls: Counter & Arrow Buttons */}
+              <div className="flex items-center justify-end gap-2 mb-4 px-1">
+                <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
+                  <span className="text-[#111827]">{catSlide + 1}</span> / {totalCatSlides}
+                </span>
+                <button
+                  type="button"
+                  onClick={handlePrevCat}
+                  aria-label="Previous category"
+                  className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+                >
+                  <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextCat}
+                  aria-label="Next category"
+                  className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+                >
+                  <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </div>
 
-                    <div className="p-5">
-                      <h3 className="text-base font-bold font-display text-gray-900 group-hover:text-[#E30613] transition-colors leading-snug">
-                        {cat.title}
-                      </h3>
-                      <p className="text-xs text-gray-500 mt-2 line-clamp-2">
-                        {cat.desc}
-                      </p>
-                    </div>
+              {/* Slides Track */}
+              <div
+                className="flex items-stretch transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${catSlide * 100}%)` }}
+              >
+                {categories.map((cat) => (
+                  <div key={cat.id} className="w-full shrink-0 px-1 flex flex-col">
+                    {renderCategoryCard(cat)}
                   </div>
-                );
-              })}
+                ))}
+              </div>
+
+              {/* Bottom Dots Indicator (Centered) */}
+              <div className="flex items-center justify-center gap-2 mt-5">
+                {categories.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setCatSlide(idx)}
+                    aria-label={`Category ${idx + 1}`}
+                    className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
+                      idx === catSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop View: Pristine 3 Columns Grid */}
+            <div className="hidden md:grid md:grid-cols-3 md:gap-6">
+              {categories.map((cat) => renderCategoryCard(cat))}
             </div>
           </div>
 

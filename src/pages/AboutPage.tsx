@@ -75,6 +75,145 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
   const TEAM_MEMBERS = aboutData.team.members;
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Team Carousel State on Mobile
+  const [teamSlide, setTeamSlide] = useState(0);
+  const [teamTouchStartX, setTeamTouchStartX] = useState<number | null>(null);
+  const [teamTouchEndX, setTeamTouchEndX] = useState<number | null>(null);
+
+  const totalTeamSlides = TEAM_MEMBERS.length;
+
+  const handlePrevTeam = () => {
+    setTeamSlide((prev) => (prev > 0 ? prev - 1 : totalTeamSlides - 1));
+  };
+
+  const handleNextTeam = () => {
+    setTeamSlide((prev) => (prev < totalTeamSlides - 1 ? prev + 1 : 0));
+  };
+
+  const handleTeamTouchStart = (e: React.TouchEvent) => {
+    setTeamTouchStartX(e.targetTouches[0].clientX);
+    setTeamTouchEndX(null);
+  };
+
+  const handleTeamTouchMove = (e: React.TouchEvent) => {
+    setTeamTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTeamTouchEnd = () => {
+    if (!teamTouchStartX || !teamTouchEndX) return;
+    const distance = teamTouchStartX - teamTouchEndX;
+    if (distance > 45) {
+      handleNextTeam();
+    } else if (distance < -45) {
+      handlePrevTeam();
+    }
+    setTeamTouchStartX(null);
+    setTeamTouchEndX(null);
+  };
+
+  const renderTeamMemberCard = (member: (typeof TEAM_MEMBERS)[0]) => (
+    <div
+      key={member.name}
+      className="relative bg-white rounded-[26px] px-6 pb-6 pt-16 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 text-center flex flex-col justify-between group h-full"
+    >
+      {/* LinkedIn Badge in top right corner of card */}
+      {member.linkedin && (
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${member.name} LinkedIn`}
+          title={`View ${member.name} on LinkedIn`}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#0A66C2]/10 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs hover:scale-110 z-10"
+        >
+          <Linkedin className="w-4 h-4 fill-current" />
+        </a>
+      )}
+
+      {/* Floating Circular Avatar overlapping top border */}
+      <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full p-1 bg-white ring-4 ring-[#EFF2F4] shadow-md overflow-hidden">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => {
+            e.currentTarget.src = '/images/careers-handshake.jpg';
+          }}
+        />
+      </div>
+
+      {/* Name & Role */}
+      <div className="mt-1">
+        <h3 className="text-lg font-bold font-display text-[#111827]">
+          {member.name}
+        </h3>
+        <p className="text-xs font-bold uppercase tracking-wider text-[#E30613] mt-1.5">
+          {member.role}
+        </p>
+      </div>
+
+      {/* Divider Line & Contact Buttons */}
+      <div className="mt-8">
+        <div className="w-full border-t border-gray-100 mb-5" />
+
+        <div className="space-y-2.5">
+          {member.email && (
+            <a
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(member.email)}&su=${encodeURIComponent('Inquiry via Macee Website')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Send an email to ${member.name} (${member.email})`}
+              className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn cursor-pointer"
+            >
+              <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+              <span className="truncate">{member.email}</span>
+            </a>
+          )}
+          {member.phone && (
+            <a
+              href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
+              title={`Call ${member.name} (${member.phone})`}
+              onClick={() => {
+                window.location.href = `tel:${member.phone.replace(/[^0-9+]/g, '')}`;
+              }}
+              className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
+            >
+              <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+              <span>{member.phone}</span>
+            </a>
+          )}
+
+          {/* Action buttons for executive / owner without personal phone/email */}
+          {!member.email && !member.phone && (
+            <>
+              {member.linkedin && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#0A66C2]/10 hover:bg-[#0A66C2] hover:text-white text-xs font-semibold text-[#0A66C2] transition-colors group/btn shadow-2xs cursor-pointer"
+                >
+                  <Linkedin className="w-4 h-4 fill-current text-[#0A66C2] group-hover/btn:text-white shrink-0" />
+                  <span>{lang === 'NL' ? 'Connect via LinkedIn' : 'Connect on LinkedIn'}</span>
+                </a>
+              )}
+              <a
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=info@macee.com&su=${encodeURIComponent('Inquiry via Macee Desk')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Contact Macee Headquarters Desk"
+                className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
+              >
+                <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
+                <span>{'desk' in member && member.desk ? member.desk : (lang === 'NL' ? 'Contact via Hoofdkantoor' : 'Contact via Macee Desk')}</span>
+              </a>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   // Services Carousel States
   const [servicesSlide, setServicesSlide] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -598,9 +737,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
       </section>
 
       {/* 5. TEAM MACEE & ANNOUNCEMENTS */}
-      <section id="about-team" className="py-16 sm:py-20 lg:py-24 bg-[#F8FAFB] border-b border-gray-100">
+      <section id="about-team" className="py-10 sm:py-16 lg:py-24 bg-[#F8FAFB] border-b border-gray-100">
         <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-12 md:mb-16">
             <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
               {aboutData.team.badge}
             </div>
@@ -612,108 +751,69 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
             </p>
           </div>
 
-          {/* Symmetrical Grid for the 6 Team Members */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mb-16 pt-8">
-            {TEAM_MEMBERS.map((member) => (
-              <div
-                key={member.name}
-                className="relative bg-white rounded-[26px] px-6 pb-6 pt-16 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 text-center flex flex-col justify-between group"
+          {/* Mobile View: Swipeable Carousel */}
+          <div
+            className="md:hidden relative overflow-hidden mb-2 sm:mb-8"
+            onTouchStart={handleTeamTouchStart}
+            onTouchMove={handleTeamTouchMove}
+            onTouchEnd={handleTeamTouchEnd}
+          >
+            {/* Top Navigation Controls: Counter & Arrow Buttons */}
+            <div className="flex items-center justify-end gap-2 mb-2 px-1">
+              <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
+                <span className="text-[#111827]">{teamSlide + 1}</span> / {totalTeamSlides}
+              </span>
+              <button
+                type="button"
+                onClick={handlePrevTeam}
+                aria-label="Previous team member"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
               >
-                {/* LinkedIn Badge in top right corner of card */}
-                {member.linkedin && (
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${member.name} LinkedIn`}
-                    title={`View ${member.name} on LinkedIn`}
-                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#0A66C2]/10 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs hover:scale-110 z-10"
-                  >
-                    <Linkedin className="w-4 h-4 fill-current" />
-                  </a>
-                )}
+                <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+              </button>
+              <button
+                type="button"
+                onClick={handleNextTeam}
+                aria-label="Next team member"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+              >
+                <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
 
-                {/* Floating Circular Avatar overlapping top border */}
-                <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full p-1 bg-white ring-4 ring-[#EFF2F4] shadow-md overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.src = '/images/careers-handshake.jpg';
-                    }}
-                  />
+            {/* Slides Track with top padding for floating avatar */}
+            <div
+              className="flex items-stretch transition-transform duration-500 ease-out pt-14 pb-2"
+              style={{ transform: `translateX(-${teamSlide * 100}%)` }}
+            >
+              {TEAM_MEMBERS.map((member) => (
+                <div key={member.name} className="w-full shrink-0 px-2 flex flex-col">
+                  {renderTeamMemberCard(member)}
                 </div>
+              ))}
+            </div>
 
-                {/* Name & Role */}
-                <div className="mt-1">
-                  <h3 className="text-lg font-bold font-display text-[#111827]">
-                    {member.name}
-                  </h3>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#E30613] mt-1.5">
-                    {member.role}
-                  </p>
-                </div>
+            {/* Bottom Dots Indicator (Centered) */}
+            <div className="flex items-center justify-center gap-2 mt-5">
+              {TEAM_MEMBERS.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setTeamSlide(idx)}
+                  aria-label={`Team member ${idx + 1}`}
+                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
+                    idx === teamSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
 
-                {/* Divider Line & Contact Buttons */}
-                <div className="mt-8">
-                  <div className="w-full border-t border-gray-100 mb-5" />
-
-                  <div className="space-y-2.5">
-                    {member.email && (
-                      <a
-                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(member.email)}&su=${encodeURIComponent('Inquiry via Macee Website')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={`Send an email to ${member.name} (${member.email})`}
-                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs text-[#4B5563] transition-colors group/btn cursor-pointer"
-                      >
-                        <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
-                        <span className="truncate">{member.email}</span>
-                      </a>
-                    )}
-                    {member.phone && (
-                      <a
-                        href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
-                        title={`Call ${member.name} (${member.phone})`}
-                        onClick={() => {
-                          window.location.href = `tel:${member.phone.replace(/[^0-9+]/g, '')}`;
-                        }}
-                        className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
-                      >
-                        <Phone className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
-                        <span>{member.phone}</span>
-                      </a>
-                    )}
-
-                    {/* Action buttons for executive / owner without personal phone/email */}
-                    {!member.email && !member.phone && (
-                      <>
-                        {member.linkedin && (
-                          <a
-                            href={member.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#0A66C2]/10 hover:bg-[#0A66C2] hover:text-white text-xs font-semibold text-[#0A66C2] transition-colors group/btn shadow-2xs cursor-pointer"
-                          >
-                            <Linkedin className="w-4 h-4 fill-current text-[#0A66C2] group-hover/btn:text-white shrink-0" />
-                            <span>{lang === 'NL' ? 'Connect via LinkedIn' : 'Connect on LinkedIn'}</span>
-                          </a>
-                        )}
-                        <a
-                          href={`https://mail.google.com/mail/?view=cm&fs=1&to=info@macee.com&su=${encodeURIComponent('Inquiry via Macee Desk')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="Contact Macee Headquarters Desk"
-                          className="flex items-center justify-center gap-2.5 w-full py-2.5 px-3 rounded-xl bg-[#F8FAFB] hover:bg-[#111827] hover:text-white text-xs font-medium text-[#4B5563] transition-colors group/btn cursor-pointer"
-                        >
-                          <Mail className="w-4 h-4 text-[#111827] group-hover/btn:text-white shrink-0" />
-                          <span>{'desk' in member && member.desk ? member.desk : (lang === 'NL' ? 'Contact via Hoofdkantoor' : 'Contact via Macee Desk')}</span>
-                        </a>
-                      </>
-                    )}
-                  </div>
-                </div>
+          {/* Desktop View: Symmetrical Grid for the 6 Team Members */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mb-16 pt-8">
+            {TEAM_MEMBERS.map((member) => (
+              <div key={member.name} className="h-full flex flex-col">
+                {renderTeamMemberCard(member)}
               </div>
             ))}
           </div>
