@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award } from 'lucide-react';
+import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award, ChevronDown } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
@@ -22,6 +22,18 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
   const INDUSTRIES_DATA = professionalsData.industries.items;
   const [activeIndustryId, setActiveIndustryId] = useState<string>('ict');
   const [vacancies, setVacancies] = useState<ProjectAssignmentItem[]>(() => getCachedJobs() || []);
+  const [expandedServices, setExpandedServices] = useState<Record<string, boolean>>({
+    'freelance-zzp': true,
+    'contracting-secondment': false,
+    'hsm-expats': false,
+  });
+
+  const toggleService = (id: string) => {
+    setExpandedServices((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -101,29 +113,92 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
           </div>
 
           <div className="prof-service-list">
-            {professionalsData.whatCanWeDo.services.map((svc) => (
-              <div
-                key={svc.id}
-                onClick={() => onSelectService && onSelectService(svc.id)}
-                className={`prof-service-item cursor-pointer hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''}`}
-                title={`Click to view detailed explanation for ${svc.title}`}
-              >
-                {svc.tag && (
-                  <div className="prof-service-tag">
-                    <span>{svc.tag}</span>
+            {professionalsData.whatCanWeDo.services.map((svc) => {
+              const isExpanded = expandedServices[svc.id] ?? false;
+              return (
+                <div
+                  key={svc.id}
+                  className={`prof-service-item hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${
+                    svc.highlight ? 'highlight' : ''
+                  } ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
+                >
+                  {/* Header: Clickable on mobile to expand/collapse, on desktop opens service modal */}
+                  <div
+                    onClick={() => {
+                      if (window.innerWidth < 768) {
+                        toggleService(svc.id);
+                      } else if (onSelectService) {
+                        onSelectService(svc.id);
+                      }
+                    }}
+                    className="cursor-pointer"
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={isExpanded}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (window.innerWidth < 768) {
+                          toggleService(svc.id);
+                        } else if (onSelectService) {
+                          onSelectService(svc.id);
+                        }
+                      }
+                    }}
+                    title={lang === 'NL' ? 'Klik om toelichting te bekijken' : 'Click to view details'}
+                  >
+                    {svc.tag && (
+                      <div className="prof-service-tag">
+                        <span>{svc.tag}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors mb-0">
+                        {svc.title}
+                      </h3>
+                      {/* Desktop arrow */}
+                      <ArrowRight className="hidden md:block w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+                      {/* Mobile Expand / Collapse Chevron */}
+                      <div className="md:hidden shrink-0">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isExpanded
+                              ? 'bg-[#E30613]/10 text-[#E30613]'
+                              : 'bg-gray-100 text-gray-500'
+                          }`}
+                        >
+                          <ChevronDown
+                            size={18}
+                            className={`transition-transform duration-300 ${
+                              isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                            }`}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="prof-service-title group-hover:text-[#E30613] transition-colors">{svc.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
+
+                  {/* Expandable Body: Always visible on desktop (md:block), toggled on mobile */}
+                  <div className={`prof-service-body ${isExpanded ? 'block' : 'hidden md:block'} mt-2.5`}>
+                    <p className="prof-service-desc">{svc.description}</p>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onSelectService) onSelectService(svc.id);
+                      }}
+                      className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] hover:underline cursor-pointer"
+                    >
+                      <span>
+                        {lang === 'NL'
+                          ? 'Bekijk volledige toelichting & voordelen'
+                          : 'View full explanation & key features'}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
                 </div>
-                <p className="prof-service-desc">{svc.description}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-xs font-semibold text-[#E30613] group-hover:underline">
-                  <span>{lang === 'NL' ? 'Bekijk volledige toelichting & voordelen' : 'View full explanation & key features'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
