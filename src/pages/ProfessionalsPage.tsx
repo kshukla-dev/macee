@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award, ChevronDown } from 'lucide-react';
+import { Laptop, Landmark, Database, ArrowRight, UserCheck, Award, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { PROFESSIONALS_FAQS } from '../data/pageFaqs';
@@ -33,6 +33,42 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
       ...prev,
       [id]: !prev[id],
     }));
+  };
+
+  // Carousel State for Section 2 (What We Do) on Mobile
+  const [whatSlide, setWhatSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const totalWhatSlides = professionalsData.whatWeDo.items.length;
+
+  const handlePrevWhat = () => {
+    setWhatSlide((prev) => (prev > 0 ? prev - 1 : totalWhatSlides - 1));
+  };
+
+  const handleNextWhat = () => {
+    setWhatSlide((prev) => (prev < totalWhatSlides - 1 ? prev + 1 : 0));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > 45) {
+      handleNextWhat();
+    } else if (distance < -45) {
+      handlePrevWhat();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
   };
 
   useEffect(() => {
@@ -86,6 +122,92 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
     INDUSTRIES_DATA.find((ind) => ind.id === activeIndustryId) || INDUSTRIES_DATA[0];
 
   const activeProjectCount = getProjectCountForIndustry(activeIndustry.id);
+
+  const renderWhatCard = (item: typeof professionalsData.whatWeDo.items[0]) => {
+    const getBranche = () => {
+      const t = item.title.toLowerCase();
+      if (t.includes('ict') || t.includes('software')) return 'ICT';
+      if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
+      if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
+      return 'ICT';
+    };
+    const targetBranche = getBranche();
+
+    return (
+      <div className="prof-what-card h-full">
+        <div className="prof-what-media">
+          <span className="prof-what-num-badge">{item.num}</span>
+          <img
+            src={item.image}
+            alt={item.alt}
+            className="prof-what-img"
+            onError={(e) => {
+              e.currentTarget.src = item.fallback;
+            }}
+          />
+          <svg
+            className="prof-what-wave-svg"
+            viewBox="0 0 400 45"
+            preserveAspectRatio="none"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 45H400V15C310 38 180 5 0 28V45Z"
+              fill="#ffffff"
+            />
+          </svg>
+          <div className="prof-what-floating-icon">
+            {item.icon === 'Laptop' ? (
+              <Laptop size={20} />
+            ) : item.icon === 'Landmark' ? (
+              <Landmark size={20} />
+            ) : (
+              <Database size={20} />
+            )}
+          </div>
+        </div>
+
+        <div className="prof-what-body flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="prof-what-title">{item.title}</h3>
+            <span className="prof-what-title-line" />
+            <p className="prof-what-text">{item.text}</p>
+          </div>
+
+          <div>
+            <div className="prof-what-tags">
+              {item.tags.map((tag, tIdx) => (
+                <button
+                  key={tIdx}
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
+                  className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
+                  title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <div className="prof-what-footer">
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
+                className="prof-what-learn-btn"
+                title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
+              >
+                <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
+                <span className="prof-what-btn-arrow">
+                  <ArrowRight size={14} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="prof-page">
@@ -222,7 +344,7 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
               </p>
             </div>
 
-            <div className="prof-what-header-right">
+            <div className="prof-what-header-right hidden md:flex">
               <div className="prof-what-map-bg">
                 <svg viewBox="0 0 160 140" fill="none" className="prof-what-map-svg" aria-hidden="true">
                   <path
@@ -241,88 +363,71 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
             </div>
           </div>
 
-          <div className="prof-what-grid">
-            {professionalsData.whatWeDo.items.map((item) => {
-              const getBranche = () => {
-                const t = item.title.toLowerCase();
-                if (t.includes('ict') || t.includes('software')) return 'ICT';
-                if (t.includes('public') || t.includes('overheid') || t.includes('publiek')) return 'Public sector';
-                if (t.includes('bank') || t.includes('finan') || t.includes('fintech')) return 'Banking and insurance';
-                return 'ICT';
-              };
-              const targetBranche = getBranche();
+          {/* Mobile View: Swipeable Carousel */}
+          <div
+            className="md:hidden relative overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Top Navigation Controls: Counter & Arrow Buttons */}
+            <div className="flex items-center justify-end gap-2 mb-4 px-1">
+              <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
+                <span className="text-[#111827]">{whatSlide + 1}</span> / {totalWhatSlides}
+              </span>
+              <button
+                type="button"
+                onClick={handlePrevWhat}
+                aria-label="Previous slide"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+              >
+                <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+              </button>
+              <button
+                type="button"
+                onClick={handleNextWhat}
+                aria-label="Next slide"
+                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+              >
+                <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
 
-              return (
-                <div key={item.num} className="prof-what-card">
-                  <div className="prof-what-media">
-                    <span className="prof-what-num-badge">{item.num}</span>
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      className="prof-what-img"
-                      onError={(e) => {
-                        e.currentTarget.src = item.fallback;
-                      }}
-                    />
-                    <svg
-                      className="prof-what-wave-svg"
-                      viewBox="0 0 400 45"
-                      preserveAspectRatio="none"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0 45H400V15C310 38 180 5 0 28V45Z"
-                        fill="#ffffff"
-                      />
-                    </svg>
-                    <div className="prof-what-floating-icon">
-                      {item.icon === 'Laptop' ? (
-                        <Laptop size={20} />
-                      ) : item.icon === 'Landmark' ? (
-                        <Landmark size={20} />
-                      ) : (
-                        <Database size={20} />
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="prof-what-body">
-                    <h3 className="prof-what-title">{item.title}</h3>
-                    <span className="prof-what-title-line" />
-                    <p className="prof-what-text">{item.text}</p>
-
-                    <div className="prof-what-tags">
-                      {item.tags.map((tag, tIdx) => (
-                        <button
-                          key={tIdx}
-                          type="button"
-                          onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche, query: tag })}
-                          className="prof-what-tag hover:!bg-[#E30613] hover:!text-white transition-colors cursor-pointer border-0"
-                          title={lang === 'NL' ? `Zoek ${tag} opdrachten` : `Search ${tag} assignments`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="prof-what-footer">
-                      <button
-                        type="button"
-                        onClick={() => onNavigate && onNavigate('projects', { branche: targetBranche })}
-                        className="prof-what-learn-btn"
-                        title={lang === 'NL' ? `Bekijk alle ${item.title} opdrachten` : `View all ${item.title} projects`}
-                      >
-                        <span>{lang === 'NL' ? 'Bekijk projecten' : 'View projects'}</span>
-                        <span className="prof-what-btn-arrow">
-                          <ArrowRight size={14} />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+            {/* Slides Track */}
+            <div
+              className="flex items-stretch transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${whatSlide * 100}%)` }}
+            >
+              {professionalsData.whatWeDo.items.map((item) => (
+                <div key={item.num} className="w-full shrink-0 px-1 flex flex-col">
+                  {renderWhatCard(item)}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Bottom Dots Indicator (Centered) */}
+            <div className="flex items-center justify-center gap-2 mt-5">
+              {professionalsData.whatWeDo.items.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setWhatSlide(idx)}
+                  aria-label={`Slide ${idx + 1}`}
+                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
+                    idx === whatSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop View: Pristine 3 Columns Grid */}
+          <div className="hidden md:grid md:grid-cols-3 md:gap-7">
+            {professionalsData.whatWeDo.items.map((item) => (
+              <div key={item.num} className="h-full flex flex-col">
+                {renderWhatCard(item)}
+              </div>
+            ))}
           </div>
         </div>
       </section>

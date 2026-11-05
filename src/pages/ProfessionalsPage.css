@@ -189,9 +189,16 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 48px;
+  gap: 16px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .prof-what-header-wrap {
+    gap: 32px;
+    margin-bottom: 48px;
+  }
 }
 
 .prof-what-header-left {
@@ -247,11 +254,17 @@
 
 /* Header Right: Floating Netherlands Badge */
 .prof-what-header-right {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 240px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .prof-what-header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 240px;
+  }
 }
 
 .prof-what-map-bg {
