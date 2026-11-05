@@ -38,6 +38,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'whatwedo.subtitle': 'Comprehensive workforce solutions tailored for Dutch enterprises, international contractors, and flexible specialists.',
     'whatwedo.cta': 'Explore All Services',
     'whatwedo.learnMore': 'Learn More',
+    'whatwedo.showMore': 'Show More Services (+4)',
+    'whatwedo.showLess': 'Show Less',
 
     // Why Workforce Solutions
     'why.badge': 'DISCOVER THE DIFFERENCE',
@@ -170,6 +172,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'whatwedo.subtitle': 'Complete personeelsoplossingen op maat voor Nederlandse opdrachtgevers, internationale aannemers en flexibele specialisten.',
     'whatwedo.cta': 'Bekijk Alle Diensten',
     'whatwedo.learnMore': 'Meer informatie',
+    'whatwedo.showMore': 'Toon Meer Diensten (+4)',
+    'whatwedo.showLess': 'Minder Weergeven',
 
     // Why Workforce Solutions
     'why.badge': 'ONTDEK HET VERSCHIL',

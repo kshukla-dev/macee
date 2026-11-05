@@ -278,7 +278,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
         selectedLocation === 'All' ||
         proj.location.toLowerCase().includes(selectedLocation.toLowerCase());
 
-        const matchesBranche = matchesProjectBranche(proj, selectedBranche);
+      const matchesBranche = matchesProjectBranche(proj, selectedBranche);
 
       const matchesContract =
         selectedContract === 'All' ||
@@ -592,7 +592,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-2" id="opportunities-heading">
               <h2 className="text-2xl font-bold font-display text-gray-900">
-                Current Opportunities ({filteredProjects.length})
+                Current Openings ({filteredProjects.length})
               </h2>
               {totalPages > 1 && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
