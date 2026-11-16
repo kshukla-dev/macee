@@ -1203,5 +1203,19 @@ export async function submitJobAlertForm(
   };
 }
 
-// Re-export OTYS Webhook types
-export type { OtysWebhookEventName, OtysWebhookPayload } from './otysWebsite';
+// OTYS Webhook types
+export type OtysWebhookEventName =
+  | 'vacancyNew'
+  | 'vacancyUpdate'
+  | 'vacancyDelete'
+  | 'userUpdate'
+  | 'matchCriteriaUpdate'
+  | 'formUpdate'
+  | 'formDelete';
+
+export interface OtysWebhookPayload {
+  event?: OtysWebhookEventName | string;
+  id?: string | number;
+  data?: any;
+  timestamp?: number | string;
+}

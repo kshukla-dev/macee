@@ -20,7 +20,6 @@ import { Footer } from './components/Footer';
 import { ConsultationModal } from './components/ConsultationModal';
 import { HRRiskSurveyModal } from './components/HRRiskSurveyModal';
 import { ResourceModal } from './components/ResourceModal';
-import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { FaqModal } from './components/FaqModal';
 import { OpenApplicationModal } from './components/OpenApplicationModal';
 import { CreateJobalertModal } from './components/CreateJobalertModal';
@@ -28,7 +27,8 @@ import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { AboutPage } from './pages/AboutPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { ProfessionalsPage } from './pages/ProfessionalsPage';
-import { ProjectsPage } from './pages/ProjectsPage';
+import { ProjectsPage, ProjectAssignmentItem } from './pages/ProjectsPage';
+import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
 
@@ -39,12 +39,14 @@ import { getAllJobs, getCachedJobs } from './lib/api';
 import { Language } from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
-export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'faq' | 'contact';
+export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<PageRoute>('home');
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
+  const [currentProjectData, setCurrentProjectData] = useState<ProjectAssignmentItem | null>(null);
   const { lang, setLang } = useLanguage();
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
   const [consultationNotes, setConsultationNotes] = useState('');
@@ -111,6 +113,19 @@ function AppContent() {
     const handleLocation = () => {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.toLowerCase();
+
+      // Check for project detail URL (/projects/:id, /project/:id, /vacancies/:id, /assignments/:id)
+      const projectDetailMatch = window.location.pathname.match(/^\/(?:projects|project|assignments|vacancies)\/([^/?#]+)/i);
+      const searchParams = new URLSearchParams(window.location.search);
+      const paramJobId = searchParams.get('id') || searchParams.get('job') || searchParams.get('vacancy');
+
+      if (projectDetailMatch || paramJobId) {
+        const targetId = projectDetailMatch ? decodeURIComponent(projectDetailMatch[1]) : paramJobId!;
+        setCurrentProjectId(targetId);
+        setCurrentPage('project-detail');
+        return;
+      }
+
       if (path === '/about' || path === '/about-us' || hash === '#about' || hash === '#about-us' || hash === '#about-services' || hash === '#services') {
         setCurrentPage('about');
         if (hash === '#about-services' || hash === '#services') {
@@ -257,6 +272,25 @@ function AppContent() {
     } else if (page === 'professionals' || page === 'professionals-page') {
       setCurrentPage('professionals');
       window.history.pushState(null, '', '/professionals');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (
+      targetPage.startsWith('projects/') ||
+      targetPage.startsWith('project/') ||
+      targetPage.startsWith('vacancies/') ||
+      targetPage.startsWith('assignments/') ||
+      targetPage === 'project-detail'
+    ) {
+      let projId = targetPage.replace(/^(?:projects|project|vacancies|assignments)\//i, '');
+      if (typeof options === 'object' && options !== null && 'id' in options) {
+        setCurrentProjectData(options as ProjectAssignmentItem);
+        if (!projId || projId === 'project-detail') {
+          projId = String(options.id);
+        }
+      }
+      const cleanId = projId ? String(projId).replace(/^otys-/, '').replace(/^macee-/, '') : '';
+      setCurrentProjectId(cleanId || projId || null);
+      setCurrentPage('project-detail');
+      window.history.pushState(null, '', `/projects/${cleanId || projId}`);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (targetPage === 'projects' || targetPage === 'assignments' || targetPage === 'vacancies') {
       const br = targetBranche !== undefined ? targetBranche : 'All';
@@ -500,6 +534,13 @@ function AppContent() {
           <ClientsPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
         ) : currentPage === 'professionals' ? (
           <ProfessionalsPage onNavigate={handleNavigatePage} onSelectService={handleOpenServiceDetail} />
+        ) : currentPage === 'project-detail' ? (
+          <ProjectDetailPage
+            projectId={currentProjectId}
+            initialProject={currentProjectData}
+            onNavigate={handleNavigatePage}
+            onOpenConsultation={() => setIsConsultationOpen(true)}
+          />
         ) : currentPage === 'projects' ? (
           <ProjectsPage
             onNavigate={handleNavigatePage}
@@ -534,8 +575,10 @@ function AppContent() {
 
             {/* 7. Current Projects & Assignments */}
             <CurrentJobListings
-              onSelectJob={(job) => setSelectedJob(job)}
-              onExploreAllJobs={() => setCurrentPage('projects')}
+              onSelectJob={(job) => {
+                handleNavigatePage(`projects/${job.id}`, job as any);
+              }}
+              onExploreAllJobs={() => handleNavigatePage('projects')}
             />
 
             {/* 8. Compliance Risk Assessment Banner */}
@@ -599,11 +642,6 @@ function AppContent() {
           setSelectedResource(null);
           setIsConsultationOpen(true);
         }}
-      />
-
-      <ProjectDetailModal
-        project={selectedJob}
-        onClose={() => setSelectedJob(null)}
       />
 
       <FaqModal

@@ -30,7 +30,6 @@ import { JobalertBanner } from '../components/JobalertBanner';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { PROJECTS_FAQS } from '../data/pageFaqs';
-import { ProjectDetailModal } from '../components/ProjectDetailModal';
 import {
   getAllJobs,
   fetchVacancies,
@@ -182,21 +181,6 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
   const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  // Modal & Application Form state
-  const [activeProject, setActiveProject] = useState<ProjectAssignmentItem | null>(null);
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const [applySubmitted, setApplySubmitted] = useState(false);
-  const [applicantName, setApplicantName] = useState('');
-  const [applicantEmail, setApplicantEmail] = useState('');
-  const [applicantPhone, setApplicantPhone] = useState('');
-  const [applicantRate, setApplicantRate] = useState('');
-  const [applicantNote, setApplicantNote] = useState('');
-  const [applicantFile, setApplicantFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
-  const [applyError, setApplyError] = useState('');
-
   // Load vacancies from OTYS API (fetches all active published vacancies)
   const loadVacancies = useCallback(async () => {
     setIsLoading(true);
@@ -317,81 +301,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
     return filteredProjects.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredProjects, currentPage]);
 
-  const handleOpenModal = async (proj: ProjectAssignmentItem) => {
-    // 1. Immediately open modal with existing summary card data
-    setActiveProject(proj);
-    setApplySubmitted(false);
-    setSubmitMessage('');
-    setApplyError('');
-    setApplicantFile(null);
-    setIsDescriptionExpanded(false);
-
-    // 2. Fetch full details from OTYS: GET /vacancies/{id}?includeUnpublishedTextfields=true
-    if (isOtysConfigured()) {
-      setIsLoadingDetails(true);
-      try {
-        const cleanId = String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '');
-        console.log(`🔍 [ProjectsPage] Fetching complete vacancy details for ID: ${cleanId}...`);
-        const fullDetails = await getJobDetails(cleanId);
-        if (fullDetails) {
-          console.log('✅ [ProjectsPage] Live vacancy details loaded from API:', fullDetails);
-          setActiveProject(fullDetails);
-        }
-      } catch (err: any) {
-        console.warn('Notice: Could not load extra details from API, using cached card info:', err.message);
-      } finally {
-        setIsLoadingDetails(false);
-      }
-    }
-  };
-
-  const handleApplySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!activeProject) return;
-
-    setIsSubmitting(true);
-    setSubmitMessage('');
-    setApplyError('');
-
-    try {
-      let fileId: string | undefined;
-      let owsFileUid: string | undefined;
-
-      // 1. Upload CV file to OTYS if file selected and OTYS configured
-      if (applicantFile && isOtysConfigured()) {
-        try {
-          const uploadRes = await uploadCvFile(applicantFile);
-          fileId = typeof uploadRes === 'object' ? uploadRes.fileId : String(uploadRes);
-          owsFileUid = typeof uploadRes === 'object' && uploadRes.owsFileUid ? uploadRes.owsFileUid : undefined;
-        } catch (uploadErr: any) {
-          console.warn('CV file upload notice:', uploadErr.message);
-        }
-      }
-
-      // 2. Submit application into OTYS recruitment system
-      if (isOtysConfigured()) {
-        const cleanVacancyId = String(activeProject.id).replace(/^otys-/, '').replace(/^macee-/, '');
-        const res = await submitVacancyApplication(cleanVacancyId, {
-          name: applicantName,
-          email: applicantEmail,
-          phone: applicantPhone,
-          rate: applicantRate,
-          note: applicantNote,
-          fileId,
-          owsFileUid,
-        });
-        setSubmitMessage(res.message);
-      } else {
-        setSubmitMessage(`Thank you, ${applicantName || 'Applicant'}. Your application for ${activeProject.title} has been received by Macee's recruitment team.`);
-      }
-
-      setApplySubmitted(true);
-    } catch (err: any) {
-      console.error('Submission error:', err);
-      setApplyError(err.message || 'Submission error. Please verify your details and try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleSelectProject = (proj: ProjectAssignmentItem) => {
+    const cleanId = String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '');
+    onNavigate(`projects/${cleanId}`, proj);
   };
 
   const handleResetFilters = () => {
@@ -667,13 +579,19 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
                       )}
                     </div>
 
-                    <h3
-                      onClick={() => handleOpenModal(proj)}
+                    <a
+                      href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
+                      onClick={(e) => {
+                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                          e.preventDefault();
+                          handleSelectProject(proj);
+                        }
+                      }}
                       className="text-xl sm:text-2xl font-bold font-display text-gray-900 hover:text-[#E30613] cursor-pointer transition-colors inline-block"
                       title={lang === 'NL' ? 'Klik om volledige vacaturedetails te bekijken' : 'Click to view full project details'}
                     >
                       {proj.title}
-                    </h3>
+                    </a>
 
                     {/* Metadata pills */}
                     <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-600">
@@ -713,13 +631,19 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
 
                   {/* Right: Action Buttons */}
                   <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3 min-w-[200px]">
-                    <button
-                      onClick={() => handleOpenModal(proj)}
-                      className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer"
+                    <a
+                      href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
+                      onClick={(e) => {
+                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                          e.preventDefault();
+                          handleSelectProject(proj);
+                        }
+                      }}
+                      className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer text-center"
                     >
                       <span>View &amp; Apply</span>
                       <ArrowRight className="w-4 h-4" />
-                    </button>
+                    </a>
 
                   </div>
                 </div>
@@ -794,14 +718,6 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
           </div>
         </div>
       </section>
-
-      {/* 4. Modal for Detailed View & Application */}
-      <ProjectDetailModal
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-      />
-
-
 
       {/* 5. Job Alert Banner (Positioned above FAQ as requested in Point 43) */}
       <JobalertBanner onNavigate={onNavigate} />
