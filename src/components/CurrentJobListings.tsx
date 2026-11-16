@@ -178,53 +178,62 @@ export const CurrentJobListings: React.FC<CurrentJobListingsProps> = ({
 
             {/* Jobs List */}
             <div className="space-y-3 pt-2">
-              {filteredJobs.map((job) => (
-                <div
-                  key={job.id}
-                  onClick={() => onSelectJob(job)}
-                  className="p-4 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#111827]/30 hover:shadow-md transition-all duration-200 cursor-pointer group"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div>
-                      <h4 className="text-base font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors">
-                        {job.title}
-                      </h4>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#54595F]">
-                        <span className="flex items-center gap-1">
-                          <Briefcase className="w-3.5 h-3.5 text-[#111827]" />
-                          {job.department}
-                        </span>
-                        <span>·</span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-[#111827]" />
-                          {job.location}
-                        </span>
-                        <span>·</span>
-                        <span className="flex items-center gap-1 font-mono">
-                          <Clock className="w-3.5 h-3.5 text-[#111827]" />
-                          {job.type}
-                        </span>
-                        {job.postedDate && (
-                          <>
-                            <span>·</span>
-                            <span className="text-[11px] font-mono text-gray-500 font-medium">
-                              {job.postedDate.toLowerCase().includes('otys') ||
-                              job.postedDate.toLowerCase().includes('assignment')
-                                ? 'Active'
-                                : job.postedDate}
-                            </span>
-                          </>
-                        )}
+              {filteredJobs.map((job) => {
+                const cleanId = String(job.id).replace(/^otys-/, '').replace(/^macee-/, '');
+                return (
+                  <a
+                    key={job.id}
+                    href={`/projects/${cleanId}`}
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                        e.preventDefault();
+                        onSelectJob(job);
+                      }
+                    }}
+                    className="block p-4 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#111827]/30 hover:shadow-md transition-all duration-200 cursor-pointer group text-left"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div>
+                        <h4 className="text-base font-bold font-display text-[#111827] group-hover:text-[#E30613] transition-colors">
+                          {job.title}
+                        </h4>
+                        <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#54595F]">
+                          <span className="flex items-center gap-1">
+                            <Briefcase className="w-3.5 h-3.5 text-[#111827]" />
+                            {job.department}
+                          </span>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-3.5 h-3.5 text-[#111827]" />
+                            {job.location}
+                          </span>
+                          <span>·</span>
+                          <span className="flex items-center gap-1 font-mono">
+                            <Clock className="w-3.5 h-3.5 text-[#111827]" />
+                            {job.type}
+                          </span>
+                          {job.postedDate && (
+                            <>
+                              <span>·</span>
+                              <span className="text-[11px] font-mono text-gray-500 font-medium">
+                                {job.postedDate.toLowerCase().includes('otys') ||
+                                job.postedDate.toLowerCase().includes('assignment')
+                                  ? 'Active'
+                                  : job.postedDate}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center text-xs font-semibold text-[#E30613] group-hover:text-[#111827] shrink-0">
+                        <span>{t('jobs.apply')}</span>
+                        <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
-
-                    <div className="flex items-center text-xs font-semibold text-[#E30613] group-hover:text-[#111827] shrink-0">
-                      <span>{t('jobs.apply')}</span>
-                      <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </a>
+                );
+              })}
             </div>
 
             {/* CTA Button */}
