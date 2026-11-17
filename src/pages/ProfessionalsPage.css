@@ -39,7 +39,7 @@
 /* Container */
 .prof-container {
   width: 100%;
-  max-width: 1220px;
+  max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;
@@ -716,6 +716,7 @@
     opacity: 0;
     transform: translateY(-8px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
