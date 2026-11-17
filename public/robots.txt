@@ -1,0 +1,8 @@
+# Robots.txt for Macee External Workforce Solutions
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://macee.com/sitemap.xml
+Sitemap: https://macee.vercel.app/sitemap.xml

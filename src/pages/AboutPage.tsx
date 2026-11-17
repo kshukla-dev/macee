@@ -5,6 +5,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { ContactFormSection } from '../components/ContactFormSection';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { ABOUT_FAQS } from '../data/pageFaqs';
+import { SEO } from '../components/SEO';
+import { getAboutSchema } from '../data/seoSchemas';
 import {
   CheckCircle2,
   Mail,
@@ -299,6 +301,22 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
 
   return (
     <div className="page_about">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Over Macee | 30+ Jaar Ervaring in Detachering'
+            : 'About Macee | 30+ Years in Staffing & Contracting'
+        }
+        description={
+          lang === 'NL'
+            ? 'Ontdek Macee’s 30+ jaar recruitmentexpertise, persoonlijke deskfilosofie, SNA NEN 4400-1 certificering en naleving van Nederlandse arbeidswetgeving.'
+            : 'Learn about Macee’s 30+ years of recruitment expertise, dedicated staffing desk philosophy, SNA NEN 4400-1 accreditation, and Dutch compliance mastery.'
+        }
+        canonicalPath="/about"
+        lang={lang}
+        schema={getAboutSchema(lang)}
+      />
+
       {/* 1. Hero Section - Matching Home Page 2-Column Split Hero */}
       <section
         id="about-hero"
@@ -308,518 +326,511 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
         <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#111827]/5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#E30613]/5 blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Column: Heading, Subheading & CTAs */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111827]/10 text-[#111827] text-xs sm:text-sm font-semibold tracking-wide">
-                <Award className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{aboutData.hero.badge}</span>
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
-                {aboutData.hero.titlePrefix}{' '}
-                <span className="text-[#E30613] decoration-[#E30613]/20">
-                  {aboutData.hero.titleHighlight}
-                </span>
-              </h1>
-
-              <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
-                {aboutData.hero.description}
-              </p>
-
-              {/* CTAs matching Home Page */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                <button
-                  onClick={() => scrollToSection(aboutData.hero.primaryCta.target)}
-                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-base shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group hover:-translate-y-0.5"
-                >
-                  <span>{aboutData.hero.primaryCta.text}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </button>
-
-                <button
-                  onClick={() => scrollToSection(aboutData.hero.secondaryCta.target)}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-[5px] bg-white border border-[#111827]/25 text-[#111827] hover:bg-[#F8FAFB] font-semibold text-base transition-colors duration-200 cursor-pointer"
-                >
-                  <span>{aboutData.hero.secondaryCta.text}</span>
-                </button>
-              </div>
-
-              {/* Trust points */}
-              <div className="pt-6 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-[#333333]">
-                {aboutData.hero.trustPoints.map((tp, idx) => (
-                  <div key={tp.id || idx} className="flex items-center gap-2">
-                    {idx === 0 && <ShieldCheck className="w-4 h-4 text-[#111827] shrink-0" />}
-                    {idx === 1 && <CheckCircle2 className="w-4 h-4 text-[#111827] shrink-0" />}
-                    {idx === 2 && <Users className="w-4 h-4 text-[#111827] shrink-0" />}
-                    <span className="font-medium">{tp.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              <div className="relative w-full max-w-md lg:max-w-none">
-                <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
-
-                {/* Crossfade Image Carousel Container */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.2] max-h-[500px]">
-                  {ABOUT_HERO_IMAGES.map((img, idx) => (
-                    <div
-                      key={img.src}
-                      onClick={() => onNavigate && onNavigate(img.page)}
-                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer group/slide ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-                        }`}
-                      title={`Click to explore ${img.title}`}
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out group-hover/slide:scale-110 ${idx === currentSlide ? 'scale-105' : 'scale-100'
-                          }`}
-                      />
-                      {/* Subtle bottom shadow vignette */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                    </div>
-                  ))}
-
-                  {/* Sleek Carousel Indicators */}
-                  <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-                    {ABOUT_HERO_IMAGES.map((_, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setCurrentSlide(idx)}
-                        aria-label={`Slide ${idx + 1}`}
-                        className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
-                          }`}
-                      />
-                    ))}
-                  </div>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              {/* Left Column: Heading, Subheading & CTAs */}
+              <div className="lg:col-span-7 space-y-6 text-left">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111827]/10 text-[#111827] text-xs sm:text-sm font-semibold tracking-wide">
+                  <Award className="w-3.5 h-3.5 text-[#E30613]" />
+                  <span>{aboutData.hero.badge}</span>
                 </div>
 
-                {/* Floating strategic badge (clickable to go directly to slide target page) */}
-                <div
-                  onClick={() => onNavigate && onNavigate(ABOUT_HERO_IMAGES[currentSlide].page)}
-                  className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 hover:border-[#E30613]/50 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl cursor-pointer group/badge"
-                  title={`Click to explore ${ABOUT_HERO_IMAGES[currentSlide].title}`}
-                >
-                  <div className="shrink-0 flex items-center justify-center">
-                    <img
-                      src="/uploads/favicon-96x96.png"
-                      alt="Macee"
-                      className="w-10 h-10 object-contain group-hover/badge:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div>
-                    <div className="text-xs sm:text-sm font-bold text-[#111827] group-hover/badge:text-[#E30613] transition-colors tracking-tight flex items-center gap-1">
-                      <span>{ABOUT_HERO_IMAGES[currentSlide].title}</span>
-                      <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 transition-all" />
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
+                  {aboutData.hero.titlePrefix}{' '}
+                  <span className="text-[#E30613] decoration-[#E30613]/20">
+                    {aboutData.hero.titleHighlight}
+                  </span>
+                </h1>
+
+                <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
+                  {aboutData.hero.description}
+                </p>
+
+                {/* CTAs matching Home Page */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                  <button
+                    onClick={() => scrollToSection(aboutData.hero.primaryCta.target)}
+                    className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-base shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group hover:-translate-y-0.5"
+                  >
+                    <span>{aboutData.hero.primaryCta.text}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+
+                  <button
+                    onClick={() => scrollToSection(aboutData.hero.secondaryCta.target)}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-[5px] bg-white border border-[#111827]/25 text-[#111827] hover:bg-[#F8FAFB] font-semibold text-base transition-colors duration-200 cursor-pointer"
+                  >
+                    <span>{aboutData.hero.secondaryCta.text}</span>
+                  </button>
+                </div>
+
+                {/* Trust points */}
+                <div className="pt-6 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-[#333333]">
+                  {aboutData.hero.trustPoints.map((tp, idx) => (
+                    <div key={tp.id || idx} className="flex items-center gap-2">
+                      {idx === 0 && <ShieldCheck className="w-4 h-4 text-[#111827] shrink-0" />}
+                      {idx === 1 && <CheckCircle2 className="w-4 h-4 text-[#111827] shrink-0" />}
+                      {idx === 2 && <Users className="w-4 h-4 text-[#111827] shrink-0" />}
+                      <span className="font-medium">{tp.text}</span>
                     </div>
-                    <p className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
-                      {ABOUT_HERO_IMAGES[currentSlide].subtitle}
-                    </p>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
+              <div className="lg:col-span-5 relative flex justify-center">
+                <div className="relative w-full max-w-md lg:max-w-none">
+                  <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
+
+                  {/* Crossfade Image Carousel Container */}
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.2] max-h-[500px]">
+                    {ABOUT_HERO_IMAGES.map((img, idx) => (
+                      <div
+                        key={img.src}
+                        onClick={() => onNavigate && onNavigate(img.page)}
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer group/slide ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                          }`}
+                        title={`Click to explore ${img.title}`}
+                      >
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out group-hover/slide:scale-110 ${idx === currentSlide ? 'scale-105' : 'scale-100'
+                            }`}
+                        />
+                        {/* Subtle bottom shadow vignette */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                      </div>
+                    ))}
+
+                    {/* Sleek Carousel Indicators */}
+                    <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                      {ABOUT_HERO_IMAGES.map((_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setCurrentSlide(idx)}
+                          aria-label={`Slide ${idx + 1}`}
+                          className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
+                            }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Floating strategic badge (clickable to go directly to slide target page) */}
+                  <div
+                    onClick={() => onNavigate && onNavigate(ABOUT_HERO_IMAGES[currentSlide].page)}
+                    className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 hover:border-[#E30613]/50 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl cursor-pointer group/badge"
+                    title={`Click to explore ${ABOUT_HERO_IMAGES[currentSlide].title}`}
+                  >
+                    <div className="shrink-0 flex items-center justify-center">
+                      <img
+                        src="/uploads/favicon-96x96.png"
+                        alt="Macee"
+                        className="w-10 h-10 object-contain group-hover/badge:scale-105 transition-transform"
+                      />
+                    </div>
+                    <div>
+                      <div className="text-xs sm:text-sm font-bold text-[#111827] group-hover/badge:text-[#E30613] transition-colors tracking-tight flex items-center gap-1">
+                        <span>{ABOUT_HERO_IMAGES[currentSlide].title}</span>
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 transition-all" />
+                      </div>
+                      <p className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
+                        {ABOUT_HERO_IMAGES[currentSlide].subtitle}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* 2. WHAT WE DO */}
       <section id="about-what-we-do" className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            {/* Left Column: Heading, Copy & Feature Pills */}
-            <div className="lg:col-span-6 space-y-6 text-left">
-              <div>
-                <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-                  {aboutData.whatWeDo.badge}
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+              {/* Left Column: Heading, Copy & Feature Pills */}
+              <div className="lg:col-span-6 space-y-6 text-left">
+                <div>
+                  <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
+                    {aboutData.whatWeDo.badge}
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                    {aboutData.whatWeDo.title}
+                  </h2>
                 </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                  {aboutData.whatWeDo.title}
-                </h2>
+
+                {aboutData.whatWeDo.paragraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className={
+                      index === 0
+                        ? 'text-base sm:text-lg text-[#54595F] leading-relaxed font-normal'
+                        : 'text-base text-[#54595F] leading-relaxed font-normal'
+                    }
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+
+                {/* Highlighting Capability Pills */}
+                <div className="pt-2 flex flex-wrap gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#E30613]" />
+                    {aboutData.whatWeDo.highlights[0]}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
+                    <Globe2 className="w-3.5 h-3.5 text-[#111827]" />
+                    {aboutData.whatWeDo.highlights[1]}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#111827]" />
+                    {aboutData.whatWeDo.highlights[2]}
+                  </span>
+                </div>
               </div>
 
-              {aboutData.whatWeDo.paragraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  className={
-                    index === 0
-                      ? 'text-base sm:text-lg text-[#54595F] leading-relaxed font-normal'
-                      : 'text-base text-[#54595F] leading-relaxed font-normal'
-                  }
-                >
-                  {paragraph}
-                </p>
-              ))}
+              {/* Right Column: Framed Image with Badge */}
+              <div className="lg:col-span-6 relative flex justify-center">
+                <div className="relative w-full max-w-lg">
+                  <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
+                    <img
+                      src={aboutData.whatWeDo.image.src}
+                      alt={aboutData.whatWeDo.image.alt}
+                      className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        e.currentTarget.src = aboutData.whatWeDo.image.fallback;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-              {/* Highlighting Capability Pills */}
-              <div className="pt-2 flex flex-wrap gap-2.5">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#E30613]" />
-                  {aboutData.whatWeDo.highlights[0]}
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
-                  <Globe2 className="w-3.5 h-3.5 text-[#111827]" />
-                  {aboutData.whatWeDo.highlights[1]}
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFB] border border-gray-200/80 text-xs font-semibold text-[#111827]">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#111827]" />
-                  {aboutData.whatWeDo.highlights[2]}
-                </span>
-              </div>
-            </div>
-
-            {/* Right Column: Framed Image with Badge */}
-            <div className="lg:col-span-6 relative flex justify-center">
-              <div className="relative w-full max-w-lg">
-                <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
-                  <img
-                    src={aboutData.whatWeDo.image.src}
-                    alt={aboutData.whatWeDo.image.alt}
-                    className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
-                    onError={(e) => {
-                      e.currentTarget.src = aboutData.whatWeDo.image.fallback;
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
-                    <p className="text-sm font-semibold text-[#111827]">
-                      {aboutData.whatWeDo.image.badgeTitle}
-                    </p>
-                    <p className="text-xs text-[#54595F] mt-0.5">
-                      {aboutData.whatWeDo.image.badgeSubtitle}
-                    </p>
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
+                      <p className="text-sm font-semibold text-[#111827]">
+                        {aboutData.whatWeDo.image.badgeTitle}
+                      </p>
+                      <p className="text-xs text-[#54595F] mt-0.5">
+                        {aboutData.whatWeDo.image.badgeSubtitle}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* 3. HOW WE WORK */}
       <section id="about-how-we-work" className="py-16 sm:py-20 lg:py-24 bg-[#F8FAFB] border-b border-gray-100">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            {/* Left Column: Framed Image */}
-            <div className="lg:col-span-6 order-2 lg:order-1 relative flex justify-center">
-              <div className="relative w-full max-w-lg">
-                <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#111827]/15 rounded-2xl transform -rotate-1 scale-[0.99]" />
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
-                  <img
-                    src={aboutData.howWeWork.image.src}
-                    alt={aboutData.howWeWork.image.alt}
-                    className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
-                    onError={(e) => {
-                      e.currentTarget.src = aboutData.howWeWork.image.fallback;
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+              {/* Left Column: Framed Image */}
+              <div className="lg:col-span-6 order-2 lg:order-1 relative flex justify-center">
+                <div className="relative w-full max-w-lg">
+                  <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#111827]/15 rounded-2xl transform -rotate-1 scale-[0.99]" />
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
+                    <img
+                      src={aboutData.howWeWork.image.src}
+                      alt={aboutData.howWeWork.image.alt}
+                      className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        e.currentTarget.src = aboutData.howWeWork.image.fallback;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
-                    <p className="text-sm font-semibold text-[#111827]">
-                      {aboutData.howWeWork.image.badgeTitle}
-                    </p>
-                    <p className="text-xs text-[#54595F] mt-0.5">
-                      {aboutData.howWeWork.image.badgeSubtitle}
-                    </p>
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
+                      <p className="text-sm font-semibold text-[#111827]">
+                        {aboutData.howWeWork.image.badgeTitle}
+                      </p>
+                      <p className="text-xs text-[#54595F] mt-0.5">
+                        {aboutData.howWeWork.image.badgeSubtitle}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Right Column: Heading, Content & Trust Features */}
-            <div className="lg:col-span-6 order-1 lg:order-2 space-y-6 text-left">
-              <div>
-                <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-                  {aboutData.howWeWork.badge}
-                </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                  {aboutData.howWeWork.title}
-                </h2>
-              </div>
-
-              {aboutData.howWeWork.paragraphs.map((p, idx) => (
-                <p
-                  key={idx}
-                  className={
-                    idx === 0
-                      ? 'text-base sm:text-lg text-[#54595F] leading-relaxed font-normal'
-                      : 'text-base text-[#54595F] leading-relaxed font-normal'
-                  }
-                >
-                  {p}
-                </p>
-              ))}
-
-              {/* Three High-Value Feature Rows */}
-              <div className="pt-2 space-y-3">
-                {aboutData.howWeWork.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200/80 shadow-2xs">
-                    <CheckCircle2 className="w-5 h-5 text-[#111827] shrink-0" />
-                    <span className="text-sm text-[#333333] font-medium">{feature}</span>
+              {/* Right Column: Heading, Content & Trust Features */}
+              <div className="lg:col-span-6 order-1 lg:order-2 space-y-6 text-left">
+                <div>
+                  <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
+                    {aboutData.howWeWork.badge}
                   </div>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                    {aboutData.howWeWork.title}
+                  </h2>
+                </div>
+
+                {aboutData.howWeWork.paragraphs.map((p, idx) => (
+                  <p
+                    key={idx}
+                    className={
+                      idx === 0
+                        ? 'text-base sm:text-lg text-[#54595F] leading-relaxed font-normal'
+                        : 'text-base text-[#54595F] leading-relaxed font-normal'
+                    }
+                  >
+                    {p}
+                  </p>
                 ))}
+
+                {/* Three High-Value Feature Rows */}
+                <div className="pt-2 space-y-3">
+                  {aboutData.howWeWork.features.map((feature, idx) => (
+                    <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200/80 shadow-2xs">
+                      <CheckCircle2 className="w-5 h-5 text-[#111827] shrink-0" />
+                      <span className="text-sm text-[#333333] font-medium">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* 4. SERVICES CAROUSEL */}
       <section id="about-services" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100 overflow-hidden">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header with Title and Carousel Controls */}
-          <div className="flex flex-row items-center justify-between mb-8 sm:mb-12 gap-3 sm:gap-6">
-            <div className="text-left flex-1 min-w-0 pr-2">
-              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-1.5 sm:mb-2">
-                {aboutData.services.badge}
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header with Title and Carousel Controls */}
+            <div className="flex flex-row items-center justify-between mb-8 sm:mb-12 gap-3 sm:gap-6">
+              <div className="text-left flex-1 min-w-0 pr-2">
+                <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-1.5 sm:mb-2">
+                  {aboutData.services.badge}
+                </div>
+                <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                  {aboutData.services.title}
+                </h2>
+                <p className="mt-1.5 sm:mt-3 text-sm sm:text-lg font-semibold text-[#111827]/80">
+                  {aboutData.services.subtitle}
+                </p>
               </div>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                {aboutData.services.title}
-              </h2>
-              <p className="mt-1.5 sm:mt-3 text-sm sm:text-lg font-semibold text-[#111827]/80">
-                {aboutData.services.subtitle}
-              </p>
-            </div>
 
-            {/* Carousel Navigation Arrows & Page Indicator */}
-            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-              <div className="text-[11px] sm:text-xs font-semibold text-gray-500 bg-[#F8FAFB] border border-gray-200/80 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full flex items-center gap-1">
-                <span className="text-[#111827] font-bold">{servicesSlide + 1}</span>
-                <span className="text-gray-400">/</span>
-                <span>{maxIndex + 1}</span>
-              </div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <button
-                  type="button"
-                  onClick={handlePrevService}
-                  aria-label="Previous Service"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
-                >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-0.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextService}
-                  aria-label="Next Service"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
-                >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Carousel Viewport Container */}
-          <div
-            className="relative -mx-3 px-1 py-4 -my-4 overflow-hidden"
-            onMouseEnter={() => setIsServicesPaused(true)}
-            onMouseLeave={() => {
-              setIsServicesPaused(false);
-              setHoveredCardIndex(null);
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            <div
-              className="flex items-stretch transition-transform duration-500 ease-out"
-              style={{
-                transform: `translateX(-${servicesSlide * (100 / visibleCount)}%)`,
-              }}
-            >
-              {aboutData.services.items.map((svc, idx) => {
-                const centerActiveIndex = visibleCount === 3 ? servicesSlide + 1 : servicesSlide;
-                const isCardActive = hoveredCardIndex !== null ? hoveredCardIndex === idx : idx === centerActiveIndex;
-                return (
-                  <div
-                    key={svc.id}
-                    className="shrink-0 px-3 flex flex-col"
-                    style={{ width: `${100 / visibleCount}%` }}
-                    onMouseEnter={() => setHoveredCardIndex(idx)}
-                    onMouseLeave={() => setHoveredCardIndex(null)}
+              {/* Carousel Navigation Arrows & Page Indicator */}
+              <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+                <div className="text-[11px] sm:text-xs font-semibold text-gray-500 bg-[#F8FAFB] border border-gray-200/80 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full flex items-center gap-1">
+                  <span className="text-[#111827] font-bold">{servicesSlide + 1}</span>
+                  <span className="text-gray-400">/</span>
+                  <span>{maxIndex + 1}</span>
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePrevService}
+                    aria-label="Previous Service"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
                   >
+                    <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-0.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNextService}
+                    aria-label="Next Service"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:shadow-md cursor-pointer group"
+                  >
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Carousel Viewport Container */}
+            <div
+              className="relative -mx-3 px-1 py-4 -my-4 overflow-hidden"
+              onMouseEnter={() => setIsServicesPaused(true)}
+              onMouseLeave={() => {
+                setIsServicesPaused(false);
+                setHoveredCardIndex(null);
+              }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className="flex items-stretch transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateX(-${servicesSlide * (100 / visibleCount)}%)`,
+                }}
+              >
+                {aboutData.services.items.map((svc, idx) => {
+                  const centerActiveIndex = visibleCount === 3 ? servicesSlide + 1 : servicesSlide;
+                  const isCardActive = hoveredCardIndex !== null ? hoveredCardIndex === idx : idx === centerActiveIndex;
+                  return (
                     <div
-                      onClick={() => onSelectService && onSelectService(svc.id)}
-                      className={`h-full bg-white rounded-2xl p-7 sm:p-8 border transition-all duration-300 flex flex-col justify-between relative overflow-hidden cursor-pointer select-none ${
-                        isCardActive
-                          ? 'border-[#E30613]/60 shadow-xl -translate-y-1.5'
-                          : 'border-gray-200/80 shadow-sm'
-                      }`}
+                      key={svc.id}
+                      className="shrink-0 px-3 flex flex-col"
+                      style={{ width: `${100 / visibleCount}%` }}
+                      onMouseEnter={() => setHoveredCardIndex(idx)}
+                      onMouseLeave={() => setHoveredCardIndex(null)}
                     >
                       <div
-                        className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] transition-opacity duration-300 ${
-                          isCardActive ? 'opacity-100' : 'opacity-0'
-                        }`}
-                      />
-                      <div>
+                        onClick={() => onSelectService && onSelectService(svc.id)}
+                        className={`h-full bg-white rounded-2xl p-7 sm:p-8 border transition-all duration-300 flex flex-col justify-between relative overflow-hidden cursor-pointer select-none ${isCardActive
+                            ? 'border-[#E30613]/60 shadow-xl -translate-y-1.5'
+                            : 'border-gray-200/80 shadow-sm'
+                          }`}
+                      >
                         <div
-                          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 mb-6 shadow-2xs ${
-                            isCardActive
-                              ? 'bg-[#E30613] text-white'
-                              : 'bg-[#111827]/10 text-[#111827]'
-                          }`}
-                        >
-                          {svc.icon === 'Users' ? (
-                            <Users className="w-6 h-6" />
-                          ) : svc.icon === 'Briefcase' ? (
-                            <Briefcase className="w-6 h-6" />
-                          ) : svc.icon === 'UserCheck' ? (
-                            <UserCheck className="w-6 h-6" />
-                          ) : svc.icon === 'Award' ? (
-                            <Award className="w-6 h-6" />
-                          ) : svc.icon === 'FileCheck' ? (
-                            <FileCheck className="w-6 h-6" />
-                          ) : svc.icon === 'Cpu' ? (
-                            <Cpu className="w-6 h-6" />
-                          ) : (
-                            <ShieldCheck className="w-6 h-6" />
-                          )}
-                        </div>
-
-                        <h3
-                          className={`text-xl font-bold font-display transition-colors mb-4 line-clamp-2 ${
-                            isCardActive ? 'text-[#E30613]' : 'text-[#111827]'
-                          }`}
-                        >
-                          {svc.title}
-                        </h3>
-                        <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
-                          {svc.paragraphs.map((p, pIdx) => (
-                            <p key={pIdx} className="line-clamp-4">{p}</p>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
-                          {svc.tag}
-                        </span>
-                        <ArrowUpRight
-                          className={`w-4 h-4 transition-colors ${
-                            isCardActive
-                              ? 'text-[#E30613]'
-                              : 'text-gray-400'
-                          }`}
+                          className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#111827] to-[#E30613] transition-opacity duration-300 ${isCardActive ? 'opacity-100' : 'opacity-0'
+                            }`}
                         />
+                        <div>
+                          <div
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 mb-6 shadow-2xs ${isCardActive
+                                ? 'bg-[#E30613] text-white'
+                                : 'bg-[#111827]/10 text-[#111827]'
+                              }`}
+                          >
+                            {svc.icon === 'Users' ? (
+                              <Users className="w-6 h-6" />
+                            ) : svc.icon === 'Briefcase' ? (
+                              <Briefcase className="w-6 h-6" />
+                            ) : svc.icon === 'UserCheck' ? (
+                              <UserCheck className="w-6 h-6" />
+                            ) : svc.icon === 'Award' ? (
+                              <Award className="w-6 h-6" />
+                            ) : svc.icon === 'FileCheck' ? (
+                              <FileCheck className="w-6 h-6" />
+                            ) : svc.icon === 'Cpu' ? (
+                              <Cpu className="w-6 h-6" />
+                            ) : (
+                              <ShieldCheck className="w-6 h-6" />
+                            )}
+                          </div>
+
+                          <h3
+                            className={`text-xl font-bold font-display transition-colors mb-4 line-clamp-2 ${isCardActive ? 'text-[#E30613]' : 'text-[#111827]'
+                              }`}
+                          >
+                            {svc.title}
+                          </h3>
+                          <div className="space-y-3 text-sm text-[#54595F] leading-relaxed">
+                            {svc.paragraphs.map((p, pIdx) => (
+                              <p key={pIdx} className="line-clamp-4">{p}</p>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFB] text-[#111827] border border-gray-200/80">
+                            {svc.tag}
+                          </span>
+                          <ArrowUpRight
+                            className={`w-4 h-4 transition-colors ${isCardActive
+                                ? 'text-[#E30613]'
+                                : 'text-gray-400'
+                              }`}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Bottom Dot Navigation */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setServicesSlide(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${idx === servicesSlide
+                      ? 'w-7 bg-[#E30613]'
+                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    }`}
+                />
+              ))}
             </div>
           </div>
-
-          {/* Bottom Dot Navigation */}
-          <div className="flex items-center justify-center gap-2 mt-8">
-            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setServicesSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  idx === servicesSlide
-                    ? 'w-7 bg-[#E30613]'
-                    : 'w-2 bg-gray-300 hover:bg-gray-400'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* 5. TEAM MACEE & ANNOUNCEMENTS */}
       <section id="about-team" className="py-10 sm:py-16 lg:py-24 bg-[#F8FAFB] border-b border-gray-100">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-12 md:mb-16">
-            <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
-              {aboutData.team.badge}
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-              {aboutData.team.title}
-            </h2>
-            <p className="mt-3 text-base sm:text-lg text-[#54595F] leading-relaxed">
-              {aboutData.team.description}
-            </p>
-          </div>
-
-          {/* Mobile View: Swipeable Carousel */}
-          <div
-            className="md:hidden relative overflow-hidden mb-2 sm:mb-8"
-            onTouchStart={handleTeamTouchStart}
-            onTouchMove={handleTeamTouchMove}
-            onTouchEnd={handleTeamTouchEnd}
-          >
-            {/* Top Navigation Controls: Counter & Arrow Buttons */}
-            <div className="flex items-center justify-end gap-2 mb-2 px-1">
-              <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
-                <span className="text-[#111827]">{teamSlide + 1}</span> / {totalTeamSlides}
-              </span>
-              <button
-                type="button"
-                onClick={handlePrevTeam}
-                aria-label="Previous team member"
-                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
-              >
-                <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
-              </button>
-              <button
-                type="button"
-                onClick={handleNextTeam}
-                aria-label="Next team member"
-                className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
-              >
-                <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-              </button>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-12 md:mb-16">
+              <div className="inline-block text-xs font-bold uppercase tracking-wider text-[#E30613] mb-2">
+                {aboutData.team.badge}
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                {aboutData.team.title}
+              </h2>
+              <p className="mt-3 text-base sm:text-lg text-[#54595F] leading-relaxed">
+                {aboutData.team.description}
+              </p>
             </div>
 
-            {/* Slides Track with top padding for floating avatar */}
+            {/* Mobile View: Swipeable Carousel */}
             <div
-              className="flex items-stretch transition-transform duration-500 ease-out pt-14 pb-2"
-              style={{ transform: `translateX(-${teamSlide * 100}%)` }}
+              className="md:hidden relative overflow-hidden mb-2 sm:mb-8"
+              onTouchStart={handleTeamTouchStart}
+              onTouchMove={handleTeamTouchMove}
+              onTouchEnd={handleTeamTouchEnd}
             >
+              {/* Top Navigation Controls: Counter & Arrow Buttons */}
+              <div className="flex items-center justify-end gap-2 mb-2 px-1">
+                <span className="text-xs font-bold text-gray-500 bg-white border border-gray-200/80 px-2.5 py-1 rounded-full shadow-2xs">
+                  <span className="text-[#111827]">{teamSlide + 1}</span> / {totalTeamSlides}
+                </span>
+                <button
+                  type="button"
+                  onClick={handlePrevTeam}
+                  aria-label="Previous team member"
+                  className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+                >
+                  <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextTeam}
+                  aria-label="Next team member"
+                  className="w-9 h-9 rounded-full bg-white border border-gray-200 hover:border-[#E30613] hover:bg-[#E30613] text-[#111827] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs cursor-pointer group"
+                >
+                  <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </div>
+
+              {/* Slides Track with top padding for floating avatar */}
+              <div
+                className="flex items-stretch transition-transform duration-500 ease-out pt-14 pb-2"
+                style={{ transform: `translateX(-${teamSlide * 100}%)` }}
+              >
+                {TEAM_MEMBERS.map((member) => (
+                  <div key={member.name} className="w-full shrink-0 px-2 flex flex-col">
+                    {renderTeamMemberCard(member)}
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Dots Indicator (Centered) */}
+              <div className="flex items-center justify-center gap-2 mt-5">
+                {TEAM_MEMBERS.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setTeamSlide(idx)}
+                    aria-label={`Team member ${idx + 1}`}
+                    className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${idx === teamSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop View: Symmetrical Grid for the 6 Team Members */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mb-16 pt-8">
               {TEAM_MEMBERS.map((member) => (
-                <div key={member.name} className="w-full shrink-0 px-2 flex flex-col">
+                <div key={member.name} className="h-full flex flex-col">
                   {renderTeamMemberCard(member)}
                 </div>
               ))}
             </div>
 
-            {/* Bottom Dots Indicator (Centered) */}
-            <div className="flex items-center justify-center gap-2 mt-5">
-              {TEAM_MEMBERS.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setTeamSlide(idx)}
-                  aria-label={`Team member ${idx + 1}`}
-                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
-                    idx === teamSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
+
           </div>
-
-          {/* Desktop View: Symmetrical Grid for the 6 Team Members */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 mb-16 pt-8">
-            {TEAM_MEMBERS.map((member) => (
-              <div key={member.name} className="h-full flex flex-col">
-                {renderTeamMemberCard(member)}
-              </div>
-            ))}
-          </div>
-
-
-        </div>
       </section>
 
       {/* 6. Tailored About Macee FAQs */}

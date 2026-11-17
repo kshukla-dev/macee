@@ -38,6 +38,8 @@ import { getAllJobs, getCachedJobs } from './lib/api';
 
 import { Language } from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { SEO } from './components/SEO';
+import { getHomeSchema } from './data/seoSchemas';
 
 export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact';
 
@@ -111,7 +113,8 @@ function AppContent() {
   // Synchronize route with browser URL / history
   useEffect(() => {
     const handleLocation = () => {
-      const path = window.location.pathname.toLowerCase();
+      const rawPath = window.location.pathname.toLowerCase();
+      const path = rawPath.replace(/\/+$/, '') || '/';
       const hash = window.location.hash.toLowerCase();
 
       // Check for project detail URL (/projects/:id, /project/:id, /vacancies/:id, /assignments/:id)
@@ -159,7 +162,12 @@ function AppContent() {
         setCurrentPage('faq');
       } else if (path === '/contact' || path === '/contact-us' || path === '/get-in-touch' || hash === '#contact' || hash === '#contact-us' || hash === '#get-in-touch') {
         setCurrentPage('contact');
+      } else if (path === '/' || path === '/index.html') {
+        setCurrentPage('home');
       } else {
+        // Unknown or invalid URL (e.g. /sitemap145, /unknown-page, etc.)
+        // Cleanly replace browser URL with default '/' and show home page!
+        window.history.replaceState(null, '', '/');
         setCurrentPage('home');
       }
     };
@@ -554,6 +562,22 @@ function AppContent() {
           <ContactPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
         ) : (
           <>
+            <SEO
+              title={
+                lang === 'NL'
+                  ? 'Macee | Externe Workforce Solutions Nederland'
+                  : 'Macee | External Workforce Solutions Netherlands'
+              }
+              description={
+                lang === 'NL'
+                  ? 'Toonaangevende partner voor flexibele staffing, detachering, compliance en internationale werving in Nederland. SNA NEN 4400-1 gecertificeerd en IND-sponsor.'
+                  : 'Leading partner for flexible staffing, secondment, compliance, and international recruitment in the Netherlands. SNA NEN 4400-1 certified and IND sponsor.'
+              }
+              canonicalPath="/"
+              lang={lang}
+              schema={getHomeSchema(lang)}
+            />
+
             {/* 3. Hero Section: "External Workforce Solutions" */}
             <Hero
               onStartJourney={() => handleNavigatePage('projects')}

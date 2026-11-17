@@ -25,6 +25,8 @@ import { CLIENTS_FAQS } from '../data/pageFaqs';
 import clientsDataEn from '../data/clientsData.json';
 import clientsDataNl from '../data/clientsData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
+import { SEO } from '../components/SEO';
+import { getClientsSchema } from '../data/seoSchemas';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
@@ -114,6 +116,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
 
   return (
     <div className="clients-page">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Voor Opdrachtgevers | Inhuurdesk & Detachering | Macee'
+            : 'For Clients | External Workforce Desk & Staffing | Macee'
+        }
+        description={
+          lang === 'NL'
+            ? 'Optimaliseer externe inhuur, voorkom Wet DBA risico’s en schakel binnen 48-72 uur geverifieerde IT- en Finance-experts in. SNA NEN 4400-1 gecertificeerd.'
+            : 'Streamline external hiring, eliminate Wet DBA risks, and deploy vetted IT and Finance professionals within 48-72 hours. SNA NEN 4400-1 certified partner.'
+        }
+        canonicalPath="/clients"
+        lang={lang}
+        schema={getClientsSchema(lang)}
+      />
+
       {/* 1. Header / Intro Hero Section */}
       <section className="clients-hero-section">
         <div className="clients-container">

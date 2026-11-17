@@ -17,12 +17,12 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
 {
   "@context": "https://schema.org",
   "@type": "EmploymentAgency",
-  "@id": "https://macee.nl/#organization",
+  "@id": "https://macee.com/#organization",
   "name": "Macee",
   "alternateName": "Macee External Workforce Solutions",
-  "url": "https://macee.nl",
-  "logo": "https://macee.nl/images/macee-logo.png",
-  "image": "https://macee.nl/uploads/people-working-dsk.jpg",
+  "url": "https://macee.com",
+  "logo": "https://macee.com/images/macee-logo.png",
+  "image": "https://macee.com/uploads/people-working-dsk.jpg",
   "description": "Leading partner for flexible staffing, contract administration, compliance, and international recruitment in the Netherlands. SNA NEN 4400-1 certified and IND Recognised Sponsor.",
   "address": {
     "@type": "PostalAddress",
@@ -37,7 +37,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
     "longitude": 5.8987
   },
   "telephone": "+31 (0) 26 785 1010",
-  "email": "info@macee.nl",
+  "email": "info@macee.com",
   "priceRange": "$$$",
   "areaServed": [
     { "@type": "Country", "name": "Netherlands" },
@@ -66,28 +66,28 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://macee.nl/#website",
-      "url": "https://macee.nl/",
+      "@id": "https://macee.com/#website",
+      "url": "https://macee.com/",
       "name": "Macee | External Workforce Solutions",
-      "publisher": { "@id": "https://macee.nl/#organization" },
+      "publisher": { "@id": "https://macee.com/#organization" },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://macee.nl/projects?search={search_term_string}",
+        "target": "https://macee.com/projects?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     },
     {
       "@type": "WebPage",
-      "@id": "https://macee.nl/#webpage",
-      "url": "https://macee.nl/",
+      "@id": "https://macee.com/#webpage",
+      "url": "https://macee.com/",
       "name": "Macee | Think Better. Recruit Smarter. External Workforce Solutions",
-      "isPartOf": { "@id": "https://macee.nl/#website" },
-      "about": { "@id": "https://macee.nl/#organization" },
+      "isPartOf": { "@id": "https://macee.com/#website" },
+      "about": { "@id": "https://macee.com/#organization" },
       "description": "SNA NEN 4400-1 certified external workforce and hiring desk in the Netherlands. Providing compliant staffing, international talent sourcing, and IND sponsorships."
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/#faq",
+      "@id": "https://macee.com/#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -145,15 +145,15 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "AboutPage",
-      "@id": "https://macee.nl/about#webpage",
-      "url": "https://macee.nl/about",
+      "@id": "https://macee.com/about#webpage",
+      "url": "https://macee.com/about",
       "name": "About Macee | 30+ Years in Contracting & Workforce Solutions",
-      "isPartOf": { "@id": "https://macee.nl/#website" },
+      "isPartOf": { "@id": "https://macee.com/#website" },
       "description": "Learn about Macee's mission, team, 30+ years of recruitment expertise, SNA NEN 4400-1 certification, and IND sponsor accreditation."
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/about#faq",
+      "@id": "https://macee.com/about#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -203,9 +203,9 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "Service",
-      "@id": "https://macee.nl/clients#service",
+      "@id": "https://macee.com/clients#service",
       "serviceType": "External Workforce & Hiring Desk Solutions",
-      "provider": { "@id": "https://macee.nl/#organization" },
+      "provider": { "@id": "https://macee.com/#organization" },
       "areaServed": "Netherlands",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -219,7 +219,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/clients#faq",
+      "@id": "https://macee.com/clients#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -277,13 +277,13 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "Service",
-      "@id": "https://macee.nl/professionals#service",
+      "@id": "https://macee.com/professionals#service",
       "serviceType": "Contractor Management & Expat Visa Sponsorship",
-      "provider": { "@id": "https://macee.nl/#organization" }
+      "provider": { "@id": "https://macee.com/#organization" }
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/professionals#faq",
+      "@id": "https://macee.com/professionals#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -341,8 +341,8 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "CollectionPage",
-      "@id": "https://macee.nl/projects#webpage",
-      "url": "https://macee.nl/projects",
+      "@id": "https://macee.com/projects#webpage",
+      "url": "https://macee.com/projects",
       "name": "Current Projects & Vacancies | Macee",
       "description": "Explore active IT, Finance, Engineering, and Interim Consulting assignments across the Netherlands."
     },
@@ -352,7 +352,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
       "description": "Architect and deploy secure AWS/Azure landing zones with Terraform and Kubernetes for an enterprise client in Amsterdam.",
       "datePosted": "2026-10-01",
       "employmentType": "CONTRACTOR",
-      "hiringOrganization": { "@id": "https://macee.nl/#organization" },
+      "hiringOrganization": { "@id": "https://macee.com/#organization" },
       "jobLocation": {
         "@type": "Place",
         "address": {
@@ -374,7 +374,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/projects#faq",
+      "@id": "https://macee.com/projects#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -432,14 +432,14 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
   "@graph": [
     {
       "@type": "ContactPage",
-      "@id": "https://macee.nl/contact#webpage",
-      "url": "https://macee.nl/contact",
+      "@id": "https://macee.com/contact#webpage",
+      "url": "https://macee.com/contact",
       "name": "Contact Macee | Arnhem Office",
       "description": "Get in touch with Macee's workforce specialists. Schedule a consultation or reach our Arnhem headquarters."
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://macee.nl/#localbusiness",
+      "@id": "https://macee.com/#localbusiness",
       "name": "Macee Arnhem Office",
       "address": {
         "@type": "PostalAddress",
@@ -449,7 +449,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
         "addressCountry": "NL"
       },
       "telephone": "+31 (0) 26 785 1010",
-      "email": "info@macee.nl",
+      "email": "info@macee.com",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -461,7 +461,7 @@ Applies across all pages to establish Macee's identity, SNA NEN 4400-1 certifica
     },
     {
       "@type": "FAQPage",
-      "@id": "https://macee.nl/contact#faq",
+      "@id": "https://macee.com/contact#faq",
       "mainEntity": [
         {
           "@type": "Question",
