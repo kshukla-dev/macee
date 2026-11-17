@@ -71,4 +71,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/contact" />
     <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/contact?lang=nl" />
   </url>
+
+  <!-- 8. HTML Sitemap Page -->
+  <url>
+    <loc>https://macee.com/sitemap</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/sitemap" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/sitemap?lang=nl" />
+  </url>
 </urlset>

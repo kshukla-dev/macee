@@ -31,6 +31,7 @@ import { ProjectsPage, ProjectAssignmentItem } from './pages/ProjectsPage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
+import { SitemapPage } from './pages/SitemapPage';
 
 import { getResourcesData, getServicesData } from './data/content';
 import { ResourceItem, JobListing, ServiceItem } from './types';
@@ -41,7 +42,7 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { SEO } from './components/SEO';
 import { getHomeSchema } from './data/seoSchemas';
 
-export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact';
+export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact' | 'sitemap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,6 +163,11 @@ function AppContent() {
         setCurrentPage('faq');
       } else if (path === '/contact' || path === '/contact-us' || path === '/get-in-touch' || hash === '#contact' || hash === '#contact-us' || hash === '#get-in-touch') {
         setCurrentPage('contact');
+      } else if (path === '/sitemap' || path === '/sitemap.html' || path === '/site-map' || hash === '#sitemap') {
+        setCurrentPage('sitemap');
+      } else if (path === '/sitemap.xml' || path === '/robots.txt') {
+        // Do not intercept or rewrite static sitemap.xml or robots.txt
+        return;
       } else if (path === '/' || path === '/index.html') {
         setCurrentPage('home');
       } else {
@@ -320,6 +326,10 @@ function AppContent() {
     } else if (page === 'contact' || page === 'contact-us' || page === 'get-in-touch') {
       setCurrentPage('contact');
       window.history.pushState(null, '', '/contact');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'sitemap' || page === '/sitemap' || page === 'sitemap-page') {
+      setCurrentPage('sitemap');
+      window.history.pushState(null, '', '/sitemap');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');
@@ -560,6 +570,8 @@ function AppContent() {
           <FaqPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
         ) : currentPage === 'contact' ? (
           <ContactPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
+        ) : currentPage === 'sitemap' ? (
+          <SitemapPage onNavigate={handleNavigatePage} />
         ) : (
           <>
             <SEO
