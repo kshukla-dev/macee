@@ -42,6 +42,63 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
     sbb: false,
   });
   const [isIndustriesExpanded, setIsIndustriesExpanded] = useState<boolean>(false);
+  const [expandedWorkflowSteps, setExpandedWorkflowSteps] = useState<Record<number, boolean>>({
+    1: true,
+    2: false,
+    3: false,
+    4: false,
+  });
+
+  const toggleWorkflowStep = (stepId: number) => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) return;
+    setExpandedWorkflowSteps((prev) => ({
+      ...prev,
+      [stepId]: !prev[stepId],
+    }));
+  };
+
+  const workflowSteps = [
+    {
+      id: 1,
+      number: '01',
+      title: lang === 'NL' ? 'Intake & Rolverkenning' : 'Role Intake & Scoping',
+      description: lang === 'NL'
+        ? 'Binnen 24 uur analyseren we uw technische vereisten, teamdynamiek, projectdoelstellingen en de ideale kandidaat-match.'
+        : 'Within 24 hours, we deep-dive into your tech stack, team culture, project deliverables, and rate parameters.',
+      icon: Clock,
+      meta: lang === 'NL' ? 'Binnen 24 uur' : 'Turnaround: 24h',
+    },
+    {
+      id: 2,
+      number: '02',
+      title: lang === 'NL' ? 'Geverifieerde Shortlist' : 'Vetted Shortlist',
+      description: lang === 'NL'
+        ? 'We presenteren 2 à 3 grondig gescreende, direct inzetbare senior specialisten met geverifieerde track records.'
+        : 'We present 2 to 3 thoroughly vetted, interview-ready senior professionals with proven project achievements.',
+      icon: Users,
+      meta: lang === 'NL' ? '48 – 72 uur SLA' : '48 – 72h SLA',
+    },
+    {
+      id: 3,
+      number: '03',
+      title: lang === 'NL' ? 'Compliant Onboarding' : 'Compliant Onboarding',
+      description: lang === 'NL'
+        ? 'Wij verzorgen alle overeenkomsten (detachering, ZZP of EOR), screening, WAADI-naleving en G-rekeningzekerheid.'
+        : 'We execute DBA-proof model contracts, verify tax IDs, manage payroll, and handle G-account compliance.',
+      icon: ShieldCheck,
+      meta: lang === 'NL' ? '100% Juridisch gedekt' : '100% Legally Audited',
+    },
+    {
+      id: 4,
+      number: '04',
+      title: lang === 'NL' ? 'Begeleiding & Garantie' : 'Support & Guarantee',
+      description: lang === 'NL'
+        ? 'Een vast aanspreekpunt, periodieke evaluaties en een no-sourcing-fee vervangingsgarantie voor maximale rust.'
+        : 'Dedicated account manager, regular milestone reviews, and a risk-free candidate replacement guarantee.',
+      icon: Award,
+      meta: lang === 'NL' ? 'Vervangingsgarantie' : 'Replacement Guarantee',
+    },
+  ];
 
   const toggleCert = (id: string) => {
     setExpandedCerts((prev) => ({
@@ -178,90 +235,89 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Step 1 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
-                  01
-                </div>
-                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
-                  {lang === 'NL' ? 'Intake & Rolverkenning' : 'Role Intake & Scoping'}
-                </h3>
-                <p className="text-sm text-[#54595F] leading-relaxed">
-                  {lang === 'NL'
-                    ? 'Binnen 24 uur analyseren we uw technische vereisten, teamdynamiek, projectdoelstellingen en de ideale kandidaat-match.'
-                    : 'Within 24 hours, we deep-dive into your tech stack, team culture, project deliverables, and rate parameters.'}
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{lang === 'NL' ? 'Binnen 24 uur' : 'Turnaround: 24h'}</span>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+            {workflowSteps.map((step) => {
+              const isExpanded = expandedWorkflowSteps[step.id] ?? false;
+              const IconComponent = step.icon;
 
-            {/* Step 2 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
-                  02
-                </div>
-                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
-                  {lang === 'NL' ? 'Geverifieerde Shortlist' : 'Vetted Shortlist'}
-                </h3>
-                <p className="text-sm text-[#54595F] leading-relaxed">
-                  {lang === 'NL'
-                    ? 'We presenteren 2 à 3 grondig gescreende, direct inzetbare senior specialisten met geverifieerde track records.'
-                    : 'We present 2 to 3 thoroughly vetted, interview-ready senior professionals with proven project achievements.'}
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
-                <Users className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{lang === 'NL' ? '48 – 72 uur SLA' : '48 – 72h SLA'}</span>
-              </div>
-            </div>
+              return (
+                <div
+                  key={step.id}
+                  className={`bg-white rounded-2xl p-5 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between ${
+                    isExpanded ? 'border-gray-300' : ''
+                  }`}
+                >
+                  <div>
+                    {/* Header: Clickable on mobile to expand/collapse, static on desktop */}
+                    <div
+                      onClick={() => toggleWorkflowStep(step.id)}
+                      className="cursor-pointer md:cursor-default select-none outline-none"
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isExpanded}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          toggleWorkflowStep(step.id);
+                        }
+                      }}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 md:block">
+                          <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm md:mb-5 transition-colors shrink-0 ${
+                              isExpanded
+                                ? 'bg-[#E30613] text-white md:bg-[#111827]/10 md:text-[#111827]'
+                                : 'bg-[#111827]/10 text-[#111827]'
+                            } group-hover:bg-[#E30613] group-hover:text-white`}
+                          >
+                            {step.number}
+                          </div>
+                          <h3 className="text-base sm:text-lg font-bold font-display text-[#111827] mb-0 md:mb-2 group-hover:text-[#E30613] md:group-hover:text-[#111827] transition-colors">
+                            {step.title}
+                          </h3>
+                        </div>
 
-            {/* Step 3 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
-                  03
-                </div>
-                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
-                  {lang === 'NL' ? 'Compliant Onboarding' : 'Compliant Onboarding'}
-                </h3>
-                <p className="text-sm text-[#54595F] leading-relaxed">
-                  {lang === 'NL'
-                    ? 'Wij verzorgen alle overeenkomsten (detachering, ZZP of EOR), screening, WAADI-naleving en G-rekeningzekerheid.'
-                    : 'We execute DBA-proof model contracts, verify tax IDs, manage payroll, and handle G-account compliance.'}
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{lang === 'NL' ? '100% Juridisch gedekt' : '100% Legally Audited'}</span>
-              </div>
-            </div>
+                        {/* Mobile Expand / Collapse Chevron Indicator */}
+                        <div className="md:hidden shrink-0">
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                              isExpanded
+                                ? 'bg-[#E30613]/10 text-[#E30613]'
+                                : 'bg-gray-100 text-gray-500'
+                            }`}
+                          >
+                            <ChevronDown
+                              size={18}
+                              className={`transition-transform duration-300 ${
+                                isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                              }`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-            {/* Step 4 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 text-[#111827] group-hover:bg-[#E30613] group-hover:text-white flex items-center justify-center font-bold text-sm mb-5 transition-colors">
-                  04
+                    {/* Description: Collapsible on mobile, always visible on desktop */}
+                    <div className={`${isExpanded ? 'block' : 'hidden md:block'} mt-3 md:mt-0`}>
+                      <p className="text-sm text-[#54595F] leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Footer Meta: Collapsible on mobile, always visible on desktop */}
+                  <div
+                    className={`${
+                      isExpanded ? 'flex' : 'hidden md:flex'
+                    } mt-4 md:mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 items-center gap-1.5`}
+                  >
+                    <IconComponent className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
+                    <span>{step.meta}</span>
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold font-display text-[#111827] mb-2">
-                  {lang === 'NL' ? 'Begeleiding & Garantie' : 'Support & Guarantee'}
-                </h3>
-                <p className="text-sm text-[#54595F] leading-relaxed">
-                  {lang === 'NL'
-                    ? 'Een vast aanspreekpunt, periodieke evaluaties en een no-sourcing-fee vervangingsgarantie voor maximale rust.'
-                    : 'Dedicated account manager, regular milestone reviews, and a risk-free candidate replacement guarantee.'}
-                </p>
-              </div>
-              <div className="mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
-                <Award className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{lang === 'NL' ? 'Vervangingsgarantie' : 'Replacement Guarantee'}</span>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
