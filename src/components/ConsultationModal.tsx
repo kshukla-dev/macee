@@ -122,10 +122,27 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 800);
+
+    // Send consultation request to Macee CRM Portal
+    fetch('http://localhost:3001/api/public/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fullName: formData.fullName,
+        email: formData.workEmail,
+        phone: formData.phoneNumber,
+        company: formData.companyName,
+        topic: '1-on-1 Consultation Request',
+        message: `Requested consultation for ${formData.companyName}. Notes: ${formData.notes || 'None'}`,
+      }),
+    })
+      .catch((err) => {
+        console.warn('CRM sync unreachable, proceeding locally:', err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+      });
   };
 
   return (

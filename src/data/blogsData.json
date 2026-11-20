@@ -1,0 +1,82 @@
+[
+  {
+    "id": "blog-1",
+    "slug": "navigating-dutch-dba-regulations-2026",
+    "title": "Navigating Dutch DBA Regulations in 2026: What Hirers and ZZP'ers Must Know",
+    "excerpt": "With the full enforcement of the Wet DBA by the Dutch Belastingdienst, understanding the legal boundaries of self-employment versus bogus self-employment is crucial.",
+    "content": "## Understanding the Wet DBA in 2026\n\nThe Dutch Tax Authority (Belastingdienst) has resumed strict enforcement of the Deregulation Assessment of Labor Relations Act (Wet DBA). For companies hiring self-employed professionals (ZZP'ers), avoiding 'schijnzelfstandigheid' (bogus self-employment) is no longer optional.\n\n### Key Audit Criteria:\n1. **Authority and Direction:** Does the client have managerial authority over how the specialist works?\n2. **Substitution:** Can the ZZP specialist freely send a qualified replacement without client pre-approval?\n3. **Remuneration and Independence:** Are market rates paid, and does the contractor maintain multiple business engagements?\n\n### How Macee Protects Clients:\nMacee provides DBA-proof model contracts, conducts quarterly risk assessments, and acts as the protective compliance link.",
+    "category": "Compliance & Legal",
+    "author": "Adam Nichols",
+    "coverImage": "/uploads/people-working-dsk.jpg",
+    "tags": [
+      "DBA Law",
+      "ZZP",
+      "Compliance",
+      "Belastingdienst",
+      "Labor Regulations"
+    ],
+    "status": "published",
+    "readTime": "4 min read",
+    "publishedAt": "2026-11-10T09:00:00.000Z"
+  },
+  {
+    "id": "blog-2",
+    "slug": "fast-track-ind-visa-sponsorship-guide",
+    "title": "Fast-Track IND Visa Sponsorship: Sourcing Non-EU Tech Talent for Dutch Enterprises",
+    "excerpt": "How Macee leverages its official IND Recognised Sponsor status to deploy senior international engineers to Dutch projects within weeks.",
+    "content": "## Overcoming the Dutch IT Talent Shortage\n\nThe shortage of senior software engineers, cloud architects, and data engineers in the Netherlands has made international talent acquisition an essential growth strategy.\n\n### The IND Recognised Sponsor Advantage\nAs an officially recognised sponsor (Erkend Referent) by the Dutch Immigration and Naturalisation Service (IND), Macee handles:\n- Fast-track Highly Skilled Migrant (Kennismigrant) residence and work permits\n- 30% Tax Facility (Ruling) application and compliance checks\n- Expat onboarding, BSN registration, and housing transition guidance\n\nContact our Talent & Visa Desk to learn more.",
+    "category": "Immigration & Visas",
+    "author": "Nicky Weijgertze",
+    "coverImage": "/uploads/Dutch-government-3.jpg",
+    "tags": [
+      "IND",
+      "Kennismigrant",
+      "Expats",
+      "30% Tax Ruling",
+      "Relocation"
+    ],
+    "status": "published",
+    "readTime": "5 min read",
+    "publishedAt": "2026-11-05T14:30:00.000Z"
+  },
+  {
+    "id": "blog-3",
+    "slug": "external-workforce-desk-trends-netherlands",
+    "title": "The Rise of the External Hiring Desk: Smarter Contingent Workforce Strategies",
+    "excerpt": "Why modern enterprises are transitioning away from ad-hoc recruiting toward consolidated external hiring desks for contractor management.",
+    "content": "## Centralizing Contingent Labor\n\nManaging dozens of external recruitment suppliers often leads to rate discrepancies, legal exposures, and admin overhead. Macee's External Workforce Desk acts as an extension of your internal HR/Procurement departments.\n\n### Strategic Benefits:\n- Single point of invoice & contract management\n- Comprehensive SNA NEN 4400-1 audited payroll security\n- Live market benchmarking for hourly contractor rates across Arnhem, Amsterdam, and Utrecht.",
+    "category": "Workforce Strategy",
+    "author": "Maarten Koekebakker",
+    "coverImage": "/uploads/macee1.png",
+    "tags": [
+      "MSP",
+      "Contracting",
+      "Workforce Solutions",
+      "Arnhem",
+      "HR Strategy"
+    ],
+    "status": "published",
+    "readTime": "3 min read",
+    "publishedAt": "2026-10-28T11:00:00.000Z"
+  },
+  {
+    "id": "blog-4",
+    "slug": "ai-and-data-engineering-salary-trends-2027",
+    "title": "AI, Cloud and Data Engineering: Demand and Rate Trends Ahead of 2027",
+    "excerpt": "A deep dive into contractor rates, tech stacks in high demand (Spark, Azure, Databricks, LLMs), and hiring forecasts in the Benelux region.",
+    "content": "## The Tech Landscape in 2026-2027\n\nData and Cloud continue to dominate enterprise tech investments. Specializations in data mesh architectures, Kafka event streaming, and secure private LLM deployment command premium day rates.\n\nExplore our latest benchmark report or contact Michael Siep for tailored tech recruitment advice.",
+    "category": "Market Insights",
+    "author": "Michael Siep",
+    "coverImage": "/uploads/Software-Development-2.jpg",
+    "tags": [
+      "Data Engineering",
+      "AI",
+      "Cloud",
+      "Contractor Rates",
+      "Tech Recruitment"
+    ],
+    "status": "draft",
+    "readTime": "6 min read",
+    "publishedAt": "2026-11-15T08:00:00.000Z"
+  }
+]

@@ -118,10 +118,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 600);
+
+    // Send submission to Macee CRM Portal
+    fetch('http://localhost:3001/api/public/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phone,
+        message,
+        topic: 'Get in Touch Form Inquiry',
+      }),
+    })
+      .catch((err) => {
+        console.warn('CRM sync unreachable, proceeding locally:', err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setSubmitted(true);
+      });
   };
 
   const handleReset = () => {
