@@ -300,9 +300,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
               return (
                 <div
                   key={step.id}
-                  className={`bg-white rounded-2xl p-5 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between ${
-                    isExpanded ? 'border-gray-300' : ''
-                  }`}
+                  className={`bg-white rounded-2xl p-5 sm:p-7 border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between ${isExpanded ? 'border-gray-300' : ''
+                    }`}
                 >
                   <div>
                     {/* Header: Clickable on mobile to expand/collapse, static on desktop */}
@@ -322,11 +321,10 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3 md:block">
                           <div
-                            className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm md:mb-5 transition-colors shrink-0 ${
-                              isExpanded
-                                ? 'bg-[#E30613] text-white md:bg-[#111827]/10 md:text-[#111827]'
-                                : 'bg-[#111827]/10 text-[#111827]'
-                            } group-hover:bg-[#E30613] group-hover:text-white`}
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm md:mb-5 transition-colors shrink-0 ${isExpanded
+                              ? 'bg-[#E30613] text-white md:bg-[#111827]/10 md:text-[#111827]'
+                              : 'bg-[#111827]/10 text-[#111827]'
+                              } group-hover:bg-[#E30613] group-hover:text-white`}
                           >
                             {step.number}
                           </div>
@@ -338,17 +336,15 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                         {/* Mobile Expand / Collapse Chevron Indicator */}
                         <div className="md:hidden shrink-0">
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                              isExpanded
-                                ? 'bg-[#E30613]/10 text-[#E30613]'
-                                : 'bg-gray-100 text-gray-500'
-                            }`}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isExpanded
+                              ? 'bg-[#E30613]/10 text-[#E30613]'
+                              : 'bg-gray-100 text-gray-500'
+                              }`}
                           >
                             <ChevronDown
                               size={18}
-                              className={`transition-transform duration-300 ${
-                                isExpanded ? 'rotate-180 text-[#E30613]' : ''
-                              }`}
+                              className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                                }`}
                             />
                           </div>
                         </div>
@@ -365,9 +361,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
 
                   {/* Footer Meta: Collapsible on mobile, always visible on desktop */}
                   <div
-                    className={`${
-                      isExpanded ? 'flex' : 'hidden md:flex'
-                    } mt-4 md:mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 items-center gap-1.5`}
+                    className={`${isExpanded ? 'flex' : 'hidden md:flex'
+                      } mt-4 md:mt-6 pt-3 border-t border-gray-100 text-xs font-semibold text-gray-500 items-center gap-1.5`}
                   >
                     <IconComponent className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
                     <span>{step.meta}</span>
@@ -429,17 +424,15 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                       {/* Mobile Expand / Collapse Chevron Indicator */}
                       <div className="md:hidden shrink-0 pt-0.5">
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isExpanded
-                              ? 'bg-[#E30613]/10 text-[#E30613]'
-                              : 'bg-gray-100 text-gray-500'
-                          }`}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isExpanded
+                            ? 'bg-[#E30613]/10 text-[#E30613]'
+                            : 'bg-gray-100 text-gray-500'
+                            }`}
                         >
                           <ChevronDown
                             size={18}
-                            className={`transition-transform duration-300 ${
-                              isExpanded ? 'rotate-180 text-[#E30613]' : ''
-                            }`}
+                            className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                              }`}
                           />
                         </div>
                       </div>
@@ -512,9 +505,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                     key={i}
                     type="button"
                     onClick={() => onNavigate && onNavigate('projects', { branche: ind })}
-                    className={`clients-industry-tag ${
-                      isHiddenOnMobile ? 'is-hidden-mobile !hidden md:!inline-flex' : 'inline-flex'
-                    } cursor-pointer group hover:!border-[#E30613] hover:!text-[#E30613] transition-all`}
+                    className={`clients-industry-tag ${isHiddenOnMobile ? 'is-hidden-mobile !hidden md:!inline-flex' : 'inline-flex'
+                      } cursor-pointer group hover:!border-[#E30613] hover:!text-[#E30613] transition-all`}
                     title={lang === 'NL' ? `Bekijk opdrachten in ${ind}` : `View projects in ${ind}`}
                   >
                     <Tag className="w-3.5 h-3.5 text-[#E30613] shrink-0" />
@@ -537,8 +529,8 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                     {isIndustriesExpanded
                       ? (lang === 'NL' ? 'Toon minder' : 'Show less')
                       : (lang === 'NL'
-                          ? `Toon meer (+${clientsData.industries.tags.length - 3})`
-                          : `Show more (+${clientsData.industries.tags.length - 3})`)}
+                        ? `Toon meer (+${clientsData.industries.tags.length - 3})`
+                        : `Show more (+${clientsData.industries.tags.length - 3})`)}
                   </span>
                   {isIndustriesExpanded ? (
                     <ChevronUp className="w-3.5 h-3.5 ml-1 text-[#E30613] group-hover:text-white transition-colors" />
@@ -566,11 +558,10 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
           <div className="flex flex-wrap gap-2 mb-8">
             <button
               onClick={() => setSelectedExpertiseDomain('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
-                selectedExpertiseDomain === 'all'
-                  ? 'bg-[#111827] text-white shadow-xs'
-                  : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
-              }`}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${selectedExpertiseDomain === 'all'
+                ? 'bg-[#111827] text-white shadow-xs'
+                : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
+                }`}
             >
               {lang === 'NL' ? 'Alle Domeinen (6)' : 'All Domains (6)'}
             </button>
@@ -578,11 +569,10 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
               <button
                 key={idx}
                 onClick={() => setSelectedExpertiseDomain(item.domain)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
-                  selectedExpertiseDomain === item.domain
-                    ? 'bg-[#E30613] text-white shadow-xs'
-                    : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${selectedExpertiseDomain === item.domain
+                  ? 'bg-[#E30613] text-white shadow-xs'
+                  : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-400'
+                  }`}
               >
                 {item.domain}
               </button>
