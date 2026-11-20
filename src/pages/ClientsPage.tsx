@@ -219,11 +219,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             <div className="clients-hero-media">
               <div className="clients-hero-image-wrapper">
                 <img
-                  src={clientsData.hero.image.src}
-                  alt={clientsData.hero.image.alt}
+                  src={
+                    typeof clientsData.hero.image === 'string'
+                      ? clientsData.hero.image
+                      : (clientsData.hero.image?.src || clientsData.hero.image?.fallback || '/uploads/people-working-dsk.jpg')
+                  }
+                  alt={
+                    typeof clientsData.hero.image === 'object' && clientsData.hero.image?.alt
+                      ? clientsData.hero.image.alt
+                      : 'Macee workforce solutions'
+                  }
                   className="clients-hero-image"
                   onError={(e) => {
-                    e.currentTarget.src = clientsData.hero.image.fallback;
+                    const fallback = typeof clientsData.hero.image === 'object' ? clientsData.hero.image?.fallback : undefined;
+                    if (fallback && e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
                   }}
                 />
               </div>
@@ -417,11 +428,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                         <div className="clients-cert-media">
                           <div className="clients-cert-logo-box">
                             <img
-                              src={cert.image.src}
-                              alt={cert.image.alt}
+                              src={
+                                typeof cert.image === 'string'
+                                  ? cert.image
+                                  : (cert.image?.src || cert.image?.fallback || '')
+                              }
+                              alt={
+                                typeof cert.image === 'object' && cert.image?.alt
+                                  ? cert.image.alt
+                                  : (cert.title || 'Certification Logo')
+                              }
                               className="clients-cert-logo"
                               onError={(e) => {
-                                e.currentTarget.src = cert.image.fallback;
+                                const fb = typeof cert.image === 'object' ? cert.image?.fallback : undefined;
+                                if (fb && e.currentTarget.src !== fb) {
+                                  e.currentTarget.src = fb;
+                                }
                               }}
                             />
                           </div>

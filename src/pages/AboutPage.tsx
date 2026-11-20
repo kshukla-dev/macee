@@ -498,11 +498,22 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
                   <div className="absolute -inset-2 bg-gradient-to-tr from-[#111827]/15 to-[#E30613]/15 rounded-2xl transform rotate-1 scale-[0.99]" />
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
                     <img
-                      src={aboutData.whatWeDo.image.src}
-                      alt={aboutData.whatWeDo.image.alt}
+                      src={
+                        typeof aboutData.whatWeDo.image === 'string'
+                          ? aboutData.whatWeDo.image
+                          : (aboutData.whatWeDo.image?.src || aboutData.whatWeDo.image?.fallback || '/uploads/macee1.png')
+                      }
+                      alt={
+                        typeof aboutData.whatWeDo.image === 'object' && aboutData.whatWeDo.image?.alt
+                          ? aboutData.whatWeDo.image.alt
+                          : 'What We Do - Macee Workplace'
+                      }
                       className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
                       onError={(e) => {
-                        e.currentTarget.src = aboutData.whatWeDo.image.fallback;
+                        const fb = typeof aboutData.whatWeDo.image === 'object' ? aboutData.whatWeDo.image?.fallback : undefined;
+                        if (fb && e.currentTarget.src !== fb) {
+                          e.currentTarget.src = fb;
+                        }
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -532,11 +543,22 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
                   <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#111827]/15 rounded-2xl transform -rotate-1 scale-[0.99]" />
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-100">
                     <img
-                      src={aboutData.howWeWork.image.src}
-                      alt={aboutData.howWeWork.image.alt}
+                      src={
+                        typeof aboutData.howWeWork.image === 'string'
+                          ? aboutData.howWeWork.image
+                          : (aboutData.howWeWork.image?.src || aboutData.howWeWork.image?.fallback || '/uploads/people-working-dsk.jpg')
+                      }
+                      alt={
+                        typeof aboutData.howWeWork.image === 'object' && aboutData.howWeWork.image?.alt
+                          ? aboutData.howWeWork.image.alt
+                          : 'How We Work - Macee Team Collaboration'
+                      }
                       className="w-full h-auto object-cover max-h-[460px] aspect-[4/3] hover:scale-105 transition-transform duration-700 ease-out"
                       onError={(e) => {
-                        e.currentTarget.src = aboutData.howWeWork.image.fallback;
+                        const fb = typeof aboutData.howWeWork.image === 'object' ? aboutData.howWeWork.image?.fallback : undefined;
+                        if (fb && e.currentTarget.src !== fb) {
+                          e.currentTarget.src = fb;
+                        }
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
