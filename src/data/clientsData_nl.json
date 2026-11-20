@@ -41,32 +41,30 @@
     "items": [
       {
         "id": "sna",
-        "tag": "SNA Arbeidsnorm",
-        "title": "MACEE is geregistreerd bij de SNA (Stichting Normering Arbeid)",
-        "text": "De SNA is hét kwaliteitskeurmerk voor flexibele arbeid in Nederland voor ondernemingen die arbeidskrachten ter beschikking stellen en opdrachtgevers die werk uitbesteden. MACEE is NEN 4400-1 gecertificeerd, waarmee ketenaansprakelijkheid en fiscale risico's voor inleners worden uitgesloten.",
-        "image": {
-          "src": "/uploads/NEN-4400-1.png",
-          "fallback": "https://www.macee.com/uploads/NEN-4400-1.png",
-          "alt": "NEN 4400-1 Keurmerk Logo"
-        }
+        "tag": "SNA Labour Standard",
+        "title": "MACEE is registered with the SNA (Stichting Normering Arbeid)",
+        "text": "The SNA is the quality mark for flexible labour and all companies in the Netherlands that have developed a fact, the need for hiring of external labour and clients commissioned work. MACEE is listed the NEN 4400-1 certification confirming our commitment to quality and compliancy.",
+        "image": "/uploads/NEN-4400-1.png",
+        "accent": false,
+        "order": 1
       },
       {
         "id": "ind",
-        "tag": "Immigratie- en Naturalisatiedienst (IND)",
+        "tag": "Dutch Immigration Service (IND)",
+        "title": "IND Recognised Sponsor (Erkend referent)",
+        "text": "Due to the scarcity of specialised skills in the Netherlands, it is not always possible to find the talent you need in the Dutch or even EU. Did you know: MACEE is a Recognised Sponsor with the Dutch Immigration Service IND, which allows us to hire non-EU specialist candidates under the fast-track Highly Skilled Migrant Visa and Residence Permit scheme. This allows MACEE to leverage its extensive international network when searching for the right talent.",
+        "image": "/uploads/Dutch-government-3.jpg",
         "accent": true,
-        "title": "IND Erkend Referent",
-        "text": "Door de schaarste aan gespecialiseerde IT-kennis in Nederland is talent niet altijd binnen de landsgrenzen of de EU te vinden. MACEE is een officieel Erkend Referent bij de IND. Hierdoor kunnen wij specialisten van buiten de EU snel naar Nederland halen onder de kennismigrantenregeling en gezinsvisa verzorgen, waarbij we ons wereldwijde netwerk inzetten."
+        "order": 2
       },
       {
         "id": "sbb",
-        "tag": "SBB Beroepsonderwijs",
-        "title": "Erkend Leerbedrijf",
-        "text": "MACEE is een erkend leerbedrijf; wij leveren een actieve bijdrage aan toekomstige generaties op de arbeidsmarkt. Als door de Samenwerkingsorganisatie Beroepsonderwijs Bedrijfsleven (SBB) goedgekeurde organisatie bieden we studenten een veilige praktijkleeromgeving onder deskundige begeleiding.",
-        "image": {
-          "src": "/uploads/Accredited work placement company (2).png",
-          "fallback": "https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png",
-          "alt": "Erkend Leerbedrijf SBB Logo"
-        }
+        "tag": "SBB Vocational Education",
+        "title": "Recognised training company",
+        "text": "MACEE is a recognised training company, we contribute to future generations of enthusiastic employees in the workforce. As an organisation that has been officially approved by the Cooperative Organisation for Vocational Education, Training and the Labour Market (SBB) we provide practical training to vocational students. We offer a safe learning environment with qualified coaches to execute tasks and learn that is relevant to the training programme.",
+        "image": "/uploads/Accredited work placement company (2).png",
+        "accent": false,
+        "order": 3
       }
     ]
   },
@@ -78,16 +76,16 @@
       "MACEE werkt voor toonaangevende spelers in sectoren zoals Telecom, FMCG, Olie & Gas, Consultancy, Zorg & Farma, Energie & Utilities en de Publieke Sector. Daarnaast hebben we jarenlange ervaring in de financiële sector (Grootbanken, Vermogensbeheer, Pensioenfondsen en Fintech)."
     ],
     "tags": [
-      "Telecom",
+      "Telecoms",
       "FMCG",
-      "Olie & Gas",
+      "Oil & Gas",
       "Consultancy",
-      "Zorg & Farma",
-      "Energie & Utilities",
-      "Bankwezen & Fintech",
-      "Vermogensbeheer",
-      "Pensioenfondsen",
-      "Betaalplatforms"
+      "Healthcare & Pharma",
+      "Energy & Utilities",
+      "Banking & Fintech",
+      "Investment & Asset Management",
+      "Pension Funds",
+      "Payment Platforms"
     ]
   },
   "expertise": {
@@ -97,28 +95,34 @@
     "prompt": "Hieronder vindt u de domeinen waarin wij een bewezen track record hebben opgebouwd:",
     "items": [
       {
-        "domain": "Softwareontwikkeling",
+        "id": "exp-1",
+        "domain": "Software Development",
         "technologies": ".NET, C / C++ / C#, JAVA, Python etc."
       },
       {
-        "domain": "BI & Data Engineering",
+        "id": "exp-2",
+        "domain": "BI & Data",
         "technologies": "Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop etc."
       },
       {
-        "domain": "Project- & Programmamanagement",
+        "id": "exp-3",
+        "domain": "Project Management",
         "technologies": "PMO, Program Manager, Change Manager, Transition Manager, Service Level Manager etc."
       },
       {
-        "domain": "Cloud & DevOps",
+        "id": "exp-4",
+        "domain": "Cloud",
         "technologies": "AWS, Azure, Kubernetes etc."
       },
       {
-        "domain": "Cyber Security & IAM",
-        "technologies": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Netwerkbeveiliging"
+        "id": "exp-5",
+        "domain": "Security",
+        "technologies": "CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Network, Information/Finance"
       },
       {
-        "domain": "Financieel Risicomanagement",
-        "technologies": "Toezichtrapportages, AML, FEC, KYC, Modellering, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
+        "id": "exp-6",
+        "domain": "Finance Risk Management",
+        "technologies": "Regulatory reporting, AML, FEC, KYC, Modelling, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR etc."
       }
     ]
   },

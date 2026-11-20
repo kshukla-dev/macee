@@ -44,29 +44,27 @@
         "tag": "SNA Labour Standard",
         "title": "MACEE is registered with the SNA (Stichting Normering Arbeid)",
         "text": "The SNA is the quality mark for flexible labour and all companies in the Netherlands that have developed a fact, the need for hiring of external labour and clients commissioned work. MACEE is listed the NEN 4400-1 certification confirming our commitment to quality and compliancy.",
-        "image": {
-          "src": "/uploads/NEN-4400-1.png",
-          "fallback": "https://www.macee.com/uploads/NEN-4400-1.png",
-          "alt": "NEN 4400-1 Certified Logo"
-        }
+        "image": "/uploads/NEN-4400-1.png",
+        "accent": false,
+        "order": 1
       },
       {
         "id": "ind",
         "tag": "Dutch Immigration Service (IND)",
-        "accent": true,
         "title": "IND Recognised Sponsor (Erkend referent)",
-        "text": "Due to the scarcity of specialised skills in the Netherlands, it is not always possible to find the talent you need in the Dutch or even EU. Did you know: MACEE is a Recognised Sponsor with the Dutch Immigration Service IND, which allows us to hire non-EU specialist candidates under the fast-track Highly Skilled Migrant Visa and Residence Permit scheme. This allows MACEE to leverage its extensive international network when searching for the right talent."
+        "text": "Due to the scarcity of specialised skills in the Netherlands, it is not always possible to find the talent you need in the Dutch or even EU. Did you know: MACEE is a Recognised Sponsor with the Dutch Immigration Service IND, which allows us to hire non-EU specialist candidates under the fast-track Highly Skilled Migrant Visa and Residence Permit scheme. This allows MACEE to leverage its extensive international network when searching for the right talent.",
+        "image": "/uploads/Dutch-government-3.jpg",
+        "accent": true,
+        "order": 2
       },
       {
         "id": "sbb",
         "tag": "SBB Vocational Education",
         "title": "Recognised training company",
         "text": "MACEE is a recognised training company, we contribute to future generations of enthusiastic employees in the workforce. As an organisation that has been officially approved by the Cooperative Organisation for Vocational Education, Training and the Labour Market (SBB) we provide practical training to vocational students. We offer a safe learning environment with qualified coaches to execute tasks and learn that is relevant to the training programme.",
-        "image": {
-          "src": "/uploads/Accredited work placement company (2).png",
-          "fallback": "https://www.macee.com/uploads/Accredited%20work%20placement%20company%20(2).png",
-          "alt": "We Train Professionals - Accredited work placement company"
-        }
+        "image": "/uploads/Accredited work placement company (2).png",
+        "accent": false,
+        "order": 3
       }
     ]
   },
@@ -94,7 +92,7 @@
     "title": "Expertise",
     "subheading": "Proven track record in technical skills & experience",
     "intro": "We can supply a wide range of people, but our network is mainly focused on senior level professionals. These include professionals in positions such as: Business/Information Analyst, Data Engineer, (Cyber) Security Consultant, Testers, Software Developers, Reporting/Finance Specialists and technical/cultural PMO and Project Managers.",
-    "prompt": "Below our skills & experience where we have a proven track record in;",
+    "prompt": "Below our skills & experience where we have a proven track record in:",
     "items": [
       {
         "domain": "Software Development",

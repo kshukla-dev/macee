@@ -77,143 +77,143 @@ export const Hero: React.FC<HeroProps> = ({ onStartJourney, onExploreServices, o
       <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#8E96CB]/10 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#E30613]/10 blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Heading and CTAs */}
-          <div className="lg:col-span-7 space-y-6 text-left hero-content">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8E96CB]/15 text-[#36427D] text-xs sm:text-sm font-semibold tracking-wide">
-              <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
-              <span>{t('hero.badge')}</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
-              {t('hero.title1')}{' '}
-              <span className="text-[#E30613] decoration-[#E30613]/20">
-                {t('hero.title2')}
-              </span>
-            </h1>
-
-            <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
-              {t('hero.desc')}
-            </p>
-
-            {/* CTAs */}
-            <div className="space-y-2.5 pt-2">
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <button
-                  onClick={onStartJourney}
-                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-base shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group hover:-translate-y-0.5"
-                >
-                  <span>{t('hero.cta.primary')}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </button>
-
-                <button
-                  onClick={onExploreServices}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-[5px] bg-white border border-gray-300 text-[#111827] hover:bg-[#F0F2FA] hover:text-[#E30613] font-semibold text-base transition-colors duration-200 cursor-pointer"
-                >
-                  <span>{t('hero.cta.secondary')}</span>
-                </button>
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            {/* Left Column: Heading and CTAs */}
+            <div className="lg:col-span-7 space-y-6 text-left hero-content">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8E96CB]/15 text-[#36427D] text-xs sm:text-sm font-semibold tracking-wide">
+                <Sparkles className="w-3.5 h-3.5 text-[#E30613]" />
+                <span>{t('hero.badge')}</span>
               </div>
 
-              {/* Clear indicator that current projects/assignments are shown here */}
-              <div className="flex items-center gap-2 text-xs text-[#54595F] pt-0.5">
-                <span className="font-medium text-gray-700">
-                  {lang === 'NL'
-                    ? 'Bekijk direct actuele vacatures & live projectopdrachten'
-                    : 'Explore all live current assignments & project vacancies'}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#111827] tracking-tight leading-[1.12]">
+                {t('hero.title1')}{' '}
+                <span className="text-[#E30613] decoration-[#E30613]/20">
+                  {t('hero.title2')}
                 </span>
-              </div>
-            </div>
+              </h1>
 
-            {/* Trust points */}
-            <div className="pt-6 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-[#333333]">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">{t('hero.trust.nen')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">{t('hero.trust.ind')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#E30613] shrink-0" />
-                <span className="font-medium">{t('hero.trust.exp')}</span>
-              </div>
-            </div>
-          </div>
+              <p className="text-lg sm:text-xl text-[#54595F] leading-relaxed max-w-2xl font-normal">
+                {t('hero.desc')}
+              </p>
 
-          {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
-          <div className="lg:col-span-5 relative hero-image-container flex justify-center">
-            <div className="relative w-full max-w-md lg:max-w-none">
-              {/* Backing decorative frame */}
-              <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#8E96CB]/20 rounded-2xl transform rotate-1 scale-[0.99]" />
-
-              {/* Crossfade Image Carousel Container */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.3] max-h-[520px]">
-                {HERO_CAROUSEL_IMAGES.map((img, idx) => (
-                  <div
-                    key={img.src}
-                    onClick={() => onNavigate && onNavigate(img.page)}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer group/slide ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-                      }`}
-                    title={`Click to explore ${img.title}`}
+              {/* CTAs */}
+              <div className="space-y-2.5 pt-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                  <button
+                    onClick={onStartJourney}
+                    className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-base shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group hover:-translate-y-0.5"
                   >
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out group-hover/slide:scale-110 ${idx === currentSlide ? 'scale-105' : 'scale-100'
-                        }`}
-                    />
-                    {/* Subtle bottom shadow vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <span>{t('hero.cta.primary')}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </button>
 
+                  <button
+                    onClick={onExploreServices}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-[5px] bg-white border border-gray-300 text-[#111827] hover:bg-[#F0F2FA] hover:text-[#E30613] font-semibold text-base transition-colors duration-200 cursor-pointer"
+                  >
+                    <span>{t('hero.cta.secondary')}</span>
+                  </button>
+                </div>
 
-                  </div>
-                ))}
-
-                {/* Sleek Carousel Indicators */}
-                <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-                  {HERO_CAROUSEL_IMAGES.map((_, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setCurrentSlide(idx)}
-                      aria-label={`Slide ${idx + 1}`}
-                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
-                        }`}
-                    />
-                  ))}
+                {/* Clear indicator that current projects/assignments are shown here */}
+                <div className="flex items-center gap-2 text-xs text-[#54595F] pt-0.5">
+                  <span className="font-medium text-gray-700">
+                    {lang === 'NL'
+                      ? 'Bekijk direct actuele vacatures & live projectopdrachten'
+                      : 'Explore all live current assignments & project vacancies'}
+                  </span>
                 </div>
               </div>
 
-              {/* Floating strategic badge (clickable to go directly to slide target page) */}
-              <div
-                onClick={() => onNavigate && onNavigate(HERO_CAROUSEL_IMAGES[currentSlide].page)}
-                className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 hover:border-[#E30613]/50 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl cursor-pointer group/badge"
-                title={`Click to explore ${HERO_CAROUSEL_IMAGES[currentSlide].title}`}
-              >
-                <div className="shrink-0 flex items-center justify-center">
-                  <img
-                    src="/uploads/favicon-96x96.png"
-                    alt="Macee"
-                    className="w-10 h-10 object-contain group-hover/badge:scale-105 transition-transform"
-                  />
+              {/* Trust points */}
+              <div className="pt-6 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-[#333333]">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#E30613] shrink-0" />
+                  <span className="font-medium">{t('hero.trust.nen')}</span>
                 </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-bold text-[#111827] group-hover/badge:text-[#E30613] transition-colors tracking-tight flex items-center gap-1">
-                    <span>{lang === 'NL' ? 'Uw Externe Inhuurdesk' : HERO_CAROUSEL_IMAGES[currentSlide].title}</span>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 transition-all" />
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#E30613] shrink-0" />
+                  <span className="font-medium">{t('hero.trust.ind')}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-[#E30613] shrink-0" />
+                  <span className="font-medium">{t('hero.trust.exp')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Image Carousel with smooth crossfade & live desk badge */}
+            <div className="lg:col-span-5 relative hero-image-container flex justify-center">
+              <div className="relative w-full max-w-md lg:max-w-none">
+                {/* Backing decorative frame */}
+                <div className="absolute -inset-2 bg-gradient-to-tr from-[#E30613]/15 to-[#8E96CB]/20 rounded-2xl transform rotate-1 scale-[0.99]" />
+
+                {/* Crossfade Image Carousel Container */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-[#111827] border border-gray-100 aspect-[4/4.3] max-h-[520px]">
+                  {HERO_CAROUSEL_IMAGES.map((img, idx) => (
+                    <div
+                      key={img.src}
+                      onClick={() => onNavigate && onNavigate(img.page)}
+                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer group/slide ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                        }`}
+                      title={`Click to explore ${img.title}`}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className={`w-full h-full object-cover object-top transition-transform duration-[6000ms] ease-out group-hover/slide:scale-110 ${idx === currentSlide ? 'scale-105' : 'scale-100'
+                          }`}
+                      />
+                      {/* Subtle bottom shadow vignette */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+
+                    </div>
+                  ))}
+
+                  {/* Sleek Carousel Indicators */}
+                  <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                    {HERO_CAROUSEL_IMAGES.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setCurrentSlide(idx)}
+                        aria-label={`Slide ${idx + 1}`}
+                        className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${idx === currentSlide ? 'w-5 bg-[#E30613]' : 'w-1.5 bg-white/60 hover:bg-white'
+                          }`}
+                      />
+                    ))}
                   </div>
-                  <div className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
-                    {lang === 'NL' ? 'Werving Internationaal Talent & Expats' : HERO_CAROUSEL_IMAGES[currentSlide].subtitle}
+                </div>
+
+                {/* Floating strategic badge (clickable to go directly to slide target page) */}
+                <div
+                  onClick={() => onNavigate && onNavigate(HERO_CAROUSEL_IMAGES[currentSlide].page)}
+                  className="absolute -bottom-5 -left-3 sm:left-4 z-30 bg-white/95 backdrop-blur-md border border-gray-200/90 hover:border-[#E30613]/50 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3.5 transition-all duration-300 hover:shadow-2xl cursor-pointer group/badge"
+                  title={`Click to explore ${HERO_CAROUSEL_IMAGES[currentSlide].title}`}
+                >
+                  <div className="shrink-0 flex items-center justify-center">
+                    <img
+                      src="/uploads/favicon-96x96.png"
+                      alt="Macee"
+                      className="w-10 h-10 object-contain group-hover/badge:scale-105 transition-transform"
+                    />
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-[#111827] group-hover/badge:text-[#E30613] transition-colors tracking-tight flex items-center gap-1">
+                      <span>{lang === 'NL' ? 'Uw Externe Inhuurdesk' : HERO_CAROUSEL_IMAGES[currentSlide].title}</span>
+                      <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 transition-all" />
+                    </div>
+                    <div className="text-[11px] sm:text-xs text-[#54595F] font-medium mt-0.5">
+                      {lang === 'NL' ? 'Werving Internationaal Talent & Expats' : HERO_CAROUSEL_IMAGES[currentSlide].subtitle}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 };

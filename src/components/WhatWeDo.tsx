@@ -49,122 +49,121 @@ export const WhatWeDo: React.FC<WhatWeDoProps> = ({
   };
 
   return (
-    <section 
+    <section
       id="what-we-do"
       className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100"
     >
-      <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column: Authentic Team Image */}
-          <div className="lg:col-span-6 relative what-we-do-image">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
-              <img
-                src="/images/team-room.jpg"
-                alt="Macee External Workforce Specialists in Collaboration"
-                className="w-full h-auto object-cover max-h-[540px] aspect-[4/3.3] hover:scale-105 transition-transform duration-700 ease-out"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
-                <p className="text-sm font-semibold text-[#111827]">
-                  {lang === 'NL' ? 'De Beschermende Schakel voor Extern Talent' : 'The Protective Link for External Talent'}
-                </p>
-                <p className="text-xs text-[#54595F] mt-0.5">
-                  {lang === 'NL' ? 'SNA NEN 4400-1 gecertificeerd · Officieel IND Erkend Referent' : 'SNA NEN 4400-1 certified · Official IND Recognised Sponsor'}
-                </p>
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+            {/* Left Column: Authentic Team Image */}
+            <div className="lg:col-span-6 relative what-we-do-image">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                <img
+                  src="/images/team-room.jpg"
+                  alt="Macee External Workforce Specialists in Collaboration"
+                  className="w-full h-auto object-cover max-h-[540px] aspect-[4/3.3] hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-100">
+                  <p className="text-sm font-semibold text-[#111827]">
+                    {lang === 'NL' ? 'De Beschermende Schakel voor Extern Talent' : 'The Protective Link for External Talent'}
+                  </p>
+                  <p className="text-xs text-[#54595F] mt-0.5">
+                    {lang === 'NL' ? 'SNA NEN 4400-1 gecertificeerd · Officieel IND Erkend Referent' : 'SNA NEN 4400-1 certified · Official IND Recognised Sponsor'}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Heading, Subtitle & 7 Services */}
-          <div className="lg:col-span-6 space-y-6 text-left what-we-do-content">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
-                <Layers className="w-3.5 h-3.5 text-[#E30613]" />
-                <span>{t('whatwedo.badge')}</span>
+            {/* Right Column: Heading, Subtitle & 7 Services */}
+            <div className="lg:col-span-6 space-y-6 text-left what-we-do-content">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E30613]/10 text-[#E30613] text-xs font-bold uppercase tracking-wider mb-3">
+                  <Layers className="w-3.5 h-3.5 text-[#E30613]" />
+                  <span>{t('whatwedo.badge')}</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
+                  {t('whatwedo.title')}
+                </h2>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-[#111827] tracking-tight">
-                {t('whatwedo.title')}
-              </h2>
-            </div>
 
-            <p className="text-base sm:text-lg text-[#54595F] leading-relaxed">
-              {t('whatwedo.subtitle')}
-            </p>
+              <p className="text-base sm:text-lg text-[#54595F] leading-relaxed">
+                {t('whatwedo.subtitle')}
+              </p>
 
-            {/* List of 7 Services + 8th Slot Check Out Our Services CTA */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              {services.map((service, index) => {
-                const isHiddenOnMobile = !isMobileExpanded && index >= 3;
-                return (
-                  <div
-                    key={service.id}
-                    onClick={() => {
-                      if (onSelectService) {
-                        onSelectService(service.id);
-                      } else if (onNavigate) {
-                        onNavigate(getServiceTargetPage(service.id));
-                      } else {
-                        onExploreAllServices();
-                      }
-                    }}
-                    className={`${
-                      isHiddenOnMobile ? 'hidden sm:flex' : 'flex'
-                    } items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group`}
-                    title={`View detailed explanation for ${service.title}`}
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
-                        {getIcon(service.id)}
+              {/* List of 7 Services + 8th Slot Check Out Our Services CTA */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                {services.map((service, index) => {
+                  const isHiddenOnMobile = !isMobileExpanded && index >= 3;
+                  return (
+                    <div
+                      key={service.id}
+                      onClick={() => {
+                        if (onSelectService) {
+                          onSelectService(service.id);
+                        } else if (onNavigate) {
+                          onNavigate(getServiceTargetPage(service.id));
+                        } else {
+                          onExploreAllServices();
+                        }
+                      }}
+                      className={`${isHiddenOnMobile ? 'hidden sm:flex' : 'flex'
+                        } items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100 bg-[#F8FAFB] hover:bg-white hover:border-[#E30613]/40 hover:shadow-md transition-all duration-200 cursor-pointer group`}
+                      title={`View detailed explanation for ${service.title}`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-gray-100 shadow-2xs group-hover:bg-[#111827]/10 transition-colors">
+                          {getIcon(service.id)}
+                        </div>
+                        <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
+                          {service.title}
+                        </span>
                       </div>
-                      <span className="text-sm font-semibold text-[#111827] group-hover:text-[#E30613] transition-colors leading-snug">
-                        {service.title}
-                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#E30613] group-hover:translate-x-1 transition-all shrink-0" />
-                  </div>
-                );
-              })}
+                  );
+                })}
 
-              {/* Mobile View Toggle: Show More / Show Less Button */}
-              <button
-                type="button"
-                onClick={() => setIsMobileExpanded(!isMobileExpanded)}
-                className="sm:hidden flex items-center justify-center gap-2 p-3.5 rounded-xl border border-gray-200 bg-white hover:bg-[#F8FAFB] hover:border-[#E30613]/40 text-[#111827] hover:text-[#E30613] font-semibold text-sm shadow-2xs transition-all duration-200 active:scale-[0.99] cursor-pointer group"
-                aria-expanded={isMobileExpanded}
-              >
-                <span>
-                  {isMobileExpanded ? t('whatwedo.showLess') : t('whatwedo.showMore')}
-                </span>
-                {isMobileExpanded ? (
-                  <ChevronUp className="w-4 h-4 text-[#E30613] group-hover:-translate-y-0.5 transition-transform duration-200" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-[#E30613] group-hover:translate-y-0.5 transition-transform duration-200" />
-                )}
-              </button>
+                {/* Mobile View Toggle: Show More / Show Less Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+                  className="sm:hidden flex items-center justify-center gap-2 p-3.5 rounded-xl border border-gray-200 bg-white hover:bg-[#F8FAFB] hover:border-[#E30613]/40 text-[#111827] hover:text-[#E30613] font-semibold text-sm shadow-2xs transition-all duration-200 active:scale-[0.99] cursor-pointer group"
+                  aria-expanded={isMobileExpanded}
+                >
+                  <span>
+                    {isMobileExpanded ? t('whatwedo.showLess') : t('whatwedo.showMore')}
+                  </span>
+                  {isMobileExpanded ? (
+                    <ChevronUp className="w-4 h-4 text-[#E30613] group-hover:-translate-y-0.5 transition-transform duration-200" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-[#E30613] group-hover:translate-y-0.5 transition-transform duration-200" />
+                  )}
+                </button>
 
-              {/* 8th Slot: Check Out Our Services CTA Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (onNavigate) {
-                    onNavigate('about-services');
-                  } else if (onExploreAllServices) {
-                    onExploreAllServices();
-                  }
-                }}
-                className="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
-              >
-                <span className="text-sm font-semibold leading-snug pl-1">
-                  {t('whatwedo.cta')}
-                </span>
-                <ArrowRight className="w-4 h-4 text-white shrink-0 group-hover:translate-x-1 transition-transform mr-1" />
-              </button>
+                {/* 8th Slot: Check Out Our Services CTA Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onNavigate) {
+                      onNavigate('about-services');
+                    } else if (onExploreAllServices) {
+                      onExploreAllServices();
+                    }
+                  }}
+                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-[#E30613] hover:bg-[#111827] text-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0 text-left"
+                >
+                  <span className="text-sm font-semibold leading-snug pl-1">
+                    {t('whatwedo.cta')}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-white shrink-0 group-hover:translate-x-1 transition-transform mr-1" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 };

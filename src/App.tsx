@@ -31,6 +31,7 @@ import { ProjectsPage, ProjectAssignmentItem } from './pages/ProjectsPage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { FaqPage } from './pages/FaqPage';
 import { ContactPage } from './pages/ContactPage';
+import { SitemapPage } from './pages/SitemapPage';
 
 import { getResourcesData, getServicesData } from './data/content';
 import { ResourceItem, JobListing, ServiceItem } from './types';
@@ -38,8 +39,10 @@ import { getAllJobs, getCachedJobs } from './lib/api';
 
 import { Language } from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { SEO } from './components/SEO';
+import { getHomeSchema } from './data/seoSchemas';
 
-export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact';
+export type PageRoute = 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'project-detail' | 'faq' | 'contact' | 'sitemap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,7 +114,8 @@ function AppContent() {
   // Synchronize route with browser URL / history
   useEffect(() => {
     const handleLocation = () => {
-      const path = window.location.pathname.toLowerCase();
+      const rawPath = window.location.pathname.toLowerCase();
+      const path = rawPath.replace(/\/+$/, '') || '/';
       const hash = window.location.hash.toLowerCase();
 
       // Check for project detail URL (/projects/:id, /project/:id, /vacancies/:id, /assignments/:id)
@@ -159,7 +163,17 @@ function AppContent() {
         setCurrentPage('faq');
       } else if (path === '/contact' || path === '/contact-us' || path === '/get-in-touch' || hash === '#contact' || hash === '#contact-us' || hash === '#get-in-touch') {
         setCurrentPage('contact');
+      } else if (path === '/sitemap' || path === '/sitemap.html' || path === '/site-map' || hash === '#sitemap') {
+        setCurrentPage('sitemap');
+      } else if (path === '/sitemap.xml' || path === '/robots.txt') {
+        // Do not intercept or rewrite static sitemap.xml or robots.txt
+        return;
+      } else if (path === '/' || path === '/index.html') {
+        setCurrentPage('home');
       } else {
+        // Unknown or invalid URL (e.g. /sitemap145, /unknown-page, etc.)
+        // Cleanly replace browser URL with default '/' and show home page!
+        window.history.replaceState(null, '', '/');
         setCurrentPage('home');
       }
     };
@@ -312,6 +326,10 @@ function AppContent() {
     } else if (page === 'contact' || page === 'contact-us' || page === 'get-in-touch') {
       setCurrentPage('contact');
       window.history.pushState(null, '', '/contact');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'sitemap' || page === '/sitemap' || page === 'sitemap-page') {
+      setCurrentPage('sitemap');
+      window.history.pushState(null, '', '/sitemap');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');
@@ -552,8 +570,26 @@ function AppContent() {
           <FaqPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
         ) : currentPage === 'contact' ? (
           <ContactPage onNavigate={handleNavigatePage} onOpenConsultation={() => setIsConsultationOpen(true)} />
+        ) : currentPage === 'sitemap' ? (
+          <SitemapPage onNavigate={handleNavigatePage} />
         ) : (
           <>
+            <SEO
+              title={
+                lang === 'NL'
+                  ? 'Macee | Externe Workforce Solutions Nederland'
+                  : 'Macee | External Workforce Solutions Netherlands'
+              }
+              description={
+                lang === 'NL'
+                  ? 'Toonaangevende partner voor flexibele staffing, detachering, compliance en internationale werving in Nederland. SNA NEN 4400-1 gecertificeerd en IND-sponsor.'
+                  : 'Leading partner for flexible staffing, secondment, compliance, and international recruitment in the Netherlands. SNA NEN 4400-1 certified and IND sponsor.'
+              }
+              canonicalPath="/"
+              lang={lang}
+              schema={getHomeSchema(lang)}
+            />
+
             {/* 3. Hero Section: "External Workforce Solutions" */}
             <Hero
               onStartJourney={() => handleNavigatePage('projects')}

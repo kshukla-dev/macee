@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- 1. Home Page -->
+  <url>
+    <loc>https://macee.com/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/?lang=nl" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://macee.com/" />
+  </url>
+
+  <!-- 2. About Us Page -->
+  <url>
+    <loc>https://macee.com/about</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/about" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/about?lang=nl" />
+  </url>
+
+  <!-- 3. Clients / Employers Page -->
+  <url>
+    <loc>https://macee.com/clients</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/clients" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/clients?lang=nl" />
+  </url>
+
+  <!-- 4. Professionals / Contractors Page -->
+  <url>
+    <loc>https://macee.com/professionals</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/professionals" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/professionals?lang=nl" />
+  </url>
+
+  <!-- 5. Projects & Vacancies Page -->
+  <url>
+    <loc>https://macee.com/projects</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/projects" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/projects?lang=nl" />
+  </url>
+
+  <!-- 6. FAQ & Knowledge Base Page -->
+  <url>
+    <loc>https://macee.com/faq</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/faq" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/faq?lang=nl" />
+  </url>
+
+  <!-- 7. Contact Page -->
+  <url>
+    <loc>https://macee.com/contact</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/contact" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/contact?lang=nl" />
+  </url>
+
+  <!-- 8. HTML Sitemap Page -->
+  <url>
+    <loc>https://macee.com/sitemap</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://macee.com/sitemap" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://macee.com/sitemap?lang=nl" />
+  </url>
+</urlset>

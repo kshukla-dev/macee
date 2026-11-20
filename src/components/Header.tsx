@@ -62,208 +62,200 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-white transition-all duration-300 ${
-        scrolled ? 'shadow-md py-2.5' : 'border-b border-gray-100 py-3.5'
-      }`}
+      className={`sticky top-0 z-40 bg-white transition-all duration-300 ${scrolled ? 'shadow-md py-2.5' : 'border-b border-gray-100 py-3.5'
+        }`}
     >
-      <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <a
-          href="/"
-          onClick={(e) => {
-            e.preventDefault();
-            if (onNavigatePage) {
-              onNavigatePage('home');
-            } else {
-              onNavigateSection('hero');
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="flex items-center gap-3 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613] rounded cursor-pointer"
-        >
-          <img
-            src="/images/macee-logo.png"
-            alt="Macee - External Workforce Solutions"
-            className="h-9 sm:h-11 w-auto object-contain"
-            onError={(e) => {
-              const target = e.currentTarget;
-              target.style.display = 'none';
-              const parent = target.parentElement;
-              if (parent && !parent.querySelector('.fallback-brand')) {
-                const span = document.createElement('span');
-                span.className = 'fallback-brand font-display font-bold text-2xl text-[#E30613] tracking-tight';
-                span.innerText = 'MACEE';
-                parent.appendChild(span);
-              }
-            }}
-          />
-        </a>
-
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-          {/* Home */}
-          <button
-            onClick={() => {
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Logo */}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               if (onNavigatePage) {
                 onNavigatePage('home');
               } else {
                 onNavigateSection('hero');
               }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className={`nav-button rounded-md ${
-              currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-            }`}
+            className="flex items-center gap-3 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E30613] rounded cursor-pointer"
           >
-            {labels.home}
-          </button>
-
-          {/* About */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('about');
-              } else {
-                onNavigateSection('why-wfs');
-              }
-            }}
-            className={`nav-button rounded-md ${
-              currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            {labels.about}
-          </button>
-
-          {/* Clients */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('clients');
-              } else {
-                onNavigateSection('what-we-do');
-              }
-            }}
-            className={`nav-button rounded-md ${
-              currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            {labels.clients}
-          </button>
-
-          {/* Professionals */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('professionals');
-              } else {
-                onNavigateSection('what-we-do');
-              }
-            }}
-            className={`nav-button rounded-md ${
-              currentPage === 'professionals'
-                ? 'active !text-[#E30613] font-bold'
-                : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            {labels.professionals}
-          </button>
-
-          {/* Projects with live count badge */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('projects');
-              } else {
-                onNavigateSection('jobs');
-              }
-            }}
-            className={`nav-button rounded-md inline-flex items-center gap-1.5 ${
-              currentPage === 'projects'
-                ? 'active !text-[#E30613] font-bold'
-                : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            <span>{labels.projects}</span>
-            {vacancyCount > 0 && (
-              <span
-                className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full bg-[#E30613] text-white shadow-[0_2px_8px_rgba(227,6,19,0.35)] transition-all duration-200"
-                title={`${vacancyCount} ${currentLang === 'NL' ? 'openstaande vacatures' : 'open vacancies'}`}
-              >
-                {vacancyCount}
-              </span>
-            )}
-          </button>
-
-          {/* FAQ */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('faq');
-              } else {
-                onNavigateSection('resources');
-              }
-            }}
-            className={`nav-button rounded-md ${
-              currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            {labels.faq}
-          </button>
-
-          {/* Contact */}
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('contact');
-              } else {
-                onNavigateSection('contact');
-              }
-            }}
-            className={`nav-button rounded-md ${
-              currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
-            }`}
-          >
-            {labels.contact}
-          </button>
-        </nav>
-
-        {/* Action Button & Language Selector & Mobile Toggle */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          {/* Language Switcher Dropdown */}
-          {onChangeLang && (
-            <LanguageSelector
-              currentLang={currentLang}
-              onChangeLang={onChangeLang}
+            <img
+              src="/images/macee-logo.png"
+              alt="Macee - External Workforce Solutions"
+              className="h-9 sm:h-11 w-auto object-contain"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent && !parent.querySelector('.fallback-brand')) {
+                  const span = document.createElement('span');
+                  span.className = 'fallback-brand font-display font-bold text-2xl text-[#E30613] tracking-tight';
+                  span.innerText = 'MACEE';
+                  parent.appendChild(span);
+                }
+              }}
             />
-          )}
+          </a>
 
-          <button
-            onClick={() => {
-              if (onNavigatePage) {
-                onNavigatePage('contact');
-              } else {
-                onNavigateSection('contact');
-              }
-            }}
-            className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-4 sm:px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-          >
-            <span>{labels.getInTouch}</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+            {/* Home */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('home');
+                } else {
+                  onNavigateSection('hero');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'home' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.home}
+            </button>
 
-          {/* Mobile hamburger */}
-          <button
-            onClick={onToggleMobileMenu}
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            className="lg:hidden p-2 rounded-md text-[#E30613] hover:bg-gray-100 transition-colors cursor-pointer"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
+            {/* About */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('about');
+                } else {
+                  onNavigateSection('why-wfs');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'about' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.about}
+            </button>
+
+            {/* Clients */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('clients');
+                } else {
+                  onNavigateSection('what-we-do');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'clients' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.clients}
+            </button>
+
+            {/* Professionals */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('professionals');
+                } else {
+                  onNavigateSection('what-we-do');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'professionals'
+                  ? 'active !text-[#E30613] font-bold'
+                  : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.professionals}
+            </button>
+
+            {/* Projects with live count badge */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('projects');
+                } else {
+                  onNavigateSection('jobs');
+                }
+              }}
+              className={`nav-button rounded-md inline-flex items-center gap-1.5 ${currentPage === 'projects'
+                  ? 'active !text-[#E30613] font-bold'
+                  : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              <span>{labels.projects}</span>
+              {vacancyCount > 0 && (
+                <span
+                  className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full bg-[#E30613] text-white shadow-[0_2px_8px_rgba(227,6,19,0.35)] transition-all duration-200"
+                  title={`${vacancyCount} ${currentLang === 'NL' ? 'openstaande vacatures' : 'open vacancies'}`}
+                >
+                  {vacancyCount}
+                </span>
+              )}
+            </button>
+
+            {/* FAQ */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('faq');
+                } else {
+                  onNavigateSection('resources');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'faq' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.faq}
+            </button>
+
+            {/* Contact */}
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('contact');
+                } else {
+                  onNavigateSection('contact');
+                }
+              }}
+              className={`nav-button rounded-md ${currentPage === 'contact' ? 'active !text-[#E30613] font-bold' : 'text-gray-700 hover:text-[#E30613]'
+                }`}
+            >
+              {labels.contact}
+            </button>
+          </nav>
+
+          {/* Action Button & Language Selector & Mobile Toggle */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Language Switcher Dropdown */}
+            {onChangeLang && (
+              <LanguageSelector
+                currentLang={currentLang}
+                onChangeLang={onChangeLang}
+              />
             )}
-          </button>
+
+            <button
+              onClick={() => {
+                if (onNavigatePage) {
+                  onNavigatePage('contact');
+                } else {
+                  onNavigateSection('contact');
+                }
+              }}
+              className="hidden sm:inline-flex items-center gap-2 bg-[#E30613] hover:bg-[#111827] text-white px-4 sm:px-5 py-2.5 rounded-[5px] text-sm font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>{labels.getInTouch}</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={onToggleMobileMenu}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              className="lg:hidden p-2 rounded-md text-[#E30613] hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
     </header>
   );
 };

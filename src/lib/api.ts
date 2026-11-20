@@ -961,7 +961,7 @@ export async function submitVacancyApplication(
           source: 'macee-portal',
           medium: 'website_project_application',
         },
-        referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl/projects',
+        referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.com/projects',
         ...(data.rate ? { targetRate: data.rate } : {}),
         ...(data.note ? { motivation: data.note } : {}),
       },
@@ -1082,7 +1082,7 @@ export async function submitOpenApplication(
         source: 'macee-portal',
         medium: 'website_open_application',
       },
-      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl',
+      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.com',
     },
   };
 
@@ -1171,7 +1171,7 @@ export async function submitJobAlertForm(
         source: 'macee-portal',
         medium: 'website_jobalert_modal',
       },
-      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.nl',
+      referer: typeof window !== 'undefined' ? window.location.href : 'https://macee.com',
     },
   };
 

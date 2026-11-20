@@ -162,14 +162,16 @@
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/sMzvFzco/uploads/Bredere%20foto.png",
         "email": "d.noorlander@macee.com",
         "phone": "+31 (0)6 49 53 36 35",
-        "linkedin": "https://www.linkedin.com/in/dicknoorlander/"
+        "linkedin": "https://www.linkedin.com/in/dicknoorlander/",
+        "desk": "Workforce & Resourcing Desk"
       },
       {
         "name": "Maarten Koekebakker",
-        "role": "Oprichter / Eigenaar",
+        "role": "Founder / Owner",
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/IAJ6bXf8/uploads/maarten-koekebakker.jpeg%20%281%29.jpg",
+        "email": "info@macee.com",
         "linkedin": "https://www.linkedin.com/in/koekebakker/",
-        "desk": "Contact via Hoofdkantoor"
+        "desk": "Contact via Macee Desk"
       },
       {
         "name": "Adam Nichols",
@@ -177,7 +179,8 @@
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/k8LJpK7C/uploads/adam-nichols.jpeg.jpg",
         "email": "a.nichols@macee.com",
         "phone": "+31 (0)6 50 22 23 90",
-        "linkedin": "https://www.linkedin.com/in/adsnichols/"
+        "linkedin": "https://www.linkedin.com/in/adsnichols/",
+        "desk": "Executive & Strategic Partnerships"
       },
       {
         "name": "Michael Siep",
@@ -185,7 +188,8 @@
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/WALuDQhd/uploads/michael-siep.png",
         "email": "m.siep@macee.com",
         "phone": "+31 (0)6 54 67 32 63",
-        "linkedin": "https://www.linkedin.com/in/michaelsiep/"
+        "linkedin": "https://www.linkedin.com/in/michaelsiep/",
+        "desk": "IT & Engineering Talent Desk"
       },
       {
         "name": "Amin David",
@@ -193,7 +197,8 @@
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/2JLI5vyn/uploads/amin-david.jpeg.jpg",
         "email": "a.david@macee.com",
         "phone": "+31 (0)26 744 0024",
-        "linkedin": "https://www.linkedin.com/in/amin-david-3711b1116/"
+        "linkedin": "https://www.linkedin.com/in/amin-david-3711b1116/",
+        "desk": "Contract & Compliance Administration"
       },
       {
         "name": "Nicky Weijgertze",
@@ -201,7 +206,8 @@
         "image": "https://www.macee.com/media/cache/square_crop_center/rc/sjXS1wcB/uploads/Nicky%20.jpg",
         "email": "n.weijgertze@macee.com",
         "phone": "+31 (0)26 744 0024",
-        "linkedin": "https://www.linkedin.com/in/nicky-weijgertze"
+        "linkedin": "https://www.linkedin.com/in/nicky-weijgertze",
+        "desk": "Payroll & Onboarding Operations"
       }
     ]
   },

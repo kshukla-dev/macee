@@ -31,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-[#111827] text-white border-t border-gray-800">
       {/* Main Footer Container */}
-      <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Column 1: Brand & Office Location (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-5">
@@ -219,9 +219,16 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Area: Copyright, SNA NEN Certification Logo & Socials */}
         <div className="mt-6 pt-4 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-400">
-            {t('footer.copyright')}
-          </p>
+          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400">
+            <span>{t('footer.copyright')}</span>
+            <span className="text-gray-600 hidden sm:inline">•</span>
+            <button
+              onClick={() => onNavigatePage ? onNavigatePage('sitemap') : (window.location.href = '/sitemap')}
+              className="hover:text-white transition-colors cursor-pointer underline underline-offset-2"
+            >
+              Sitemap
+            </button>
+          </div>
 
           <div className="flex items-center gap-6">
             {/* Official SNA NEN 4400-1 & ISO 9001 Certification Logo */}

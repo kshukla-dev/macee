@@ -16,6 +16,9 @@ import contactDataNl from '../data/contactData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
 import { PageFaqSection } from '../components/PageFaqSection';
 import { CONTACT_FAQS } from '../data/pageFaqs';
+import { SEO } from '../components/SEO';
+import { getContactSchema } from '../data/seoSchemas';
+import { ADMIN_API } from '../services/adminApi';
 import {
   isValidEmail,
   isValidPhone,
@@ -35,7 +38,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
   const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
 
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
@@ -51,9 +54,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         if (!value.trim()) return msgs.firstNameRequired;
         if (!isValidName(value)) return msgs.firstNameRequired;
         return '';
-      case 'lastName':
-        if (!value.trim()) return msgs.lastNameRequired;
-        if (!isValidName(value)) return msgs.lastNameRequired;
+      case 'company':
         return '';
       case 'email':
         if (!value.trim()) return msgs.emailRequired;
@@ -73,7 +74,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
   const handleFieldChange = (field: string, value: string) => {
     if (field === 'firstName') setFirstName(value);
-    if (field === 'lastName') setLastName(value);
+    if (field === 'company') setCompany(value);
     if (field === 'email') setEmail(value);
     if (field === 'phone') setPhone(value);
     if (field === 'message') setMessage(value);
@@ -95,7 +96,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
     const newErrors: Record<string, string> = {
       firstName: validateField('firstName', firstName),
-      lastName: validateField('lastName', lastName),
+      company: validateField('company', company),
       email: validateField('email', email),
       phone: validateField('phone', phone),
       message: validateField('message', message),
@@ -104,7 +105,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     setErrors(newErrors);
     setTouched({
       firstName: true,
-      lastName: true,
+      company: true,
       email: true,
       phone: true,
       message: true,
@@ -116,16 +117,33 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 600);
+
+    // Send submission to Macee CRM Portal
+    fetch(ADMIN_API.contact, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        company,
+        email,
+        phone,
+        message,
+        topic: 'Get in Touch Form Inquiry',
+      }),
+    })
+      .catch((err) => {
+        console.warn('CRM sync unreachable, proceeding locally:', err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setSubmitted(true);
+      });
   };
 
   const handleReset = () => {
     setSubmitted(false);
     setFirstName('');
-    setLastName('');
+    setCompany('');
     setEmail('');
     setPhone('');
     setMessage('');
@@ -135,6 +153,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
   return (
     <div className="page_contact min-h-screen bg-[#F8FAFB]">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Contact Macee | Kantoor Arnhem & Inhuuradvies'
+            : 'Contact Macee | Arnhem Office & Workforce Inquiries'
+        }
+        description={
+          lang === 'NL'
+            ? 'Neem contact op met de workforce-specialisten van Macee. Bezoek ons kantoor in Arnhem of plan een vrijblijvend adviesgesprek over detachering en inhuur.'
+            : 'Get in touch with Macee’s workforce specialists. Visit our Arnhem headquarters or schedule a confidential consultation for temporary or permanent staffing.'
+        }
+        canonicalPath="/contact"
+        lang={lang}
+        schema={getContactSchema(lang)}
+      />
+
       {/* 1. Header Banner */}
       <section
         className="relative py-20 sm:py-28 bg-cover bg-center text-white overflow-hidden"
@@ -146,356 +180,351 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#E30613]/20 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-black/40 blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
-            <Phone className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>{contactData.hero.badge}</span>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
+              <Phone className="w-3.5 h-3.5 text-[#E30613]" />
+              <span>{contactData.hero.badge}</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
+              {contactData.hero.titlePrefix} <span className="text-[#E30613]">{contactData.hero.titleHighlight}</span>
+            </h1>
+
+            <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
+              {contactData.hero.description}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-white/90">
+              {contactData.hero.highlights.map((item, idx) => (
+                <span key={idx} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            {contactData.hero.titlePrefix} <span className="text-[#E30613]">{contactData.hero.titleHighlight}</span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
-            {contactData.hero.description}
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-white/90">
-            {contactData.hero.highlights.map((item, idx) => (
-              <span key={idx} className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* 2. Main Content Area */}
       <section className="py-16 sm:py-24">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
-            {/* Left Column: Office Details, Desks & Map (5 Cols) */}
-            <div className="lg:col-span-5 space-y-8">
+              {/* Left Column: Office Details, Desks & Map (5 Cols) */}
+              <div className="lg:col-span-5 space-y-8">
 
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                  {contactData.office.tag}
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-bold font-display text-gray-900 mt-1">
-                  {contactData.office.title}
-                </h2>
-                <p className="text-sm sm:text-base text-gray-600 mt-2 leading-relaxed">
-                  {contactData.office.description}
-                </p>
-              </div>
-
-              {/* Office Details Card */}
-              <div className="bg-white p-7 rounded-2xl border border-gray-200 shadow-xs space-y-5">
-                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                  <div>
-                    <h3 className="text-xl font-bold font-display text-gray-900">
-                      {contactData.office.name}
-                    </h3>
-                    <p className="text-xs text-gray-500 font-mono">
-                      {contactData.office.city}
-                    </p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#f8dada] text-[#E30613]">
-                    {contactData.office.badge}
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
+                    {contactData.office.tag}
                   </span>
+                  <h2 className="text-2xl sm:text-3xl font-bold font-display text-gray-900 mt-1">
+                    {contactData.office.title}
+                  </h2>
+                  <p className="text-sm sm:text-base text-gray-600 mt-2 leading-relaxed">
+                    {contactData.office.description}
+                  </p>
                 </div>
 
-                <div className="space-y-3.5 text-sm text-gray-700">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-[#E30613] shrink-0 mt-0.5" />
+                {/* Office Details Card */}
+                <div className="bg-white p-7 rounded-2xl border border-gray-200 shadow-xs space-y-5">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                     <div>
-                      <p className="font-semibold text-gray-900">
-                        {lang === 'NL' ? 'Bezoekadres' : 'Physical Address'}
-                      </p>
-                      <p className="text-gray-600">{contactData.office.address.line1}</p>
-                      <p className="text-gray-600">{contactData.office.address.line2}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
-                    <Phone className="w-5 h-5 text-[#E30613] shrink-0" />
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium">
-                        {lang === 'NL' ? 'Direct telefoonnummer' : 'Direct Telephone'}
-                      </p>
-                      <a
-                        href={`tel:${contactData.office.phoneTel}`}
-                        className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
-                      >
-                        {contactData.office.phone}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
-                    <Mail className="w-5 h-5 text-[#E30613] shrink-0" />
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium">
-                        {lang === 'NL' ? 'Officieel e-mailadres' : 'Official Email'}
-                      </p>
-                      <a
-                        href={`mailto:${contactData.office.email}`}
-                        className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
-                      >
-                        {contactData.office.email}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2 border-t border-gray-100 text-xs text-gray-500">
-                    <Clock className="w-5 h-5 text-gray-400 shrink-0" />
-                    <span>{contactData.office.hours}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Map Embed Frame */}
-              <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-xs h-64 bg-gray-100 relative">
-                <iframe
-                  title="Macee Arnhem Office Location"
-                  className="w-full h-full border-0"
-                  src={contactData.office.mapQuery}
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Certifications micro banner */}
-              <div className="p-4 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs text-gray-600">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-[#E30613]" />
-                  <span>{contactData.certifications[0]}</span>
-                </div>
-                <span className="text-gray-300">·</span>
-                <div className="flex items-center gap-2">
-                  <Globe2 className="w-5 h-5 text-[#E30613]" />
-                  <span>{contactData.certifications[1]}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Contact Form (7 Cols) */}
-            <div className="lg:col-span-7">
-              <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-gray-200">
-
-                {submitted ? (
-                  <div className="text-center py-12 space-y-5">
-                    <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600">
-                      <CheckCircle2 className="w-9 h-9" />
-                    </div>
-
-                    <h3 className="text-2xl sm:text-3xl font-bold font-display text-gray-900">
-                      {lang === 'NL' ? 'Bericht succesvol verzonden!' : 'Message Sent Successfully!'}
-                    </h3>
-
-                    <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
-                      {lang === 'NL' ? (
-                        <>
-                          Hartelijk dank, <strong>{firstName || 'relatie'}</strong>. We hebben uw aanvraag goed ontvangen. Een specialist van Macee neemt binnen 24 uur contact met u op.
-                        </>
-                      ) : (
-                        <>
-                          Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry. A dedicated Macee specialist will review your details and contact you within 24 business hours.
-                        </>
-                      )}
-                    </p>
-
-                    <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-                      <button
-                        onClick={handleReset}
-                        className="px-6 py-2.5 rounded-[5px] bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition-colors cursor-pointer"
-                      >
-                        {lang === 'NL' ? 'Nieuw bericht sturen' : 'Send Another Inquiry'}
-                      </button>
-
-                      <button
-                        onClick={() => onNavigate('projects')}
-                        className="px-6 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs font-bold transition-colors cursor-pointer"
-                      >
-                        {lang === 'NL' ? 'Bekijk actuele vacatures' : 'Browse Current Projects'}
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="border-b border-gray-100 pb-5 mb-6">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                        {lang === 'NL' ? 'Online contactformulier' : 'Online Contact Form'}
-                      </span>
-                      <h3 className="text-2xl font-bold font-display text-gray-900 mt-1">
-                        {contactData.form.title}
+                      <h3 className="text-xl font-bold font-display text-gray-900">
+                        {contactData.office.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                        {contactData.form.subtitle}
+                      <p className="text-xs text-gray-500 font-mono">
+                        {contactData.office.city}
                       </p>
                     </div>
+                    <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#f8dada] text-[#E30613]">
+                      {contactData.office.badge}
+                    </span>
+                  </div>
 
-                    <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                      {/* Name Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            {lang === 'NL' ? 'Voornaam *' : 'First Name *'}
-                          </label>
-                          <input
-                            type="text"
-                            placeholder={lang === 'NL' ? 'bijv. Maarten' : 'e.g. Maarten'}
-                            value={firstName}
-                            onChange={(e) => handleFieldChange('firstName', e.target.value)}
-                            onBlur={() => handleFieldBlur('firstName', firstName)}
-                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
-                              errors.firstName
-                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
-                                : 'border-gray-300 focus:border-[#E30613]'
-                            }`}
-                          />
-                          {errors.firstName && (
-                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
-                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                              <span>{errors.firstName}</span>
-                            </p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            {lang === 'NL' ? 'Achternaam *' : 'Last Name *'}
-                          </label>
-                          <input
-                            type="text"
-                            placeholder={lang === 'NL' ? 'bijv. de Jong' : 'e.g. de Jong'}
-                            value={lastName}
-                            onChange={(e) => handleFieldChange('lastName', e.target.value)}
-                            onBlur={() => handleFieldBlur('lastName', lastName)}
-                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
-                              errors.lastName
-                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
-                                : 'border-gray-300 focus:border-[#E30613]'
-                            }`}
-                          />
-                          {errors.lastName && (
-                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
-                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                              <span>{errors.lastName}</span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Contact Info Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            {lang === 'NL' ? 'E-mailadres *' : 'Email Address *'}
-                          </label>
-                          <input
-                            type="email"
-                            placeholder={lang === 'NL' ? 'bijv. m.dejong@bedrijf.nl' : 'e.g. m.dejong@company.nl'}
-                            value={email}
-                            onChange={(e) => handleFieldChange('email', e.target.value)}
-                            onBlur={() => handleFieldBlur('email', email)}
-                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
-                              errors.email
-                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
-                                : 'border-gray-300 focus:border-[#E30613]'
-                            }`}
-                          />
-                          {errors.email && (
-                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
-                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                              <span>{errors.email}</span>
-                            </p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-1">
-                            {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
-                          </label>
-                          <input
-                            type="tel"
-                            placeholder="+31 6 1234 5678"
-                            value={phone}
-                            onChange={(e) => handleFieldChange('phone', e.target.value)}
-                            onBlur={() => handleFieldBlur('phone', phone)}
-                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${
-                              errors.phone
-                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
-                                : 'border-gray-300 focus:border-[#E30613]'
-                            }`}
-                          />
-                          {errors.phone && (
-                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
-                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                              <span>{errors.phone}</span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Message Textarea */}
+                  <div className="space-y-3.5 text-sm text-gray-700">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5 text-[#E30613] shrink-0 mt-0.5" />
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">
-                          {lang === 'NL' ? 'Uw bericht / Toelichting op uw vraag *' : 'Your Message / Description of Needs *'}
-                        </label>
-                        <textarea
-                          rows={4}
-                          placeholder={
-                            lang === 'NL'
-                              ? 'Vertel ons over uw vraagstuk, gewenste specialisten of projectdetails...'
-                              : 'Please tell us about your requirements, project details, or any questions...'
-                          }
-                          value={message}
-                          onChange={(e) => handleFieldChange('message', e.target.value)}
-                          onBlur={() => handleFieldBlur('message', message)}
-                          className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all resize-y ${
-                            errors.message
-                              ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
-                              : 'border-gray-300 focus:border-[#E30613]'
-                          }`}
-                        />
-                        {errors.message && (
-                          <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
-                            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                            <span>{errors.message}</span>
-                          </p>
-                        )}
+                        <p className="font-semibold text-gray-900">
+                          {lang === 'NL' ? 'Bezoekadres' : 'Physical Address'}
+                        </p>
+                        <p className="text-gray-600">{contactData.office.address.line1}</p>
+                        <p className="text-gray-600">{contactData.office.address.line2}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
+                      <Phone className="w-5 h-5 text-[#E30613] shrink-0" />
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">
+                          {lang === 'NL' ? 'Direct telefoonnummer' : 'Direct Telephone'}
+                        </p>
+                        <a
+                          href={`tel:${contactData.office.phoneTel}`}
+                          className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
+                        >
+                          {contactData.office.phone}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
+                      <Mail className="w-5 h-5 text-[#E30613] shrink-0" />
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">
+                          {lang === 'NL' ? 'Officieel e-mailadres' : 'Official Email'}
+                        </p>
+                        <a
+                          href={`mailto:${contactData.office.email}`}
+                          className="font-bold text-gray-900 hover:text-[#E30613] transition-colors"
+                        >
+                          {contactData.office.email}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-2 border-t border-gray-100 text-xs text-gray-500">
+                      <Clock className="w-5 h-5 text-gray-400 shrink-0" />
+                      <span>{contactData.office.hours}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Map Embed Frame */}
+                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-xs h-64 bg-gray-100 relative">
+                  <iframe
+                    title="Macee Arnhem Office Location"
+                    className="w-full h-full border-0"
+                    src={contactData.office.mapQuery}
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Certifications micro banner */}
+                <div className="p-4 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5 text-[#E30613]" />
+                    <span>{contactData.certifications[0]}</span>
+                  </div>
+                  <span className="text-gray-300">·</span>
+                  <div className="flex items-center gap-2">
+                    <Globe2 className="w-5 h-5 text-[#E30613]" />
+                    <span>{contactData.certifications[1]}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Interactive Contact Form (7 Cols) */}
+              <div className="lg:col-span-7">
+                <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-gray-200">
+
+                  {submitted ? (
+                    <div className="text-center py-12 space-y-5">
+                      <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600">
+                        <CheckCircle2 className="w-9 h-9" />
                       </div>
 
-                      {/* Privacy Notice */}
-                      <p className="text-[11px] text-gray-500 leading-normal">
-                        {contactData.form.privacy}
-                      </p>
+                      <h3 className="text-2xl sm:text-3xl font-bold font-display text-gray-900">
+                        {lang === 'NL' ? 'Bericht succesvol verzonden!' : 'Message Sent Successfully!'}
+                      </h3>
 
-                      {/* Submit Button */}
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
-                      >
-                        {isSubmitting ? (
+                      <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
+                        {lang === 'NL' ? (
                           <>
-                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending message...'}</span>
+                            Hartelijk dank, <strong>{firstName || 'relatie'}</strong>. We hebben uw aanvraag goed ontvangen. Een specialist van Macee neemt binnen 24 uur contact met u op.
                           </>
                         ) : (
                           <>
-                            <Send className="w-4 h-4" />
-                            <span>{contactData.form.buttonText}</span>
+                            Thank you, <strong>{firstName || 'there'}</strong>. We have received your inquiry. A dedicated Macee specialist will review your details and contact you within 24 business hours.
                           </>
                         )}
-                      </button>
-                    </form>
-                  </>
-                )}
+                      </p>
+
+                      <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button
+                          onClick={handleReset}
+                          className="px-6 py-2.5 rounded-[5px] bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          {lang === 'NL' ? 'Nieuw bericht sturen' : 'Send Another Inquiry'}
+                        </button>
+
+                        <button
+                          onClick={() => onNavigate('projects')}
+                          className="px-6 py-2.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          {lang === 'NL' ? 'Bekijk actuele vacatures' : 'Browse Current Projects'}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="border-b border-gray-100 pb-5 mb-6">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
+                          {lang === 'NL' ? 'Online contactformulier' : 'Online Contact Form'}
+                        </span>
+                        <h3 className="text-2xl font-bold font-display text-gray-900 mt-1">
+                          {contactData.form.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                          {contactData.form.subtitle}
+                        </p>
+                      </div>
+
+                      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                        {/* Name Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                              {lang === 'NL' ? 'Voornaam *' : 'First Name *'}
+                            </label>
+                            <input
+                              type="text"
+                              placeholder={lang === 'NL' ? 'bijv. Maarten' : 'e.g. Maarten'}
+                              value={firstName}
+                              onChange={(e) => handleFieldChange('firstName', e.target.value)}
+                              onBlur={() => handleFieldBlur('firstName', firstName)}
+                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.firstName
+                                  ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                  : 'border-gray-300 focus:border-[#E30613]'
+                                }`}
+                            />
+                            {errors.firstName && (
+                              <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                                <span>{errors.firstName}</span>
+                              </p>
+                            )}
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                              {lang === 'NL' ? 'Bedrijfsnaam' : 'Company Name'}
+                            </label>
+                            <input
+                              type="text"
+                              placeholder={lang === 'NL' ? 'bijv. Bedrijfsnaam BV' : 'e.g. Acme Corp'}
+                              value={company}
+                              onChange={(e) => handleFieldChange('company', e.target.value)}
+                              onBlur={() => handleFieldBlur('company', company)}
+                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.company
+                                  ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                  : 'border-gray-300 focus:border-[#E30613]'
+                                }`}
+                            />
+                            {errors.company && (
+                              <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                                <span>{errors.company}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Contact Info Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                              {lang === 'NL' ? 'E-mailadres *' : 'Email Address *'}
+                            </label>
+                            <input
+                              type="email"
+                              placeholder={lang === 'NL' ? 'bijv. m.dejong@bedrijf.nl' : 'e.g. m.dejong@company.nl'}
+                              value={email}
+                              onChange={(e) => handleFieldChange('email', e.target.value)}
+                              onBlur={() => handleFieldBlur('email', email)}
+                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.email
+                                  ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                  : 'border-gray-300 focus:border-[#E30613]'
+                                }`}
+                            />
+                            {errors.email && (
+                              <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                                <span>{errors.email}</span>
+                              </p>
+                            )}
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">
+                              {lang === 'NL' ? 'Telefoonnummer' : 'Phone Number'}
+                            </label>
+                            <input
+                              type="tel"
+                              placeholder="+31 6 1234 5678"
+                              value={phone}
+                              onChange={(e) => handleFieldChange('phone', e.target.value)}
+                              onBlur={() => handleFieldBlur('phone', phone)}
+                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.phone
+                                  ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                  : 'border-gray-300 focus:border-[#E30613]'
+                                }`}
+                            />
+                            {errors.phone && (
+                              <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                                <span>{errors.phone}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Message Textarea */}
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1">
+                            {lang === 'NL' ? 'Uw bericht / Toelichting op uw vraag *' : 'Your Message / Description of Needs *'}
+                          </label>
+                          <textarea
+                            rows={4}
+                            placeholder={
+                              lang === 'NL'
+                                ? 'Vertel ons over uw vraagstuk, gewenste specialisten of projectdetails...'
+                                : 'Please tell us about your requirements, project details, or any questions...'
+                            }
+                            value={message}
+                            onChange={(e) => handleFieldChange('message', e.target.value)}
+                            onBlur={() => handleFieldBlur('message', message)}
+                            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all resize-y ${errors.message
+                                ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
+                                : 'border-gray-300 focus:border-[#E30613]'
+                              }`}
+                          />
+                          {errors.message && (
+                            <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                              <span>{errors.message}</span>
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Privacy Notice */}
+                        <p className="text-[11px] text-gray-500 leading-normal">
+                          {contactData.form.privacy}
+                        </p>
+
+                        {/* Submit Button */}
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full py-3.5 px-6 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              <span>{lang === 'NL' ? 'Bericht wordt verzonden...' : 'Sending message...'}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Send className="w-4 h-4" />
+                              <span>{contactData.form.buttonText}</span>
+                            </>
+                          )}
+                        </button>
+                      </form>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* 3. Tailored Contact & Inquiry FAQs */}
@@ -512,35 +541,35 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
       {/* 4. Consultation Banner CTA */}
       <section className="pb-16 sm:pb-24">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#111827] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-            <div className="space-y-2 text-center md:text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
-                {contactData.consultationBanner.badge}
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-bold font-display">
-                {contactData.consultationBanner.title}
-              </h3>
-              <p className="text-sm text-gray-300 max-w-xl">
-                {contactData.consultationBanner.description}
-              </p>
-            </div>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-[#111827] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+              <div className="space-y-2 text-center md:text-left">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#E30613]">
+                  {contactData.consultationBanner.badge}
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-bold font-display">
+                  {contactData.consultationBanner.title}
+                </h3>
+                <p className="text-sm text-gray-300 max-w-xl">
+                  {contactData.consultationBanner.description}
+                </p>
+              </div>
 
-            <button
-              onClick={() => {
-                if (onOpenConsultation) {
-                  onOpenConsultation();
-                } else {
-                  window.scrollTo({ top: 300, behavior: 'smooth' });
-                }
-              }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-semibold text-sm transition-all duration-200 shrink-0 cursor-pointer shadow-md"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>{contactData.consultationBanner.buttonText}</span>
-            </button>
+              <button
+                onClick={() => {
+                  if (onOpenConsultation) {
+                    onOpenConsultation();
+                  } else {
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[5px] bg-[#E30613] hover:bg-white hover:text-[#111827] text-white font-semibold text-sm transition-all duration-200 shrink-0 cursor-pointer shadow-md"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>{contactData.consultationBanner.buttonText}</span>
+              </button>
+            </div>
           </div>
-        </div>
       </section>
     </div>
   );

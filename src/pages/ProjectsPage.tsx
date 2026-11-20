@@ -43,6 +43,8 @@ import {
 } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
 import { useLanguage } from '../context/LanguageContext';
+import { SEO } from '../components/SEO';
+import { getProjectsSchema } from '../data/seoSchemas';
 
 export interface ProjectAssignmentItem {
   id: string;
@@ -326,6 +328,22 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
 
   return (
     <div className="page_projects min-h-screen bg-[#F8FAFB]">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Actuele Projecten & Vacatures | IT & Finance | Macee'
+            : 'Projects & Vacancies | IT & Finance Assignments | Macee'
+        }
+        description={
+          lang === 'NL'
+            ? 'Bekijk actuele contract-, interim-, detacherings- en vaste IT- en Finance-functies in Nederland. Realtime gesynchroniseerd met onze OTYS-wervingsdesk.'
+            : 'Explore active contract, interim, secondment, and permanent IT and Finance roles across the Netherlands. Synchronized live with our OTYS recruitment desk.'
+        }
+        canonicalPath="/projects"
+        lang={lang}
+        schema={getProjectsSchema(lang, projectsList)}
+      />
+
       {/* 1. Hero Banner */}
       <section
         className="relative py-20 sm:py-28 bg-cover bg-center text-white overflow-hidden"
@@ -337,386 +355,386 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#E30613]/20 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-black/40 blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
-            <Briefcase className="w-3.5 h-3.5 text-[#E30613]" />
-            <span>{lang === 'NL' ? 'Macee Projecten- & Vacaturedesk' : 'Macee Project & Assignment Desk'}</span>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white/95 text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-xs mb-4">
+              <Briefcase className="w-3.5 h-3.5 text-[#E30613]" />
+              <span>{lang === 'NL' ? 'Macee Projecten- & Vacaturedesk' : 'Macee Project & Assignment Desk'}</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
+              {lang === 'NL' ? (
+                <>Projecten &amp; <span className="text-[#E30613]">Vacatures</span></>
+              ) : (
+                <>Projects &amp; <span className="text-[#E30613]">Vacancies</span></>
+              )}
+            </h1>
+
+            <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
+              {lang === 'NL'
+                ? 'Ontdek toonaangevende interim-, contract-, detacherings- en vaste IT- en Finance-posities door heel Nederland.'
+                : 'Discover top-tier contract, interim, secondment, and permanent IT and Finance assignments across the Netherlands.'}
+            </p>
+
+            {/* Micro trust indicators & Live API status */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/90">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
+                {lang === 'NL' ? 'SNA NEN 4400-1 Gecertificeerd' : 'SNA NEN 4400-1 Certified'}
+              </span>
+              <span className="flex items-center gap-2">
+                <Globe2 className="w-4 h-4 text-[#E30613]" />
+                {lang === 'NL' ? 'IND Erkend Referent' : 'IND Recognised Sponsor'}
+              </span>
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#E30613]" />
+                {lang === 'NL' ? '100% Wet DBA & WAADI Compliant' : '100% Wet DBA / WAADI Compliant'}
+              </span>
+            </div>
           </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            {lang === 'NL' ? (
-              <>Projecten &amp; <span className="text-[#E30613]">Vacatures</span></>
-            ) : (
-              <>Projects &amp; <span className="text-[#E30613]">Vacancies</span></>
-            )}
-          </h1>
-
-          <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
-            {lang === 'NL'
-              ? 'Ontdek toonaangevende interim-, contract-, detacherings- en vaste IT- en Finance-posities door heel Nederland.'
-              : 'Discover top-tier contract, interim, secondment, and permanent IT and Finance assignments across the Netherlands.'}
-          </p>
-
-          {/* Micro trust indicators & Live API status */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/90">
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#E30613]" />
-              {lang === 'NL' ? 'SNA NEN 4400-1 Gecertificeerd' : 'SNA NEN 4400-1 Certified'}
-            </span>
-            <span className="flex items-center gap-2">
-              <Globe2 className="w-4 h-4 text-[#E30613]" />
-              {lang === 'NL' ? 'IND Erkend Referent' : 'IND Recognised Sponsor'}
-            </span>
-            <span className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#E30613]" />
-              {lang === 'NL' ? '100% Wet DBA & WAADI Compliant' : '100% Wet DBA / WAADI Compliant'}
-            </span>
-          </div>
-        </div>
       </section>
 
       {/* 2. Main Filter Bar & Listings */}
       <section className="py-12 sm:py-16">
-        <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Filter Container */}
-          <div id="projects-filter-bar" className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 mb-10">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-              <div className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wider">
-                <SlidersHorizontal className="w-4 h-4 text-[#E30613]" />
-                <span>{lang === 'NL' ? 'Zoek & Filter Opdrachten' : 'Search & Filter Assignments'}</span>
-              </div>
+            {/* Filter Container */}
+            <div id="projects-filter-bar" className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 mb-10">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                <div className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wider">
+                  <SlidersHorizontal className="w-4 h-4 text-[#E30613]" />
+                  <span>{lang === 'NL' ? 'Zoek & Filter Opdrachten' : 'Search & Filter Assignments'}</span>
+                </div>
 
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={loadVacancies}
-                  disabled={isLoading}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors cursor-pointer"
-                  title={lang === 'NL' ? 'Vacatures opnieuw laden via OTYS' : 'Reload vacancies from OTYS Recruitment API'}
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 text-[#E30613] ${isLoading ? 'animate-spin' : ''}`} />
-                  <span>{lang === 'NL' ? 'Vernieuwen' : 'Refresh'}</span>
-                </button>
-                <span className="text-xs text-gray-500 font-mono">
-                  {lang === 'NL'
-                    ? `${filteredProjects.length} van ${projectsList.length} functies getoond`
-                    : `${filteredProjects.length} of ${projectsList.length} roles shown`}
-                </span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Keyword Search */}
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  {lang === 'NL' ? 'Zoek op trefwoord / tech' : 'Search keyword / tech'}
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder={lang === 'NL' ? 'bijv. .NET, Kafka, Java, Security...' : 'e.g. .NET, Kafka, Java, Security...'}
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
-                  />
-                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={loadVacancies}
+                    disabled={isLoading}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors cursor-pointer"
+                    title={lang === 'NL' ? 'Vacatures opnieuw laden via OTYS' : 'Reload vacancies from OTYS Recruitment API'}
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 text-[#E30613] ${isLoading ? 'animate-spin' : ''}`} />
+                    <span>{lang === 'NL' ? 'Vernieuwen' : 'Refresh'}</span>
+                  </button>
+                  <span className="text-xs text-gray-500 font-mono">
+                    {lang === 'NL'
+                      ? `${filteredProjects.length} van ${projectsList.length} functies getoond`
+                      : `${filteredProjects.length} of ${projectsList.length} roles shown`}
+                  </span>
                 </div>
               </div>
 
-              {/* Location Select */}
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  {lang === 'NL' ? 'Locatie' : 'Location'}
-                </label>
-                <select
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
-                >
-                  {locations.map((loc, i) => (
-                    <option key={i} value={loc}>
-                      {loc === 'All' ? (lang === 'NL' ? 'Alle Locaties' : 'All Locations') : loc}
-                    </option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Keyword Search */}
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    {lang === 'NL' ? 'Zoek op trefwoord / tech' : 'Search keyword / tech'}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder={lang === 'NL' ? 'bijv. .NET, Kafka, Java, Security...' : 'e.g. .NET, Kafka, Java, Security...'}
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
+                    />
+                    <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
+                  </div>
+                </div>
+
+                {/* Location Select */}
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    {lang === 'NL' ? 'Locatie' : 'Location'}
+                  </label>
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
+                  >
+                    {locations.map((loc, i) => (
+                      <option key={i} value={loc}>
+                        {loc === 'All' ? (lang === 'NL' ? 'Alle Locaties' : 'All Locations') : loc}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Branche / Industry Select */}
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    {lang === 'NL' ? 'Sector / Branche' : 'Sector / Branche'}
+                  </label>
+                  <select
+                    value={selectedBranche}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedBranche(val);
+                      if (onBrancheChange) {
+                        onBrancheChange(val);
+                      }
+                    }}
+                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
+                  >
+                    {branches.map((br, i) => (
+                      <option key={i} value={br}>
+                        {br === 'All' ? (lang === 'NL' ? 'Alle Branches' : 'All Sectors') : br}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Contract Type Select */}
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    {lang === 'NL' ? 'Contractvorm' : 'Contract Model'}
+                  </label>
+                  <select
+                    value={selectedContract}
+                    onChange={(e) => setSelectedContract(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
+                  >
+                    {contractTypes.map((ct, i) => (
+                      <option key={i} value={ct}>
+                        {ct === 'All' ? (lang === 'NL' ? 'Alle Contractvormen' : 'All Contracts') : ct}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              {/* Branche / Industry Select */}
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  {lang === 'NL' ? 'Sector / Branche' : 'Sector / Branche'}
-                </label>
-                <select
-                  value={selectedBranche}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setSelectedBranche(val);
-                    if (onBrancheChange) {
-                      onBrancheChange(val);
-                    }
-                  }}
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
-                >
-                  {branches.map((br, i) => (
-                    <option key={i} value={br}>
-                      {br === 'All' ? (lang === 'NL' ? 'Alle Branches' : 'All Sectors') : br}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Contract Type Select */}
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  {lang === 'NL' ? 'Contractvorm' : 'Contract Model'}
-                </label>
-                <select
-                  value={selectedContract}
-                  onChange={(e) => setSelectedContract(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm bg-white text-gray-900 focus:outline-none focus:border-[#E30613] focus:ring-1 focus:ring-[#E30613]"
-                >
-                  {contractTypes.map((ct, i) => (
-                    <option key={i} value={ct}>
-                      {ct === 'All' ? (lang === 'NL' ? 'Alle Contractvormen' : 'All Contracts') : ct}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {hasActiveFilters && (
-              <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-end">
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-full text-xs font-bold text-[#E30613] bg-white border-2 border-[#E30613] hover:bg-[#E30613] hover:text-white shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer group active:scale-95"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 group-hover:-rotate-90 transition-transform duration-300" />
-                  <span>{lang === 'NL' ? 'Alle filters wissen' : 'Reset all filters'}</span>
-                </button>
-              </div>
-            )}
-          </div>
-
-
-
-          {/* 3. Project Cards Grid */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-2" id="opportunities-heading">
-              <h2 className="text-2xl font-bold font-display text-gray-900">
-                Current Openings ({filteredProjects.length})
-              </h2>
-              {totalPages > 1 && (
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
-                  Page {currentPage} of {totalPages}
-                </span>
+              {hasActiveFilters && (
+                <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-end">
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-full text-xs font-bold text-[#E30613] bg-white border-2 border-[#E30613] hover:bg-[#E30613] hover:text-white shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer group active:scale-95"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 group-hover:-rotate-90 transition-transform duration-300" />
+                    <span>{lang === 'NL' ? 'Alle filters wissen' : 'Reset all filters'}</span>
+                  </button>
+                </div>
               )}
             </div>
 
-            {isLoading ? (
-              <div className="space-y-4">
-                {[1, 2, 3].map((n) => (
-                  <div key={n} className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 animate-pulse space-y-4">
-                    <div className="h-5 bg-gray-200 rounded w-1/4" />
-                    <div className="h-7 bg-gray-200 rounded w-1/2" />
-                    <div className="h-4 bg-gray-100 rounded w-3/4" />
-                    <div className="h-10 bg-gray-100 rounded w-full" />
-                  </div>
-                ))}
-              </div>
-            ) : filteredProjects.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 p-8 shadow-xs">
-                <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <h3 className="text-xl font-bold font-display text-gray-900 mb-2">
-                  {selectedBranche !== 'All'
-                    ? (lang === 'NL' ? `Geen vacatures gevonden in ${selectedBranche}` : `No matching projects found in ${selectedBranche}`)
-                    : (lang === 'NL' ? 'Geen overeenkomende opdrachten gevonden' : 'No matching projects found')}
-                </h3>
-                <p className="text-sm text-gray-600 max-w-md mx-auto">
-                  {selectedBranche !== 'All'
-                    ? (lang === 'NL'
-                      ? `Momenteel zijn er geen actieve projecten in de sector ${selectedBranche}. U kunt alle vacatures bekijken of een Job Alert instellen.`
-                      : `We currently don't have active openings in ${selectedBranche}. You can view all available roles or register a Job Alert for new matches.`)
-                    : (lang === 'NL'
-                      ? 'We hebben geen opdrachten gevonden die aan de filters voldoen. U kunt de filters wissen of een job alert aanmaken.'
-                      : "We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.")}
-                </p>
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                  <button
-                    onClick={handleResetFilters}
-                    className="px-6 py-2.5 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
-                  >
-                    {lang === 'NL' ? 'Bekijk alle vacatures' : 'Reset Filters & View All'}
-                  </button>
-                  <button
-                    onClick={() => onNavigate && onNavigate('jobalert')}
-                    className="px-6 py-2.5 rounded-[5px] border border-gray-300 bg-white text-gray-700 text-sm font-semibold hover:border-[#E30613] hover:text-[#E30613] transition-colors cursor-pointer"
-                  >
-                    {lang === 'NL' ? 'Maak Job Alert' : 'Create Job Alert'}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              paginatedProjects.map((proj) => (
-                <div
-                  key={proj.id}
-                  className="group bg-white rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md border border-gray-200 hover:border-[#E30613]/50 transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
-                >
-                  {/* Left: Role Details */}
-                  <div className="space-y-3.5 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
 
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#f8dada] text-[#E30613]">
-                        {proj.branche}
-                      </span>
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-                        {proj.contractType}
-                      </span>
-                      {proj.isFeatured && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#111827] text-white">
-                          Featured
+
+            {/* 3. Project Cards Grid */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between mb-2" id="opportunities-heading">
+                <h2 className="text-2xl font-bold font-display text-gray-900">
+                  Current Openings ({filteredProjects.length})
+                </h2>
+                {totalPages > 1 && (
+                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                )}
+              </div>
+
+              {isLoading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((n) => (
+                    <div key={n} className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 animate-pulse space-y-4">
+                      <div className="h-5 bg-gray-200 rounded w-1/4" />
+                      <div className="h-7 bg-gray-200 rounded w-1/2" />
+                      <div className="h-4 bg-gray-100 rounded w-3/4" />
+                      <div className="h-10 bg-gray-100 rounded w-full" />
+                    </div>
+                  ))}
+                </div>
+              ) : filteredProjects.length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 p-8 shadow-xs">
+                  <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <h3 className="text-xl font-bold font-display text-gray-900 mb-2">
+                    {selectedBranche !== 'All'
+                      ? (lang === 'NL' ? `Geen vacatures gevonden in ${selectedBranche}` : `No matching projects found in ${selectedBranche}`)
+                      : (lang === 'NL' ? 'Geen overeenkomende opdrachten gevonden' : 'No matching projects found')}
+                  </h3>
+                  <p className="text-sm text-gray-600 max-w-md mx-auto">
+                    {selectedBranche !== 'All'
+                      ? (lang === 'NL'
+                        ? `Momenteel zijn er geen actieve projecten in de sector ${selectedBranche}. U kunt alle vacatures bekijken of een Job Alert instellen.`
+                        : `We currently don't have active openings in ${selectedBranche}. You can view all available roles or register a Job Alert for new matches.`)
+                      : (lang === 'NL'
+                        ? 'We hebben geen opdrachten gevonden die aan de filters voldoen. U kunt de filters wissen of een job alert aanmaken.'
+                        : "We didn't find any assignments matching your current search parameters. You can clear filters or register for automated notifications.")}
+                  </p>
+                  <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                    <button
+                      onClick={handleResetFilters}
+                      className="px-6 py-2.5 rounded-[5px] bg-[#E30613] text-white text-sm font-semibold hover:bg-[#111827] transition-colors cursor-pointer"
+                    >
+                      {lang === 'NL' ? 'Bekijk alle vacatures' : 'Reset Filters & View All'}
+                    </button>
+                    <button
+                      onClick={() => onNavigate && onNavigate('jobalert')}
+                      className="px-6 py-2.5 rounded-[5px] border border-gray-300 bg-white text-gray-700 text-sm font-semibold hover:border-[#E30613] hover:text-[#E30613] transition-colors cursor-pointer"
+                    >
+                      {lang === 'NL' ? 'Maak Job Alert' : 'Create Job Alert'}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                paginatedProjects.map((proj) => (
+                  <div
+                    key={proj.id}
+                    className="group bg-white rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md border border-gray-200 hover:border-[#E30613]/50 transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
+                  >
+                    {/* Left: Role Details */}
+                    <div className="space-y-3.5 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#f8dada] text-[#E30613]">
+                          {proj.branche}
                         </span>
-                      )}
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                          {proj.contractType}
+                        </span>
+                        {proj.isFeatured && (
+                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#111827] text-white">
+                            Featured
+                          </span>
+                        )}
+                      </div>
+
+                      <a
+                        href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
+                        onClick={(e) => {
+                          if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                            e.preventDefault();
+                            handleSelectProject(proj);
+                          }
+                        }}
+                        className="text-xl sm:text-2xl font-bold font-display text-gray-900 hover:text-[#E30613] cursor-pointer transition-colors inline-block"
+                        title={lang === 'NL' ? 'Klik om volledige vacaturedetails te bekijken' : 'Click to view full project details'}
+                      >
+                        {proj.title}
+                      </a>
+
+                      {/* Metadata pills */}
+                      <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-600">
+                        <span className="flex items-center gap-1.5 font-medium">
+                          <MapPin className="w-4 h-4 text-[#E30613]" />
+                          {proj.location}
+                        </span>
+                        <span className="text-gray-300 hidden sm:inline">·</span>
+                        <span className="flex items-center gap-1.5 font-medium">
+                          <Clock className="w-4 h-4 text-[#E30613]" />
+                          {proj.hours}
+                        </span>
+                        <span className="text-gray-300 hidden sm:inline">·</span>
+                        <span className="flex items-center gap-1.5 font-bold text-gray-900">
+                          <Euro className="w-4 h-4 text-[#E30613]" />
+                          Competitive Market Rate
+                        </span>
+                      </div>
+
+                      {/* Description excerpt */}
+                      <p className="text-sm text-gray-700 leading-relaxed max-w-3xl">
+                        {proj.description}
+                      </p>
+
+                      {/* Skill chips */}
+                      <div className="flex flex-wrap items-center gap-2 pt-1">
+                        {proj.skills.map((skill, sIdx) => (
+                          <span
+                            key={sIdx}
+                            className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#F8FAFB] border border-gray-200 text-gray-700"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    <a
-                      href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
-                      onClick={(e) => {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
-                          e.preventDefault();
-                          handleSelectProject(proj);
+                    {/* Right: Action Buttons */}
+                    <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3 min-w-[200px]">
+                      <a
+                        href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
+                        onClick={(e) => {
+                          if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                            e.preventDefault();
+                            handleSelectProject(proj);
+                          }
+                        }}
+                        className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer text-center"
+                      >
+                        <span>View &amp; Apply</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+
+                    </div>
+                  </div>
+                ))
+              )}
+
+              {/* Pagination Controls */}
+              {filteredProjects.length > ITEMS_PER_PAGE && (
+                <div className="pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-xs sm:text-sm text-gray-600 font-medium">
+                    Showing <span className="font-bold text-gray-900">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * ITEMS_PER_PAGE, filteredProjects.length)}</span> of <span className="font-bold text-gray-900">{filteredProjects.length}</span> opportunities
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => {
+                        if (currentPage > 1) {
+                          setCurrentPage((p) => p - 1);
+                          document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                       }}
-                      className="text-xl sm:text-2xl font-bold font-display text-gray-900 hover:text-[#E30613] cursor-pointer transition-colors inline-block"
-                      title={lang === 'NL' ? 'Klik om volledige vacaturedetails te bekijken' : 'Click to view full project details'}
+                      disabled={currentPage === 1}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === 1
+                        ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                        : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
+                        }`}
                     >
-                      {proj.title}
-                    </a>
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Previous</span>
+                    </button>
 
-                    {/* Metadata pills */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-600">
-                      <span className="flex items-center gap-1.5 font-medium">
-                        <MapPin className="w-4 h-4 text-[#E30613]" />
-                        {proj.location}
-                      </span>
-                      <span className="text-gray-300 hidden sm:inline">·</span>
-                      <span className="flex items-center gap-1.5 font-medium">
-                        <Clock className="w-4 h-4 text-[#E30613]" />
-                        {proj.hours}
-                      </span>
-                      <span className="text-gray-300 hidden sm:inline">·</span>
-                      <span className="flex items-center gap-1.5 font-bold text-gray-900">
-                        <Euro className="w-4 h-4 text-[#E30613]" />
-                        Competitive Market Rate
-                      </span>
-                    </div>
-
-                    {/* Description excerpt */}
-                    <p className="text-sm text-gray-700 leading-relaxed max-w-3xl">
-                      {proj.description}
-                    </p>
-
-                    {/* Skill chips */}
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      {proj.skills.map((skill, sIdx) => (
-                        <span
-                          key={sIdx}
-                          className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#F8FAFB] border border-gray-200 text-gray-700"
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                        <button
+                          key={pageNum}
+                          onClick={() => {
+                            setCurrentPage(pageNum);
+                            document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }}
+                          className={`w-9 h-9 rounded-lg text-xs font-bold transition-all cursor-pointer ${currentPage === pageNum
+                            ? 'bg-[#E30613] text-white shadow-xs'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
+                            }`}
                         >
-                          {skill}
-                        </span>
+                          {pageNum}
+                        </button>
                       ))}
                     </div>
-                  </div>
 
-                  {/* Right: Action Buttons */}
-                  <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3 min-w-[200px]">
-                    <a
-                      href={`/projects/${String(proj.id).replace(/^otys-/, '').replace(/^macee-/, '')}`}
-                      onClick={(e) => {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
-                          e.preventDefault();
-                          handleSelectProject(proj);
+                    {/* Next Button */}
+                    <button
+                      onClick={() => {
+                        if (currentPage < totalPages) {
+                          setCurrentPage((p) => p + 1);
+                          document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                       }}
-                      className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-[5px] bg-[#E30613] hover:bg-[#111827] text-white font-semibold text-sm shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer text-center"
+                      disabled={currentPage === totalPages}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === totalPages
+                        ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                        : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
+                        }`}
                     >
-                      <span>View &amp; Apply</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-
+                      <span>Next</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
-              ))
-            )}
-
-            {/* Pagination Controls */}
-            {filteredProjects.length > ITEMS_PER_PAGE && (
-              <div className="pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-xs sm:text-sm text-gray-600 font-medium">
-                  Showing <span className="font-bold text-gray-900">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * ITEMS_PER_PAGE, filteredProjects.length)}</span> of <span className="font-bold text-gray-900">{filteredProjects.length}</span> opportunities
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {/* Previous Button */}
-                  <button
-                    onClick={() => {
-                      if (currentPage > 1) {
-                        setCurrentPage((p) => p - 1);
-                        document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }
-                    }}
-                    disabled={currentPage === 1}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === 1
-                      ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
-                      : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
-                      }`}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                    <span>Previous</span>
-                  </button>
-
-                  {/* Page Numbers */}
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                      <button
-                        key={pageNum}
-                        onClick={() => {
-                          setCurrentPage(pageNum);
-                          document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }}
-                        className={`w-9 h-9 rounded-lg text-xs font-bold transition-all cursor-pointer ${currentPage === pageNum
-                          ? 'bg-[#E30613] text-white shadow-xs'
-                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
-                          }`}
-                      >
-                        {pageNum}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Next Button */}
-                  <button
-                    onClick={() => {
-                      if (currentPage < totalPages) {
-                        setCurrentPage((p) => p + 1);
-                        document.getElementById('opportunities-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }
-                    }}
-                    disabled={currentPage === totalPages}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${currentPage === totalPages
-                      ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
-                      : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-2xs'
-                      }`}
-                  >
-                    <span>Next</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
       </section>
 
       {/* 5. Job Alert Banner (Positioned above FAQ as requested in Point 43) */}

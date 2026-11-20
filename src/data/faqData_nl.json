@@ -7,91 +7,334 @@
   },
   "categories": [
     {
+      "desc": "Workforce Desk, SLA & Turnkey Management",
       "id": 1,
-      "title": "Wat doet MACEE",
-      "image": "/uploads/Dutch-government-3.jpg",
-      "count": 3,
-      "desc": "Sectoren, expertise en waarom organisaties samenwerken met MACEE"
+      "key": "home",
+      "page": "Home Page",
+      "title": "Workforce Desk & General"
     },
     {
+      "desc": "30+ Years Experience, Arnhem HQ & NEN 4400-1",
       "id": 2,
-      "title": "Diensten en Contracten",
-      "image": "/uploads/Software-Development-2.jpg",
-      "count": 3,
-      "desc": "Detachering, ZZP bemiddeling, compliance en 30%-belastingregeling"
+      "key": "about",
+      "page": "About Page",
+      "title": "About Macee & Certifications"
     },
     {
+      "desc": "48-72h Turnaround, SLA & Wet DBA Elimination",
       "id": 3,
-      "title": "Specialismen en functies",
-      "image": "/uploads/Finance-reporting.jpg",
-      "count": 2,
-      "desc": "Senior ontwikkelaars, data engineers, cybersecurity en financieel risicobeheer"
+      "key": "clients",
+      "page": "Clients Page",
+      "title": "Clients & Hiring Managers"
+    },
+    {
+      "desc": "Secondment, ZZP, 30% Ruling & Relocation",
+      "id": 4,
+      "key": "professionals",
+      "page": "Professionals Page",
+      "title": "Professionals & Contractors"
+    },
+    {
+      "desc": "CV Formats, Live OTYS Desk & Applications",
+      "id": 5,
+      "key": "projects",
+      "page": "Projects Page",
+      "title": "Projects & Vacancies"
+    },
+    {
+      "desc": "Wet DBA, WAADI, G-Account & Ketenaansprakelijkheid",
+      "id": 6,
+      "key": "compliance",
+      "page": "Compliance & Legal",
+      "title": "Compliance, Wet DBA & WAADI"
+    },
+    {
+      "desc": "24h Response, Arnhem Office & Emergency Desk",
+      "id": 7,
+      "key": "contact",
+      "page": "Contact Page",
+      "title": "Contact & Urgencies"
     }
   ],
   "faqs": [
     {
-      "id": "faq-1-1",
+      "id": "faq-home-1",
       "categoryId": 1,
-      "categoryName": "Wat doet MACEE",
-      "question": "In welke branches is MACEE actief?",
-      "answer": "MACEE werkt voor opdrachtgevers in diverse sectoren waaronder Telecom, FMCG, Olie & Gas, Consultancy, Farma, Energie & Utilities en meer. Daarnaast heeft MACEE ruime ervaring in de financiële sector met banken, beleggings- en vermogensbeheer, pensioenfondsen, betaalplatforms en andere fintechbedrijven.",
-      "date": "6 februari 2026 16:59"
+      "categoryName": "Workforce Desk & General",
+      "question": "Wat is een Externe Inhuurdesk en hoe beheert Macee dit?",
+      "answer": "Een Externe Inhuurdesk fungeert als uw centrale partner voor werving, contractering en beheer van extern talent (interim professionals, gedetacheerden en ZZP’ers). Macee neemt de volledige verantwoordelijkheid voor werving, contractadministratie, compliance-audits en salarisadministratie.",
+      "tag": "Turnkey Workforce Management",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-1-2",
+      "id": "faq-home-2",
       "categoryId": 1,
-      "categoryName": "Wat doet MACEE",
-      "question": "Voor welke functies werft MACEE voornamelijk?",
-      "answer": "Softwareontwikkeling: .NET, C / C++ / C#, JAVA, Python\n\nBI & Data: Spark, MSBI, PowerBI, Informatica PowerCenter, AI, ML, Kafka, ETL, Datavault, Tableau, Hadoop\n\nProjectmanagement: PMO, Program Manager\n\nCloud: AWS, Azure, Kubernetes\n\nSecurity: CISM, CISSP, CISO, Cyber Security, IAM, RBAC, DLP, CyberArk, Third Party Risk, Netwerkbeveiliging\n\nFinancieel Risicomanagement: Toezichtrapportages, AML, FEC, KYC, Modellering, QRM, Audit, Trading, Markets, Corep, Finrep, EMIR",
-      "date": "16 maart 2023 14:38"
+      "categoryName": "Workforce Desk & General",
+      "question": "Hoe garandeert Macee 100% naleving van Nederlandse arbeidswetgeving?",
+      "answer": "Macee is SNA NEN 4400-1 gecertificeerd. We hanteren strikt de WAADI-wetgeving, Wet DBA-regelgeving (ter voorkoming van schijnzelfstandigheid) en beschikken over een geverifieerde G-rekening voor loonheffingen en sociale premies.",
+      "tag": "SNA NEN 4400-1 Certified",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-1-3",
+      "id": "faq-home-3",
       "categoryId": 1,
-      "categoryName": "Wat doet MACEE",
-      "question": "Waarom kiezen voor zakendoen met MACEE?",
-      "answer": "Voor vrijwel iedere situatie bieden wij een passende oplossing. Met meer dan 30 jaar ervaring in contracting en (IT-)recruitment beschikken wij over een breed internationaal netwerk en actuele kennis van de technologische ontwikkelingen. Onze service is persoonlijk en betrokken: bij ons bent u geen nummer.",
-      "date": "6 februari 2026 17:00"
+      "categoryName": "Workforce Desk & General",
+      "question": "Welke contractvormen biedt Macee aan?",
+      "answer": "Wij bieden flexibele contractmodellen aan:\n• Detachering (interim projectinzet met volledig werkgeversrisicobeheer)\n• ZZP-bemiddeling en contractcompliance\n• Employer of Record (juridisch werkgeverschap met volledige naleving)\n• Deta-Vast trajecten\n• Werving & Selectie voor vaste posities",
+      "tag": "Flexible Engagement Models",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-2-1",
+      "id": "faq-home-4",
+      "categoryId": 1,
+      "categoryName": "Workforce Desk & General",
+      "question": "In welke sectoren heeft Macee bewezen recruitmentexpertise?",
+      "answer": "Macee werkt voor opdrachtgevers in Telecom, FMCG, Olie & Gas, Consultancy, Pharma, Energie en Overheid, met bijzondere expertise in Banking, Financiële Instellingen, Risicomanagement en Fintech.",
+      "tag": "Specialized Domain Verticals",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-home-5",
+      "categoryId": 1,
+      "categoryName": "Workforce Desk & General",
+      "question": "Hoe snel kan Macee gekwalificeerde professionals inzetten?",
+      "answer": "Voor veelgevraagde rollen in IT, Data, Cybersecurity en Financial Risk presenteren wij dankzij ons voorgeselecteerde netwerk binnen 48 tot 72 uur geverifieerde kandidaten.",
+      "tag": "Rapid 48-72h Deployment",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-about-1",
       "categoryId": 2,
-      "categoryName": "Diensten en Contracten",
-      "question": "Welke aanvullende diensten kan MACEE verzorgen?",
-      "answer": "• Begeleiding van internationale specialisten bij relocatie\n• Ondersteuning bij de aanvraag van de 30%-belastingregeling\n• Werving & selectie voor tijdelijke projecten en vaste functies",
-      "date": "6 februari 2026"
+      "categoryName": "About Macee & Certifications",
+      "question": "Wat onderscheidt Macee van traditionele wervingsbureaus?",
+      "answer": "Met meer dan 30 jaar gecombineerde ervaring werken wij volgens een persoonlijke \"desk\"-filosofie. Wij zijn geen cv-schuivers, maar bouwen langdurige relaties op basis van technische diepgang en nul juridisch risico.",
+      "tag": "30+ Years Industry Experience",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-2-2",
+      "id": "faq-about-2",
       "categoryId": 2,
-      "categoryName": "Diensten en Contracten",
-      "question": "Welke contractvormen biedt MACEE aan?",
-      "answer": "• Detachering\n• Freelance / ZZP bemiddeling\n• Employer of Record (EOR / Juridisch Werkgeverschap)\n• Werving & Selectie voor vaste dienstverbanden bij onze opdrachtgevers\n• Deta-Vast (contract-to-perm)",
-      "date": "6 februari 2026"
+      "categoryName": "About Macee & Certifications",
+      "question": "Waarom is de SNA NEN 4400-1 certificering essentieel voor opdrachtgevers?",
+      "answer": "NEN 4400-1 garandeert dat Macee loonheffingen en sociale premies correct afdraagt en de identiteit en het recht op arbeid van kandidaten controleert. Dit vrijwaart opdrachtgevers van ketenaansprakelijkheid.",
+      "tag": "Chain Liability Protection",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-2-3",
+      "id": "faq-about-3",
       "categoryId": 2,
-      "categoryName": "Diensten en Contracten",
-      "question": "Hoe waarborgt MACEE compliance met de Nederlandse arbeidswetgeving?",
-      "answer": "MACEE is SNA NEN 4400-1 gecertificeerd en werkt volledig conform de WAADI- en Wet DBA-wetgeving. Wij maken gebruik van goedgekeurde modelovereenkomsten, beschikken over een geverifieerde G-rekening voor loonheffingen en vrijwaren onze opdrachtgevers van inleners- en ketenaansprakelijkheid.",
-      "date": "6 februari 2026"
+      "categoryName": "About Macee & Certifications",
+      "question": "Waar is Macee gevestigd en in welke regio’s zijn jullie actief?",
+      "answer": "Macee is gevestigd in Arnhem en opereert landelijk in onder meer Amsterdam, Utrecht, Rotterdam, Eindhoven en internationale Europese talentcorridors.",
+      "tag": "Arnhem Headquarters & National Reach",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-3-1",
+      "id": "faq-about-4",
+      "categoryId": 2,
+      "categoryName": "About Macee & Certifications",
+      "question": "Hoe werkt het interne team van Macee?",
+      "answer": "Ons team combineert gespecialiseerde technische recruiters, compliance officers en candidate care managers. Zowel opdrachtgevers als professionals hebben één vast aanspreekpunt.",
+      "tag": "Dedicated Account Managers",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-clients-1",
       "categoryId": 3,
-      "categoryName": "Specialismen en functies",
-      "question": "Welke typen projecten en opdrachten voert MACEE uit voor opdrachtgevers?",
-      "answer": "Wij bedienen diverse opdrachtgevers in uiteenlopende sectoren. De meeste projecten zijn IT- en businessgerelateerd, waaronder: Cloud & Infrastructuur, Netwerken, Softwareontwikkeling, (Financieel) Risicomanagement & Compliance, Toezichtrapportages, Cybersecurity, Project- & Programmamanagement en Data Engineering.",
-      "date": "6 februari 2026 17:02"
+      "categoryName": "Clients & Hiring Managers",
+      "question": "Hoe snel levert Macee geverifieerde kandidaatprofielen?",
+      "answer": "Voor gangbare specialistische rollen presenteren wij binnen 48 tot 72 uur na briefing een gerichte shortlist van voorgescreende kandidaten.",
+      "tag": "48 - 72 Hour Turnaround",
+      "date": "Bijgewerkt via Macee Admin"
     },
     {
-      "id": "faq-3-2",
+      "id": "faq-clients-2",
       "categoryId": 3,
-      "categoryName": "Specialismen en functies",
-      "question": "Voor welk niveau professionals werft MACEE?",
-      "answer": "MACEE levert een breed spectrum aan specialisten, maar ons netwerk richt zich primair op senior professionals. Denk aan functies zoals: Business/Informatie Analist, Data Engineer, (Cyber) Security Consultant, Software Tester, Software Ontwikkelaar, Finance/Reporting Specialist en technisch/functioneel Projectmanager.",
-      "date": "6 februari 2026 17:02"
+      "categoryName": "Clients & Hiring Managers",
+      "question": "Welke garantie biedt Macee als een interim professional niet past?",
+      "answer": "Mocht een kandidaat tijdens de proefperiode niet aan de gestelde projectverwachtingen voldoen, dan zorgen wij kosteloos voor een snelle, passende vervanging.",
+      "tag": "Placement & Quality Guarantee",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-clients-3",
+      "categoryId": 3,
+      "categoryName": "Clients & Hiring Managers",
+      "question": "Hoe beschermt Macee opdrachtgevers tegen Wet DBA / schijnzelfstandigheid?",
+      "answer": "We hanteren door de Belastingdienst goedgekeurde modelovereenkomsten, monitoren de zelfstandigheid en bieden detachering als risicoloos alternatief.",
+      "tag": "Wet DBA & Fiscal Risk Elimination",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-clients-4",
+      "categoryId": 3,
+      "categoryName": "Clients & Hiring Managers",
+      "question": "Kan Macee optreden als Master Vendor of MSP?",
+      "answer": "Ja, Macee kan uw complete externe inhuur centraliseren: van leveranciersbeheer en tariefbenchmarks tot gestroomlijnde facturatie onder één SLA.",
+      "tag": "MSP & Vendor Consolidation",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-clients-5",
+      "categoryId": 3,
+      "categoryName": "Clients & Hiring Managers",
+      "question": "Wat is de tariefstructuur voor interim vs vaste plaatsingen?",
+      "answer": "Voor interim- en detacheringsopdrachten hanteren we een transparant all-in uurtarief zonder verborgen kosten. Voor werving & selectie geldt een resultaatafhankelijke fee.",
+      "tag": "Transparent Milestone Pricing",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-professionals-1",
+      "categoryId": 4,
+      "categoryName": "Professionals & Contractors",
+      "question": "Welke begeleiding biedt Macee aan specialisten en expats?",
+      "answer": "Macee begeleidt professionals met contractonboarding, aanvraag van de 30%-regeling en praktische vestiging in Nederland.",
+      "tag": "Onboarding & Relocation Guidance",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-professionals-2",
+      "categoryId": 4,
+      "categoryName": "Professionals & Contractors",
+      "question": "Ondersteunt Macee de aanvraag voor de 30%-regeling?",
+      "answer": "Ja, voor specialisten die vanuit het buitenland worden aangeworven en aan de voorwaarden voldoen, verzorgen onze salarisexperts de complete aanvraag bij de Belastingdienst.",
+      "tag": "30% Tax Ruling Support",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-professionals-3",
+      "categoryId": 4,
+      "categoryName": "Professionals & Contractors",
+      "question": "Kan mijn gezin meekomen naar Nederland?",
+      "answer": "Ja, voor internationale professionals ondersteunen wij bij praktische vestiging, registratie en informatie over wonen en onderwijs in Nederland.",
+      "tag": "Family Relocation Assistance",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-professionals-4",
+      "categoryId": 4,
+      "categoryName": "Professionals & Contractors",
+      "question": "Welke contractopties zijn beschikbaar voor professionals?",
+      "answer": "U kunt kiezen uit detachering (vast maandsalaris, vakantiegeld en pensioen), ZZP-bemiddeling met snelle betaling, of een Deta-Vast constructie bij toonaangevende opdrachtgevers.",
+      "tag": "Flexible Contracting Choices",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-professionals-5",
+      "categoryId": 4,
+      "categoryName": "Professionals & Contractors",
+      "question": "Hoe snel worden declaraties en facturen uitbetaald?",
+      "answer": "Na goedkeuring van de urenregistratie worden betalingen volgens de overeengekomen termijn vlot en correct afgehandeld, met opties voor versnelde betaling.",
+      "tag": "Guaranteed On-Time Invoicing",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-projects-1",
+      "categoryId": 5,
+      "categoryName": "Projects & Vacancies",
+      "question": "In welk formaat kan ik mijn CV het beste indienen?",
+      "answer": "Wij adviseren een actueel CV in PDF- of DOCX-formaat met vermelding van recente projecten, primaire techstack, opleidingen en uw actuele beschikbaarheid.",
+      "tag": "PDF / DOCX Recommended",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-projects-2",
+      "categoryId": 5,
+      "categoryName": "Projects & Vacancies",
+      "question": "Wat gebeurt er na mijn sollicitatie op een openstaande opdracht?",
+      "answer": "Uw sollicitatie komt direct binnen in ons OTYS-wervingssysteem. Een gespecialiseerde consultant beoordeelt uw profiel en neemt binnen 24 tot 48 uur contact met u op.",
+      "tag": "24 - 48 Hour Recruiter Review",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-projects-3",
+      "categoryId": 5,
+      "categoryName": "Projects & Vacancies",
+      "question": "Zijn hybride of remote opdrachten mogelijk?",
+      "answer": "Het merendeel van onze opdrachten biedt een hybride werkvorm (bijv. 2-3 dagen thuis en 1-2 dagen op locatie in Amsterdam, Utrecht, Rotterdam of Eindhoven).",
+      "tag": "Flexible Hybrid Options",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-projects-4",
+      "categoryId": 5,
+      "categoryName": "Projects & Vacancies",
+      "question": "Wat kan ik doen als er nu geen passende opdracht tussen staat?",
+      "answer": "U kunt een Open Sollicitatie versturen of een Job Alert instellen. Zodra een nieuwe rol binnenkomt die aansluit bij uw wensen, ontvangt u direct bericht.",
+      "tag": "Job Alerts & Open Registration",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-projects-5",
+      "categoryId": 5,
+      "categoryName": "Projects & Vacancies",
+      "question": "Zijn alle op de website getoonde vacatures actueel?",
+      "answer": "Ja, onze vacatures synchroniseren realtime met ons actieve OTYS-wervingssysteem. Ingevulde of gesloten posities verdwijnen direct automatisch.",
+      "tag": "Live OTYS Desk Synchronization",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-compliance-1",
+      "categoryId": 6,
+      "categoryName": "Compliance, Wet DBA & WAADI",
+      "question": "Wat houdt de Wet DBA in en hoe beschermt Macee opdrachtgevers?",
+      "answer": "De Wet DBA bewaakt de grens tussen echt ondernemerschap en schijnzelfstandigheid. Macee gebruikt getoetste modelcontracten en biedt detachering om naheffingen en boetes uit te sluiten.",
+      "tag": "Zero DBA Exposure",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-compliance-2",
+      "categoryId": 6,
+      "categoryName": "Compliance, Wet DBA & WAADI",
+      "question": "Wat is een G-rekening en welke zekerheid biedt dit?",
+      "answer": "Een G-rekening is een geblokkeerde bankrekening waarmee uitsluitend loonheffingen aan de Belastingdienst worden betaald. Hierdoor zijn opdrachtgevers gevrijwaard van ketenaansprakelijkheid.",
+      "tag": "G-Account Tax Guarantee",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-compliance-3",
+      "categoryId": 6,
+      "categoryName": "Compliance, Wet DBA & WAADI",
+      "question": "Wat is de WAADI en is Macee geregistreerd?",
+      "answer": "De WAADI verplicht uitleners van arbeidskrachten geregistreerd te zijn in het Handelsregister. Macee voldoet aan alle WAADI-voorwaarden en beschikt over de vereiste registratie.",
+      "tag": "WAADI Registered Intermediary",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-contact-1",
+      "categoryId": 7,
+      "categoryName": "Contact & Urgencies",
+      "question": "Hoe snel reageert Macee op contactaanvragen?",
+      "answer": "Ons team reageert binnen 24 werkuren op elk formulier of bericht. Voor spoed kunt u ons kantoor in Arnhem direct bellen op +31 (0) 26 785 1010.",
+      "tag": "Response Within 24 Business Hours",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-contact-2",
+      "categoryId": 7,
+      "categoryName": "Contact & Urgencies",
+      "question": "Kan ik langskomen op kantoor in Arnhem voor een kennismaking?",
+      "answer": "Jazeker, wij ontvangen u graag op afspraak op Willemsplein 44 te Arnhem om uw inhuur- of carrièredoelen persoonlijk door te nemen.",
+      "tag": "Willemsplein 44, Arnhem",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-contact-3",
+      "categoryId": 7,
+      "categoryName": "Contact & Urgencies",
+      "question": "Hoe vraagt een werkgever een spoedinterim kandidaat aan?",
+      "answer": "Vermeld \"Spoed\" in uw aanvraag of bel onze directe lijn. Wij kunnen binnen 24 tot 48 uur beschikbare specialisten uit ons netwerk voordragen.",
+      "tag": "Emergency Staffing Desk",
+      "date": "Bijgewerkt via Macee Admin"
+    },
+    {
+      "id": "faq-contact-4",
+      "categoryId": 7,
+      "categoryName": "Contact & Urgencies",
+      "question": "Zijn telefonische adviesgesprekken kosteloos en vertrouwelijk?",
+      "answer": "Ja, al onze oriënterende gesprekken en inhuurscans zijn 100% kosteloos en strikt vertrouwelijk conform AVG en privacyrichtlijnen.",
+      "tag": "Free & Confidential Assessment",
+      "date": "Bijgewerkt via Macee Admin"
     }
   ],
   "searchPlaceholder": "Doorzoek alle vragen...",

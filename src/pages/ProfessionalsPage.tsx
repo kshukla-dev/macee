@@ -9,6 +9,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { getAllJobs, getCachedJobs } from '../lib/api';
 import { isOtysConfigured } from '../lib/auth';
 import { ProjectAssignmentItem, matchesProjectBranche } from './ProjectsPage';
+import { SEO } from '../components/SEO';
+import { getProfessionalsSchema } from '../data/seoSchemas';
 import './ProfessionalsPage.css';
 
 interface ProfessionalsPageProps {
@@ -211,6 +213,21 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
 
   return (
     <div className="prof-page">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Voor Professionals | Detachering & ZZP Opdrachten | Macee'
+            : 'For Professionals | Secondment & ZZP Contracts | Macee'
+        }
+        description={
+          lang === 'NL'
+            ? 'Top IT- en Finance-opdrachten in Nederland. Detachering, ZZP-bemiddeling, IND-kennismigrantenvisa, 30%-regeling en gegarandeerde stipte uitbetaling.'
+            : 'Top IT & Finance assignments in the Netherlands. Secondment, ZZP contracting, IND visa sponsorship, 30% tax ruling support, and guaranteed fast payments.'
+        }
+        canonicalPath="/professionals"
+        lang={lang}
+        schema={getProfessionalsSchema(lang)}
+      />
 
       {/* Top Banner / Hero */}
       <section className="prof-hero-banner">
@@ -240,9 +257,8 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
               return (
                 <div
                   key={svc.id}
-                  className={`prof-service-item hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${
-                    svc.highlight ? 'highlight' : ''
-                  } ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
+                  className={`prof-service-item hover:border-[#E30613] hover:shadow-lg transition-all duration-300 group ${svc.highlight ? 'highlight' : ''
+                    } ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
                 >
                   {/* Header: Clickable on mobile to expand/collapse, on desktop opens service modal */}
                   <div
@@ -283,17 +299,15 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                       {/* Mobile Expand / Collapse Chevron */}
                       <div className="md:hidden shrink-0">
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isExpanded
-                              ? 'bg-[#E30613]/10 text-[#E30613]'
-                              : 'bg-gray-100 text-gray-500'
-                          }`}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isExpanded
+                            ? 'bg-[#E30613]/10 text-[#E30613]'
+                            : 'bg-gray-100 text-gray-500'
+                            }`}
                         >
                           <ChevronDown
                             size={18}
-                            className={`transition-transform duration-300 ${
-                              isExpanded ? 'rotate-180 text-[#E30613]' : ''
-                            }`}
+                            className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-[#E30613]' : ''
+                              }`}
                           />
                         </div>
                       </div>
@@ -413,9 +427,8 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
                   type="button"
                   onClick={() => setWhatSlide(idx)}
                   aria-label={`Slide ${idx + 1}`}
-                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
-                    idx === whatSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
-                  }`}
+                  className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${idx === whatSlide ? 'w-6 bg-[#E30613]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    }`}
                 />
               ))}
             </div>
@@ -593,14 +606,10 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
       />
 
       {/* 6. Contact Section */}
-      <div className="prof-contact-wrapper">
-        <div className="prof-container">
-          <ContactFormSection
-            id="contact-form-professionals"
-            title={professionalsData.contact.title}
-          />
-        </div>
-      </div>
+      <ContactFormSection
+        id="contact-form-professionals"
+        title={professionalsData.contact.title}
+      />
     </div>
   );
 };

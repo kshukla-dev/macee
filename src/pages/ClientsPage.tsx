@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Award,
   Globe2,
@@ -25,6 +25,9 @@ import { CLIENTS_FAQS } from '../data/pageFaqs';
 import clientsDataEn from '../data/clientsData.json';
 import clientsDataNl from '../data/clientsData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
+import { SEO } from '../components/SEO';
+import { getClientsSchema } from '../data/seoSchemas';
+import { ADMIN_API } from '../services/adminApi';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
@@ -34,7 +37,34 @@ interface ClientsPageProps {
 
 export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
-  const clientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
+  const initialClientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
+  const [clientsData, setClientsData] = useState(initialClientsData);
+
+  useEffect(() => {
+    setClientsData(lang === 'NL' ? clientsDataNl : clientsDataEn);
+
+    fetch(ADMIN_API.clients)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.clients && (data.clients.certifications || data.clients.industries)) {
+          setClientsData((prev) => ({
+            ...prev,
+            certifications: data.clients.certifications
+              ? { ...prev.certifications, items: data.clients.certifications }
+              : prev.certifications,
+            industries: data.clients.industries
+              ? { ...prev.industries, ...data.clients.industries }
+              : prev.industries,
+            expertise: data.clients.expertise
+              ? { ...prev.expertise, ...data.clients.expertise }
+              : prev.expertise,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.warn('Using local static clients data fallback:', err);
+      });
+  }, [lang]);
   const [selectedExpertiseDomain, setSelectedExpertiseDomain] = useState<string>('all');
   const [expandedCerts, setExpandedCerts] = useState<Record<string, boolean>>({
     sna: true,
@@ -114,6 +144,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
 
   return (
     <div className="clients-page">
+      <SEO
+        title={
+          lang === 'NL'
+            ? 'Voor Opdrachtgevers | Inhuurdesk & Detachering | Macee'
+            : 'For Clients | External Workforce Desk & Staffing | Macee'
+        }
+        description={
+          lang === 'NL'
+            ? 'Optimaliseer externe inhuur, voorkom Wet DBA risico’s en schakel binnen 48-72 uur geverifieerde IT- en Finance-experts in. SNA NEN 4400-1 gecertificeerd.'
+            : 'Streamline external hiring, eliminate Wet DBA risks, and deploy vetted IT and Finance professionals within 48-72 hours. SNA NEN 4400-1 certified partner.'
+        }
+        canonicalPath="/clients"
+        lang={lang}
+        schema={getClientsSchema(lang)}
+      />
+
       {/* 1. Header / Intro Hero Section */}
       <section className="clients-hero-section">
         <div className="clients-container">
@@ -201,11 +247,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
             <div className="clients-hero-media">
               <div className="clients-hero-image-wrapper">
                 <img
-                  src={clientsData.hero.image.src}
-                  alt={clientsData.hero.image.alt}
+                  src={
+                    typeof clientsData.hero.image === 'string'
+                      ? clientsData.hero.image
+                      : (clientsData.hero.image?.src || clientsData.hero.image?.fallback || '/uploads/people-working-dsk.jpg')
+                  }
+                  alt={
+                    typeof clientsData.hero.image === 'object' && clientsData.hero.image?.alt
+                      ? clientsData.hero.image.alt
+                      : 'Macee workforce solutions'
+                  }
                   className="clients-hero-image"
                   onError={(e) => {
-                    e.currentTarget.src = clientsData.hero.image.fallback;
+                    const fallback = typeof clientsData.hero.image === 'object' ? clientsData.hero.image?.fallback : undefined;
+                    if (fallback && e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
                   }}
                 />
               </div>
@@ -399,11 +456,22 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
                         <div className="clients-cert-media">
                           <div className="clients-cert-logo-box">
                             <img
-                              src={cert.image.src}
-                              alt={cert.image.alt}
+                              src={
+                                typeof cert.image === 'string'
+                                  ? cert.image
+                                  : (cert.image?.src || cert.image?.fallback || '')
+                              }
+                              alt={
+                                typeof cert.image === 'object' && cert.image?.alt
+                                  ? cert.image.alt
+                                  : (cert.title || 'Certification Logo')
+                              }
                               className="clients-cert-logo"
                               onError={(e) => {
-                                e.currentTarget.src = cert.image.fallback;
+                                const fb = typeof cert.image === 'object' ? cert.image?.fallback : undefined;
+                                if (fb && e.currentTarget.src !== fb) {
+                                  e.currentTarget.src = fb;
+                                }
                               }}
                             />
                           </div>

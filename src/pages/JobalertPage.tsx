@@ -64,14 +64,14 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
     <div className="page_jobalert">
       {/* Header Banner */}
       <section className="bg-[#2a0209] text-white py-16 sm:py-20 text-center relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-4 relative z-10">
-          <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-white tracking-tight">
-            {jobalertData.hero.title}
-          </h1>
-          <p className="mt-3 text-base sm:text-lg text-[#f8dada] font-heading font-medium">
-            {jobalertData.hero.subtitle}
-          </p>
-        </div>
+          <div className="max-w-[1440px] mx-auto px-4 relative z-10">
+            <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-white tracking-tight">
+              {jobalertData.hero.title}
+            </h1>
+            <p className="mt-3 text-base sm:text-lg text-[#f8dada] font-heading font-medium">
+              {jobalertData.hero.subtitle}
+            </p>
+          </div>
       </section>
 
       {/* Main Form Area */}
@@ -112,11 +112,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                       return (
                         <label
                           key={br}
-                          className={`flex items-center gap-2.5 p-2.5 rounded-lg border text-xs sm:text-sm cursor-pointer transition-all ${
-                            checked
+                          className={`flex items-center gap-2.5 p-2.5 rounded-lg border text-xs sm:text-sm cursor-pointer transition-all ${checked
                               ? 'border-[#e8382e] bg-[#f8dada]/30 text-gray-900 font-bold'
                               : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           <input
                             type="checkbox"
@@ -151,11 +150,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                       return (
                         <label
                           key={ct}
-                          className={`flex items-center gap-2.5 p-3 rounded-lg border text-xs sm:text-sm cursor-pointer transition-all ${
-                            checked
+                          className={`flex items-center gap-2.5 p-3 rounded-lg border text-xs sm:text-sm cursor-pointer transition-all ${checked
                               ? 'border-[#e8382e] bg-[#f8dada]/30 text-gray-900 font-bold'
                               : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           <input
                             type="checkbox"
@@ -181,11 +179,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                       return (
                         <label
                           key={lang}
-                          className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg border text-sm cursor-pointer transition-all ${
-                            checked
+                          className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg border text-sm cursor-pointer transition-all ${checked
                               ? 'border-[#e8382e] bg-[#f8dada]/30 text-gray-900 font-bold'
                               : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           <input
                             type="checkbox"
@@ -223,11 +220,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                     {frequencyOptions.map((freq) => (
                       <label
                         key={freq}
-                        className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm cursor-pointer transition-all ${
-                          frequency === freq
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm cursor-pointer transition-all ${frequency === freq
                             ? 'border-[#e8382e] bg-[#e8382e] text-white font-bold'
                             : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                        }`}
+                          }`}
                       >
                         <input
                           type="radio"
@@ -256,11 +252,10 @@ export const JobalertPage: React.FC<JobalertPageProps> = () => {
                       setEmail(e.target.value);
                       if (emailError) setEmailError('');
                     }}
-                    className={`w-full px-4 py-3 rounded-lg border text-sm focus:outline-none transition-all ${
-                      emailError
+                    className={`w-full px-4 py-3 rounded-lg border text-sm focus:outline-none transition-all ${emailError
                         ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
                         : 'border-gray-300 focus:border-[#E30613]'
-                    }`}
+                      }`}
                   />
                   {emailError && (
                     <p className="mt-1.5 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">

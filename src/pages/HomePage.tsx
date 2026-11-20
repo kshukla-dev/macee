@@ -76,74 +76,74 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onSearch }) => {
 
       {/* 2. "Think Better. Recruit Smarter." Section */}
       <section className="py-20 sm:py-24 bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-gray-900 leading-tight">
-              {homeData.intro.title}&nbsp;
-            </h2>
+          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center space-y-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-gray-900 leading-tight">
+                {homeData.intro.title}&nbsp;
+              </h2>
 
-            <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed text-left sm:text-center">
-              {homeData.intro.paragraphs.map((para, idx) => (
-                <p key={idx} className={idx === homeData.intro.paragraphs.length - 1 ? 'font-semibold text-gray-900' : ''}>
-                  {para}
-                </p>
+              <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed text-left sm:text-center">
+                {homeData.intro.paragraphs.map((para, idx) => (
+                  <p key={idx} className={idx === homeData.intro.paragraphs.length - 1 ? 'font-semibold text-gray-900' : ''}>
+                    {para}
+                  </p>
+                ))}
+              </div>
+
+              {/* Trustpilot Banner */}
+              <div className="pt-6">
+                <div className="inline-flex flex-col sm:flex-row items-center gap-3 bg-[#f8dada]/50 border border-[#efc9cb] px-6 py-3.5 rounded-2xl">
+                  <div className="flex items-center gap-1 text-[#00b67a]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-800">
+                    <span className="font-bold">{homeData.intro.trustpilot.title}</span> — {homeData.intro.trustpilot.subtitle}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Category Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+              {homeData.cards.map((card, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => onNavigate('assignments')}
+                  className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = card.fallbackImage;
+                      }}
+                    />
+                    <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {card.badge}
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 mt-2">
+                        {card.description}
+                      </p>
+                    </div>
+                    <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
+                      <span>{card.linkText}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
-
-            {/* Trustpilot Banner */}
-            <div className="pt-6">
-              <div className="inline-flex flex-col sm:flex-row items-center gap-3 bg-[#f8dada]/50 border border-[#efc9cb] px-6 py-3.5 rounded-2xl">
-                <div className="flex items-center gap-1 text-[#00b67a]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <div className="text-xs sm:text-sm text-gray-800">
-                  <span className="font-bold">{homeData.intro.trustpilot.title}</span> — {homeData.intro.trustpilot.subtitle}
-                </div>
-              </div>
-            </div>
           </div>
-
-          {/* Category Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            {homeData.cards.map((card, idx) => (
-              <div
-                key={idx}
-                onClick={() => onNavigate('assignments')}
-                className="group cursor-pointer rounded-[25px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.currentTarget.src = card.fallbackImage;
-                    }}
-                  />
-                  <div className="absolute top-4 left-4 bg-[#e8382e] text-white text-xs font-bold px-3 py-1 rounded-full">
-                    {card.badge}
-                  </div>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl font-bold font-heading text-gray-900 group-hover:text-[#e8382e] transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-2">
-                      {card.description}
-                    </p>
-                  </div>
-                  <div className="mt-6 flex items-center justify-between text-sm font-bold text-[#e8382e]">
-                    <span>{card.linkText}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* 3. Jobalert CTA Banner */}
