@@ -18,6 +18,7 @@ import { PageFaqSection } from '../components/PageFaqSection';
 import { CONTACT_FAQS } from '../data/pageFaqs';
 import { SEO } from '../components/SEO';
 import { getContactSchema } from '../data/seoSchemas';
+import { ADMIN_API } from '../services/adminApi';
 import {
   isValidEmail,
   isValidPhone,
@@ -118,7 +119,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     setIsSubmitting(true);
 
     // Send submission to Macee CRM Portal
-    fetch('http://localhost:3001/api/public/contact', {
+    fetch(ADMIN_API.contact, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

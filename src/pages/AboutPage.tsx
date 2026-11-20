@@ -7,6 +7,7 @@ import { PageFaqSection } from '../components/PageFaqSection';
 import { ABOUT_FAQS } from '../data/pageFaqs';
 import { SEO } from '../components/SEO';
 import { getAboutSchema } from '../data/seoSchemas';
+import { ADMIN_API } from '../services/adminApi';
 import {
   CheckCircle2,
   Mail,
@@ -74,7 +75,26 @@ const ABOUT_HERO_IMAGES = [
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
   const aboutData = lang === 'NL' ? aboutDataNl : aboutDataEn;
-  const TEAM_MEMBERS = aboutData.team.members;
+  const [teamMembers, setTeamMembers] = useState(aboutData.team.members);
+
+  useEffect(() => {
+    // Start with local static JSON fallback immediately (0 loading delay)
+    setTeamMembers(aboutData.team.members);
+
+    // Fetch live team members from Admin Portal / Firebase
+    fetch(ADMIN_API.team)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.team) && data.team.length > 0) {
+          setTeamMembers(data.team);
+        }
+      })
+      .catch((err) => {
+        console.warn('Using local static team data fallback:', err);
+      });
+  }, [lang]);
+
+  const TEAM_MEMBERS = teamMembers;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Team Carousel State on Mobile

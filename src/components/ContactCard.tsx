@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { ADMIN_API } from '../services/adminApi';
 import {
   isValidEmail,
   isValidPhone,
@@ -129,7 +130,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     setLoading(true);
 
     // Send submission to Macee CRM Portal
-    fetch('http://localhost:3001/api/public/contact', {
+    fetch(ADMIN_API.contact, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

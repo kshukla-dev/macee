@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, Send, Phone, Mail, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { ADMIN_API } from '../services/adminApi';
 import {
   isValidEmail,
   isValidPhone,
@@ -124,7 +125,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     setIsSubmitting(true);
 
     // Send consultation request to Macee CRM Portal
-    fetch('http://localhost:3001/api/public/contact', {
+    fetch(ADMIN_API.contact, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

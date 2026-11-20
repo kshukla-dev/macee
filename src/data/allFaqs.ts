@@ -139,7 +139,7 @@ export const ALL_FAQS_EN: AllFaqItem[] = [
     categoryKey: "home",
     categoryTitle: "Workforce Desk & General",
     pageSource: "Home",
-    question: "What is an External Workforce Desk and how does Macee manage it?",
+    question: "What is an External Workforce Desk and how does Macee manage it? ",
     answer:
       "An External Workforce Desk acts as your central partner for sourcing, contracting, and managing external talent (contractors, secondment professionals, and interim specialists). Macee takes full responsibility for sourcing, contract administration, compliance audits, and payroll, allowing your internal teams to focus on core operations.",
     tag: "Turnkey Workforce Management",

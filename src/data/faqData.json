@@ -7,53 +7,53 @@
   },
   "categories": [
     {
+      "desc": "Workforce Desk, SLA & Turnkey Management",
       "id": 1,
       "key": "home",
-      "title": "Workforce Desk & General",
       "page": "Home Page",
-      "desc": "Workforce Desk, SLA & Turnkey Management"
+      "title": "Workforce Desk & General"
     },
     {
+      "desc": "30+ Years Experience, Arnhem HQ & NEN 4400-1",
       "id": 2,
       "key": "about",
-      "title": "About Macee & Certifications",
       "page": "About Page",
-      "desc": "30+ Years Experience, Arnhem HQ & NEN 4400-1"
+      "title": "About Macee & Certifications"
     },
     {
+      "desc": "48-72h Turnaround, SLA & Wet DBA Elimination",
       "id": 3,
       "key": "clients",
-      "title": "Clients & Hiring Managers",
       "page": "Clients Page",
-      "desc": "48-72h Turnaround, SLA & Wet DBA Elimination"
+      "title": "Clients & Hiring Managers"
     },
     {
+      "desc": "Secondment, ZZP, 30% Ruling & Relocation",
       "id": 4,
       "key": "professionals",
-      "title": "Professionals & Contractors",
       "page": "Professionals Page",
-      "desc": "Secondment, ZZP, 30% Ruling & Relocation"
+      "title": "Professionals & Contractors"
     },
     {
+      "desc": "CV Formats, Live OTYS Desk & Applications",
       "id": 5,
       "key": "projects",
-      "title": "Projects & Vacancies",
       "page": "Projects Page",
-      "desc": "CV Formats, Live OTYS Desk & Applications"
+      "title": "Projects & Vacancies"
     },
     {
+      "desc": "Wet DBA, WAADI, G-Account & Ketenaansprakelijkheid",
       "id": 6,
       "key": "compliance",
-      "title": "Compliance, Wet DBA & WAADI",
       "page": "Compliance & Legal",
-      "desc": "Wet DBA, WAADI, G-Account & Ketenaansprakelijkheid"
+      "title": "Compliance, Wet DBA & WAADI"
     },
     {
+      "desc": "24h Response, Arnhem Office & Emergency Desk",
       "id": 7,
       "key": "contact",
-      "title": "Contact & Urgencies",
       "page": "Contact Page",
-      "desc": "24h Response, Arnhem Office & Emergency Desk"
+      "title": "Contact & Urgencies"
     }
   ],
   "faqs": [
@@ -61,7 +61,7 @@
       "id": "faq-home-1",
       "categoryId": 1,
       "categoryName": "Workforce Desk & General",
-      "question": "What is an External Workforce Desk and how does Macee manage it?",
+      "question": "What is an External Workforce Desk and how does Macee manage it? ",
       "answer": "An External Workforce Desk acts as your central partner for sourcing, contracting, and managing external talent (contractors, secondment professionals, and interim specialists). Macee takes full responsibility for sourcing, contract administration, compliance audits, and payroll, allowing your internal teams to focus on core operations.",
       "tag": "Turnkey Workforce Management",
       "date": "Updated via Macee Admin"

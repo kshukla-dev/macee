@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   ChevronDown,
   ChevronLeft,
@@ -20,6 +20,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { SEO } from '../components/SEO';
 import { getFaqPageSchema } from '../data/seoSchemas';
 import { getFullFaqList, getFaqCategories, AllFaqItem, FaqCategoryDef } from '../data/allFaqs';
+import { ADMIN_API } from '../services/adminApi';
 
 interface FaqPageProps {
   onNavigate: (page: string) => void;
@@ -29,7 +30,32 @@ interface FaqPageProps {
 export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation }) => {
   const { lang, t } = useLanguage();
   const categories = getFaqCategories(lang);
-  const allFaqsList = getFullFaqList(lang);
+  const initialFaqsList = getFullFaqList(lang);
+  const [allFaqsList, setAllFaqsList] = useState(initialFaqsList);
+
+  useEffect(() => {
+    setAllFaqsList(getFullFaqList(lang));
+
+    fetch(ADMIN_API.faqs)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          const mapped = data.items.map((item: any, idx: number) => ({
+            id: item.id || `faq-${idx}`,
+            categoryKey: item.page || 'home',
+            pageSource: item.pageName || 'Home',
+            question: lang === 'NL' && item.question_nl ? item.question_nl : item.question,
+            answer: lang === 'NL' && item.answer_nl ? item.answer_nl : item.answer,
+            tag: item.tag || 'General',
+            badge: item.tag || 'General',
+          }));
+          setAllFaqsList(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('Using local static FAQ fallback:', err);
+      });
+  }, [lang]);
 
   const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('all');
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Award,
   Globe2,
@@ -27,6 +27,7 @@ import clientsDataNl from '../data/clientsData_nl.json';
 import { useLanguage } from '../context/LanguageContext';
 import { SEO } from '../components/SEO';
 import { getClientsSchema } from '../data/seoSchemas';
+import { ADMIN_API } from '../services/adminApi';
 import './ClientsPage.css';
 
 interface ClientsPageProps {
@@ -36,7 +37,34 @@ interface ClientsPageProps {
 
 export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectService }) => {
   const { lang, t } = useLanguage();
-  const clientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
+  const initialClientsData = lang === 'NL' ? clientsDataNl : clientsDataEn;
+  const [clientsData, setClientsData] = useState(initialClientsData);
+
+  useEffect(() => {
+    setClientsData(lang === 'NL' ? clientsDataNl : clientsDataEn);
+
+    fetch(ADMIN_API.clients)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.clients && (data.clients.certifications || data.clients.industries)) {
+          setClientsData((prev) => ({
+            ...prev,
+            certifications: data.clients.certifications
+              ? { ...prev.certifications, items: data.clients.certifications }
+              : prev.certifications,
+            industries: data.clients.industries
+              ? { ...prev.industries, ...data.clients.industries }
+              : prev.industries,
+            expertise: data.clients.expertise
+              ? { ...prev.expertise, ...data.clients.expertise }
+              : prev.expertise,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.warn('Using local static clients data fallback:', err);
+      });
+  }, [lang]);
   const [selectedExpertiseDomain, setSelectedExpertiseDomain] = useState<string>('all');
   const [expandedCerts, setExpandedCerts] = useState<Record<string, boolean>>({
     sna: true,
