@@ -11,7 +11,7 @@ import {
 
 export interface ContactFormData {
   firstName: string;
-  lastName: string;
+  company: string;
   phone: string;
   email: string;
   remark: string;
@@ -50,7 +50,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
 
   const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
-    lastName: '',
+    company: '',
     phone: '',
     email: '',
     remark: '',
@@ -67,8 +67,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
         if (!value.trim()) return msgs.firstNameRequired;
         if (!isValidName(value)) return msgs.firstNameRequired;
         return '';
-      case 'lastName':
-        if (value.trim() && !isValidName(value)) return msgs.lastNameRequired;
+      case 'company':
         return '';
       case 'email':
         if (!value.trim()) return msgs.emailRequired;
@@ -106,7 +105,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     // Validate all fields
     const newErrors: Record<string, string> = {
       firstName: validateField('firstName', formData.firstName),
-      lastName: validateField('lastName', formData.lastName),
+      company: validateField('company', formData.company),
       email: validateField('email', formData.email),
       phone: validateField('phone', formData.phone),
       remark: validateField('remark', formData.remark),
@@ -117,7 +116,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     setErrors(newErrors);
     setTouched({
       firstName: true,
-      lastName: true,
+      company: true,
       email: true,
       phone: true,
       remark: true,
@@ -128,18 +127,35 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     }
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      if (onSuccess) {
-        onSuccess(formData);
-      }
-    }, 600);
+
+    // Send submission to Macee CRM Portal
+    fetch('http://localhost:3001/api/public/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: formData.firstName,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.remark,
+        topic: 'Get in Touch Form Inquiry',
+      }),
+    })
+      .catch((err) => {
+        console.warn('CRM sync unreachable, proceeding locally:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setSubmitted(true);
+        if (onSuccess) {
+          onSuccess(formData);
+        }
+      });
   };
 
   const handleReset = () => {
     setSubmitted(false);
-    setFormData({ firstName: '', lastName: '', phone: '', email: '', remark: '' });
+    setFormData({ firstName: '', company: '', phone: '', email: '', remark: '' });
     setErrors({});
     setTouched({});
   };
@@ -226,24 +242,24 @@ export const ContactCard: React.FC<ContactCardProps> = ({
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#111827] uppercase tracking-wider mb-1.5">
-                  {lang === 'NL' ? 'Achternaam' : 'Last Name'}
+                  {lang === 'NL' ? 'Bedrijfsnaam' : 'Company Name'}
                 </label>
                 <input
                   type="text"
-                  placeholder={lang === 'NL' ? 'bijv. Jansen' : 'e.g. van den Berg'}
-                  value={formData.lastName}
-                  onChange={(e) => handleChange('lastName', e.target.value)}
-                  onBlur={() => handleBlur('lastName')}
+                  placeholder={lang === 'NL' ? 'bijv. Bedrijfsnaam BV' : 'e.g. Acme Corp'}
+                  value={formData.company}
+                  onChange={(e) => handleChange('company', e.target.value)}
+                  onBlur={() => handleBlur('company')}
                   className={`w-full px-4 py-3 rounded-lg bg-white border text-sm text-[#333333] placeholder-gray-400 focus:outline-none transition-all ${
-                    errors.lastName
+                    errors.company
                       ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
                       : 'border-gray-200 focus:border-[#111827] focus:ring-2 focus:ring-[#111827]/15'
                   }`}
                 />
-                {errors.lastName && (
+                {errors.company && (
                   <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
                     <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                    <span>{errors.lastName}</span>
+                    <span>{errors.company}</span>
                   </p>
                 )}
               </div>

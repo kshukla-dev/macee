@@ -37,7 +37,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
   const msgs = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.EN;
 
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
@@ -53,9 +53,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
         if (!value.trim()) return msgs.firstNameRequired;
         if (!isValidName(value)) return msgs.firstNameRequired;
         return '';
-      case 'lastName':
-        if (!value.trim()) return msgs.lastNameRequired;
-        if (!isValidName(value)) return msgs.lastNameRequired;
+      case 'company':
         return '';
       case 'email':
         if (!value.trim()) return msgs.emailRequired;
@@ -75,7 +73,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
   const handleFieldChange = (field: string, value: string) => {
     if (field === 'firstName') setFirstName(value);
-    if (field === 'lastName') setLastName(value);
+    if (field === 'company') setCompany(value);
     if (field === 'email') setEmail(value);
     if (field === 'phone') setPhone(value);
     if (field === 'message') setMessage(value);
@@ -97,7 +95,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
 
     const newErrors: Record<string, string> = {
       firstName: validateField('firstName', firstName),
-      lastName: validateField('lastName', lastName),
+      company: validateField('company', company),
       email: validateField('email', email),
       phone: validateField('phone', phone),
       message: validateField('message', message),
@@ -106,7 +104,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
     setErrors(newErrors);
     setTouched({
       firstName: true,
-      lastName: true,
+      company: true,
       email: true,
       phone: true,
       message: true,
@@ -125,7 +123,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         firstName,
-        lastName,
+        company,
         email,
         phone,
         message,
@@ -144,7 +142,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
   const handleReset = () => {
     setSubmitted(false);
     setFirstName('');
-    setLastName('');
+    setCompany('');
     setEmail('');
     setPhone('');
     setMessage('');
@@ -398,23 +396,23 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
                           </div>
                           <div>
                             <label className="block text-xs font-semibold text-gray-700 mb-1">
-                              {lang === 'NL' ? 'Achternaam *' : 'Last Name *'}
+                              {lang === 'NL' ? 'Bedrijfsnaam' : 'Company Name'}
                             </label>
                             <input
                               type="text"
-                              placeholder={lang === 'NL' ? 'bijv. de Jong' : 'e.g. de Jong'}
-                              value={lastName}
-                              onChange={(e) => handleFieldChange('lastName', e.target.value)}
-                              onBlur={() => handleFieldBlur('lastName', lastName)}
-                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.lastName
+                              placeholder={lang === 'NL' ? 'bijv. Bedrijfsnaam BV' : 'e.g. Acme Corp'}
+                              value={company}
+                              onChange={(e) => handleFieldChange('company', e.target.value)}
+                              onBlur={() => handleFieldBlur('company', company)}
+                              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none transition-all ${errors.company
                                   ? 'border-[#E30613] focus:border-[#E30613] focus:ring-2 focus:ring-[#E30613]/15'
                                   : 'border-gray-300 focus:border-[#E30613]'
                                 }`}
                             />
-                            {errors.lastName && (
+                            {errors.company && (
                               <p className="mt-1 text-xs text-[#E30613] font-medium flex items-center gap-1 animate-fadeIn">
                                 <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                                <span>{errors.lastName}</span>
+                                <span>{errors.company}</span>
                               </p>
                             )}
                           </div>
