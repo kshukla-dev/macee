@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { X, ChevronDown, HelpCircle, ArrowRight, Bell } from 'lucide-react';
 import { getFaqData } from '../data/content';
 import { useLanguage } from '../context/LanguageContext';
+import { ADMIN_API } from '../services/adminApi';
 
 interface FaqModalProps {
   isOpen: boolean;
@@ -15,18 +16,49 @@ export const FaqModal: React.FC<FaqModalProps> = ({
   onOpenConsultation
 }) => {
   const { lang } = useLanguage();
-  const faqs = useMemo(() => getFaqData(lang), [lang]);
+  const initialFaqs = useMemo(() => getFaqData(lang), [lang]);
+  const [faqs, setFaqs] = useState(initialFaqs);
   const allLabel = lang === 'NL' ? 'Alle' : 'All';
   const [activeCategory, setActiveCategory] = useState<string>(allLabel);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Sync category and expanded FAQ on language switch or open
+  // Sync category and fallback data on language switch or open
   useEffect(() => {
     setActiveCategory(lang === 'NL' ? 'Alle' : 'All');
-    if (faqs.length > 0) {
+    setFaqs(getFaqData(lang));
+
+    // Live sync with CRM API if available
+    fetch(ADMIN_API.faqs)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          const mapped = data.items
+            .filter((item: any) => item.active !== false)
+            .map((item: any, idx: number) => ({
+              id: item.id || `faq-modal-${idx}`,
+              category: item.categoryName || item.pageName || 'General',
+              question: lang === 'NL' && item.question_nl ? item.question_nl : item.question,
+              answer: lang === 'NL' && item.answer_nl ? item.answer_nl : item.answer,
+              tag: item.tag || 'General',
+            }));
+          if (mapped.length > 0) {
+            setFaqs(mapped);
+          }
+        }
+      })
+      .catch(() => {
+        // Silent fallback to local getFaqData
+      });
+  }, [lang, isOpen]);
+
+  useEffect(() => {
+    if (faqs.length > 0 && !expandedId) {
       setExpandedId(faqs[0].id);
     }
-  }, [lang, faqs]);
+  }, [faqs, expandedId]);
 
   // Close on Escape key press
   useEffect(() => {

@@ -593,6 +593,7 @@ export const ClientsPage: React.FC<ClientsPageProps> = ({ onNavigate, onSelectSe
       {/* 6. Tailored Client & Hiring FAQs */}
       <PageFaqSection
         id="clients-faq"
+        pageKey="clients"
         badge="Frequently Asked Questions"
         titlePrefix="Frequently Asked"
         titleHighlight="Questions"

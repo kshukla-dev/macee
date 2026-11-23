@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, HelpCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { ADMIN_API } from '../services/adminApi';
 
 export interface FaqItem {
   question: string;
@@ -9,6 +11,7 @@ export interface FaqItem {
 
 export interface PageFaqSectionProps {
   id?: string;
+  pageKey?: 'home' | 'about' | 'clients' | 'professionals' | 'projects' | 'compliance' | 'contact' | string;
   badge?: string;
   titlePrefix?: string;
   titleHighlight?: string;
@@ -21,6 +24,7 @@ export interface PageFaqSectionProps {
 
 export const PageFaqSection: React.FC<PageFaqSectionProps> = ({
   id = 'page-faq',
+  pageKey,
   badge = 'Common Questions',
   titlePrefix = 'Frequently Asked',
   titleHighlight = 'Questions',
@@ -30,7 +34,81 @@ export const PageFaqSection: React.FC<PageFaqSectionProps> = ({
   background = 'gray',
   ctaText = 'Explore All FAQs & Regulatory Guides',
 }) => {
+  const { lang } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First one open by default
+  const [items, setItems] = useState<FaqItem[]>(faqs);
+
+  // Automatically determine the page key from prop or id if not explicitly passed
+  const resolvedPageKey = (
+    pageKey ||
+    (() => {
+      const lower = id.toLowerCase();
+      if (lower.includes('home')) return 'home';
+      if (lower.includes('about')) return 'about';
+      if (lower.includes('client')) return 'clients';
+      if (lower.includes('prof')) return 'professionals';
+      if (lower.includes('proj')) return 'projects';
+      if (lower.includes('contact')) return 'contact';
+      if (lower.includes('compliance')) return 'compliance';
+      return '';
+    })()
+  ).toLowerCase();
+
+  // Keep items updated with fallback prop when prop changes
+  useEffect(() => {
+    setItems(faqs);
+  }, [faqs]);
+
+  // Fetch live FAQs from CRM Admin API with graceful fallback to static prop
+  useEffect(() => {
+    let isMounted = true;
+    if (!resolvedPageKey) return;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+    fetch(ADMIN_API.faqs, { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        clearTimeout(timeoutId);
+        if (!isMounted) return;
+
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          // Filter by page: handle 'projects' / 'project', 'clients' / 'client', etc.
+          const matchingItems = data.items.filter((item: any) => {
+            if (item.active === false) return false;
+            const itemPage = (item.page || '').toLowerCase();
+            return (
+              itemPage === resolvedPageKey ||
+              itemPage === resolvedPageKey.replace(/s$/, '') ||
+              `${itemPage}s` === resolvedPageKey
+            );
+          });
+
+          if (matchingItems.length > 0) {
+            matchingItems.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+            const mapped: FaqItem[] = matchingItems.map((item: any) => ({
+              question: lang === 'NL' && item.question_nl ? item.question_nl : item.question,
+              answer: lang === 'NL' && item.answer_nl ? item.answer_nl : item.answer,
+              tag: item.tag || undefined,
+            }));
+            setItems(mapped);
+          }
+        }
+      })
+      .catch((_err) => {
+        // Graceful silent fallback to static faqs prop
+      });
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+      clearTimeout(timeoutId);
+    };
+  }, [resolvedPageKey, lang]);
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -64,7 +142,7 @@ export const PageFaqSection: React.FC<PageFaqSectionProps> = ({
 
           {/* FAQ Accordion List */}
           <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, idx) => {
+            {items.map((faq, idx) => {
               const isOpen = openIndex === idx;
               return (
                 <div
