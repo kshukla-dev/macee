@@ -5,4 +5,5 @@ Disallow: /api/
 
 # Sitemaps
 Sitemap: https://macee.com/sitemap.xml
+Sitemap: https://macee.com/sitemap-index.xml
 Sitemap: https://macee.vercel.app/sitemap.xml
