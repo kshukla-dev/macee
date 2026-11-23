@@ -628,6 +628,7 @@ function AppContent() {
             {/* 9. Tailored Home Page FAQs */}
             <PageFaqSection
               id="home-faq"
+              pageKey="home"
               badge="Frequently Asked Questions"
               titlePrefix="Frequently Asked"
               titleHighlight="Questions"

@@ -1014,6 +1014,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           {/* 5. FAQs Section */}
           <PageFaqSection
             id="project-faq"
+            pageKey="projects"
             badge={lang === 'NL' ? 'Veelgestelde Vragen' : 'Application FAQs'}
             titlePrefix={lang === 'NL' ? 'Vragen over' : 'Frequently Asked'}
             titleHighlight={lang === 'NL' ? 'Sollicitaties & Detachering' : 'Questions & Process'}

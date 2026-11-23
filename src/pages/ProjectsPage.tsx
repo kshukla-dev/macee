@@ -743,6 +743,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
       {/* 6. Tailored Project & Vacancy FAQs */}
       <PageFaqSection
         id="projects-faq"
+        pageKey="projects"
         badge="Frequently Asked Questions"
         titlePrefix="Frequently Asked"
         titleHighlight="Questions"

@@ -530,6 +530,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenCons
       {/* 3. Tailored Contact & Inquiry FAQs */}
       <PageFaqSection
         id="contact-faq"
+        pageKey="contact"
         badge="Frequently Asked Questions"
         titlePrefix="Frequently Asked"
         titleHighlight="Questions"

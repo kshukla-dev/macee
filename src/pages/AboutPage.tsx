@@ -878,6 +878,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onSelectServic
       {/* 6. Tailored About Macee FAQs */}
       <PageFaqSection
         id="about-faq"
+        pageKey="about"
         badge="About Macee Desk"
         titlePrefix="Questions About"
         titleHighlight="Macee & Our Team"

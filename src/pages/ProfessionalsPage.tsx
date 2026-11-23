@@ -596,6 +596,7 @@ export const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ onNavigate
       {/* 5. Tailored Professionals FAQs */}
       <PageFaqSection
         id="professionals-faq"
+        pageKey="professionals"
         badge="Frequently Asked Questions"
         titlePrefix="Frequently Asked"
         titleHighlight="Questions"
