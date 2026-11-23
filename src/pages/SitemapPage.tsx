@@ -27,6 +27,11 @@ interface SitemapPageProps {
 
 export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
   const { lang } = useLanguage();
+  const currentOrigin =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : 'https://macee.com';
+  const xmlSitemapUrl = `${currentOrigin}/sitemap.xml`;
 
   const mainPages = [
     {
@@ -98,6 +103,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
         lang === 'NL'
           ? 'Kantoor Willemsplein 44 te Arnhem, telefoon +31 (0) 26 785 1010 en spoedinterimdesk.'
           : 'Arnhem headquarters (Willemsplein 44), phone +31 (0) 26 785 1010, and emergency staffing desk.',
+    },
+    {
+      title: lang === 'NL' ? 'Sitemaps Paginaoverzicht' : 'Sitemaps Directory',
+      url: '/sitemaps',
+      path: 'sitemaps',
+      icon: Compass,
+      description:
+        lang === 'NL'
+          ? 'Volledig sitemaps-overzicht met directe navigatielinks naar alle pagina’s, diensten en zoekmachinebestanden.'
+          : 'Complete sitemaps directory with direct navigation to all pages, services, industry branches, and crawler files.',
     },
   ];
 
@@ -185,15 +200,15 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
       <SEO
         title={
           lang === 'NL'
-            ? 'Website Sitemap & Paginaoverzicht | Macee'
-            : 'Website Sitemap & Page Directory | Macee'
+            ? 'Website Sitemaps & Paginaoverzicht | Macee'
+            : 'Website Sitemaps & Page Directory | Macee'
         }
         description={
           lang === 'NL'
-            ? 'Volledig sitemap-overzicht van Macee: ontdek al onze inhuurdiensten, vacatures, compliance-richtlijnen, contactgegevens en XML-sitemap.'
-            : 'Complete sitemap and directory of Macee External Workforce Solutions. Explore staffing services, job vacancies, compliance guides, and contact information.'
+            ? 'Volledig sitemaps-overzicht van Macee: ontdek al onze inhuurdiensten, vacatures, compliance-richtlijnen, contactgegevens en XML-sitemap.'
+            : 'Complete sitemaps and directory of Macee External Workforce Solutions. Explore staffing services, job vacancies, compliance guides, and contact information.'
         }
-        canonicalPath="/sitemap"
+        canonicalPath="/sitemaps"
         lang={lang}
       />
 
@@ -210,7 +225,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight leading-tight">
-            Macee <span className="text-[#E30613]">Sitemap</span>
+            Macee <span className="text-[#E30613]">Sitemaps</span>
           </h1>
 
           <p className="mt-4 text-base sm:text-xl text-[#f8dada] font-medium max-w-2xl mx-auto leading-relaxed">
@@ -219,21 +234,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
               : 'Browse the complete structure of our website with direct navigation links to all pages, services, and industries.'}
           </p>
 
-          {/* Direct link to Search Engine XML Sitemap */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="/sitemap.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-semibold border border-white/20 transition-all backdrop-blur-xs"
-            >
-              <span>{lang === 'NL' ? 'Bekijk XML Sitemap (Zoekmachines)' : 'View XML Sitemap (Search Engines)'}</span>
-              <ExternalLink className="w-3.5 h-3.5 text-[#E30613]" />
-            </a>
-            <span className="text-xs text-white/70 font-mono">
-              https://macee.com/sitemap.xml
-            </span>
-          </div>
+
         </div>
       </section>
 
@@ -374,6 +375,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({ onNavigate }) => {
                 className="px-5 py-2.5 rounded-lg bg-[#E30613] hover:bg-[#be040f] text-white text-xs font-bold transition-colors inline-flex items-center gap-1.5"
               >
                 <span>/sitemap.xml</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
+              <a
+                href="/sitemap-index.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/20 transition-colors inline-flex items-center gap-1.5"
+              >
+                <span>/sitemap-index.xml</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
 

@@ -163,11 +163,27 @@ function AppContent() {
         setCurrentPage('faq');
       } else if (path === '/contact' || path === '/contact-us' || path === '/get-in-touch' || hash === '#contact' || hash === '#contact-us' || hash === '#get-in-touch') {
         setCurrentPage('contact');
-      } else if (path === '/sitemap' || path === '/sitemap.html' || path === '/site-map' || hash === '#sitemap') {
+      } else if (
+        path === '/sitemaps' ||
+        path === '/sitemap' ||
+        path === '/sitemap.xml' ||
+        path === '/sitemaps.xml' ||
+        path === '/sitemap.html' ||
+        path === '/sitemaps.html' ||
+        path === '/site-map' ||
+        path === '/site-maps' ||
+        path === '/sitemap-index.xml' ||
+        path === '/sitemaps-index.xml' ||
+        path === '/robots.txt' ||
+        hash === '#sitemaps' ||
+        hash === '#sitemap' ||
+        hash === '#site-map' ||
+        hash === '#site-maps'
+      ) {
         setCurrentPage('sitemap');
-      } else if (path === '/sitemap.xml' || path === '/robots.txt') {
-        // Do not intercept or rewrite static sitemap.xml or robots.txt
-        return;
+        if (path !== '/sitemaps') {
+          window.history.replaceState(null, '', '/sitemaps');
+        }
       } else if (path === '/' || path === '/index.html') {
         setCurrentPage('home');
       } else {
@@ -327,9 +343,25 @@ function AppContent() {
       setCurrentPage('contact');
       window.history.pushState(null, '', '/contact');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'sitemap' || page === '/sitemap' || page === 'sitemap-page') {
+    } else if (
+      page === 'sitemaps' ||
+      page === 'sitemap' ||
+      page === '/sitemaps' ||
+      page === '/sitemap' ||
+      page === '/sitemap.xml' ||
+      page === '/sitemaps.xml' ||
+      page === '/sitemap.html' ||
+      page === '/sitemaps.html' ||
+      page === '/site-map' ||
+      page === '/site-maps' ||
+      page === '/sitemap-index.xml' ||
+      page === '/sitemaps-index.xml' ||
+      page === '/robots.txt' ||
+      page === 'sitemap-page' ||
+      page === 'sitemaps-page'
+    ) {
       setCurrentPage('sitemap');
-      window.history.pushState(null, '', '/sitemap');
+      window.history.pushState(null, '', '/sitemaps');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setCurrentPage('home');

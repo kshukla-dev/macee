@@ -223,10 +223,10 @@ export const Footer: React.FC<FooterProps> = ({
             <span>{t('footer.copyright')}</span>
             <span className="text-gray-600 hidden sm:inline">•</span>
             <button
-              onClick={() => onNavigatePage ? onNavigatePage('sitemap') : (window.location.href = '/sitemap')}
+              onClick={() => onNavigatePage ? onNavigatePage('sitemaps') : (window.location.href = '/sitemaps')}
               className="hover:text-white transition-colors cursor-pointer underline underline-offset-2"
             >
-              Sitemap
+              Sitemaps
             </button>
           </div>
 

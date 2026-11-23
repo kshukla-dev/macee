@@ -170,6 +170,13 @@ export const MaceeFooter: React.FC<MaceeFooterProps> = ({ onNavigate }) => {
               </button>
               <span>·</span>
               <button
+                onClick={() => onNavigate('sitemaps')}
+                className="text-white hover:underline cursor-pointer"
+              >
+                Sitemaps
+              </button>
+              <span>·</span>
+              <button
                 onClick={scrollToTop}
                 className="flex items-center gap-1 text-white hover:text-[#f8dada] transition-colors cursor-pointer font-bold"
               >
