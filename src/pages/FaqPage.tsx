@@ -43,11 +43,12 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
           const mapped = data.items.map((item: any, idx: number) => ({
             id: item.id || `faq-${idx}`,
             categoryKey: item.page || 'home',
+            categoryTitle: item.categoryName || item.pageName || '',
             pageSource: item.pageName || 'Home',
             question: lang === 'NL' && item.question_nl ? item.question_nl : item.question,
             answer: lang === 'NL' && item.answer_nl ? item.answer_nl : item.answer,
-            tag: item.tag || 'General',
-            badge: item.tag || 'General',
+            tag: item.tag || '',
+            badge: item.tag || '',
           }));
           setAllFaqsList(mapped);
         }
@@ -81,8 +82,8 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
           !q ||
           faq.question.toLowerCase().includes(q) ||
           faq.answer.toLowerCase().includes(q) ||
-        faq.categoryTitle.toLowerCase().includes(q) ||
-          faq.tag.toLowerCase().includes(q);
+          (faq.categoryTitle || '').toLowerCase().includes(q) ||
+          (faq.tag || '').toLowerCase().includes(q);
         return matchesCategory && matchesSearch;
       });
   }, [allFaqsList, selectedCategoryKey, searchQuery]);
@@ -456,14 +457,20 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate, onOpenConsultation
                                           className="w-full p-5 sm:p-6 text-left flex items-start justify-between gap-4 cursor-pointer hover:bg-gray-50/70 transition-colors"
                                         >
                                               <div className="space-y-1.5 flex-1 pr-2">
-                                                <div className="flex flex-wrap items-center gap-2">
-                                                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] bg-[#f8dada]/60 px-2 py-0.5 rounded-full">
-                                                    {faq.categoryTitle}
-                                                  </span>
-                                                  <span className="text-[11px] font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                                                    {faq.tag}
-                                                  </span>
-                                                </div>
+                                                {(Boolean(faq.categoryTitle?.trim()) || Boolean(faq.tag?.trim())) && (
+                                                  <div className="flex flex-wrap items-center gap-2">
+                                                    {faq.categoryTitle && faq.categoryTitle.trim() ? (
+                                                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#E30613] bg-[#f8dada]/60 px-2 py-0.5 rounded-full">
+                                                        {faq.categoryTitle}
+                                                      </span>
+                                                    ) : null}
+                                                    {faq.tag && faq.tag.trim() ? (
+                                                      <span className="text-[11px] font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                                                        {faq.tag}
+                                                      </span>
+                                                    ) : null}
+                                                  </div>
+                                                )}
                                                 <h4 className="text-base sm:text-lg font-bold font-display text-gray-900 leading-snug">
                                                   {faq.question}
                                                 </h4>
